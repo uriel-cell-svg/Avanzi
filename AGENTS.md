@@ -36,7 +36,7 @@
 - Despensa inicial con búsqueda sin tildes/mayúsculas, categorías y Ver qué puedo cocinar al pie a la derecha. Filtrar no cambia selecciones.
 - Tarjetas completas con borde verde y Tenés todo; incompletas con borde y franja bordó rojiza con número de faltantes. Conservar dibujos visibles. Aclarar presencia, no cantidades suficientes ni seguridad alimentaria.
 - Detalle con disponibilidad de lectura sin casillas, leyenda ✓ En tu despensa · + Te falta y acceso Editar mi despensa; compras no implica disponibilidad. Añadir individual o todos los faltantes; botón desactivado si no faltan ingredientes.
-- Compras por identificador único con asociaciones a recetas, guardado separado, eliminación global del ingrediente, confirmación para vaciar y Ya lo compré. Marcar disponible desde cualquier pantalla retira compras; desmarcar no añade.
+- Compras por identificador único y asociaciones internas. Casilla reversible, pendientes arriba, Comprados plegable abajo, × elimina sin cambiar despensa y contador solo de pendientes.
 - Posibilidades después de comprar: unión de despensa y lista, solo recetas todavía incompletas cubiertas totalmente. Recalcular al quitar. Nunca trasladar a completas antes de tener los ingredientes realmente.
 - Validar almacenamiento de ambas listas y conservar claves/identificadores anteriores. Manejar errores sin bloqueo ni recetas de respaldo. No sumar cantidades ni calcular precios.
 - Probar primero despensa/agrupación, después detalle/compras y finalmente posibilidades. Casos 0/1/3/4, asociaciones compartidas, cobertura parcial/total, persistencia parcial/vacía, teclado, Escape y devolución de foco, computadora y celular. Datos temporales solo en pruebas si hacen falta.
@@ -49,3 +49,7 @@
 - Ajustar avisos por receta y catálogo mixto. false o ausencia no implican verificación nutricional, seguridad ni derechos. Probar con datos temporales sin cambiar el catálogo entregado.
 
 - Recuperar listas con referencias antiguas sin descartar los IDs vigentes. Conservar compras de ingredientes existentes aunque no queden recetas de origen. Limpiar solo referencias obsoletas y avisar; fallos de carga no deben escribir almacenamiento. Mantener claves y guardado coordinado.
+
+- Compras: guardar comprado e incorporadoPorCompra. Deshacer retira solo lo incorporado por la compra. Una edición manual de Mi despensa toma prioridad: actualiza estado de fila y libera la propiedad de la compra. Los botones globales sincronizan filas existentes sin crearlas ni eliminarlas.
+- Leer el formato antiguo de compras y conservar filas/asociaciones. Formato nuevo version: 2 con items y registro provisional de operación durante escrituras coordinadas; usar las mismas claves. Fallos deben conservar fila y reversibilidad tras recarga, sin migraciones destructivas.
+- Posibilidades = despensa real más filas pendientes, nunca comprados ausentes ni recetas ya completas. Mantener ayudas plegables, errores visibles, foco tras mover filas y capturas celular/computadora.

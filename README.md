@@ -1,4 +1,4 @@
-# Qué cocino · Recetas, despensa y compras
+# Avanzi · Recetas, despensa y compras
 
 Proyecto para la facultad, sin fines de lucro. Ayuda a decidir qué cocinar con lo que tenés y reúne ingredientes por conseguir. Las cinco recetas son datos de prueba. Se comprueba presencia de ingredientes, **no cantidades suficientes ni seguridad alimentaria**.
 
@@ -16,7 +16,7 @@ Si reemplazás una versión anterior, usá la misma dirección y puerto de Live 
 
 La app empieza en esta pestaña. Marcá ingredientes; los dibujos son decorativos y los nombres siempre están visibles. Buscá sin distinguir mayúsculas o tildes y elegí una categoría. Solo aparecen categorías con ingredientes. Buscar y filtrar no modifica tu selección; el contador muestra toda la despensa.
 
-**Tengo todo** y **Desmarcar todo** actúan sobre todos los ingredientes, aunque estén ocultos por búsqueda o categoría. Si marcás un ingrediente disponible, también se retira de compras. Desmarcarlo no lo añade automáticamente a compras.
+**Tengo todo** y **Desmarcar todo** actúan sobre todos los ingredientes, aunque estén ocultos por búsqueda o categoría. Si el ingrediente ya tiene fila en compras, marcarlo lo mueve a Comprados y desmarcarlo lo devuelve a Pendientes. No se crean filas nuevas automáticamente.
 
 El botón **Ver qué puedo cocinar**, al pie a la derecha, abre los resultados. Las pestañas siguen disponibles. Si cambiás la despensa, los resultados se recalculan.
 
@@ -44,25 +44,34 @@ La nota visible recuerda **Revisá las cantidades antes de cocinar**. **Sobre es
 
 ## Lista de compras
 
-El acceso superior muestra el número de ingredientes únicos y abre un panel lateral, adaptable a celular. Cada ingrediente muestra las recetas desde las que lo añadiste.
+El acceso superior cuenta **solo pendientes**. Cada fila tiene casilla, dibujo, nombre y × para eliminar. Los orígenes de receta se conservan internamente sin mostrarlos; no se duplican ingredientes compartidos.
 
-- **Quitar** retira el ingrediente y todos sus orígenes.
-- **Vaciar lista** pide confirmación dentro del panel. Podés cancelar.
-- **Ya lo compré** lo marca en la despensa y lo retira de compras.
+- Marcar la casilla añade el ingrediente a Mi despensa y mueve la fila a **Comprados (N)**, con el nombre tachado. La sección se puede plegar y desplegar.
+- Desmarcar devuelve la fila a Pendientes y retira de la despensa solamente la disponibilidad que incorporó esa compra. Si ya lo tenías, se conserva.
+- × elimina la fila y sus asociaciones, sin quitar ni añadir nada a la despensa.
+- Vaciar lista pide confirmación y conserva la despensa.
 
-No se duplican ingredientes compartidos ni se suman cantidades entre recetas. Consultá las cantidades en cada preparación; no se calculan precios.
+Una fila pendiente es una tarea de compra: puede seguir pendiente aunque ya tengas el ingrediente, cuando lo tenías antes y desmarcás la compra. Esto evita que deshacer una tarea borre una selección previa.
 
-En **Con tu despensa y estas compras podrías preparar…** aparecen solo recetas todavía incompletas cuyos faltantes están cubiertos por la lista. Las ya completas y las que requieren algo más se excluyen. Quitar ingredientes recalcula las posibilidades. Estas recetas no pasan a completas hasta marcar los ingredientes realmente disponibles.
+**Regla de coordinación con Mi despensa:** una edición manual toma prioridad. Si hay una fila, marcar desde Mi despensa la mueve a Comprados; desmarcar la devuelve a Pendientes. Esa acción manual quita a la compra la propiedad de la selección: deshacer la compra después no retira una disponibilidad elegida manualmente. Tengo todo y Desmarcar todo aplican esta regla a todas las filas, sin eliminarlas ni crear otras.
 
-El panel se cierra con **Cerrar** o Escape y devuelve el foco al acceso superior. Las posibilidades dependen de realizar las compras y revisar las cantidades.
+Si un ingrediente comprado deja de estar disponible, su fila se reabre como pendiente. Volver a añadirlo desde una receta no lo duplica y conserva los orígenes anteriores. Añadir a compras nunca significa tenerlo.
 
-## Guardado y errores
+Debajo se muestran recetas que todavía están incompletas y quedarían completas con la **despensa real más las compras pendientes**. Se excluyen las ya completas y las parcialmente cubiertas. No se suman cantidades ni se calculan precios. La nota recuerda revisar cantidades; el resto está en Sobre esta lista. Los errores de guardado siguen visibles.
 
-La despensa usa la clave anterior `que-cocino.despensa.v1`; los identificadores no cambiaron. Compras se guarda por separado en `que-cocino.compras.v1`, como ingredientes con sus identificadores de recetas de origen. Ambas listas conservan selecciones parciales y vacías al recargar.
+Las casillas y los botones tienen nombres accesibles; el foco sigue al ingrediente al cambiar de sección, y Comprados se abre cuando hace falta para mantenerlo visible. Cerrar o Escape devuelve el foco al acceso superior.
 
-Se validan los datos recuperados. Si compras tiene datos inválidos, empieza vacía y se conserva la despensa válida. Los errores de almacenamiento muestran un aviso sin impedir usar la app, aunque los cambios podrían perderse al recargar. Borrar los datos del navegador borra estas listas. No se sincronizan entre dispositivos o pestañas abiertas simultáneamente.
+## Guardado y compatibilidad
 
-Si falla el JSON de recetas o ingredientes, se muestra un error claro y no se reemplazan los datos por recetas duplicadas ni se sobrescribe la selección guardada. Revisá el archivo indicado y recargá con Live Server.
+Se conservan las claves `que-cocino.despensa.v1` y `que-cocino.compras.v1`. La despensa sigue siendo un arreglo de IDs. Las compras antiguas (`[{id, recetas}]`) se leen sin perder filas o asociaciones. No se reescriben solo por abrir la app; cuando hace falta guardar un cambio se usa el nuevo formato.
+
+Las compras ahora contienen un objeto con `version: 2` e `items`. Cada item conserva `id`, `recetas`, `comprado` e `incorporadoPorCompra`. Este último registra si la casilla de compras incorporó la disponibilidad, para deshacerla con seguridad. Una fila antigua que ya estaba disponible se conserva como comprada, con propiedad falsa, en vez de desaparecer.
+
+Para cambiar disponibilidad y estado de compra juntos, se guarda provisionalmente el estado anterior y la operación deseada en la misma clave de compras. Después se guarda la despensa y se confirma la lista. Si una escritura falla, se muestra un aviso y las pantallas pueden reflejar cambios temporales. Al recargar se usa el estado anterior si la despensa no confirmó la operación; si la confirmó, se recuperan la fila nueva y su propiedad desde la operación provisional. Así tampoco se pierde la posibilidad de deshacer una compra si falla la última escritura.
+
+No hay claves nuevas ni migraciones que borren listas. Un error de carga del catálogo no escribe almacenamiento. Las referencias antiguas se limpian sin perder ingredientes vigentes; se permiten filas sin receta de origen. Un JSON inválido o una versión desconocida muestra un aviso sin sobrescribir automáticamente los datos anteriores.
+
+Las listas se conservan parciales o vacías al recargar en el mismo navegador y dirección. No se sincronizan entre dispositivos o pestañas abiertas simultáneamente. Borrar los datos del navegador borra las listas.
 
 ## Archivos
 
@@ -84,7 +93,7 @@ Si falla el JSON de recetas o ingredientes, se muestra un error claro y no se re
 2. Pulsá **Ver qué puedo cocinar**: los huevos con espinaca deben aparecer en **Ya tenés todo**.
 3. Abrí la tortilla de papas y pulsá **Añadir todos los faltantes**.
 4. Cerrá el detalle y abrí compras: deben aparecer Papa y Cebolla; la tortilla debe figurar entre las posibilidades después de comprar, pero todavía no entre las completas.
-5. Pulsá **Ya lo compré** para ambos. La tortilla ahora debe estar completa.
+5. Marcá las casillas de Papa y Cebolla en la lista. La tortilla ahora debe estar completa.
 6. Recargá: la selección permanece y compras está vacía.
 
 ## Pruebas de esta entrega
@@ -117,13 +126,9 @@ Para traerlo a otra computadora, cloná el repositorio o hacé **Fetch origin**,
 
 Sin backend, dependencias, nutrientes, precios, perfil, planificador, recetas propias, mascota ni funciones premium. No se publicó ni se incorporaron cambios a main.
 
-## Corrección del guardado coordinado
+## Evolución del guardado coordinado
 
-Al marcar un ingrediente disponible, se guarda primero la despensa. Solo si ese guardado tiene éxito se persiste su retirada de compras. `guardarDespensa()` y `guardarCompras()` devuelven `true` o `false`. La corrección también cubre Tengo todo y protege las escrituras posteriores de compras cuando hay una retirada temporal pendiente.
-
-Si falla el almacenamiento, la pantalla puede reflejar el cambio durante la sesión, pero se avisa qué no quedó guardado. El aviso aparece también dentro del detalle o panel activo. Si falla la despensa, la lista guardada de compras conserva el ingrediente. Si falla solo compras, la despensa ya guardada conserva la disponibilidad y la reconciliación retira compras redundantes al recargar. La marca, los identificadores y las claves de almacenamiento no se cambiaron.
-
-Se probaron los cuatro escenarios (normal, fallo solo de despensa, fallo solo de compras y fallo de ambos), desde despensa, detalle y Ya lo compré, con selección previa parcial y vacía: 24 combinaciones, todas con recarga. También Tengo todo, Desmarcar todo, retorno de éxito/fallo, una acción posterior de compras tras un fallo y un reintento exitoso. Se repitió el flujo de agrupación, búsqueda, categorías, detalle, compras compartidas, posibilidades, teclado y persistencia. Todas estas pruebas pasaron en Chromium. Queda comprobar esta entrega en tu Live Server y otros navegadores.
+La protección de versiones anteriores se conserva mediante el registro provisional descrito arriba. El nuevo comportamiento guarda tanto la disponibilidad como el estado de la fila y quién incorporó el ingrediente. Las pruebas históricas con Ya lo compré corresponden a la interacción anterior; hoy se compra marcando una casilla y la fila se conserva.
 
 ## Propuesta limitada al detalle de receta
 
@@ -152,3 +157,13 @@ Si un identificador guardado ya no existe en el catálogo, se descarta solo ese 
 Se informa brevemente cuando se descartaron referencias antiguas. La limpieza se guarda únicamente después de cargar y validar los catálogos. Un error de carga no escribe ni reemplaza los datos guardados. Si falla guardar la limpieza, las referencias se omiten durante la sesión y se avisa que los datos almacenados anteriores siguen intactos. Las claves y el guardado coordinado no cambian. Los errores de JSON o estructura inválida siguen usando el manejo de errores existente.
 
 Se reprodujo antes de corregir: sal junto con un ID antiguo recuperaba cero seleccionados; una compra con receta antigua hacía recuperar cero compras incluso con otro ingrediente válido. Pasaron los seis casos solicitados con datos temporales: ingrediente añadido, ID antiguo en despensa, receta eliminada, ingrediente eliminado, selecciones vacías/recarga y fallos de carga sin escrituras. También persistencia de compras sin asociación, Ya lo compré, error al guardar la limpieza, reconciliación y catálogo incoherente. Se repitieron las pruebas del guardado coordinado y del campo datosDePrueba opcional. El catálogo entregado y el diseño permanecen iguales. Pendiente: esta entrega en tu Live Server y otros navegadores.
+
+## Pruebas de la lista con casillas
+
+Se probaron datos antiguos sin cambios al abrir, marcar/desmarcar, disponibilidad anterior que no debe retirarse, eliminación de filas compradas y pendientes, ingredientes compartidos y asociaciones, recarga, listas vacías, confirmación de vaciado, sincronización manual y global desde Mi despensa, reapertura sin duplicación y posibilidades totales/parciales. Se verificó que las recetas completas no aparezcan entre las posibilidades.
+
+Diez escenarios de marcar/desmarcar con guardado normal, fallo solo de despensa, fallo de compras, fallo de ambas y fallo de la última confirmación recuperaron la fila, su estado y su reversibilidad. Se comprobó también una acción posterior que reintenta guardar sin pérdida; carga de catálogo fallida sin escrituras; formatos inválidos sin sobrescritura; referencias antiguas; y regresión del campo datosDePrueba opcional.
+
+Se revisaron teclado, foco al mover filas, plegar/desplegar Comprados, Escape, controles de al menos 44 píxeles y ausencia de desplazamiento horizontal a 320, 390 y 1440 píxeles. Las capturas son del código renderizado. Pendiente: tu Live Server, otros navegadores, lector de pantalla y teléfonos reales.
+
+Prueba sencilla: añadí los faltantes de una receta. En compras, marcá uno: debe pasar a Comprados y aparecer en la despensa. Desmarcalo: debe volver a Pendientes y retirarse de la despensa si esa compra lo incorporó. Marcá otra vez y eliminá la fila con ×: debe seguir en la despensa. Recargá y comprobá que el estado se conserva.

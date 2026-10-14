@@ -3,6 +3,66 @@
 const CLAVE_DESPENSA = 'que-cocino.despensa.v1';
 const CLAVE_COMPRAS = 'que-cocino.compras.v1';
 let compras = new Map();
+let estadosCompras = new Map();
+let comprasGuardadas = null;
+let despensaGuardada = null;
+const esComprado = (id) => estadosCompras.get(id)?.comprado === true;
+const comprasPendientes = () => [...compras.keys()].filter((id) => !esComprado(id));
+const comprasPendientesIncluyen = (id) => compras.has(id) && !esComprado(id);
+
+function serializarCompras() {
+  return [...compras].map(([id, origenes]) => ({ id, recetas: [...origenes],
+    comprado: esComprado(id), incorporadoPorCompra: estadosCompras.get(id)?.incorporadoPorCompra === true }));
+}
+
+function mismaSeleccion(a, b) {
+  const conocidos = new Set(ingredientes.map((i) => i.id));
+  const uno = new Set(a.filter((id) => conocidos.has(id)));
+  const otro = new Set(b.filter((id) => conocidos.has(id)));
+  return uno.size === otro.size && [...uno].every((id) => otro.has(id));
+}
+
+function validarItemsCompras(items) {
+  if (!Array.isArray(items)) throw new Error('Lista inválida.');
+  const ids = new Set();
+  for (const item of items) {
+    if (!item || typeof item.id !== 'string' || ids.has(item.id) || !Array.isArray(item.recetas) ||
+        !item.recetas.every((id) => typeof id === 'string') ||
+        (Object.prototype.hasOwnProperty.call(item, 'comprado') && typeof item.comprado !== 'boolean') ||
+        (Object.prototype.hasOwnProperty.call(item, 'incorporadoPorCompra') && typeof item.incorporadoPorCompra !== 'boolean') ||
+        (item.incorporadoPorCompra === true && item.comprado !== true)) throw new Error('Lista inválida.');
+    ids.add(item.id);
+  }
+  return items;
+}
+
+// El registro provisional conserva ambas versiones hasta confirmar la despensa.
+function guardarEstadoCoordinado() {
+  if (comprasGuardadas === null || despensaGuardada === null) {
+    avisoCompras('Cambios temporales: no podemos coordinar el guardado porque no se recuperaron los datos anteriores. Recargá para reintentar.');
+    return false;
+  }
+  const destino = serializarCompras();
+  const operacion = { despensaAntes: [...despensaGuardada], despensaDespues: [...despensa], itemsDespues: destino };
+  try {
+    localStorage.setItem(CLAVE_COMPRAS, JSON.stringify({ version: 2, items: comprasGuardadas, operacion }));
+  } catch {
+    avisoCompras('Cambios solo en esta sesión: no se pudo guardar la operación. La despensa y la lista guardadas siguen iguales.');
+    return false;
+  }
+  if (!guardarDespensa()) return false;
+  // Aunque falle la última escritura, el registro provisional recupera este estado.
+  comprasGuardadas = destino;
+  try {
+    localStorage.setItem(CLAVE_COMPRAS, JSON.stringify({ version: 2, items: destino }));
+    comprasRequierenDespensa = false;
+    avisoCompras('');
+    return true;
+  } catch {
+    avisoCompras('La despensa quedó guardada. La lista se recuperará desde la operación pendiente al recargar; no pudimos finalizar su guardado.');
+    return false;
+  }
+}
 // Una retirada temporal no puede persistirse antes que su disponibilidad.
 let comprasRequierenDespensa = false;
 let recetaDetalle = null;
@@ -96,7 +156,7 @@ function avisarGuardado(mensaje) {
 function recuperarDespensa() {
   try {
     const guardado = localStorage.getItem(CLAVE_DESPENSA);
-    if (guardado === null) return;
+    if (guardado === null) { despensaGuardada = new Set(); return; }
     const datos = JSON.parse(guardado);
     const conocidos = new Set(ingredientes.map((ingrediente) => ingrediente.id));
     if (!Array.isArray(datos) || !datos.every((id) => typeof id === 'string')) {
@@ -104,6 +164,7 @@ function recuperarDespensa() {
     }
     const vigentes = datos.filter((id) => conocidos.has(id));
     despensa = new Set(vigentes);
+    despensaGuardada = new Set(vigentes);
     if (vigentes.length !== datos.length) {
       const guardada = guardarDespensa();
       const aviso = 'Se descartaron ingredientes antiguos de la despensa; tu selección vigente se conservó.';
@@ -119,10 +180,11 @@ function guardarDespensa() {
   try {
     // [] es una selección válida: desmarcar todo también debe persistir.
     localStorage.setItem(CLAVE_DESPENSA, JSON.stringify([...despensa]));
+    despensaGuardada = new Set(despensa);
     avisarGuardado('');
     return true;
   } catch {
-    avisarGuardado('Cambio aplicado solo en esta sesión: no pudimos guardar la despensa. La selección guardada no cambió y no guardaremos la retirada de compras hasta guardar la despensa. Al recargar volverán los datos anteriores.');
+    avisarGuardado('Cambio aplicado solo en esta sesión: no pudimos guardar la despensa. La selección guardada no cambió y la operación de compras conserva el estado anterior para recuperarlo al recargar. Al recargar volverán los datos anteriores.');
     return false;
   }
 }
@@ -237,20 +299,15 @@ function avisoCompras(mensaje) {
 }
 
 function guardarCompras() {
-  // También protege una escritura posterior (añadir/quitar) tras un fallo.
-  if (comprasRequierenDespensa) {
-    if (!guardarDespensa()) {
-      avisoCompras('Los cambios de compras son temporales. La lista guardada sigue igual porque todavía no se pudo guardar la despensa.');
-      return false;
-    }
-    comprasRequierenDespensa = false;
-  }
+  if (comprasRequierenDespensa) return guardarEstadoCoordinado();
   try {
-    localStorage.setItem(CLAVE_COMPRAS, JSON.stringify([...compras].map(([id, origenes]) => ({ id, recetas: [...origenes] }))));
+    const items = serializarCompras();
+    localStorage.setItem(CLAVE_COMPRAS, JSON.stringify({ version: 2, items }));
+    comprasGuardadas = items;
     avisoCompras('');
     return true;
   } catch {
-    avisoCompras('Los cambios de compras son temporales: no pudimos guardar la lista. La lista guardada sigue igual. Si la despensa se guardó, al recargar se retirarán de compras los ingredientes ya disponibles.');
+    avisoCompras('Los cambios de compras son temporales: no pudimos guardar la lista. Al recargar se recuperarán los datos guardados anteriores.');
     return false;
   }
 }
@@ -258,29 +315,41 @@ function guardarCompras() {
 function recuperarCompras() {
   try {
     const texto = localStorage.getItem(CLAVE_COMPRAS);
-    if (texto === null) return;
+    if (texto === null) { comprasGuardadas = []; return; }
     const datos = JSON.parse(texto);
-    if (!Array.isArray(datos)) throw new Error('Lista inválida.');
-    const ids = new Set();
-    const conocidos = new Set(ingredientes.map((i) => i.id));
-    for (const item of datos) {
-      if (!item || typeof item.id !== 'string' || ids.has(item.id) || !Array.isArray(item.recetas) ||
-          !item.recetas.every((id) => typeof id === 'string')) {
-        throw new Error('Lista inválida.');
-      }
-      ids.add(item.id);
+    const legado = Array.isArray(datos);
+    if (!legado && (!datos || datos.version !== 2)) throw new Error('Versión de compras inválida.');
+    let items = validarItemsCompras(legado ? datos : datos.items);
+    let cerrarOperacion = false;
+    if (!legado && datos.operacion !== undefined) {
+      const op = datos.operacion;
+      if (!op || !Array.isArray(op.despensaAntes) || !Array.isArray(op.despensaDespues) ||
+          ![...op.despensaAntes, ...op.despensaDespues].every((id) => typeof id === 'string')) throw new Error('Operación inválida.');
+      validarItemsCompras(op.itemsDespues);
+      if (despensaGuardada === null) throw new Error('No se pudo recuperar la despensa para resolver la operación.');
+      // Si la despensa no confirmó el cambio, conservar la lista anterior.
+      if (mismaSeleccion([...despensaGuardada], op.despensaDespues)) items = op.itemsDespues;
+      cerrarOperacion = true;
     }
+    const conocidos = new Set(ingredientes.map((i) => i.id));
     let reconciliar = false;
     let referenciasAntiguas = false;
-    for (const item of datos) {
+    for (const item of items) {
       if (!conocidos.has(item.id)) { referenciasAntiguas = true; continue; }
       const origenes = item.recetas.filter((id) => recetas.some((receta) => receta.id === id));
       if (origenes.length !== item.recetas.length) referenciasAntiguas = true;
-      if (despensa.has(item.id)) { reconciliar = true; continue; }
-      // Un ingrediente vigente puede seguir pendiente sin receta de origen.
+      let comprado = item.comprado === true;
+      let incorporadoPorCompra = item.incorporadoPorCompra === true;
+      if (item.comprado === undefined && despensa.has(item.id)) {
+        comprado = true; incorporadoPorCompra = false; reconciliar = true;
+      } else if (comprado && !despensa.has(item.id)) {
+        comprado = false; incorporadoPorCompra = false; reconciliar = true;
+      }
       compras.set(item.id, new Set(origenes));
+      estadosCompras.set(item.id, { comprado, incorporadoPorCompra });
     }
-    if (reconciliar || referenciasAntiguas) {
+    comprasGuardadas = serializarCompras();
+    if (cerrarOperacion || reconciliar || referenciasAntiguas) {
       const guardada = guardarCompras();
       if (referenciasAntiguas) {
         const aviso = 'Se descartaron referencias antiguas de compras; los ingredientes vigentes se conservaron.';
@@ -289,15 +358,35 @@ function recuperarCompras() {
     }
   } catch {
     compras.clear();
-    avisoCompras('No pudimos recuperar la lista de compras guardada. Empezamos con una lista vacía; tu despensa se conserva.');
+    estadosCompras.clear();
+    comprasGuardadas = null;
+    avisoCompras('No pudimos recuperar la lista de compras guardada. La lista de esta sesión empieza vacía; los datos almacenados y tu despensa se conservan.');
   }
 }
 
 function cambiarDisponible(id, disponible) {
-  if (disponible) {
+  if (disponible) despensa.add(id);
+  else despensa.delete(id);
+  if (compras.has(id)) {
+    // Una edición manual toma prioridad: deshacer la compra no retira esa elección.
+    estadosCompras.set(id, { comprado: disponible, incorporadoPorCompra: false });
+    comprasRequierenDespensa = true;
+  }
+  actualizar();
+}
+
+function marcarCompra(id, comprado) {
+  if (!compras.has(id)) return;
+  const estado = estadosCompras.get(id);
+  if (comprado) {
+    const estabaDisponible = despensa.has(id);
     despensa.add(id);
-    if (compras.delete(id)) comprasRequierenDespensa = true;
-  } else despensa.delete(id);
+    estadosCompras.set(id, { comprado: true, incorporadoPorCompra: !estabaDisponible });
+  } else {
+    if (estado?.incorporadoPorCompra) despensa.delete(id);
+    estadosCompras.set(id, { comprado: false, incorporadoPorCompra: false });
+  }
+  comprasRequierenDespensa = true;
   actualizar();
 }
 
@@ -305,6 +394,7 @@ function agregarCompras(receta, ids) {
   for (const id of ids) {
     if (despensa.has(id)) continue;
     if (!compras.has(id)) compras.set(id, new Set());
+    estadosCompras.set(id, { comprado: false, incorporadoPorCompra: false });
     compras.get(id).add(receta.id);
   }
   guardarCompras();
@@ -313,6 +403,7 @@ function agregarCompras(receta, ids) {
 
 function quitarCompra(id) {
   compras.delete(id);
+  estadosCompras.delete(id);
   guardarCompras();
   actualizar(false);
 }
@@ -356,7 +447,7 @@ function dibujarDetalle() {
       fila.append(descripcion);
       if (!disponible) {
         const acciones = elemento('div', undefined, 'acciones-ingrediente');
-        const esta = compras.has(ingrediente.id);
+        const esta = comprasPendientesIncluyen(ingrediente.id);
         if (esta) acciones.append(elemento('span', 'En tu lista', 'estado-compras-ingrediente'));
         const accion = boton(esta ? 'Quitar' : 'Añadir a compras', () => esta ? quitarCompra(ingrediente.id) : agregarCompras(receta, [ingrediente.id]));
         accion.dataset.foco = `comprar-${ingrediente.id}`;
@@ -378,7 +469,7 @@ function dibujarDetalle() {
     todos.dataset.foco = 'todos-faltantes';
     todos.id = 'todos-faltantes';
     const pendientes = faltantes(receta);
-    const pendientesDeAnadir = pendientes.filter((ingrediente) => !compras.has(ingrediente.id));
+    const pendientesDeAnadir = pendientes.filter((ingrediente) => !comprasPendientesIncluyen(ingrediente.id));
     const pasos = elemento('ol');
     receta.pasos.forEach((paso) => pasos.append(elemento('li', paso)));
     // El detalle muestra disponibilidad; su edición sigue en Mi despensa.
@@ -416,56 +507,85 @@ function dibujarDetalle() {
   });
 }
 
+function filaCompra(id) {
+  const ingrediente = ingredientes.find((i) => i.id === id);
+  const comprado = esComprado(id);
+  const fila = elemento('div', undefined, `compra-fila${comprado ? ' compra-completada' : ''}`);
+  fila.dataset.ingrediente = id;
+  const etiqueta = elemento('label', undefined, 'compra-etiqueta');
+  const casilla = document.createElement('input');
+  casilla.type = 'checkbox';
+  casilla.checked = comprado;
+  casilla.dataset.foco = `comprado-${id}`;
+  casilla.setAttribute('aria-label', `${comprado ? 'Devolver a pendientes' : 'Marcar como comprado'}: ${ingrediente.nombre}`);
+  casilla.addEventListener('change', () => marcarCompra(id, casilla.checked));
+  const dibujo = document.createElement('img');
+  dibujo.src = ingrediente.dibujo;
+  dibujo.alt = '';
+  dibujo.width = 32;
+  dibujo.height = 36;
+  etiqueta.append(casilla, dibujo, elemento('span', ingrediente.nombre));
+  const eliminar = boton('×', () => quitarCompra(id), 'eliminar-compra');
+  eliminar.dataset.foco = `eliminar-${id}`;
+  eliminar.setAttribute('aria-label', `Eliminar ${ingrediente.nombre} de la lista de compras`);
+  fila.append(etiqueta, eliminar);
+  return fila;
+}
+
 function dibujarCompras() {
+  const abierto = $('comprados')?.open === true;
+  const foco = document.activeElement?.dataset.foco;
   conservarFoco($('items-compras'), () => {
     $('items-compras').replaceChildren();
     const ordenadas = [...compras.keys()].sort((a, b) => ingredientes.find((i) => i.id === a).nombre.localeCompare(ingredientes.find((i) => i.id === b).nombre, 'es'));
-    for (const id of ordenadas) {
-      const ingrediente = ingredientes.find((i) => i.id === id);
-      const fila = elemento('article', undefined, 'compra-item');
-      fila.append(elemento('h3', ingrediente.nombre), elemento('p', compras.get(id).size ? `Desde: ${[...compras.get(id)].map((r) => recetas.find((receta) => receta.id === r).nombre).join(', ')}.` : 'Sin receta asociada.', 'meta'));
-      const acciones = elemento('div', undefined, 'acciones');
-      const quitar = boton('Quitar', () => quitarCompra(id));
-      quitar.dataset.foco = `quitar-${id}`;
-      quitar.setAttribute('aria-label', `Quitar ${ingrediente.nombre} de compras`);
-      const comprar = boton('Ya lo compré', () => cambiarDisponible(id, true), '');
-      comprar.dataset.foco = `comprado-${id}`;
-      comprar.setAttribute('aria-label', `Ya compré ${ingrediente.nombre}`);
-      acciones.append(quitar, comprar);
-      fila.append(acciones);
-      $('items-compras').append(fila);
-    }
-    if (!compras.size) $('items-compras').append(elemento('p', 'Tu lista está vacía. Añadí ingredientes faltantes desde la preparación de una receta.'));
+    const pendientes = ordenadas.filter((id) => !esComprado(id));
+    const comprados = ordenadas.filter(esComprado);
+    const lista = elemento('div', undefined, 'compras-pendientes');
+    lista.id = 'compras-pendientes';
+    pendientes.forEach((id) => lista.append(filaCompra(id)));
+    if (!pendientes.length) lista.append(elemento('p', compras.size ? 'No quedan ingredientes pendientes.' : 'Tu lista está vacía. Añadí faltantes desde una receta.', 'compras-vacias'));
+    const completados = elemento('details');
+    completados.id = 'comprados';
+    const summary = elemento('summary', `Comprados (${comprados.length})`);
+    summary.dataset.foco = 'comprados-desplegable';
+    completados.append(summary);
+    completados.open = abierto || comprados.some((id) => foco === `comprado-${id}`);
+    comprados.forEach((id) => completados.append(filaCompra(id)));
+    if (!comprados.length) completados.append(elemento('p', 'Todavía no hay ingredientes comprados.', 'compras-vacias'));
+    $('items-compras').append(lista, completados);
   });
   const posibles = recetas.filter((receta) => {
     const pendientes = faltantes(receta);
-    return pendientes.length > 0 && pendientes.every((ingrediente) => compras.has(ingrediente.id));
+    return pendientes.length > 0 && pendientes.every((ingrediente) => comprasPendientesIncluyen(ingrediente.id));
   }).sort(compararRecetas);
   const listaPosibles = elemento('ul');
   posibles.forEach((receta) => listaPosibles.append(elemento('li', receta.nombre)));
   $('posibilidades-compras').replaceChildren(
     elemento('h3', 'Con tu despensa y estas compras podrías preparar…'),
-    posibles.length ? listaPosibles : elemento('p', 'Todavía no hay recetas que se completen con estas compras y tu despensa.'),
-    elemento('p', 'Estas posibilidades dependen de realizar las compras y revisar las cantidades. No se consideran disponibles hasta marcarlas en tu despensa.', 'nota-acciones')
+    posibles.length ? listaPosibles : elemento('p', 'Todavía no hay recetas que se completen con las compras pendientes.')
   );
-  $('estado-compras').textContent = `${compras.size} ingredientes únicos pendientes`;
+  $('estado-compras').textContent = `${comprasPendientes().length} pendientes`;
   $('vaciar-compras').disabled = compras.size === 0;
   if (!compras.size) $('confirmar-vaciado').hidden = true;
 }
 
 function actualizar(guardar = true) {
-  if (guardar && guardarDespensa() && comprasRequierenDespensa) {
-    comprasRequierenDespensa = false;
-    guardarCompras();
+  if (guardar) {
+    if (comprasRequierenDespensa) guardarEstadoCoordinado();
+    else guardarDespensa();
   }
   $('contador').textContent = `${despensa.size} de ${ingredientes.length} ingredientes`;
   const completas = recetas.filter((receta) => faltantes(receta).length === 0).length;
   $('resumen').textContent = `Tenés los ingredientes completos para ${completas} de ${recetas.length} recetas. Todavía no comprobamos cantidades.`;
   mostrarRecetas();
   document.querySelectorAll('#ingredientes input').forEach((casilla) => { casilla.checked = despensa.has(casilla.value); });
-  $('contador-compras').textContent = compras.size;
+  $('contador-compras').textContent = comprasPendientes().length;
   if ($('detalle').open) dibujarDetalle();
-  if ($('compras').open) dibujarCompras();
+  if ($('compras').open) {
+    dibujarCompras();
+    const aviso = ['error-despensa-panel', 'error-compras-panel'].map($).find((nodo) => !nodo.hidden);
+    if (aviso) aviso.scrollIntoView({ block: 'nearest' });
+  }
 }
 
 function conectarControles() {
@@ -481,11 +601,15 @@ function conectarControles() {
   $('buscar-ingredientes').addEventListener('input', mostrarDespensa);
   $('todo').addEventListener('click', () => {
     despensa = new Set(ingredientes.map((ingrediente) => ingrediente.id));
-    if (compras.size) { compras.clear(); comprasRequierenDespensa = true; }
+    for (const id of compras.keys()) estadosCompras.set(id, { comprado: true, incorporadoPorCompra: false });
+    if (compras.size) comprasRequierenDespensa = true;
     mostrarDespensa(); actualizar();
   });
   $('nada').addEventListener('click', () => {
-    despensa.clear(); mostrarDespensa(); actualizar();
+    despensa.clear();
+    for (const id of compras.keys()) estadosCompras.set(id, { comprado: false, incorporadoPorCompra: false });
+    if (compras.size) comprasRequierenDespensa = true;
+    mostrarDespensa(); actualizar();
   });
   $('categoria').addEventListener('change', mostrarDespensa);
   $('busqueda').addEventListener('input', mostrarRecetas);
@@ -518,6 +642,7 @@ function conectarControles() {
   });
   $('confirmar-vaciar').addEventListener('click', () => {
     compras.clear();
+    estadosCompras.clear();
     guardarCompras();
     actualizar(false);
     $('titulo-compras').focus();

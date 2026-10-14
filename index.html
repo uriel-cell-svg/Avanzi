@@ -44,12 +44,13 @@
   <dialog id="compras" aria-labelledby="titulo-compras">
     <div class="dialogo-cabecera"><h2 id="titulo-compras" tabindex="-1">Lista de compras</h2><button type="button" id="cerrar-compras" class="secundario">Cerrar</button></div>
     <p id="error-despensa-panel" role="status" hidden></p><p id="error-compras-panel" role="status" hidden></p>
-    <p>Ingredientes por conseguir. No sumamos cantidades ni calculamos precios: consultá las cantidades en cada receta.</p>
+    <p class="nota-lista-compras">Revisá las cantidades antes de comprar y cocinar.</p>
     <p id="estado-compras" role="status"></p>
     <div id="items-compras"></div>
     <button type="button" id="vaciar-compras" class="secundario">Vaciar lista</button>
-    <div id="confirmar-vaciado" hidden><p>¿Querés quitar todos los ingredientes y sus asociaciones de la lista?</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
+    <div id="confirmar-vaciado" hidden><p>¿Querés vaciar la lista? Tu despensa no cambiará.</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
     <div id="posibilidades-compras"></div>
+    <details id="ayuda-compras"><summary>Sobre esta lista</summary><p>Marcar significa comprado y lo añade a tu despensa. Desmarcar devuelve el ingrediente a pendientes y retira solo lo que incorporó esa compra. Una edición manual de Mi despensa toma prioridad. Eliminar una fila no cambia tu despensa.</p><p>Las recetas posibles usan tu despensa y los pendientes de compra. Las que ya están completas no se incluyen. Conservamos los orígenes de cada ingrediente sin duplicarlo ni sumar cantidades; no calculamos precios.</p></details>
   </dialog>
   <footer class="contenedor">Tu despensa se guarda en este navegador.
     <details class="creditos"><summary>Créditos visuales</summary><p>Títulos breves: Alfa Slab One, alternativa a Kompot Slab. Licencia SIL OFL 1.1. <a href="./fuentes/FUENTES.md">Origen y licencias de fuentes</a>.</p><p>Dibujos SVG originales de Avanzi. <a href="./imagenes/FUENTES.md">Procedencia y permisos</a>.</p><p>Textura de papel: D. Sharon Pruitt / Pink Sherbet Photography. <a href="https://commons.wikimedia.org/wiki/File:Wrinkled_Paper_Texture_Free_Creative_Commons_(6816216700).jpg">Fotografía original</a>, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>. Copia aportada por el usuario; apariencia suavizada y desaturada mediante CSS sobre marfil.</p></details>
