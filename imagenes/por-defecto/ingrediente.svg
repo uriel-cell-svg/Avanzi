@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Ilustración genérica de ingredientes</title>
+  <g fill="none" stroke="#244c38" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m29 43 42 1 5 43c-12 5-35 5-49 0Z" fill="#f2dfc2"/>
+    <path d="M38 44c-2-23 27-24 26 0M35 59c7-3 22-3 31 0"/>
+    <path d="M49 39c-17-1-22-13-21-24 14-1 25 8 21 24Z" fill="#a6bd91"/>
+    <path d="M52 37c-4-16 6-28 18-31 6 13 0 30-18 31Z" fill="#8fab77"/>
+    <path d="m33 21 19 26m13-32L51 48M34 74c7 3 17 4 29 1"/>
+  </g>
+</svg>

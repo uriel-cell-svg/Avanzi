@@ -28,8 +28,8 @@
 - No inclinar textos o botones, no añadir degradados decorativos, texturas que dificulten leer, sombras excesivas ni animaciones innecesarias.
 
 - Conservar la tipografía aprobada: Alfa Slab One para marca/títulos breves, Fraunces local donde ya se utiliza y sistema para lectura/controles. Registrar licencia y origen en fuentes/FUENTES.md. Sin servicios externos de fuentes.
-- Dibujos de receta aproximadamente 40 % más grandes, sin recortes. Cada ingrediente de despensa tiene SVG decorativo y nombre siempre visible.
-- datos/ingredientes.json contiene id, nombre, categoria y dibujo. Relacionar con recetas por id y mantener los identificadores existentes y la clave de localStorage.
+- Conservar proporciones y dimensiones de los dibujos aprobados, sin recortes. Cada ingrediente muestra un SVG propio o por defecto, decorativo, y su nombre siempre visible.
+- datos/ingredientes.json contiene id, nombre y categoria obligatorios; dibujo es opcional. Si se incluye, conservar su validación de tipo y ruta local SVG. Relacionar con recetas por id y mantener los identificadores existentes y las claves de localStorage.
 - Categoría muestra Todos y solo categorías no vacías en el orden solicitado, mediante botones en una fila desplazable con estado aria-pressed. Filtrar no cambia selección ni contador global. Tengo todo y Desmarcar todo afectan toda la despensa y deben aclararlo.
 - Validar carga y formato del JSON de ingredientes; mostrar error claro sin sobrescribir la selección guardada.
 
@@ -63,3 +63,11 @@
 - Acción inferior en el flujo del documento: no tapar contenido ni teclado. Conservar búsqueda, categorías, clasificación, compras y guardado coordinado. Recetas, detalle y compras comparten esta identidad por pedido del usuario. No añadir otras funciones sin devolución.
 
 - Recetas conserva las tres secciones y cálculos existentes; contadores pequeños, buscador con lupa y etiqueta accesible, filtro funcional, bordes/estados verde o rojo con texto. Reutilizar SVG coloreados existentes, mantener proporciones y reducir mensajes repetidos. Estados vacíos breves y Sin coincidencias con búsquedas/filtros. Ayuda plegable, etiquetas de prueba correctas y errores siempre visibles.
+
+## Recursos de respaldo
+
+- Mantener el diseño aprobado. Usar los dos SVG locales de imagenes/por-defecto cuando no haya ilustración propia o no cargue. Conservar los dibujos existentes cuando funcionen.
+- Aplicar la misma recuperación acotada en tarjetas, detalle, catálogo, recuadro de seleccionados y compras. Cada ruta se intenta una sola vez por imagen; no introducir bucles ni reintentos automáticos.
+- Si también falla el respaldo, ocultar la imagen rota conservando su espacio, el nombre y los controles. No alterar selección, disponibilidad, clasificación ni guardado por errores de imágenes.
+- El dibujo genérico de cocina no representa el plato: identificarlo como ilustración genérica en el detalle. Registrar los dos SVG originales y su permiso en imagenes/FUENTES.md.
+- Probar con datos temporales sin cambiar los JSON entregados. No incorporar recetas reales, nutrientes ni la marca pendiente en esta modificación.

@@ -66,3 +66,12 @@ Las tarjetas de Recetas reutilizan `detalle/*.svg` para mostrar los mismos dos i
 Referencia aportada por el usuario: “Trío fresco de tomate, mozzarella y albahaca.png”. Generada con ChatGPT, según la indicación del usuario. El usuario aportó la ilustración para usarla como acento junto al texto Avanzi.
 
 La imagen es visible en el chat, pero el PNG original no está disponible como archivo descargable en el entorno. En esta versión preliminar no se incorporó ni optimizó, ni se generó una sustituta. La cabecera usa solo el texto Avanzi mientras se recibe el archivo. Al incorporarlo, registrar aquí nombre del recurso local, dimensiones, tamaño y modificaciones de optimización conservando transparencia.
+
+## Recursos por defecto
+
+| Archivo | Contenido y uso |
+| --- | --- |
+| `por-defecto/receta.svg` | Cuenco y cuchara: ilustración genérica de cocina para tarjetas y detalle cuando falta o falla el SVG de la receta. No representa el plato ni una fotografía. |
+| `por-defecto/ingrediente.svg` | Bolsa con hojas: ilustración genérica decorativa para catálogo, seleccionados y compras cuando falta o falla el dibujo del ingrediente. El nombre identifica al ingrediente. |
+
+Autoría y fuente: SVG originales escritos para Avanzi en esta modificación, con los trazos y colores del proyecto aprobado. Fondos transparentes. No se descargaron recursos ni se usó un servicio de generación de imágenes. Se aplica el permiso del proyecto: uso, modificación y redistribución dentro de la app, sin atribución obligatoria. Los SVG anteriores no fueron modificados.

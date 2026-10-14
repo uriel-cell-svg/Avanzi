@@ -73,6 +73,8 @@ let ingredientes = [];
 let despensa = new Set();
 let botonDetalle = null;
 const CATEGORIAS = ['Verduras', 'Frutas', 'Carnes y pescados', 'Huevos y lácteos', 'Legumbres', 'Cereales y derivados', 'Aceites y condimentos'];
+const IMAGEN_RECETA_POR_DEFECTO = './imagenes/por-defecto/receta.svg';
+const IMAGEN_INGREDIENTE_POR_DEFECTO = './imagenes/por-defecto/ingrediente.svg';
 
 function validarIngredientes(datos) {
   if (!Array.isArray(datos) || !datos.length) throw new Error('Catálogo vacío.');
@@ -80,7 +82,8 @@ function validarIngredientes(datos) {
   for (const ingrediente of datos) {
     if (!ingrediente || typeof ingrediente.id !== 'string' || !ingrediente.id.trim() || ids.has(ingrediente.id) ||
         typeof ingrediente.nombre !== 'string' || !ingrediente.nombre.trim() || !CATEGORIAS.includes(ingrediente.categoria) ||
-        typeof ingrediente.dibujo !== 'string' || !/^\.\/imagenes\/despensa\/[a-z0-9-]+\.svg$/.test(ingrediente.dibujo)) {
+        (Object.prototype.hasOwnProperty.call(ingrediente, 'dibujo') &&
+         (typeof ingrediente.dibujo !== 'string' || !/^\.\/imagenes\/despensa\/[a-z0-9-]+\.svg$/.test(ingrediente.dibujo)))) {
       throw new Error('Metadatos inválidos.');
     }
     ids.add(ingrediente.id);
@@ -224,15 +227,39 @@ function mostrarDespensa() {
   }
 }
 
+function imagenConRespaldo(rutas, respaldo, opciones = {}) {
+  const imagen = document.createElement('img');
+  imagen.width = 100;
+  imagen.height = 100;
+  // Sin rutas vacías ni duplicadas: cada candidata se intenta una sola vez.
+  const candidatas = [...new Set([...rutas, respaldo].filter((ruta) => typeof ruta === 'string' && ruta.trim()))];
+  let siguiente = 0;
+  const intentar = () => {
+    const ruta = candidatas[siguiente++];
+    const estado = !ruta ? 'sin-imagen' : ruta === respaldo ? 'respaldo' : 'propia';
+    imagen.dataset.estadoImagen = estado;
+    if (!ruta) {
+      imagen.removeEventListener('error', intentar);
+      imagen.classList.add('imagen-no-disponible');
+      imagen.alt = '';
+      imagen.removeAttribute('src');
+    } else {
+      imagen.alt = estado === 'respaldo' ? (opciones.altRespaldo || '') : (opciones.alt || '');
+      imagen.src = ruta;
+    }
+    opciones.alCambiarEstado?.(estado);
+  };
+  imagen.addEventListener('error', intentar);
+  intentar();
+  return imagen;
+}
+
 function dibujoIngredienteInicio(ingrediente) {
-  const dibujo = document.createElement('img');
-  dibujo.src = ingrediente.dibujo.replace('./imagenes/despensa/', './imagenes/lo-que-tengo/');
-  dibujo.alt = '';
-  dibujo.width = 100;
-  dibujo.height = 100;
-  // Un ingrediente futuro puede conservar su dibujo original si no tiene variante.
-  dibujo.addEventListener('error', () => { dibujo.src = ingrediente.dibujo; }, { once: true });
-  return dibujo;
+  // Se conserva también la ruta original para ingredientes sin variante coloreada.
+  return imagenConRespaldo([
+    ingrediente.dibujo?.replace('./imagenes/despensa/', './imagenes/lo-que-tengo/'),
+    ingrediente.dibujo
+  ], IMAGEN_INGREDIENTE_POR_DEFECTO);
 }
 
 function mostrarSeleccion() {
@@ -312,9 +339,9 @@ function tarjetaReceta(receta) {
   const tarjeta = elemento('article', undefined, `tarjeta ${pendientes.length ? 'incompleta' : 'completa'}`);
   tarjeta.dataset.receta = receta.id;
   const figura = elemento('figure', undefined, 'visual-receta');
-  const imagen = document.createElement('img');
-  imagen.src = `./imagenes/detalle/${receta.id}.svg`;
-  imagen.alt = '';
+  const imagen = imagenConRespaldo([`./imagenes/detalle/${receta.id}.svg`], IMAGEN_RECETA_POR_DEFECTO, {
+    altRespaldo: 'Ilustración genérica de cocina; no representa el plato'
+  });
   imagen.loading = 'lazy';
   if (pendientes.length) figura.append(elemento('span', textoFaltantes(pendientes.length), 'franja-faltantes'));
   figura.append(imagen);
@@ -554,11 +581,16 @@ function dibujarDetalle() {
       elemento('p', '✓ Disponible · + Te falta', 'leyenda-ingredientes'), lista, pieIngredientes, sobre);
     arriba.append(informacion, ingredientesPanel);
     const figura = elemento('figure', undefined, 'detalle-imagen');
-    const imagen = document.createElement('img');
-    imagen.src = `./imagenes/detalle/${receta.id}.svg`;
+    const pieImagen = elemento('figcaption', 'Ilustración de ingredientes');
+    const imagen = imagenConRespaldo([`./imagenes/detalle/${receta.id}.svg`], IMAGEN_RECETA_POR_DEFECTO, {
+      alt: `Ilustración de ingredientes de ${receta.nombre}; no es una fotografía del plato`,
+      altRespaldo: 'Ilustración genérica de cocina; no representa el plato',
+      alCambiarEstado: (estado) => {
+        pieImagen.textContent = estado === 'respaldo' ? 'Ilustración genérica de cocina' : estado === 'sin-imagen' ? 'Sin ilustración' : 'Ilustración de ingredientes';
+      }
+    });
     figura.dataset.receta = receta.id;
-    imagen.alt = `Ilustración de ingredientes de ${receta.nombre}; no es una fotografía del plato`;
-    figura.append(imagen, elemento('figcaption', 'Ilustración de ingredientes'));
+    figura.append(imagen, pieImagen);
     const preparacion = elemento('section', undefined, 'detalle-preparacion');
     preparacion.append(elemento('h3', 'Preparación'), pasos);
     $('contenido-detalle').replaceChildren(arriba, figura, preparacion);

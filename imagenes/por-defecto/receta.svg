@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120">
+  <title>Ilustración genérica de cocina</title>
+  <g fill="none" stroke="#244c38" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 56c19-11 63-12 87 0 1 9-15 16-43 16S19 65 21 56Z" fill="#f2dfc2"/>
+    <path d="M22 59c4 32 28 40 46 39 20-1 33-12 39-39-17 14-66 14-85 0Z" fill="#dce8cf"/>
+    <path d="M29 59c14-7 44-9 66-2M36 78c4 9 13 13 23 14"/>
+    <path d="M137 18c-14 1-22 22-12 31 4 4 7 7 5 14l-12 33c-2 8 6 11 9 3l12-35c2-8 5-10 10-14 13-11 2-33-12-32Z" fill="#d9b489"/>
+    <path d="M133 26c-6 4-10 13-6 18M133 69l-7 21"/>
+  </g>
+</svg>

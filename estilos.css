@@ -5,6 +5,8 @@
 * { box-sizing:border-box; }
 body { margin:0; background:var(--fondo); color:var(--tinta); font-family:system-ui,-apple-system,sans-serif; line-height:1.6; }
 [hidden] { display:none!important; }
+/* Conserva las dimensiones y evita el icono roto si tampoco carga el respaldo. */
+.imagen-no-disponible { visibility:hidden; }
 .contenedor { width:min(1120px,calc(100% - 64px)); margin:auto; }
 h1,h2,h3,h4 { line-height:1.2; margin:0 0 12px; }
 h1,h2 { font-family:'Alfa Slab One',Georgia,serif; font-weight:400; letter-spacing:-.015em; }

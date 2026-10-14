@@ -184,7 +184,7 @@ Se abrió además el proyecto desde un servidor HTTP local real: cargaron JSON, 
 
 Validación del ajuste al boceto recibido: pasaron nuevamente selección desde ambas zonas, búsqueda/categorías, recarga parcial y vacía, trece seleccionados, foco/teclado, resultados y detalle. También compras, asociaciones, compatibilidad y diez escenarios de escritura normal o fallida. Las capturas nuevas muestran los cuatro ingredientes de la referencia que ya existen en el catálogo: tomate, huevo, aceite y espinaca. Se conservó el orden original del catálogo.
 
-## Diseño unificado · última revisión
+## Diseño unificado · referencia aprobada
 
 Lo que tengo sigue siendo la referencia de composición y funcionamiento. Recetas, detalle y compras usan ahora el mismo fondo blanco, texto negro suave, acciones verdes, foco visible, campos compactos y bordes discretos. Se retiraron del HTML las dos frases de bienvenida y del CSS las texturas/adornos: no se ocultan mediante estilos distintos según pestaña.
 
@@ -199,3 +199,21 @@ Pruebas aprobadas en Chromium: diez cambios de pestaña con cabecera y fondo est
 Se repitieron compatibilidad con datos antiguos, asociaciones compartidas, referencias obsoletas, datos inválidos y fallos de carga sin escrituras. Diez escenarios de marcar/desmarcar con guardado normal o fallos de despensa, compras, ambas y confirmación final conservaron estado y reversibilidad tras recargar. Se repitieron true, false, campo ausente, catálogo mixto y cinco tipos inválidos de datosDePrueba.
 
 Se comprobó teclado, foco al actualizar, Escape y retorno de foco, cierre visible durante el desplazamiento interno, controles de al menos 44 píxeles y ausencia de desbordes a 320, 390 y 1440 píxeles. Las capturas preliminares son del proyecto abierto en un servidor HTTP local real, sin errores JavaScript ni archivos fallidos en los flujos probados. Quedan pendientes el PNG de marca y su evaluación sobre blanco a ambos tamaños, tu Live Server, teléfonos reales, otros navegadores y lector de pantalla. Las herramientas están fuera del proyecto y no son dependencias de la app.
+
+## Ilustraciones opcionales y respaldo · última modificación
+
+Se puede añadir una receta al JSON sin crear un dibujo específico. Avanzi conserva la convención actual: busca `imagenes/detalle/<id-de-receta>.svg`; si no existe o falla, usa `imagenes/por-defecto/receta.svg`. El detalle lo identifica como **Ilustración genérica de cocina**, sin presentarlo como fotografía o representación del plato.
+
+En `datos/ingredientes.json`, **id, nombre y categoria siguen siendo obligatorios**. Podés omitir la propiedad `dibujo`; Avanzi usa `imagenes/por-defecto/ingrediente.svg`. Si la incluís, debe seguir siendo una ruta local como `./imagenes/despensa/huevo.svg`. No uses null, números o una cadena vacía para indicar ausencia: omití la propiedad. Solo se admiten las categorías existentes y los identificadores deben ser únicos y corresponder a los de las recetas.
+
+Cuando hay un dibujo definido, primero se intenta la variante coloreada de Lo que tengo; si falta, se conserva el original, y después se intenta el recurso por defecto. Esa misma recuperación se usa en catálogo, recuadro y compras. Cada ruta se intenta una sola vez por imagen. Si también falla el respaldo, la imagen queda invisible conservando su espacio: el nombre, las casillas, las acciones y los pasos siguen disponibles. En el detalle se indica **Sin ilustración**. No hay bucles de reintentos ni cambios de selección causados por imágenes.
+
+Cambios: `app.js` concentra la recuperación en una función y permite omitir dibujo; `estilos.css` añade únicamente la regla que oculta una imagen fallida sin cambiar sus dimensiones; `imagenes/por-defecto/` contiene dos SVG propios. Se actualizaron README, AGENTS y procedencia. El HTML, los JSON entregados, las fuentes y los recursos anteriores se conservaron. Las funciones de disponibilidad, clasificación, compras y almacenamiento no cambiaron. No se añadieron recetas reales, nutrientes ni la marca pendiente.
+
+Pasaron los seis casos pedidos con datos temporales: receta nueva sin SVG propio en tarjeta/detalle; ingrediente sin dibujo en catálogo/seleccionados/compras; rutas inexistentes con cada candidata intentada una sola vez; respaldo también inexistente sin iconos rotos, con nombres/controles y tamaños conservados; ilustraciones actuales sin solicitar respaldos; y selección, compras reversibles y recarga parcial/vacía. También se conservó el SVG original cuando faltó solo su variante coloreada.
+
+Se verificó que omitir dibujo no debilita ID, nombre ni categoría. Se rechazaron ID vacío/duplicado, nombre vacío, categoría desconocida, dibujo null/numérico, ruta externa y cadena vacía, sin escribir almacenamiento ante una carga inválida. El detalle etiqueta el recurso genérico y mantiene pasos completos. Se comprobó foco al comprar, navegación con teclado, Escape y ausencia de bucles tras terminar las cargas.
+
+Se repitieron las pruebas de guardado coordinado (diez escenarios normales o fallidos), compatibilidad/referencias antiguas, datosDePrueba opcional, búsqueda/categorías y selección desde ambas zonas. El proyecto se abrió además con servidor HTTP real: navegación repetida, clasificación/filtros, detalle y checklist, controles de 44 píxeles y 320/390/1440 sin desbordes. Las funciones de cálculo y guardado, el HTML, los JSON, fuentes y SVG previos siguen idénticos a la base aprobada.
+
+Las capturas muestran el código implementado con catálogos temporales enviados solo al navegador, sin incluir esos datos en el ZIP. Las herramientas de prueba quedan fuera del proyecto. Pendiente: tu Live Server, teléfonos reales, otros navegadores y lector de pantalla. La marca pendiente no se incorporó en este pedido.
