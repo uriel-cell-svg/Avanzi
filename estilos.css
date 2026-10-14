@@ -1,0 +1,124 @@
+:root { color-scheme: light; --crema:#faf6ed; --papel:#fffdf8; --tinta:#263c39; --verde:#365954; --salvia:#e3ebdf; --rosa:#f2dfda; --durazno:#f3e4d3; --borde:#b3beb2; --suave:#e3ebdf; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--crema); color:var(--tinta); font-family:system-ui,-apple-system,sans-serif; line-height:1.6; }
+.contenedor { width:min(1120px,calc(100% - 64px)); margin:auto; }
+.identidad { padding:20px 0 14px; border-bottom:1px solid #d9ddd2; }
+.marca { display:inline-flex; align-items:center; gap:10px; font:bold 1.9rem Georgia,serif; letter-spacing:-.06em; }
+.marca img { display:block; width:34px; height:42px; }
+.bienvenida { display:flex; align-items:center; justify-content:space-between; gap:32px; padding:28px 0 24px; }
+h1,h2,h3 { font-family:Georgia,'Times New Roman',serif; font-weight:normal; letter-spacing:-.035em; }
+h1 { font-size:clamp(1.9rem,3.3vw,2.7rem); line-height:1.14; max-width:570px; margin:0; }
+.bienvenida p { max-width:230px; color:#526660; font-size:.9rem; }
+h2 { font-size:2rem; margin:0 0 8px; line-height:1.2; }
+h3 { font-size:1.65rem; line-height:1.2; margin:0 0 12px; }
+p { margin:8px 0; }
+.aviso { font-size:.78rem; color:#526660; margin:0 0 18px; }
+button,input,select { font:inherit; }
+button { min-height:44px; padding:10px 18px; border:1px solid var(--verde); border-radius:6px; background:var(--verde); color:#fffdf8; font-weight:650; cursor:pointer; }
+button:hover { background:#263c39; }
+button:focus-visible,input:focus-visible,select:focus-visible { outline:3px solid #854c46; outline-offset:4px; }
+.secundario { background:transparent; color:var(--verde); border-color:#789087; }
+.secundario:hover { background:var(--salvia); }
+.pestanas { display:flex; gap:30px; border-bottom:1px solid #d9ddd2; margin:0 0 26px; }
+.pestanas button { background:transparent; color:#526660; border:0; border-bottom:3px solid transparent; border-radius:0; padding:10px 2px 14px; }
+.pestanas button[aria-pressed=true] { color:var(--tinta); border-bottom-color:#98665e; }
+.pestanas button:hover { background:#f2dfda; }
+.cabecera-seccion { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.etiqueta { display:inline-block; align-self:flex-start; padding:4px 9px; font-size:.78rem; font-weight:700; color:var(--verde); background:var(--salvia); border-radius:3px; }
+.acciones { display:flex; flex-wrap:wrap; gap:12px; margin:20px 0; }
+.ingredientes { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0 24px; }
+.ingrediente { display:flex; align-items:center; gap:12px; padding:18px 10px; border-bottom:1px solid #d9ddd2; font-size:.9rem; cursor:pointer; }
+.ingrediente:has(input:checked) { background:var(--salvia); border-radius:4px; }
+input[type=checkbox] { width:21px; height:21px; flex-shrink:0; accent-color:var(--verde); }
+#resumen { background:var(--durazno); border-left:3px solid #98665e; padding:12px 16px; margin-top:26px; font-size:.9rem; }
+.herramientas { display:grid; grid-template-columns:1.3fr 1fr 1.2fr; gap:16px; margin:20px 0; }
+label { min-width:0; font-size:.85rem; font-weight:650; }
+input[type=search],select { display:block; width:100%; min-width:0; margin-top:7px; padding:12px 10px; min-height:48px; border:1px solid #789087; border-radius:5px; background:var(--papel); color:var(--tinta); font-size:.85rem; }
+#resultados { color:#526660; font-size:.8rem; margin-bottom:22px; }
+.tarjetas { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px; }
+.tarjeta { display:flex; flex-direction:column; padding:0 0 24px; border-bottom:1px solid #d9ddd2; }
+.visual-receta { margin:0 0 18px; background:var(--rosa); border-radius:35px 7px 25px 7px; min-height:100px; }
+.visual-receta img { display:block; width:138px; height:108px; margin-left:auto; margin-right:20px; }
+.tarjeta:has(img[src$="arroz-verduras.svg"]) .visual-receta { background:#efe7d4; border-radius:7px 30px 7px 20px; }
+.tarjeta:has(img[src$="pasta-tomate.svg"]) .visual-receta { background:#f1ded7; }
+.tarjeta:has(img[src$="ensalada-garbanzos.svg"]) .visual-receta { background:#e6eadc; border-radius:7px 30px 7px 20px; }
+.tarjeta:has(img[src$="huevos-espinaca.svg"]) .visual-receta { background:#dfe9e3; }
+.tarjeta .etiqueta { margin-bottom:14px; }
+.meta { color:#526660; font-size:.85rem; }
+.faltantes { flex:1; margin:14px 0 20px; font-size:.9rem; }
+.tarjeta button { align-self:flex-start; background:transparent; color:var(--verde); border:0; border-bottom:1px solid #789087; border-radius:0; padding:8px 0; }
+.tarjeta button:hover { background:var(--salvia); }
+.vacio { grid-column:1/-1; padding:24px; background:var(--durazno); }
+dialog { background:var(--papel); color:var(--tinta); border:1px solid #789087; border-radius:12px; width:min(650px,calc(100% - 32px)); padding:28px; max-height:85vh; overflow:auto; }
+dialog::backdrop { background:#263c39aa; }
+.dialogo-cabecera { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:24px; }
+dialog h3 { margin-top:24px; } dialog li { margin:10px 0; }
+figure { margin:0; }
+footer { padding:24px 0; border-top:1px solid #d9ddd2; margin-top:36px!important; color:#526660; font-size:.8rem; }
+#aviso-guardado { background:var(--durazno); color:#633d38; padding:14px; border-radius:6px; }
+[hidden] { display:none!important; }
+@media(max-width:1000px) { .ingredientes { grid-template-columns:repeat(3,minmax(0,1fr)); } .tarjetas { grid-template-columns:repeat(2,minmax(0,1fr)); } .herramientas { grid-template-columns:1fr 1fr; } .herramientas label:first-child { grid-column:1/-1; } }
+@media(max-width:600px) {
+ .contenedor { width:calc(100% - 32px); }
+ .identidad { padding:10px 0; } .marca { font-size:1.65rem; } .marca img { width:28px; height:34px; }
+ .bienvenida { display:block; padding:18px 0 14px; } h1 { font-size:1.85rem; max-width:340px; } .bienvenida p { max-width:none; margin:10px 0 0; font-size:.82rem; }
+ .aviso { font-size:.73rem; margin-bottom:10px; }
+ .pestanas { margin-bottom:20px; } h2 { font-size:1.8rem; }
+ .cabecera-seccion { align-items:flex-start; flex-direction:column; gap:8px; }
+ .ingredientes { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 12px; }
+ .ingrediente { padding:14px 4px; font-size:.8rem; gap:8px; overflow-wrap:anywhere; }
+ .herramientas,.tarjetas { grid-template-columns:1fr; } .herramientas { gap:12px; } .herramientas label:first-child { grid-column:auto; }
+ .tarjetas { gap:26px; } .visual-receta img { height:92px; width:120px; }
+ dialog { padding:22px; }
+}
+
+/* Fuente incluida en el proyecto; no se consulta ningún servicio de fuentes. */
+@font-face {
+ font-family:'Fraunces'; src:url('./fuentes/Fraunces.ttf') format('truetype');
+ font-weight:100 900; font-style:normal; font-display:swap;
+}
+h1,h2,h3 { font-family:'Fraunces',Georgia,serif; font-weight:650; font-variation-settings:'opsz' 32, 'SOFT' 40, 'WONK' 1; letter-spacing:-.035em; }
+h1 { font-size:clamp(1.85rem,3.2vw,2.6rem); }
+h3 { font-size:1.55rem; }
+.visual-receta img { width:193px; height:151px; margin-right:16px; max-width:calc(100% - 24px); object-fit:contain; }
+.ingrediente img { width:36px; height:42px; object-fit:contain; flex-shrink:0; }
+.filtro-categoria { display:block; max-width:340px; margin:18px 0 12px; }
+.nota-acciones,#cantidad-visible { font-size:.8rem; color:#526660; }
+.acciones { margin-bottom:10px; }
+@media(max-width:600px) {
+ h1 { font-size:1.8rem; }
+ .visual-receta img { width:168px; height:129px; }
+ .ingredientes { grid-template-columns:1fr; }
+ .ingrediente { padding:10px 6px; font-size:.9rem; gap:12px; min-height:60px; }
+ .filtro-categoria { max-width:none; }
+}
+/* Resultados agrupados: el estado también se expresa con texto. */
+.identidad { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.buscar-despensa { display:block; max-width:420px; margin-top:20px; }
+.ir-recetas { display:flex; justify-content:flex-end; padding-top:20px; }
+.herramientas { grid-template-columns:1.5fr 1fr; }
+.grupo-recetas { margin-bottom:34px; }
+.grupo-recetas > h3 { font-size:1.3rem; border-bottom:1px solid #d9ddd2; padding-bottom:12px; margin-bottom:20px; }
+h4 { font-family:'Fraunces',Georgia,serif; font-size:1.55rem; font-weight:650; letter-spacing:-.035em; line-height:1.2; margin:0 0 12px; }
+.tarjeta { padding:12px 12px 20px; border:1px solid; border-radius:10px; }
+.tarjeta.completa { border-color:#365954; }
+.tarjeta.incompleta { border-color:#85434c; }
+.visual-receta { position:relative; padding-top:32px; }
+.franja-faltantes { position:absolute; top:0; left:0; right:0; border-radius:6px 6px 0 0; background:#85434c; color:#fffdf8; font-size:.8rem; font-weight:700; padding:6px 10px; }
+@media(max-width:600px) { .herramientas { grid-template-columns:1fr; } .identidad { flex-wrap:wrap; } }
+button:disabled { cursor:default; opacity:.6; }
+#compras { margin:0 0 0 auto; width:min(520px,100%); max-height:none; height:100dvh; border-radius:12px 0 0 12px; padding:24px; }
+#compras .dialogo-cabecera h2 { font-size:1.8rem; margin:0; }
+.ingredientes-detalle { list-style:none; padding:0; }
+.ingredientes-detalle li { border-bottom:1px solid #d9ddd2; padding:12px 0; }
+.detalle-casilla { display:flex; align-items:center; gap:12px; font-size:.95rem; }
+.ingredientes-detalle button { margin:10px 8px 0 0; font-size:.8rem; }
+.compra-item { border-bottom:1px solid #d9ddd2; padding:18px 0; }
+.compra-item h3 { font-size:1.25rem; }
+#confirmar-vaciado { padding:16px; background:#f2dfda; margin-top:16px; }
+#confirmar-vaciado button { margin:8px 8px 0 0; }
+#posibilidades-compras { margin-top:28px; }
+#posibilidades-compras h3 { font-size:1.3rem; }
+#aviso-compras,#error-compras-panel { padding:12px; background:#f3e4d3; color:#633d38; }
+@media(max-width:600px) { #compras { border-radius:0; padding:20px 16px; } #abrir-compras { font-size:.8rem; padding:8px 10px; } }
+#compras { max-width:100%; }

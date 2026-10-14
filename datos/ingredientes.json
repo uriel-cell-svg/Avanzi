@@ -1,0 +1,80 @@
+[
+  {
+    "id": "arroz",
+    "nombre": "Arroz",
+    "categoria": "Cereales y derivados",
+    "dibujo": "./imagenes/despensa/arroz.svg"
+  },
+  {
+    "id": "zanahoria",
+    "nombre": "Zanahoria",
+    "categoria": "Verduras",
+    "dibujo": "./imagenes/despensa/zanahoria.svg"
+  },
+  {
+    "id": "cebolla",
+    "nombre": "Cebolla",
+    "categoria": "Verduras",
+    "dibujo": "./imagenes/despensa/cebolla.svg"
+  },
+  {
+    "id": "aceite",
+    "nombre": "Aceite",
+    "categoria": "Aceites y condimentos",
+    "dibujo": "./imagenes/despensa/aceite.svg"
+  },
+  {
+    "id": "sal",
+    "nombre": "Sal",
+    "categoria": "Aceites y condimentos",
+    "dibujo": "./imagenes/despensa/sal.svg"
+  },
+  {
+    "id": "papa",
+    "nombre": "Papa",
+    "categoria": "Verduras",
+    "dibujo": "./imagenes/despensa/papa.svg"
+  },
+  {
+    "id": "huevo",
+    "nombre": "Huevo",
+    "categoria": "Huevos y lácteos",
+    "dibujo": "./imagenes/despensa/huevo.svg"
+  },
+  {
+    "id": "pasta",
+    "nombre": "Pasta",
+    "categoria": "Cereales y derivados",
+    "dibujo": "./imagenes/despensa/pasta.svg"
+  },
+  {
+    "id": "tomate",
+    "nombre": "Tomate",
+    "categoria": "Verduras",
+    "dibujo": "./imagenes/despensa/tomate.svg"
+  },
+  {
+    "id": "ajo",
+    "nombre": "Ajo",
+    "categoria": "Verduras",
+    "dibujo": "./imagenes/despensa/ajo.svg"
+  },
+  {
+    "id": "garbanzo",
+    "nombre": "Garbanzos cocidos",
+    "categoria": "Legumbres",
+    "dibujo": "./imagenes/despensa/garbanzo.svg"
+  },
+  {
+    "id": "limon",
+    "nombre": "Limón",
+    "categoria": "Frutas",
+    "dibujo": "./imagenes/despensa/limon.svg"
+  },
+  {
+    "id": "espinaca",
+    "nombre": "Espinaca",
+    "categoria": "Verduras",
+    "dibujo": "./imagenes/despensa/espinaca.svg"
+  }
+]

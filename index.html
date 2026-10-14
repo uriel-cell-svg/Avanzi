@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qué cocino · Recetas y despensa</title>
+  <link rel="stylesheet" href="./estilos.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="contenedor">
+    <div class="identidad"><span class="marca">qué cocino<img src="./imagenes/ramita.svg" alt="" width="34" height="42"></span><button type="button" id="abrir-compras" class="secundario" disabled>Lista de compras <span id="contador-compras">0</span></button></div>
+    <div class="bienvenida"><h1>Algo rico empieza con lo que tenés</h1><p>Marcá tu despensa y elegí qué preparar.</p></div>
+  </header>
+  <main class="contenedor">
+    <p class="aviso">Versión 1 · Las cinco recetas son datos de prueba. Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria.</p>
+    <p id="estado" role="status" aria-live="polite">Cargando recetas…</p>
+    <p id="aviso-guardado" role="status" aria-live="polite" hidden></p>
+    <p id="aviso-compras" role="status" aria-live="polite" hidden></p>
+    <div id="aplicacion" hidden>
+      <nav class="pestanas" aria-label="Secciones">
+        <button type="button" id="tab-despensa" aria-pressed="true" aria-controls="despensa">Mi despensa</button>
+        <button type="button" id="tab-recetas" aria-pressed="false" aria-controls="recetas">Recetas</button>
+      </nav>
+      <section id="despensa" aria-labelledby="titulo-despensa">
+        <div class="cabecera-seccion"><div><h2 id="titulo-despensa">Mi despensa</h2><p>Marcá los ingredientes que tenés disponibles.</p></div><span id="contador" class="etiqueta"></span></div>
+        <div class="acciones"><button type="button" id="todo" aria-describedby="alcance-botones">Tengo todo</button><button type="button" id="nada" aria-describedby="alcance-botones" class="secundario">Desmarcar todo</button></div>
+        <p class="nota-acciones" id="alcance-botones">Ambos botones actúan sobre toda la despensa, también los ingredientes ocultos por categoría.</p>
+        <label class="buscar-despensa">Buscar ingredientes<input id="buscar-ingredientes" type="search" placeholder="Por ejemplo: limón"></label>
+        <label class="filtro-categoria">Categoría<select id="categoria"><option value="Todos">Todos</option></select></label>
+        <p id="cantidad-visible" role="status"></p>
+        <div id="ingredientes" class="ingredientes"></div>
+        <p id="resumen" aria-live="polite"></p>
+        <div class="ir-recetas"><button type="button" id="ver-cocinar">Ver qué puedo cocinar</button></div>
+      </section>
+      <section id="recetas" aria-labelledby="titulo-recetas" hidden>
+        <h2 id="titulo-recetas">Recetas</h2>
+        <div class="herramientas"><label>Buscar por nombre o ingrediente<input id="busqueda" type="search" placeholder="Por ejemplo: arroz o limón"></label><label>Mostrar<select id="filtro"><option value="todas">Todas</option><option value="completas">Ingredientes completos</option><option value="faltantes">Ingredientes faltantes</option></select></label></div>
+        <p id="resultados" role="status"></p><div id="lista-recetas"></div>
+      </section>
+    </div>
+  </main>
+  <dialog id="detalle" aria-labelledby="titulo-detalle"><div class="dialogo-cabecera"><span class="etiqueta">Receta de prueba</span><button type="button" id="cerrar-detalle" class="secundario">Cerrar</button></div><div id="contenido-detalle"></div></dialog>
+  <dialog id="compras" aria-labelledby="titulo-compras">
+    <div class="dialogo-cabecera"><h2 id="titulo-compras" tabindex="-1">Lista de compras</h2><button type="button" id="cerrar-compras" class="secundario">Cerrar</button></div>
+    <p>Ingredientes por conseguir. No sumamos cantidades ni calculamos precios: consultá las cantidades en cada receta.</p>
+    <p id="estado-compras" role="status"></p>
+    <div id="items-compras"></div>
+    <button type="button" id="vaciar-compras" class="secundario">Vaciar lista</button>
+    <div id="confirmar-vaciado" hidden><p>¿Querés quitar todos los ingredientes y sus asociaciones de la lista?</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
+    <div id="posibilidades-compras"></div>
+    <p id="error-compras-panel" role="status" hidden></p>
+  </dialog>
+  <footer class="contenedor">Tu despensa se guarda en este navegador.</footer>
+</body>
+</html>
