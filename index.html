@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="./estilos.css">
   <script src="./app.js" defer></script>
 </head>
-<body>
+<body class="vista-lo-tengo">
   <header class="contenedor">
-    <div class="identidad"><span class="marca">Avanzi<img src="./imagenes/ramita.svg" alt="" width="34" height="42"></span><button type="button" id="abrir-compras" class="secundario" disabled>Lista de compras <span id="contador-compras">0</span></button></div>
+    <div class="identidad"><span class="marca">Avanzi<img src="./imagenes/ramita.svg" alt="" width="34" height="42"></span><button type="button" id="abrir-compras" class="secundario" disabled><img class="bolsa-inicio" src="./imagenes/bolsa.svg" alt="" width="24" height="24"><span class="nombre-acceso-compras">Lista de compras</span> <span id="contador-compras">0</span></button></div>
     <div class="bienvenida"><h1>Algo rico empieza con lo que tenés</h1><p>Marcá tu despensa y elegí qué preparar.</p></div>
   </header>
   <main class="contenedor">
@@ -19,18 +19,35 @@
     <p id="aviso-compras" role="status" aria-live="polite" hidden></p>
     <div id="aplicacion" hidden>
       <nav class="pestanas" aria-label="Secciones">
-        <button type="button" id="tab-despensa" aria-pressed="true" aria-controls="despensa">Mi despensa</button>
+        <button type="button" id="tab-despensa" aria-pressed="true" aria-controls="despensa">Lo que tengo</button>
         <button type="button" id="tab-recetas" aria-pressed="false" aria-controls="recetas">Recetas</button>
       </nav>
       <section id="despensa" aria-labelledby="titulo-despensa">
-        <div class="cabecera-seccion"><div><h2 id="titulo-despensa">Mi despensa</h2><p>Marcá los ingredientes que tenés disponibles.</p></div><span id="contador" class="etiqueta"></span></div>
-        <div class="acciones"><button type="button" id="todo" aria-describedby="alcance-botones">Tengo todo</button><button type="button" id="nada" aria-describedby="alcance-botones" class="secundario">Desmarcar todo</button></div>
-        <p class="nota-acciones" id="alcance-botones">Ambos botones actúan sobre toda la despensa, también los ingredientes ocultos por categoría.</p>
-        <label class="buscar-despensa">Buscar ingredientes<input id="buscar-ingredientes" type="search" placeholder="Por ejemplo: limón"></label>
-        <label class="filtro-categoria">Categoría<select id="categoria"><option value="Todos">Todos</option></select></label>
-        <p id="cantidad-visible" role="status"></p>
+        <div class="cabecera-seccion">
+          <h2 id="titulo-despensa">¿Qué tenés en casa?</h2>
+          <details id="acciones-despensa" class="menu-inicio">
+            <summary aria-label="Acciones de Lo que tengo" title="Acciones de Lo que tengo">⋮</summary>
+            <div class="opciones-inicio"><button type="button" id="todo" aria-describedby="alcance-botones">Tengo todo</button><button type="button" id="nada" aria-describedby="alcance-botones" class="secundario">Desmarcar todo</button></div>
+          </details>
+        </div>
+        <span id="etiqueta-prueba-inicio" class="prueba-inicio" hidden>Datos de prueba</span>
+        <section class="seleccion-inicio" aria-labelledby="titulo-seleccion">
+          <h3 id="titulo-seleccion" aria-live="polite">Lo que tengo · <span id="cantidad-seleccion">0</span></h3>
+          <span id="contador" class="solo-lectores" aria-hidden="true"></span>
+          <ul id="seleccion-lista" aria-label="Ingredientes seleccionados" tabindex="0" hidden></ul>
+        </section>
+        <div class="filtros-inicio">
+          <label class="buscar-despensa">Buscar ingredientes<input id="buscar-ingredientes" type="search" placeholder="Por ejemplo: limón"></label>
+          <label class="filtro-categoria">Categoría<select id="categoria"><option value="Todos">Todos</option></select></label>
+        </div>
+        <p id="cantidad-visible" role="status" class="solo-lectores"></p>
         <div id="ingredientes" class="ingredientes"></div>
-        <p id="resumen" aria-live="polite"></p>
+        <details id="ayuda-lo-tengo"><summary>Ayuda</summary>
+          <p id="alcance-botones">Tengo todo y Desmarcar todo actúan sobre toda la selección, también los ingredientes ocultos por búsqueda o categoría.</p>
+          <p>Las tarjetas y el recuadro comparten tu selección. Deslizá el recuadro si hay muchos ingredientes. Buscar o filtrar no los desmarca.</p>
+          <p id="ayuda-catalogo">Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria.</p>
+          <p id="resumen"></p>
+        </details>
         <div class="ir-recetas"><button type="button" id="ver-cocinar">Ver qué puedo cocinar</button></div>
       </section>
       <section id="recetas" aria-labelledby="titulo-recetas" hidden>
@@ -50,9 +67,9 @@
     <button type="button" id="vaciar-compras" class="secundario">Vaciar lista</button>
     <div id="confirmar-vaciado" hidden><p>¿Querés vaciar la lista? Tu despensa no cambiará.</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
     <div id="posibilidades-compras"></div>
-    <details id="ayuda-compras"><summary>Sobre esta lista</summary><p>Marcar significa comprado y lo añade a tu despensa. Desmarcar devuelve el ingrediente a pendientes y retira solo lo que incorporó esa compra. Una edición manual de Mi despensa toma prioridad. Eliminar una fila no cambia tu despensa.</p><p>Las recetas posibles usan tu despensa y los pendientes de compra. Las que ya están completas no se incluyen. Conservamos los orígenes de cada ingrediente sin duplicarlo ni sumar cantidades; no calculamos precios.</p></details>
+    <details id="ayuda-compras"><summary>Sobre esta lista</summary><p>Marcar significa comprado y lo añade a tu despensa. Desmarcar devuelve el ingrediente a pendientes y retira solo lo que incorporó esa compra. Una edición manual de Lo que tengo toma prioridad. Eliminar una fila no cambia tu despensa.</p><p>Las recetas posibles usan tu despensa y los pendientes de compra. Las que ya están completas no se incluyen. Conservamos los orígenes de cada ingrediente sin duplicarlo ni sumar cantidades; no calculamos precios.</p></details>
   </dialog>
-  <footer class="contenedor">Tu despensa se guarda en este navegador.
+  <footer class="contenedor"><span class="nota-footer">Tu selección se guarda en este navegador.</span>
     <details class="creditos"><summary>Créditos visuales</summary><p>Títulos breves: Alfa Slab One, alternativa a Kompot Slab. Licencia SIL OFL 1.1. <a href="./fuentes/FUENTES.md">Origen y licencias de fuentes</a>.</p><p>Dibujos SVG originales de Avanzi. <a href="./imagenes/FUENTES.md">Procedencia y permisos</a>.</p><p>Textura de papel: D. Sharon Pruitt / Pink Sherbet Photography. <a href="https://commons.wikimedia.org/wiki/File:Wrinkled_Paper_Texture_Free_Creative_Commons_(6816216700).jpg">Fotografía original</a>, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>. Copia aportada por el usuario; apariencia suavizada y desaturada mediante CSS sobre marfil.</p></details>
   </footer>
 </body>

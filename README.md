@@ -12,13 +12,15 @@ No hace falta Node.js, instalar paquetes ni compilar. No abras el archivo hacien
 
 Si reemplazás una versión anterior, usá la misma dirección y puerto de Live Server para recuperar los datos de ese navegador. Una carpeta distinta puede abrirse en otro puerto: los datos de localStorage no se comparten entre direcciones, puertos o navegadores.
 
-## Mi despensa
+## Lo que tengo
 
-La app empieza en esta pestaña. Marcá ingredientes; los dibujos son decorativos y los nombres siempre están visibles. Buscá sin distinguir mayúsculas o tildes y elegí una categoría. Solo aparecen categorías con ingredientes. Buscar y filtrar no modifica tu selección; el contador muestra toda la despensa.
+La app empieza en **Lo que tengo**, con el título **¿Qué tenés en casa?**. Tocá una tarjeta para seleccionar o desmarcar: se destaca en verde y muestra ✓. Los dibujos son decorativos y los nombres siguen visibles. Buscá sin distinguir mayúsculas o tildes y elegí una categoría; solo aparecen categorías con ingredientes.
 
-**Tengo todo** y **Desmarcar todo** actúan sobre todos los ingredientes, aunque estén ocultos por búsqueda o categoría. Si el ingrediente ya tiene fila en compras, marcarlo lo mueve a Comprados y desmarcarlo lo devuelve a Pendientes. No se crean filas nuevas automáticamente.
+El recuadro **Lo que tengo · N** muestra toda tu selección, incluso con filtros activos. Su × desmarca el ingrediente también en el catálogo, sin mover las tarjetas. Si hay muchos seleccionados, deslizá horizontalmente la fila; cuando está vacío, solo aparece el título. Los cambios se guardan con las mismas claves de las versiones anteriores.
 
-El botón **Ver qué puedo cocinar**, al pie a la derecha, abre los resultados. Las pestañas siguen disponibles. Si cambiás la despensa, los resultados se recalculan.
+En **Acciones de Lo que tengo (⋮)**, **Tengo todo** y **Desmarcar todo** actúan sobre todos los ingredientes, aunque estén ocultos por búsqueda o categoría. Si el ingrediente ya tiene fila en compras, marcarlo lo mueve a Comprados y desmarcarlo lo devuelve a Pendientes. No se crean filas nuevas automáticamente.
+
+El botón **Ver qué puedo cocinar**, al final del contenido, abre los resultados. No es una barra fija: no tapa tarjetas ni el teclado. **Ayuda** reúne las explicaciones secundarias; los errores de guardado permanecen visibles y la etiqueta **Datos de prueba** se muestra cuando corresponde. El acceso superior con bolsa cuenta los pendientes de compras. Las pestañas siguen disponibles. Si cambiás la despensa, los resultados se recalculan.
 
 ## Resultados
 
@@ -36,7 +38,7 @@ Las tarjetas completas tienen borde verde y texto **Tenés todo**. Las incomplet
 
 ## Detalle de receta
 
-El detalle muestra cantidades, unidades y pasos. No tiene casillas: ✓ indica En tu despensa y + indica Te falta. Los símbolos son estados, no controles. La disponibilidad se cambia en Mi despensa mediante **Editar mi despensa**, que cierra el diálogo y lleva el foco al buscador. Al volver a abrir la receta se muestra la selección actualizada.
+El detalle muestra cantidades, unidades y pasos. No tiene casillas: ✓ indica En tu despensa y + indica Te falta. Los símbolos son estados, no controles. La disponibilidad se cambia en Lo que tengo mediante **Editar lo que tengo**, que cierra el diálogo y lleva el foco al buscador. Al volver a abrir la receta se muestra la selección actualizada.
 
 Junto a los faltantes, **Añadir a compras** incorpora el ingrediente con su receta de origen; nunca lo marca disponible. Cuando está añadido se muestra **En tu lista** y **Quitar**, que lo retira globalmente de compras. Si todavía hay faltantes pendientes de añadir, se muestra **Añadir todos los faltantes**. Si todos están ya en compras, se informa; si la receta está completa, aparece **Tenés todos los ingredientes**.
 
@@ -46,14 +48,14 @@ La nota visible recuerda **Revisá las cantidades antes de cocinar**. **Sobre es
 
 El acceso superior cuenta **solo pendientes**. Cada fila tiene casilla, dibujo, nombre y × para eliminar. Los orígenes de receta se conservan internamente sin mostrarlos; no se duplican ingredientes compartidos.
 
-- Marcar la casilla añade el ingrediente a Mi despensa y mueve la fila a **Comprados (N)**, con el nombre tachado. La sección se puede plegar y desplegar.
+- Marcar la casilla añade el ingrediente a Lo que tengo y mueve la fila a **Comprados (N)**, con el nombre tachado. La sección se puede plegar y desplegar.
 - Desmarcar devuelve la fila a Pendientes y retira de la despensa solamente la disponibilidad que incorporó esa compra. Si ya lo tenías, se conserva.
 - × elimina la fila y sus asociaciones, sin quitar ni añadir nada a la despensa.
 - Vaciar lista pide confirmación y conserva la despensa.
 
 Una fila pendiente es una tarea de compra: puede seguir pendiente aunque ya tengas el ingrediente, cuando lo tenías antes y desmarcás la compra. Esto evita que deshacer una tarea borre una selección previa.
 
-**Regla de coordinación con Mi despensa:** una edición manual toma prioridad. Si hay una fila, marcar desde Mi despensa la mueve a Comprados; desmarcar la devuelve a Pendientes. Esa acción manual quita a la compra la propiedad de la selección: deshacer la compra después no retira una disponibilidad elegida manualmente. Tengo todo y Desmarcar todo aplican esta regla a todas las filas, sin eliminarlas ni crear otras.
+**Regla de coordinación con Lo que tengo:** una edición manual toma prioridad. Si hay una fila, marcar desde Lo que tengo la mueve a Comprados; desmarcar la devuelve a Pendientes. Esa acción manual quita a la compra la propiedad de la selección: deshacer la compra después no retira una disponibilidad elegida manualmente. Tengo todo y Desmarcar todo aplican esta regla a todas las filas, sin eliminarlas ni crear otras.
 
 Si un ingrediente comprado deja de estar disponible, su fila se reabre como pendiente. Volver a añadirlo desde una receta no lo duplica y conserva los orígenes anteriores. Añadir a compras nunca significa tenerlo.
 
@@ -78,25 +80,25 @@ Las listas se conservan parciales o vacías al recargar en el mismo navegador y 
 | Archivo o carpeta | Función |
 | --- | --- |
 | `index.html` | Pantallas, buscadores, controles y diálogos. |
-| `estilos.css` | Diseño marfil, salvia y acentos suaves; estados bordó y verde; adaptación móvil. |
-| `app.js` | Carga y validación, selección, agrupación, búsqueda, detalle editable, compras y guardado. |
+| `estilos.css` | Diseño blanco y verde de Lo que tengo; conserva el diseño anterior en recetas y compras. Adaptación móvil. |
+| `app.js` | Carga y validación, selección, agrupación, búsqueda, detalle, recuadro de selección, compras y guardado. |
 | `datos/recetas.json` | Única fuente de las cinco recetas de prueba; sin cambios en esta entrega. |
 | `datos/ingredientes.json` | Nombres, categorías y dibujos, relacionados por identificador; sin cambios. |
-| `imagenes/` | Dibujos SVG originales de marca, recetas y despensa; permisos en `FUENTES.md`. |
-| `fuentes/` | Fraunces local y su licencia SIL OFL; origen en `FUENTES.md`. |
+| `imagenes/` | Dibujos SVG originales de marca, recetas y despensa; variantes coloreadas en `lo-que-tengo/`; permisos en `FUENTES.md`. |
+| `fuentes/` | Alfa Slab One y Fraunces locales, con licencias SIL OFL; origen en `FUENTES.md`. |
 | `AGENTS.md` | Reglas de futuros cambios. |
 | `README.md` | Estas instrucciones. |
 
 ## Prueba sencilla
 
-1. Desmarcá todo y marcá Aceite, Sal, Huevo y Espinaca.
+1. Abrí **⋮ → Desmarcar todo** y seleccioná Aceite, Sal, Huevo y Espinaca. Comprobá el recuadro superior; desmarcá uno con × y volvé a seleccionarlo desde su tarjeta.
 2. Pulsá **Ver qué puedo cocinar**: los huevos con espinaca deben aparecer en **Ya tenés todo**.
 3. Abrí la tortilla de papas y pulsá **Añadir todos los faltantes**.
 4. Cerrá el detalle y abrí compras: deben aparecer Papa y Cebolla; la tortilla debe figurar entre las posibilidades después de comprar, pero todavía no entre las completas.
 5. Marcá las casillas de Papa y Cebolla en la lista. La tortilla ahora debe estar completa.
-6. Recargá: la selección permanece y compras está vacía.
+6. Recargá: la selección permanece; compras muestra cero pendientes y conserva las filas en Comprados.
 
-## Pruebas de esta entrega
+## Pruebas históricas de versiones anteriores
 
 Se ejecutaron en Chromium con servidor HTTP local:
 
@@ -167,3 +169,15 @@ Diez escenarios de marcar/desmarcar con guardado normal, fallo solo de despensa,
 Se revisaron teclado, foco al mover filas, plegar/desplegar Comprados, Escape, controles de al menos 44 píxeles y ausencia de desplazamiento horizontal a 320, 390 y 1440 píxeles. Las capturas son del código renderizado. Pendiente: tu Live Server, otros navegadores, lector de pantalla y teléfonos reales.
 
 Prueba sencilla: añadí los faltantes de una receta. En compras, marcá uno: debe pasar a Comprados y aparecer en la despensa. Desmarcalo: debe volver a Pendientes y retirarse de la despensa si esa compra lo incorporó. Marcá otra vez y eliminá la fila con ×: debe seguir en la despensa. Recargá y comprobá que el estado se conserva.
+
+## Última entrega: Recuadro de seleccionados
+
+Se aplica solo a Lo que tengo: blanco, Avanzi en negro, selección y acciones verdes, pequeños indicadores rojos y trece dibujos locales coloreados sobre transparencia. La tipografía aprobada, recetas, datos, IDs, almacenamiento y reglas de compras se conservan. Recetas y compras mantienen su diseño anterior; se actualizó el texto del acceso Editar lo que tengo para coincidir con el nombre de la pestaña.
+
+No se recibió un archivo del boceto opción B en este pedido: se implementó la descripción escrita. Los dibujos son variantes de los SVG propios existentes, sin generación de imágenes, descargas ni costos. La acción inferior está en el flujo del documento para evitar superposiciones; el recuadro usa desplazamiento horizontal y mantiene una altura acotada.
+
+Pruebas aprobadas en Chromium: selección y desmarcado desde tarjetas y recuadro, orden estable del catálogo, búsquedas sin tildes/mayúsculas, categorías, recuadro completo con filtros, recarga parcial/vacía y 13 seleccionados con desplazamiento horizontal. Se comprobó teclado (Space, Enter, Escape y flechas), foco tras desmarcar, menú y Ayuda, controles de al menos 44 píxeles y ausencia de desplazamiento horizontal de página a 320, 390 y 1440 píxeles. Los contrastes de texto comprobados superan 4,5:1.
+
+También pasaron resultados, búsqueda de recetas, detalle y Editar lo que tengo, sincronización manual con compras, asociaciones compartidas, propiedad reversible de compra, listas vacías/datos antiguos, referencias obsoletas y errores visibles. Diez escenarios de marcar/desmarcar con guardado normal o fallos de despensa, compras, ambas o confirmación final conservaron fila y reversibilidad al recargar. Los fallos de carga no escriben almacenamiento; los formatos inválidos no se sobrescriben automáticamente. Se repitieron true, false, campo ausente, catálogo mixto y cinco tipos inválidos de datosDePrueba; las recetas entregadas no se alteraron.
+
+Se abrió además el proyecto desde un servidor HTTP local real: cargaron JSON, fuentes y dibujos sin errores JavaScript, archivos fallidos ni peticiones a servicios externos. Las capturas corresponden al código implementado. Se comprobó una ventana móvil reducida sin barra superpuesta; queda pendiente el teclado virtual de un teléfono real, otros navegadores, lector de pantalla y tu Live Server. Los JSON, fuentes y dibujos originales de las otras pantallas conservan sus comprobaciones SHA-256. Las herramientas de prueba y las capturas quedan fuera del código de la app, sin dependencias nuevas.

@@ -46,3 +46,11 @@ Se conserva el JPG recibido sin modificar sus píxeles ni comprimirlo nuevamente
 `detalle/*.svg` son variantes nuevas de los SVG originales actuales: se cambiaron rellenos a colores de alimentos y se ajustó el encuadre para aprovechar el espacio. Conservan los trazos y el mismo permiso de reutilización del proyecto. No se recuperó código anterior ni se modificaron los recursos usados en catálogo y despensa. No representan una fotografía del plato.
 
 `bolsa.svg`: icono vectorial original local creado para Añadir a compras. Es decorativo y usa el mismo permiso de uso, modificación y redistribución indicado para los SVG del proyecto.
+
+## Lo que tengo · Recursos coloreados individuales
+
+Los trece SVG de `lo-que-tengo/` son variantes de los dibujos propios de `despensa/`: aceite, ajo, arroz, cebolla, espinaca, garbanzo, huevo, limon, papa, pasta, sal, tomate y zanahoria. Autoría: dibujos originales preparados para Avanzi en este proyecto. Se conservaron los trazos y se modificaron rellenos y colores para reconocer los alimentos: tomate rojo, limón amarillo, hojas verdes y tonos naturales. Fondo transparente; no incluyen textos, controles ni fondos recortados de referencias.
+
+Fuente: los archivos locales `despensa/*.svg` descritos arriba. Se aplica el mismo permiso de uso, modificación y redistribución dentro de la app, sin atribución obligatoria. No se descargaron recursos ni se usaron herramientas de generación de imágenes; no hay costos ni servicios remotos. Las variantes se usan solo en el catálogo y el recuadro de Lo que tengo; los dibujos de recetas, detalle y compras se conservan.
+
+El papel no se muestra en Lo que tengo. Se conserva el archivo y su crédito porque las otras pantallas mantienen su presentación anterior.

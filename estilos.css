@@ -329,3 +329,70 @@ body::before { content:''; position:fixed; inset:0; z-index:-1; background:url('
 #compras #posibilidades-compras p,#compras #posibilidades-compras li { font-size:.85rem; }
 #ayuda-compras { margin-top:20px; font-size:.8rem; }
 @media(max-width:600px) { #compras .dialogo-cabecera { top:-20px; } #compras .compra-etiqueta { gap:10px; } }
+
+/* Opción B: esta dirección visual se aplica únicamente a Lo que tengo. */
+.bolsa-inicio { display:none; }
+body.vista-lo-tengo { background:#fff; color:#171d18; }
+body.vista-lo-tengo::before,body.vista-lo-tengo::after { display:none; }
+.vista-lo-tengo .bienvenida,.vista-lo-tengo #aviso-catalogo,.vista-lo-tengo .nota-footer { display:none; }
+.vista-lo-tengo .marca { color:#111; }
+.vista-lo-tengo .marca img { filter:grayscale(1) brightness(0); }
+.vista-lo-tengo .identidad { border:0; padding:18px 0 12px; }
+.vista-lo-tengo .nombre-acceso-compras { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.vista-lo-tengo #abrir-compras { display:flex; align-items:center; justify-content:center; gap:8px; min-width:64px; padding:8px; border:0; background:transparent; color:#171d18; }
+.vista-lo-tengo .bolsa-inicio { display:block; width:26px; height:26px; }
+.vista-lo-tengo #contador-compras { display:flex; align-items:center; justify-content:center; min-width:23px; height:23px; border-radius:50%; color:#a82824; background:#fdecea; font-size:.78rem; }
+.vista-lo-tengo .pestanas { gap:10px; border-bottom:0; margin:6px 0 24px; }
+.vista-lo-tengo .pestanas button { border:0; border-radius:8px; padding:10px 16px; color:#3e4c40; background:transparent; }
+.vista-lo-tengo .pestanas button[aria-pressed=true] { background:#e8f3e6; color:#226437; }
+#despensa .cabecera-seccion { display:flex; flex-direction:row; align-items:center; gap:16px; margin-bottom:6px; }
+#despensa h2 { color:#171d18; font-size:clamp(1.55rem,2.3vw,2rem); margin:0; }
+#despensa .menu-inicio { position:relative; margin-left:auto; flex-shrink:0; }
+#despensa .menu-inicio > summary { cursor:pointer; list-style:none; width:44px; height:44px; display:flex; justify-content:center; align-items:center; color:#226437; font-size:1.6rem; border-radius:8px; }
+#despensa .menu-inicio > summary::-webkit-details-marker { display:none; }
+#despensa .opciones-inicio { position:absolute; top:48px; right:0; z-index:4; min-width:190px; padding:8px; background:white; border:1px solid #b9c6b8; border-radius:10px; }
+#despensa .opciones-inicio button { display:block; width:100%; text-align:left; padding:10px 12px; font-size:.86rem; border:0; background:white; color:#226437; }
+#despensa .opciones-inicio button:hover { background:#e8f3e6; }
+#despensa .prueba-inicio { display:inline-flex; align-items:center; gap:6px; font-size:.73rem; color:#4e5b4f; margin-bottom:12px; }
+#despensa .prueba-inicio::before { content:''; width:5px; height:5px; background:#b32c25; border-radius:50%; }
+#despensa .seleccion-inicio { padding:14px 16px; background:#f5faf3; border:1px solid #c3d4bc; border-radius:14px; margin:0 0 22px; }
+#despensa #titulo-seleccion { font-family:system-ui,-apple-system,sans-serif; font-size:1rem; letter-spacing:0; font-weight:700; color:#226437; margin:0; }
+#despensa #seleccion-lista { display:flex; gap:12px; list-style:none; padding:10px 0 4px; margin:0; max-width:100%; overflow-x:auto; overflow-y:hidden; scrollbar-width:thin; scroll-padding:4px; }
+#despensa .seleccion-item { flex:0 0 112px; min-height:128px; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding:24px 6px 8px; gap:4px; }
+#despensa .seleccion-item img { width:64px; height:62px; object-fit:contain; }
+#despensa .seleccion-item > span { color:#25392b; font-size:.75rem; font-weight:550; min-height:38px; line-height:1.35; text-align:center; }
+#despensa .quitar-seleccion { position:absolute; top:0; right:0; width:44px; height:44px; padding:0; border:0; background:transparent; color:#226437; font-size:1.3rem; font-weight:400; }
+#despensa .quitar-seleccion:hover { background:#e3efdf; }
+#despensa .filtros-inicio { display:grid; grid-template-columns:1.5fr 1fr; gap:18px; margin-bottom:20px; }
+#despensa .buscar-despensa,#despensa .filtro-categoria { margin:0; max-width:none; font-size:.8rem; color:#263d2c; }
+#despensa input[type=search],#despensa select { background:white; border:1px solid #9daf9a; border-radius:9px; min-height:48px; font-size:.88rem; color:#171d18; }
+#despensa .ingredientes { grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+#despensa .ingrediente { position:relative; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:6px; min-height:150px; padding:18px 12px 10px; border:1px solid #e0e7dd; border-radius:14px; background:white; color:#171d18; }
+#despensa .ingrediente input { position:absolute; top:10px; right:10px; width:22px; height:22px; margin:0; opacity:0; }
+#despensa .ingrediente img { width:100px; height:90px; flex-shrink:0; object-fit:contain; }
+#despensa .nombre-ingrediente { display:block; text-align:center; min-height:24px; font-size:.9rem; font-weight:600; line-height:1.4; }
+#despensa .marca-seleccion { position:absolute; top:8px; right:8px; display:none; width:26px; height:26px; border-radius:50%; background:#226437; color:white; align-items:center; justify-content:center; font-size:.95rem; pointer-events:none; }
+#despensa .ingrediente:has(input:checked) { background:#e8f3e6; border-color:#94b289; }
+#despensa .ingrediente:has(input:checked) .marca-seleccion { display:flex; }
+#despensa .ingrediente:has(input:focus-visible) { outline:3px solid #226437; outline-offset:3px; }
+#despensa #ayuda-lo-tengo { margin-top:18px; font-size:.8rem; color:#425644; }
+#despensa #ayuda-lo-tengo summary { display:flex; align-items:center; min-height:44px; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+#despensa #ayuda-lo-tengo summary::before { content:'▸'; margin-right:6px; }
+#despensa #ayuda-lo-tengo[open] summary::before { content:'▾'; }
+#despensa #resumen { background:transparent; border:0; padding:0; margin:8px 0; font-size:inherit; }
+#despensa .ir-recetas { position:static; padding:16px 0 0; margin:0; display:flex; justify-content:flex-end; background:white; }
+#despensa #ver-cocinar { min-height:50px; padding:12px 24px; border:0; border-radius:10px; background:#226437; color:white; }
+#despensa button:focus-visible,#despensa summary:focus-visible,#despensa #seleccion-lista:focus-visible,#despensa input:focus-visible,#despensa select:focus-visible { outline:3px solid #226437; outline-offset:3px; }
+@media(max-width:650px) {
+ .vista-lo-tengo .identidad { padding:12px 0 8px; }
+ .vista-lo-tengo .pestanas { margin-bottom:18px; }
+ #despensa h2 { font-size:1.5rem; }
+ #despensa .filtros-inicio { grid-template-columns:1fr; gap:12px; }
+ #despensa .ingredientes { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+ #despensa .ingrediente { min-height:146px; padding:16px 8px 10px; }
+ #despensa .ingrediente img { width:96px; height:86px; }
+ #despensa .nombre-ingrediente { font-size:.86rem; }
+ #despensa .seleccion-inicio { padding:12px; }
+ #despensa .ir-recetas button { width:100%; }
+}
+@media(max-width:300px) { #despensa .ingredientes { grid-template-columns:1fr; } }
