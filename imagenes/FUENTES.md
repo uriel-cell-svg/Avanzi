@@ -1,6 +1,6 @@
 # Procedencia y permiso de reutilización
 
-Todos los recursos son dibujos vectoriales originales, escritos como SVG local para este proyecto. No se usaron fotografías descargadas ni herramientas de generación de imágenes. Los dibujos muestran ingredientes, no el plato terminado.
+Los dibujos SVG son recursos vectoriales originales escritos para este proyecto y muestran ingredientes, no el plato terminado. Se describen abajo los recursos y permisos, incluidos los recursos históricos y la nueva ilustración de marca solicitada por el usuario.
 
 | Archivo | Contenido |
 | --- | --- |
@@ -15,7 +15,7 @@ Permiso: se entregan al titular del proyecto para usar, modificar y redistribuir
 
 Las capturas adjuntas de la app y Jamie Oliver y el Renoir se revisaron como referencias visuales. No se incorporaron al proyecto ni se copiaron sus logos, textos o fotografías. Del Renoir se tomó la dirección de color; de la captura del catálogo, el espacio entre tarjetas y la jerarquía de lectura.
 
-Fuentes: Georgia y fuentes del sistema. No se distribuyen archivos tipográficos ni se hacen solicitudes a servicios externos. Se retiraron `mesa.svg` e `ingredientes.svg` de la revisión anterior.
+Fuentes actuales: Alfa Slab One y Fraunces locales, con licencias registradas en `../fuentes/FUENTES.md`, y sistema para lectura. No se hacen solicitudes a servicios externos. Se retiraron `mesa.svg` e `ingredientes.svg` de la revisión anterior.
 
 ## Dibujos de la despensa
 
@@ -54,3 +54,15 @@ Los trece SVG de `lo-que-tengo/` son variantes de los dibujos propios de `despen
 Fuente: los archivos locales `despensa/*.svg` descritos arriba. Se aplica el mismo permiso de uso, modificación y redistribución dentro de la app, sin atribución obligatoria. No se descargaron recursos ni se usaron herramientas de generación de imágenes; no hay costos ni servicios remotos. Las variantes se usan solo en el catálogo y el recuadro de Lo que tengo; los dibujos de recetas, detalle y compras se conservan.
 
 El papel no se muestra en Lo que tengo. Se conserva el archivo y su crédito porque las otras pantallas mantienen su presentación anterior.
+
+`lupa.svg`: icono decorativo de búsqueda, vector original local escrito para esta app. Se aplica el mismo permiso de uso, modificación y redistribución del proyecto. El boceto B se usó solo como referencia de composición; no se incorporó su imagen completa ni se recortaron sus alimentos, textos, controles o fondos.
+
+## Unificación de vistas
+
+Las tarjetas de Recetas reutilizan `detalle/*.svg` para mostrar los mismos dos ingredientes con sus colores. La checklist reutiliza `lo-que-tengo/*.svg`. Los archivos vectoriales y sus permisos anteriores no cambiaron. La fotografía de papel y los adornos marginales dejaron de usarse; no quedan reglas CSS que los carguen. Las fuentes locales conservan su registro en `../fuentes/FUENTES.md`.
+
+### Nueva ilustración de marca · archivo pendiente
+
+Referencia aportada por el usuario: “Trío fresco de tomate, mozzarella y albahaca.png”. Generada con ChatGPT, según la indicación del usuario. El usuario aportó la ilustración para usarla como acento junto al texto Avanzi.
+
+La imagen es visible en el chat, pero el PNG original no está disponible como archivo descargable en el entorno. En esta versión preliminar no se incorporó ni optimizó, ni se generó una sustituta. La cabecera usa solo el texto Avanzi mientras se recibe el archivo. Al incorporarlo, registrar aquí nombre del recurso local, dimensiones, tamaño y modificaciones de optimización conservando transparencia.

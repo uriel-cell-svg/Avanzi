@@ -3,17 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Avanzi · Recetas y despensa</title>
+  <title>Avanzi</title>
   <link rel="stylesheet" href="./estilos.css">
   <script src="./app.js" defer></script>
 </head>
-<body class="vista-lo-tengo">
+<body>
   <header class="contenedor">
-    <div class="identidad"><span class="marca">Avanzi<img src="./imagenes/ramita.svg" alt="" width="34" height="42"></span><button type="button" id="abrir-compras" class="secundario" disabled><img class="bolsa-inicio" src="./imagenes/bolsa.svg" alt="" width="24" height="24"><span class="nombre-acceso-compras">Lista de compras</span> <span id="contador-compras">0</span></button></div>
-    <div class="bienvenida"><h1>Algo rico empieza con lo que tenés</h1><p>Marcá tu despensa y elegí qué preparar.</p></div>
+    <div class="identidad"><span class="marca">Avanzi</span><button type="button" id="abrir-compras" class="secundario" disabled><img class="bolsa-inicio" src="./imagenes/bolsa.svg" alt="" width="24" height="24"><span class="nombre-acceso-compras">Lista de compras</span> <span id="contador-compras">0</span></button></div>
   </header>
   <main class="contenedor">
-    <p class="aviso" id="aviso-catalogo">Versión 1 · Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria.</p>
     <p id="estado" role="status" aria-live="polite">Cargando recetas…</p>
     <p id="aviso-guardado" role="status" aria-live="polite" hidden></p>
     <p id="aviso-compras" role="status" aria-live="polite" hidden></p>
@@ -25,10 +23,7 @@
       <section id="despensa" aria-labelledby="titulo-despensa">
         <div class="cabecera-seccion">
           <h2 id="titulo-despensa">¿Qué tenés en casa?</h2>
-          <details id="acciones-despensa" class="menu-inicio">
-            <summary aria-label="Acciones de Lo que tengo" title="Acciones de Lo que tengo">⋮</summary>
-            <div class="opciones-inicio"><button type="button" id="todo" aria-describedby="alcance-botones">Tengo todo</button><button type="button" id="nada" aria-describedby="alcance-botones" class="secundario">Desmarcar todo</button></div>
-          </details>
+
         </div>
         <span id="etiqueta-prueba-inicio" class="prueba-inicio" hidden>Datos de prueba</span>
         <section class="seleccion-inicio" aria-labelledby="titulo-seleccion">
@@ -37,8 +32,8 @@
           <ul id="seleccion-lista" aria-label="Ingredientes seleccionados" tabindex="0" hidden></ul>
         </section>
         <div class="filtros-inicio">
-          <label class="buscar-despensa">Buscar ingredientes<input id="buscar-ingredientes" type="search" placeholder="Por ejemplo: limón"></label>
-          <label class="filtro-categoria">Categoría<select id="categoria"><option value="Todos">Todos</option></select></label>
+          <label class="buscar-despensa"><span class="solo-lectores">Buscar ingredientes</span><img src="./imagenes/lupa.svg" alt="" width="20" height="20"><input id="buscar-ingredientes" type="search" placeholder="Buscar ingrediente"></label>
+          <div class="filtro-categoria"><select id="categoria" aria-label="Categoría" hidden><option value="Todos">Todos</option></select><div id="categorias-inicio" role="group" aria-label="Categoría"></div></div>
         </div>
         <p id="cantidad-visible" role="status" class="solo-lectores"></p>
         <div id="ingredientes" class="ingredientes"></div>
@@ -48,12 +43,22 @@
           <p id="ayuda-catalogo">Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria.</p>
           <p id="resumen"></p>
         </details>
-        <div class="ir-recetas"><button type="button" id="ver-cocinar">Ver qué puedo cocinar</button></div>
+        <div class="ir-recetas"><span id="cantidad-seleccion-pie">0 seleccionados</span>
+          <details id="acciones-despensa" class="menu-inicio">
+            <summary aria-label="Acciones de Lo que tengo" title="Acciones de Lo que tengo">⋮</summary>
+            <div class="opciones-inicio"><button type="button" id="todo" aria-describedby="alcance-botones">Tengo todo</button><button type="button" id="nada" aria-describedby="alcance-botones" class="secundario">Desmarcar todo</button></div>
+          </details>
+          <button type="button" id="ver-cocinar"><span>Ver qué puedo cocinar</span><span aria-hidden="true">→</span></button></div>
       </section>
       <section id="recetas" aria-labelledby="titulo-recetas" hidden>
         <h2 id="titulo-recetas">Recetas</h2>
-        <div class="herramientas"><label>Buscar por nombre o ingrediente<input id="busqueda" type="search" placeholder="Por ejemplo: arroz o limón"></label><label>Mostrar<select id="filtro"><option value="todas">Todas</option><option value="completas">Ingredientes completos</option><option value="faltantes">Ingredientes faltantes</option></select></label></div>
+        <span id="etiqueta-prueba-recetas" class="prueba-inicio" hidden>Datos de prueba</span>
+        <div class="herramientas"><label class="buscar-con-lupa"><span class="solo-lectores">Buscar receta o ingrediente</span><img src="./imagenes/lupa.svg" alt="" width="20" height="20"><input id="busqueda" type="search" placeholder="Buscar receta o ingrediente"></label><label class="filtro-recetas"><span>Mostrar</span><select id="filtro"><option value="todas">Todas</option><option value="completas">Ingredientes completos</option><option value="faltantes">Ingredientes faltantes</option></select></label></div>
         <p id="resultados" role="status"></p><div id="lista-recetas"></div>
+        <details id="ayuda-recetas" class="ayuda"><summary>Ayuda</summary>
+          <p>Elegí una receta y abrí Ver preparación para consultar las cantidades y los pasos. Las tres secciones se actualizan con Lo que tengo.</p>
+    <p class="aviso" id="aviso-catalogo">Versión 1 · Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria.</p>
+        </details>
       </section>
     </div>
   </main>
@@ -61,16 +66,17 @@
   <dialog id="compras" aria-labelledby="titulo-compras">
     <div class="dialogo-cabecera"><h2 id="titulo-compras" tabindex="-1">Lista de compras</h2><button type="button" id="cerrar-compras" class="secundario">Cerrar</button></div>
     <p id="error-despensa-panel" role="status" hidden></p><p id="error-compras-panel" role="status" hidden></p>
-    <p class="nota-lista-compras">Revisá las cantidades antes de comprar y cocinar.</p>
+    <span id="etiqueta-prueba-compras" class="prueba-inicio" hidden>Datos de prueba</span>
+    <p class="nota-lista-compras">Revisá las cantidades antes de comprar.</p>
     <p id="estado-compras" role="status"></p>
     <div id="items-compras"></div>
     <button type="button" id="vaciar-compras" class="secundario">Vaciar lista</button>
-    <div id="confirmar-vaciado" hidden><p>¿Querés vaciar la lista? Tu despensa no cambiará.</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
+    <div id="confirmar-vaciado" hidden><p>¿Querés vaciar la lista? Lo que tengo no cambiará.</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
     <div id="posibilidades-compras"></div>
-    <details id="ayuda-compras"><summary>Sobre esta lista</summary><p>Marcar significa comprado y lo añade a tu despensa. Desmarcar devuelve el ingrediente a pendientes y retira solo lo que incorporó esa compra. Una edición manual de Lo que tengo toma prioridad. Eliminar una fila no cambia tu despensa.</p><p>Las recetas posibles usan tu despensa y los pendientes de compra. Las que ya están completas no se incluyen. Conservamos los orígenes de cada ingrediente sin duplicarlo ni sumar cantidades; no calculamos precios.</p></details>
+    <details id="ayuda-compras"><summary>Sobre esta lista</summary><p>Marcar significa comprado y lo añade a Lo que tengo. Desmarcar lo devuelve a pendientes y retira solo lo que incorporó esa compra. Una edición manual de Lo que tengo toma prioridad. Eliminar una fila no cambia tu selección.</p><p>Las recetas posibles usan Lo que tengo y los pendientes de compra. Las que ya están completas no se incluyen. Conservamos los orígenes de cada ingrediente sin duplicarlo ni sumar cantidades; no calculamos precios.</p></details>
   </dialog>
-  <footer class="contenedor"><span class="nota-footer">Tu selección se guarda en este navegador.</span>
-    <details class="creditos"><summary>Créditos visuales</summary><p>Títulos breves: Alfa Slab One, alternativa a Kompot Slab. Licencia SIL OFL 1.1. <a href="./fuentes/FUENTES.md">Origen y licencias de fuentes</a>.</p><p>Dibujos SVG originales de Avanzi. <a href="./imagenes/FUENTES.md">Procedencia y permisos</a>.</p><p>Textura de papel: D. Sharon Pruitt / Pink Sherbet Photography. <a href="https://commons.wikimedia.org/wiki/File:Wrinkled_Paper_Texture_Free_Creative_Commons_(6816216700).jpg">Fotografía original</a>, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>. Copia aportada por el usuario; apariencia suavizada y desaturada mediante CSS sobre marfil.</p></details>
+  <footer class="contenedor">
+    <details class="creditos"><summary>Créditos visuales</summary><p>Títulos breves: Alfa Slab One, alternativa a Kompot Slab. Licencia SIL OFL 1.1. <a href="./fuentes/FUENTES.md">Origen y licencias de fuentes</a>.</p><p>Dibujos SVG originales de Avanzi. <a href="./imagenes/FUENTES.md">Procedencia y permisos</a>.</p></details>
   </footer>
 </body>
 </html>

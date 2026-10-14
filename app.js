@@ -100,6 +100,16 @@ function prepararCategorias() {
     opcion.value = categoria;
     $('categoria').append(opcion);
   }
+  for (const opcion of $('categoria').options) {
+    const control = boton(opcion.textContent, () => {
+      $('categoria').value = opcion.value;
+      // La nueva presentación conserva el filtro y su evento existentes.
+      $('categoria').dispatchEvent(new Event('change'));
+    }, 'categoria-inicio');
+    control.dataset.categoria = opcion.value;
+    control.setAttribute('aria-pressed', String(opcion.selected));
+    $('categorias-inicio').append(control);
+  }
 }
 
 const normalizar = (texto) => texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es');
@@ -192,6 +202,9 @@ function guardarDespensa() {
 function mostrarDespensa() {
   $('ingredientes').replaceChildren();
   const categoria = $('categoria').value;
+  $('categorias-inicio').querySelectorAll('button').forEach((control) => {
+    control.setAttribute('aria-pressed', String(control.dataset.categoria === categoria));
+  });
   const consulta = normalizar($('buscar-ingredientes').value.trim());
   const visibles = ingredientes.filter((ingrediente) => (categoria === 'Todos' || ingrediente.categoria === categoria) && normalizar(ingrediente.nombre).includes(consulta));
   $('cantidad-visible').textContent = `${visibles.length} ingredientes visibles de ${ingredientes.length} en total`;
@@ -231,6 +244,7 @@ function mostrarSeleccion() {
   lista.replaceChildren();
   const seleccionados = ingredientes.filter((ingrediente) => despensa.has(ingrediente.id));
   $('cantidad-seleccion').textContent = seleccionados.length;
+  $('cantidad-seleccion-pie').textContent = `${seleccionados.length} ${seleccionados.length === 1 ? 'seleccionado' : 'seleccionados'}`;
   lista.hidden = seleccionados.length === 0;
   for (const ingrediente of seleccionados) {
     const item = elemento('li', undefined, 'seleccion-item');
@@ -275,12 +289,18 @@ function mostrarRecetas() {
     const grupo = elemento('section', undefined, 'grupo-recetas');
     grupo.dataset.grupo = indice;
     const items = visibles.filter((receta) => incluye(faltantes(receta).length));
-    const titulo = elemento('h3', `${nombre} · ${items.length}`);
+    const titulo = elemento('h3', nombre);
+    const contador = elemento('span', String(items.length), 'contador-grupo');
+    contador.setAttribute('aria-label', `${items.length} ${items.length === 1 ? 'receta' : 'recetas'}`);
+    titulo.append(document.createTextNode(' '), contador);
     titulo.id = `grupo-${indice}`;
     grupo.setAttribute('aria-labelledby', titulo.id);
     grupo.append(titulo);
     const lista = elemento('div', undefined, 'tarjetas');
-    if (!items.length) lista.append(elemento('p', 'No hay recetas en esta sección con tu despensa y los filtros actuales.', 'vacio'));
+    if (!items.length) {
+      const vacios = ['Ninguna receta completa todavía.', 'Sin recetas con pocos faltantes.', 'Sin recetas con más de tres faltantes.'];
+      lista.append(elemento('p', consulta || filtro !== 'todas' ? 'Sin coincidencias' : vacios[indice], 'vacio'));
+    }
     items.forEach((receta) => lista.append(tarjetaReceta(receta)));
     grupo.append(lista);
     $('lista-recetas').append(grupo);
@@ -293,15 +313,15 @@ function tarjetaReceta(receta) {
   tarjeta.dataset.receta = receta.id;
   const figura = elemento('figure', undefined, 'visual-receta');
   const imagen = document.createElement('img');
-  imagen.src = `./imagenes/${receta.id}.svg`;
+  imagen.src = `./imagenes/detalle/${receta.id}.svg`;
   imagen.alt = '';
   imagen.loading = 'lazy';
   if (pendientes.length) figura.append(elemento('span', textoFaltantes(pendientes.length), 'franja-faltantes'));
   figura.append(imagen);
   tarjeta.append(figura);
   if (!pendientes.length) tarjeta.append(elemento('span', 'Tenés todo', 'etiqueta'));
-  tarjeta.append(elemento('h4', receta.nombre), elemento('p', `${receta.tiempoMinutos} min · ${receta.porciones} porciones${receta.datosDePrueba === true ? ' · Datos de prueba' : ''}`, 'meta'),
-    elemento('p', pendientes.length ? `Te falta: ${pendientes.map((i) => i.nombre).join(', ')}.` : 'Tenés todos los ingredientes. Revisá las cantidades en el detalle.', 'faltantes'));
+  tarjeta.append(elemento('h4', receta.nombre), elemento('p', `${receta.tiempoMinutos} min · ${receta.porciones} porciones${receta.datosDePrueba === true ? ' · Datos de prueba' : ''}`, 'meta'));
+  if (pendientes.length) tarjeta.append(elemento('p', `Te falta: ${pendientes.map((i) => i.nombre).join(', ')}.`, 'faltantes'));
   const boton = elemento('button', 'Ver preparación');
   boton.type = 'button';
   boton.setAttribute('aria-label', `Ver preparación: ${receta.nombre}`);
@@ -315,7 +335,6 @@ function textoFaltantes(n) {
 }
 
 function cambiarSeccion(seccion) {
-  document.body.classList.toggle('vista-lo-tengo', seccion === 'despensa');
   for (const nombre of ['despensa', 'recetas']) {
     $(nombre).hidden = nombre !== seccion;
     $(`tab-${nombre}`).setAttribute('aria-pressed', String(nombre === seccion));
@@ -480,7 +499,7 @@ function dibujarDetalle() {
       const descripcion = elemento('div', undefined, 'detalle-ingrediente-texto');
       const simbolo = elemento('span', disponible ? '✓' : '+', 'simbolo-estado');
       simbolo.setAttribute('aria-hidden', 'true');
-      const estadoAccesible = elemento('span', disponible ? 'En tu despensa: ' : 'Te falta: ', 'solo-lectores');
+      const estadoAccesible = elemento('span', disponible ? 'Disponible: ' : 'Te falta: ', 'solo-lectores');
       descripcion.append(simbolo, estadoAccesible,
         elemento('span', `${ingrediente.cantidad.toLocaleString('es')} ${ingrediente.unidad} · ${ingrediente.nombre}`));
       fila.append(descripcion);
@@ -511,7 +530,7 @@ function dibujarDetalle() {
     const pendientesDeAnadir = pendientes.filter((ingrediente) => !comprasPendientesIncluyen(ingrediente.id));
     const pasos = elemento('ol');
     receta.pasos.forEach((paso) => pasos.append(elemento('li', paso)));
-    // El detalle muestra disponibilidad; su edición sigue en Mi despensa.
+    // El detalle muestra disponibilidad; su edición sigue en Lo que tengo.
     const arriba = elemento('div', undefined, 'detalle-arriba');
     const informacion = elemento('section', undefined, 'detalle-informacion');
     informacion.append(titulo, elemento('p', `${receta.tiempoMinutos} minutos · ${receta.porciones} porciones`, 'meta'),
@@ -532,14 +551,14 @@ function dibujarDetalle() {
     sobre.append(elemento('summary', 'Sobre estos datos'),
       elemento('p', `${receta.datosDePrueba === true ? 'Receta de prueba. ' : ''}Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria. Añadir a compras no marca disponibilidad. La lista reúne ingredientes únicos, sin sumar cantidades. La ausencia de etiqueta de prueba no implica verificación nutricional, de seguridad ni de derechos de reutilización.`));
     ingredientesPanel.append(elemento('h3', 'Ingredientes'),
-      elemento('p', '✓ En tu despensa · + Te falta', 'leyenda-ingredientes'), lista, pieIngredientes, sobre);
+      elemento('p', '✓ Disponible · + Te falta', 'leyenda-ingredientes'), lista, pieIngredientes, sobre);
     arriba.append(informacion, ingredientesPanel);
     const figura = elemento('figure', undefined, 'detalle-imagen');
     const imagen = document.createElement('img');
     imagen.src = `./imagenes/detalle/${receta.id}.svg`;
     figura.dataset.receta = receta.id;
     imagen.alt = `Ilustración de ingredientes de ${receta.nombre}; no es una fotografía del plato`;
-    figura.append(imagen, elemento('figcaption', 'Ilustración de ingredientes · Foto del plato pendiente.'));
+    figura.append(imagen, elemento('figcaption', 'Ilustración de ingredientes'));
     const preparacion = elemento('section', undefined, 'detalle-preparacion');
     preparacion.append(elemento('h3', 'Preparación'), pasos);
     $('contenido-detalle').replaceChildren(arriba, figura, preparacion);
@@ -558,9 +577,7 @@ function filaCompra(id) {
   casilla.dataset.foco = `comprado-${id}`;
   casilla.setAttribute('aria-label', `${comprado ? 'Devolver a pendientes' : 'Marcar como comprado'}: ${ingrediente.nombre}`);
   casilla.addEventListener('change', () => marcarCompra(id, casilla.checked));
-  const dibujo = document.createElement('img');
-  dibujo.src = ingrediente.dibujo;
-  dibujo.alt = '';
+  const dibujo = dibujoIngredienteInicio(ingrediente);
   dibujo.width = 32;
   dibujo.height = 36;
   etiqueta.append(casilla, dibujo, elemento('span', ingrediente.nombre));
@@ -600,10 +617,10 @@ function dibujarCompras() {
   const listaPosibles = elemento('ul');
   posibles.forEach((receta) => listaPosibles.append(elemento('li', receta.nombre)));
   $('posibilidades-compras').replaceChildren(
-    elemento('h3', 'Con tu despensa y estas compras podrías preparar…'),
+    elemento('h3', 'Después de comprar'),
     posibles.length ? listaPosibles : elemento('p', 'Todavía no hay recetas que se completen con las compras pendientes.')
   );
-  $('estado-compras').textContent = `${comprasPendientes().length} pendientes`;
+  $('estado-compras').textContent = `Pendientes · ${comprasPendientes().length}`;
   $('vaciar-compras').disabled = compras.size === 0;
   if (!compras.size) $('confirmar-vaciado').hidden = true;
 }
@@ -721,8 +738,10 @@ async function iniciar() {
       : cantidadPrueba > 0 ? `${cantidadPrueba} de ${recetas.length} recetas están marcadas como datos de prueba. ` : '';
     $('aviso-catalogo').textContent = `Versión 1 · ${avisoPrueba}Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria.`;
     $('ayuda-catalogo').textContent = $('aviso-catalogo').textContent;
-    $('etiqueta-prueba-inicio').hidden = cantidadPrueba === 0;
-    $('etiqueta-prueba-inicio').textContent = cantidadPrueba === recetas.length ? 'Datos de prueba' : 'Incluye datos de prueba';
+    for (const id of ['etiqueta-prueba-inicio', 'etiqueta-prueba-recetas', 'etiqueta-prueba-compras']) {
+      $(id).hidden = cantidadPrueba === 0;
+      $(id).textContent = cantidadPrueba === recetas.length ? 'Datos de prueba' : 'Incluye datos de prueba';
+    }
     prepararCategorias();
     recuperarDespensa();
     recuperarCompras();

@@ -14,13 +14,13 @@ Si reemplazás una versión anterior, usá la misma dirección y puerto de Live 
 
 ## Lo que tengo
 
-La app empieza en **Lo que tengo**, con el título **¿Qué tenés en casa?**. Tocá una tarjeta para seleccionar o desmarcar: se destaca en verde y muestra ✓. Los dibujos son decorativos y los nombres siguen visibles. Buscá sin distinguir mayúsculas o tildes y elegí una categoría; solo aparecen categorías con ingredientes.
+La app empieza en **Lo que tengo**, con el título **¿Qué tenés en casa?**. Tocá una tarjeta para seleccionar o desmarcar: se destaca en verde y muestra ✓. Los dibujos son decorativos y los nombres siguen visibles. Buscá sin distinguir mayúsculas o tildes y elegí una categoría en la fila de botones; solo aparecen categorías con ingredientes. En celular podés deslizar esa fila para ver las demás categorías.
 
 El recuadro **Lo que tengo · N** muestra toda tu selección, incluso con filtros activos. Su × desmarca el ingrediente también en el catálogo, sin mover las tarjetas. Si hay muchos seleccionados, deslizá horizontalmente la fila; cuando está vacío, solo aparece el título. Los cambios se guardan con las mismas claves de las versiones anteriores.
 
 En **Acciones de Lo que tengo (⋮)**, **Tengo todo** y **Desmarcar todo** actúan sobre todos los ingredientes, aunque estén ocultos por búsqueda o categoría. Si el ingrediente ya tiene fila en compras, marcarlo lo mueve a Comprados y desmarcarlo lo devuelve a Pendientes. No se crean filas nuevas automáticamente.
 
-El botón **Ver qué puedo cocinar**, al final del contenido, abre los resultados. No es una barra fija: no tapa tarjetas ni el teclado. **Ayuda** reúne las explicaciones secundarias; los errores de guardado permanecen visibles y la etiqueta **Datos de prueba** se muestra cuando corresponde. El acceso superior con bolsa cuenta los pendientes de compras. Las pestañas siguen disponibles. Si cambiás la despensa, los resultados se recalculan.
+El botón **Ver qué puedo cocinar**, al final del contenido, abre los resultados. No es una barra fija: no tapa tarjetas ni el teclado. **Ayuda** reúne las explicaciones secundarias; los errores de guardado permanecen visibles y la etiqueta **Datos de prueba** se muestra cuando corresponde. El acceso superior con bolsa cuenta los pendientes de compras. La barra inferior reúne el contador de seleccionados, el menú ⋮ y la acción principal. Las pestañas siguen disponibles. Si cambiás la despensa, los resultados se recalculan.
 
 ## Resultados
 
@@ -38,7 +38,7 @@ Las tarjetas completas tienen borde verde y texto **Tenés todo**. Las incomplet
 
 ## Detalle de receta
 
-El detalle muestra cantidades, unidades y pasos. No tiene casillas: ✓ indica En tu despensa y + indica Te falta. Los símbolos son estados, no controles. La disponibilidad se cambia en Lo que tengo mediante **Editar lo que tengo**, que cierra el diálogo y lleva el foco al buscador. Al volver a abrir la receta se muestra la selección actualizada.
+El detalle muestra cantidades, unidades y pasos. No tiene casillas: ✓ indica Disponible y + indica Te falta. Los símbolos son estados, no controles. La disponibilidad se cambia en Lo que tengo mediante **Editar lo que tengo**, que cierra el diálogo y lleva el foco al buscador. Al volver a abrir la receta se muestra la selección actualizada.
 
 Junto a los faltantes, **Añadir a compras** incorpora el ingrediente con su receta de origen; nunca lo marca disponible. Cuando está añadido se muestra **En tu lista** y **Quitar**, que lo retira globalmente de compras. Si todavía hay faltantes pendientes de añadir, se muestra **Añadir todos los faltantes**. Si todos están ya en compras, se informa; si la receta está completa, aparece **Tenés todos los ingredientes**.
 
@@ -80,7 +80,7 @@ Las listas se conservan parciales o vacías al recargar en el mismo navegador y 
 | Archivo o carpeta | Función |
 | --- | --- |
 | `index.html` | Pantallas, buscadores, controles y diálogos. |
-| `estilos.css` | Diseño blanco y verde de Lo que tengo; conserva el diseño anterior en recetas y compras. Adaptación móvil. |
+| `estilos.css` | Identidad blanca y verde compartida por todas las vistas; estilos consolidados de cabecera, botones, campos, tarjetas y diálogos. |
 | `app.js` | Carga y validación, selección, agrupación, búsqueda, detalle, recuadro de selección, compras y guardado. |
 | `datos/recetas.json` | Única fuente de las cinco recetas de prueba; sin cambios en esta entrega. |
 | `datos/ingredientes.json` | Nombres, categorías y dibujos, relacionados por identificador; sin cambios. |
@@ -132,7 +132,7 @@ Sin backend, dependencias, nutrientes, precios, perfil, planificador, recetas pr
 
 La protección de versiones anteriores se conserva mediante el registro provisional descrito arriba. El nuevo comportamiento guarda tanto la disponibilidad como el estado de la fila y quién incorporó el ingrediente. Las pruebas históricas con Ya lo compré corresponden a la interacción anterior; hoy se compra marcando una casilla y la fila se conserva.
 
-## Propuesta limitada al detalle de receta
+## Histórico: propuesta limitada al detalle de receta
 
 El detalle usa fondo blanco sin papel, texto negro pimienta, verde albahaca y pequeños acentos rojo tomate. En computadora, información e ingredientes están en dos columnas; en celular, se apilan. La imagen va en el medio y la preparación numerada debajo. Cerrar permanece visible durante el desplazamiento interno. Se conservan las fuentes actuales y todas las acciones.
 
@@ -170,14 +170,32 @@ Se revisaron teclado, foco al mover filas, plegar/desplegar Comprados, Escape, c
 
 Prueba sencilla: añadí los faltantes de una receta. En compras, marcá uno: debe pasar a Comprados y aparecer en la despensa. Desmarcalo: debe volver a Pendientes y retirarse de la despensa si esa compra lo incorporó. Marcá otra vez y eliminá la fila con ×: debe seguir en la despensa. Recargá y comprobá que el estado se conserva.
 
-## Última entrega: Recuadro de seleccionados
+## Histórico: Recuadro de seleccionados
 
-Se aplica solo a Lo que tengo: blanco, Avanzi en negro, selección y acciones verdes, pequeños indicadores rojos y trece dibujos locales coloreados sobre transparencia. La tipografía aprobada, recetas, datos, IDs, almacenamiento y reglas de compras se conservan. Recetas y compras mantienen su diseño anterior; se actualizó el texto del acceso Editar lo que tengo para coincidir con el nombre de la pestaña.
+Se aplica solo a Lo que tengo: blanco, Avanzi en negro, selección y acciones verdes, pequeños indicadores rojos y trece dibujos locales coloreados sobre transparencia. La tipografía aprobada, recetas, datos, IDs, almacenamiento y reglas de compras se conservan. Esta fue la revisión previa limitada a Lo que tengo; la última unificación, descrita al final, extiende su identidad a Recetas, detalle y compras.
 
-No se recibió un archivo del boceto opción B en este pedido: se implementó la descripción escrita. Los dibujos son variantes de los SVG propios existentes, sin generación de imágenes, descargas ni costos. La acción inferior está en el flujo del documento para evitar superposiciones; el recuadro usa desplazamiento horizontal y mantiene una altura acotada.
+Se recibió luego el boceto B y se ajustó la propuesta existente: marca más protagonista, pestaña subrayada, contador rojo sobre la bolsa, recuadro crema compacto, categorías en una fila desplazable y barra inferior con contador, ⋮ y acción principal. Los dibujos siguen siendo variantes de los SVG propios existentes; no se recortaron ilustraciones del boceto ni se generaron imágenes. El acabado con volumen de la referencia queda pendiente de recursos individuales apropiados. No se añadieron queso ni categorías ficticias: se usa el catálogo actual. La acción inferior está en el flujo del documento para evitar superposiciones; el recuadro usa desplazamiento horizontal y mantiene una altura acotada.
 
 Pruebas aprobadas en Chromium: selección y desmarcado desde tarjetas y recuadro, orden estable del catálogo, búsquedas sin tildes/mayúsculas, categorías, recuadro completo con filtros, recarga parcial/vacía y 13 seleccionados con desplazamiento horizontal. Se comprobó teclado (Space, Enter, Escape y flechas), foco tras desmarcar, menú y Ayuda, controles de al menos 44 píxeles y ausencia de desplazamiento horizontal de página a 320, 390 y 1440 píxeles. Los contrastes de texto comprobados superan 4,5:1.
 
 También pasaron resultados, búsqueda de recetas, detalle y Editar lo que tengo, sincronización manual con compras, asociaciones compartidas, propiedad reversible de compra, listas vacías/datos antiguos, referencias obsoletas y errores visibles. Diez escenarios de marcar/desmarcar con guardado normal o fallos de despensa, compras, ambas o confirmación final conservaron fila y reversibilidad al recargar. Los fallos de carga no escriben almacenamiento; los formatos inválidos no se sobrescriben automáticamente. Se repitieron true, false, campo ausente, catálogo mixto y cinco tipos inválidos de datosDePrueba; las recetas entregadas no se alteraron.
 
 Se abrió además el proyecto desde un servidor HTTP local real: cargaron JSON, fuentes y dibujos sin errores JavaScript, archivos fallidos ni peticiones a servicios externos. Las capturas corresponden al código implementado. Se comprobó una ventana móvil reducida sin barra superpuesta; queda pendiente el teclado virtual de un teléfono real, otros navegadores, lector de pantalla y tu Live Server. Los JSON, fuentes y dibujos originales de las otras pantallas conservan sus comprobaciones SHA-256. Las herramientas de prueba y las capturas quedan fuera del código de la app, sin dependencias nuevas.
+
+Validación del ajuste al boceto recibido: pasaron nuevamente selección desde ambas zonas, búsqueda/categorías, recarga parcial y vacía, trece seleccionados, foco/teclado, resultados y detalle. También compras, asociaciones, compatibilidad y diez escenarios de escritura normal o fallida. Las capturas nuevas muestran los cuatro ingredientes de la referencia que ya existen en el catálogo: tomate, huevo, aceite y espinaca. Se conservó el orden original del catálogo.
+
+## Diseño unificado · última revisión
+
+Lo que tengo sigue siendo la referencia de composición y funcionamiento. Recetas, detalle y compras usan ahora el mismo fondo blanco, texto negro suave, acciones verdes, foco visible, campos compactos y bordes discretos. Se retiraron del HTML las dos frases de bienvenida y del CSS las texturas/adornos: no se ocultan mediante estilos distintos según pestaña.
+
+Las tarjetas reutilizan los dos alimentos de los SVG coloreados existentes del detalle. Compras reutiliza los dibujos individuales coloreados de Lo que tengo. No se modificaron los SVG, fuentes ni JSON. Se conserva la clasificación 0 / 1–3 / más de 3, sus desempates y filtros. Hay contadores pequeños junto a los títulos y Sin coincidencias cuando una búsqueda o filtro deja una sección vacía. Se retiró la explicación repetida de cada receta completa; las cantidades e instrucciones siguen completas en el detalle. Las aclaraciones generales están en Ayuda, con etiquetas de prueba y errores fuera del desplegable.
+
+Se tocó JavaScript únicamente para presentar los contadores, mensajes, etiquetas y rutas a dibujos existentes, y retirar la clase que cambiaba el aspecto por pestaña. Las 28 funciones restantes y los cálculos, validaciones y guardado conservan su código. Se comprobaron por comparación los JSON, fuentes y todos los dibujos SVG originales. Las claves y las selecciones guardadas no cambian.
+
+**Ilustración de marca pendiente de archivo:** la imagen de tomate, mozzarella y albahaca se ve en el mensaje del usuario, pero su PNG original no está disponible como archivo descargable en este entorno. La cabecera muestra por ahora Avanzi como texto, sin sustituir la imagen por otra. Para incorporarla y optimizarla con transparencia hace falta recibir el PNG como archivo o dentro de un ZIP. La ilustración fue generada con ChatGPT según el usuario; su procedencia se documenta en imagenes/FUENTES.md. La verificación de tamaños, proporción y legibilidad de esa ilustración queda pendiente.
+
+Pruebas aprobadas en Chromium: diez cambios de pestaña con cabecera y fondo estables; búsqueda sin tildes/mayúsculas; filtros; tres secciones y sus contadores; mensajes de búsqueda vacía; detalle sin casillas, con estados y pasos completos; añadir/quitar individual y todos los faltantes; Editar lo que tengo; checklist reversible y recetas posibles después de comprar; recarga parcial/vacía. También menú ⋮, selección desde las dos zonas, filtros activos y trece seleccionados con desplazamiento horizontal.
+
+Se repitieron compatibilidad con datos antiguos, asociaciones compartidas, referencias obsoletas, datos inválidos y fallos de carga sin escrituras. Diez escenarios de marcar/desmarcar con guardado normal o fallos de despensa, compras, ambas y confirmación final conservaron estado y reversibilidad tras recargar. Se repitieron true, false, campo ausente, catálogo mixto y cinco tipos inválidos de datosDePrueba.
+
+Se comprobó teclado, foco al actualizar, Escape y retorno de foco, cierre visible durante el desplazamiento interno, controles de al menos 44 píxeles y ausencia de desbordes a 320, 390 y 1440 píxeles. Las capturas preliminares son del proyecto abierto en un servidor HTTP local real, sin errores JavaScript ni archivos fallidos en los flujos probados. Quedan pendientes el PNG de marca y su evaluación sobre blanco a ambos tamaños, tu Live Server, teléfonos reales, otros navegadores y lector de pantalla. Las herramientas están fuera del proyecto y no son dependencias de la app.
