@@ -5,7 +5,7 @@
 - Esta versión usa solo HTML, CSS y JavaScript puros y datos JSON, sin frameworks, backend, servicios pagos ni dependencias externas.
 - Debe funcionar con Live Server, sin Node.js ni compilación. Usar rutas relativas.
 - Mantener la interfaz en español, adaptable a computadora y celular: marfil cálido, verde salvia y azulado, pequeños acentos rosa y durazno, texto oscuro, tarjetas tipográficas con menos recuadros y secciones Mi despensa y Recetas. Bienvenida: «Algo rico empieza con lo que tenés».
-- Cargar recetas exclusivamente desde datos/recetas.json. Identificar las cinco recetas como datos de prueba. No duplicarlas en JavaScript ni ocultar errores de carga.
+- Cargar recetas exclusivamente desde datos/recetas.json. Identificar como datos de prueba únicamente las recetas con datosDePrueba: true; el campo es opcional y solo admite booleanos cuando está presente. No duplicarlas en JavaScript ni ocultar errores de carga.
 - Cada receta incluye identificador, nombre, ingredientes con identificadores, cantidades y unidades, porciones, tiempo y pasos.
 - La despensa empieza vacía. Permitir marcar ingredientes, Tengo todo y Desmarcar todo.
 - Comparar presencia de ingredientes y mostrar los faltantes. Aclarar que aún no se comprueban cantidades.
@@ -35,9 +35,15 @@
 
 - Despensa inicial con búsqueda sin tildes/mayúsculas, categorías y Ver qué puedo cocinar al pie a la derecha. Filtrar no cambia selecciones.
 - Tarjetas completas con borde verde y Tenés todo; incompletas con borde y franja bordó rojiza con número de faltantes. Conservar dibujos visibles. Aclarar presencia, no cantidades suficientes ni seguridad alimentaria.
-- Detalle con casillas editables sincronizadas con despensa; compras no implica disponibilidad. Añadir individual o todos los faltantes; botón desactivado si no faltan ingredientes.
+- Detalle con disponibilidad de lectura sin casillas, leyenda ✓ En tu despensa · + Te falta y acceso Editar mi despensa; compras no implica disponibilidad. Añadir individual o todos los faltantes; botón desactivado si no faltan ingredientes.
 - Compras por identificador único con asociaciones a recetas, guardado separado, eliminación global del ingrediente, confirmación para vaciar y Ya lo compré. Marcar disponible desde cualquier pantalla retira compras; desmarcar no añade.
 - Posibilidades después de comprar: unión de despensa y lista, solo recetas todavía incompletas cubiertas totalmente. Recalcular al quitar. Nunca trasladar a completas antes de tener los ingredientes realmente.
 - Validar almacenamiento de ambas listas y conservar claves/identificadores anteriores. Manejar errores sin bloqueo ni recetas de respaldo. No sumar cantidades ni calcular precios.
 - Probar primero despensa/agrupación, después detalle/compras y finalmente posibilidades. Casos 0/1/3/4, asociaciones compartidas, cobertura parcial/total, persistencia parcial/vacía, teclado, Escape y devolución de foco, computadora y celular. Datos temporales solo en pruebas si hacen falta.
 - Mantener paleta, Fraunces, marca y SVG locales. No copiar marca, fotografías, publicidad, cuentas o premium de referencias. Entregar ZIP completo y capturas de despensa, resultados, detalle y compras.
+
+- Ingredientes del detalle: nombre y cantidad verdes si disponibles, rojos si faltantes, símbolos decorativos sin recuadro y texto accesible de estado. No repetir Tenés/Te falta al final.
+- Añadir a compras con icono de bolsa decorativo; En tu lista y Quitar si añadido. Añadir todos los faltantes solo si hay pendientes de añadir; receta completa muestra Tenés todos los ingredientes.
+- Mantener errores de guardado siempre visibles; aclaraciones en Sobre estos datos y nota única Revisá las cantidades antes de cocinar. Mi despensa conserva casillas y guardado coordinado.
+
+- Ajustar avisos por receta y catálogo mixto. false o ausencia no implican verificación nutricional, seguridad ni derechos. Probar con datos temporales sin cambiar el catálogo entregado.

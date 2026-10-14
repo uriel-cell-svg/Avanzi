@@ -34,13 +34,13 @@ El orden dentro de cada sección es menor número de faltantes, menor tiempo y n
 
 Las tarjetas completas tienen borde verde y texto **Tenés todo**. Las incompletas tienen borde y franja bordó con el número de faltantes. Todas conservan dibujos, nombres de faltantes, tiempo, porciones y acceso a **Ver preparación**.
 
-## Detalle editable
+## Detalle de receta
 
-El detalle muestra cantidades, unidades y pasos. En **Marcá lo que tenés**, las casillas modifican la despensa real y actualizan tarjetas, contadores y compras. Se cierra con **Cerrar** o Escape y devuelve el foco al acceso a la receta; si los filtros la ocultan, vuelve a la pestaña Recetas.
+El detalle muestra cantidades, unidades y pasos. No tiene casillas: ✓ indica En tu despensa y + indica Te falta. Los símbolos son estados, no controles. La disponibilidad se cambia en Mi despensa mediante **Editar mi despensa**, que cierra el diálogo y lleva el foco al buscador. Al volver a abrir la receta se muestra la selección actualizada.
 
-Un ingrediente faltante se puede **Añadir a la lista de compras** o quitar con **En tu lista · Quitar**. **Añadir todos los faltantes** reúne los ingredientes únicos y asocia esta receta con ellos. Si un ingrediente ya estaba en compras desde otra receta, también podés usar **Añadir desde esta receta** para registrar ese origen. Cuando no falta ninguno, el botón general está desactivado y se explica por qué.
+Junto a los faltantes, **Añadir a compras** incorpora el ingrediente con su receta de origen; nunca lo marca disponible. Cuando está añadido se muestra **En tu lista** y **Quitar**, que lo retira globalmente de compras. Si todavía hay faltantes pendientes de añadir, se muestra **Añadir todos los faltantes**. Si todos están ya en compras, se informa; si la receta está completa, aparece **Tenés todos los ingredientes**.
 
-**Añadir a compras nunca significa tener el ingrediente.** No se ofrecen compras para ingredientes ya disponibles.
+La nota visible recuerda **Revisá las cantidades antes de cocinar**. **Sobre estos datos** contiene las aclaraciones adicionales. Los errores de guardado permanecen visibles fuera de ese desplegable. Cerrar o Escape devuelve el foco al acceso a la receta.
 
 ## Lista de compras
 
@@ -116,3 +116,31 @@ Para traerlo a otra computadora, cloná el repositorio o hacé **Fetch origin**,
 ## Alcance
 
 Sin backend, dependencias, nutrientes, precios, perfil, planificador, recetas propias, mascota ni funciones premium. No se publicó ni se incorporaron cambios a main.
+
+## Corrección del guardado coordinado
+
+Al marcar un ingrediente disponible, se guarda primero la despensa. Solo si ese guardado tiene éxito se persiste su retirada de compras. `guardarDespensa()` y `guardarCompras()` devuelven `true` o `false`. La corrección también cubre Tengo todo y protege las escrituras posteriores de compras cuando hay una retirada temporal pendiente.
+
+Si falla el almacenamiento, la pantalla puede reflejar el cambio durante la sesión, pero se avisa qué no quedó guardado. El aviso aparece también dentro del detalle o panel activo. Si falla la despensa, la lista guardada de compras conserva el ingrediente. Si falla solo compras, la despensa ya guardada conserva la disponibilidad y la reconciliación retira compras redundantes al recargar. La marca, los identificadores y las claves de almacenamiento no se cambiaron.
+
+Se probaron los cuatro escenarios (normal, fallo solo de despensa, fallo solo de compras y fallo de ambos), desde despensa, detalle y Ya lo compré, con selección previa parcial y vacía: 24 combinaciones, todas con recarga. También Tengo todo, Desmarcar todo, retorno de éxito/fallo, una acción posterior de compras tras un fallo y un reintento exitoso. Se repitió el flujo de agrupación, búsqueda, categorías, detalle, compras compartidas, posibilidades, teclado y persistencia. Todas estas pruebas pasaron en Chromium. Queda comprobar esta entrega en tu Live Server y otros navegadores.
+
+## Propuesta limitada al detalle de receta
+
+El detalle usa fondo blanco sin papel, texto negro pimienta, verde albahaca y pequeños acentos rojo tomate. En computadora, información e ingredientes están en dos columnas; en celular, se apilan. La imagen va en el medio y la preparación numerada debajo. Cerrar permanece visible durante el desplazamiento interno. Se conservan las fuentes actuales y todas las acciones.
+
+La foto adecuada no pudo verificarse y descargarse porque el destino consultado devolvió 403. Se muestra provisionalmente la ilustración original de los ingredientes, identificada como tal, sin cambiar los dibujos de las tarjetas. No se generaron imágenes ni se usó una fotografía de otro plato.
+
+Pasaron las pruebas del flujo existente y del guardado coordinado (24 combinaciones y casos adicionales). También casillas, añadir/quitar compras, añadir todos, botón desactivado para receta completa, foco, Escape y cierre visible al desplazar en celular. Se capturó la tortilla de papas con disponibilidad parcial y completa en computadora y celular. Se comprobó contraste de los colores de texto sobre blanco, controles de al menos 44 píxeles y ausencia de desbordamiento horizontal. Pendiente: foto reutilizable del plato, otros navegadores, lectores de pantalla y teléfonos reales.
+
+## Última simplificación de ingredientes del detalle
+
+Se probaron añadir y quitar, añadir todos, selección de despensa sin cambios al añadir compras, editar despensa y actualizar la receta al volver, retirada automática de compras al marcar disponibilidad, persistencia al recargar, receta completa sin botón desactivado, aviso de almacenamiento fuera del desplegable, teclado, Escape y retorno de foco. Se generaron capturas con la misma tortilla y selección anterior, además del estado completo. No hay desplazamiento horizontal a 320, 390 y 1440 píxeles; botones de al menos 44 píxeles. Pendientes: Live Server del usuario, otros navegadores, lector de pantalla y dispositivos reales. Las pruebas anteriores que editaban casillas dentro del detalle describen versiones históricas; en la versión actual la edición se realiza en Mi despensa.
+
+## Campo opcional datosDePrueba
+
+`datosDePrueba` puede omitirse o tener `false`: la receta carga sin etiqueta de prueba. Con `true`, tarjetas y detalle muestran los avisos correspondientes. Cualquier otro tipo (incluidos null, texto y números) muestra un error de validación que indica el campo y la receta. El aviso general cuenta las recetas de prueba en catálogos mixtos; no presupone que todas lo sean. La ausencia de etiqueta no garantiza verificación nutricional, seguridad alimentaria ni derechos de reutilización.
+
+El catálogo entregado conserva sus cinco recetas y valores `true`; no se añadieron recetas reales ni nutrientes. Las pruebas de true, false, campo ausente, catálogo mixto y tipos inválidos se realizan con datos temporales.
+
+Resultados de esta modificación: pasaron en Chromium los seis casos de aceptación (catálogo actual, true, false, campo ausente, catálogo mixto y tipo inválido). Para tipos inválidos se probaron texto, número, null, objeto y lista. Los avisos se comprobaron en cabecera, contador, tarjetas y detalle; los errores identifican el campo y la receta, sin modificar almacenamiento. En un catálogo mixto se comprobó además búsqueda y añadir compras sin alterar disponibilidad. También se repitieron las pruebas del detalle simplificado, editar despensa, actualización, persistencia, teclado, foco y errores de guardado. Los datos temporales se sirvieron solo al navegador de pruebas; el JSON entregado y el CSS permanecen idénticos. Pendiente: comprobar esta entrega con Live Server en tu computadora y otros navegadores.

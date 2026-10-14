@@ -3,6 +3,8 @@
 const CLAVE_DESPENSA = 'que-cocino.despensa.v1';
 const CLAVE_COMPRAS = 'que-cocino.compras.v1';
 let compras = new Map();
+// Una retirada temporal no puede persistirse antes que su disponibilidad.
+let comprasRequierenDespensa = false;
 let recetaDetalle = null;
 let recetaOrigenDetalle = null;
 const $ = (id) => document.getElementById(id);
@@ -58,10 +60,15 @@ function validarRecetas(datos) {
   const nombres = new Map();
   const texto = (valor) => typeof valor === 'string' && valor.trim().length > 0;
   for (const receta of datos) {
-    if (!receta || !texto(receta.id) || ids.has(receta.id) || !texto(receta.nombre) || receta.datosDePrueba !== true ||
+    if (!receta || !texto(receta.id) || ids.has(receta.id) || !texto(receta.nombre) ||
         !Number.isInteger(receta.porciones) || receta.porciones <= 0 || !Number.isFinite(receta.tiempoMinutos) || receta.tiempoMinutos <= 0 ||
         !Array.isArray(receta.ingredientes) || !receta.ingredientes.length || !Array.isArray(receta.pasos) || !receta.pasos.length || !receta.pasos.every(texto)) {
       throw new Error('Formato de receta inválido.');
+    }
+    if (Object.prototype.hasOwnProperty.call(receta, 'datosDePrueba') && typeof receta.datosDePrueba !== 'boolean') {
+      const error = new Error(`El campo datosDePrueba de la receta «${receta.nombre}» debe ser true o false, o no incluirse.`);
+      error.campo = 'datosDePrueba';
+      throw error;
     }
     ids.add(receta.id);
     const idsIngredientes = new Set();
@@ -79,8 +86,11 @@ function validarRecetas(datos) {
 }
 
 function avisarGuardado(mensaje) {
-  $('aviso-guardado').textContent = mensaje;
-  $('aviso-guardado').hidden = !mensaje;
+  for (const id of ['aviso-guardado', 'error-despensa-detalle', 'error-despensa-panel']) {
+    $(id).textContent = mensaje;
+    $(id).hidden = !mensaje;
+    if (mensaje && $(id).closest('dialog')?.open) $(id).scrollIntoView({ block: 'nearest' });
+  }
 }
 
 function recuperarDespensa() {
@@ -104,8 +114,10 @@ function guardarDespensa() {
     // [] es una selección válida: desmarcar todo también debe persistir.
     localStorage.setItem(CLAVE_DESPENSA, JSON.stringify([...despensa]));
     avisarGuardado('');
+    return true;
   } catch {
-    avisarGuardado('No pudimos guardar tu despensa en este navegador. Podés seguir usándola, pero los cambios podrían perderse al recargar.');
+    avisarGuardado('Cambio aplicado solo en esta sesión: no pudimos guardar la despensa. La selección guardada no cambió y no guardaremos la retirada de compras hasta guardar la despensa. Al recargar volverán los datos anteriores.');
+    return false;
   }
 }
 
@@ -146,7 +158,7 @@ function mostrarRecetas() {
     const completa = faltantes(receta).length === 0;
     return coincide && (filtro === 'todas' || (filtro === 'completas' && completa) || (filtro === 'faltantes' && !completa));
   }).sort(compararRecetas);
-  $('resultados').textContent = `${visibles.length} de ${recetas.length} recetas de prueba`;
+  $('resultados').textContent = `${visibles.length} de ${recetas.length} recetas${recetas.every((receta) => receta.datosDePrueba === true) ? ' de prueba' : ''}`;
   $('lista-recetas').replaceChildren();
   const grupos = [
     ['Ya tenés todo, ¡a cocinar!', (n) => n === 0],
@@ -182,7 +194,7 @@ function tarjetaReceta(receta) {
   figura.append(imagen);
   tarjeta.append(figura);
   if (!pendientes.length) tarjeta.append(elemento('span', 'Tenés todo', 'etiqueta'));
-  tarjeta.append(elemento('h4', receta.nombre), elemento('p', `${receta.tiempoMinutos} min · ${receta.porciones} porciones · Datos de prueba`, 'meta'),
+  tarjeta.append(elemento('h4', receta.nombre), elemento('p', `${receta.tiempoMinutos} min · ${receta.porciones} porciones${receta.datosDePrueba === true ? ' · Datos de prueba' : ''}`, 'meta'),
     elemento('p', pendientes.length ? `Te falta: ${pendientes.map((i) => i.nombre).join(', ')}.` : 'Tenés todos los ingredientes. Revisá las cantidades en el detalle.', 'faltantes'));
   const boton = elemento('button', 'Ver preparación');
   boton.type = 'button';
@@ -211,18 +223,29 @@ function boton(texto, accion, clase = 'secundario') {
 }
 
 function avisoCompras(mensaje) {
-  for (const id of ['aviso-compras', 'error-compras-panel']) {
+  for (const id of ['aviso-compras', 'error-compras-panel', 'error-compras-detalle']) {
     $(id).textContent = mensaje;
     $(id).hidden = !mensaje;
+    if (mensaje && $(id).closest('dialog')?.open) $(id).scrollIntoView({ block: 'nearest' });
   }
 }
 
 function guardarCompras() {
+  // También protege una escritura posterior (añadir/quitar) tras un fallo.
+  if (comprasRequierenDespensa) {
+    if (!guardarDespensa()) {
+      avisoCompras('Los cambios de compras son temporales. La lista guardada sigue igual porque todavía no se pudo guardar la despensa.');
+      return false;
+    }
+    comprasRequierenDespensa = false;
+  }
   try {
     localStorage.setItem(CLAVE_COMPRAS, JSON.stringify([...compras].map(([id, origenes]) => ({ id, recetas: [...origenes] }))));
     avisoCompras('');
+    return true;
   } catch {
-    avisoCompras('No pudimos guardar la lista de compras. Podés seguir usándola, pero los cambios podrían perderse al recargar.');
+    avisoCompras('Los cambios de compras son temporales: no pudimos guardar la lista. La lista guardada sigue igual. Si la despensa se guardó, al recargar se retirarán de compras los ingredientes ya disponibles.');
+    return false;
   }
 }
 
@@ -256,7 +279,7 @@ function recuperarCompras() {
 function cambiarDisponible(id, disponible) {
   if (disponible) {
     despensa.add(id);
-    if (compras.delete(id)) guardarCompras();
+    if (compras.delete(id)) comprasRequierenDespensa = true;
   } else despensa.delete(id);
   actualizar();
 }
@@ -298,46 +321,81 @@ function dibujarDetalle() {
   if (!recetaDetalle) return;
   conservarFoco($('contenido-detalle'), () => {
     const receta = recetaDetalle;
+    $('etiqueta-prueba-detalle').hidden = receta.datosDePrueba !== true;
     const titulo = elemento('h2', receta.nombre);
     titulo.id = 'titulo-detalle';
     titulo.tabIndex = -1;
     const lista = elemento('ul', undefined, 'ingredientes-detalle');
     for (const ingrediente of receta.ingredientes) {
       const fila = elemento('li');
-      const etiqueta = elemento('label', undefined, 'detalle-casilla');
-      const casilla = document.createElement('input');
-      casilla.type = 'checkbox';
-      casilla.checked = despensa.has(ingrediente.id);
-      casilla.dataset.foco = `detalle-${ingrediente.id}`;
-      casilla.setAttribute('aria-label', `Tengo ${ingrediente.nombre}`);
-      casilla.addEventListener('change', () => cambiarDisponible(ingrediente.id, casilla.checked));
-      etiqueta.append(casilla, elemento('span', `${ingrediente.cantidad.toLocaleString('es')} ${ingrediente.unidad} · ${ingrediente.nombre} — ${despensa.has(ingrediente.id) ? 'Tenés' : 'Te falta'}`));
-      fila.append(etiqueta);
-      if (!despensa.has(ingrediente.id)) {
+      fila.dataset.disponible = String(despensa.has(ingrediente.id));
+      const disponible = despensa.has(ingrediente.id);
+      const descripcion = elemento('div', undefined, 'detalle-ingrediente-texto');
+      const simbolo = elemento('span', disponible ? '✓' : '+', 'simbolo-estado');
+      simbolo.setAttribute('aria-hidden', 'true');
+      const estadoAccesible = elemento('span', disponible ? 'En tu despensa: ' : 'Te falta: ', 'solo-lectores');
+      descripcion.append(simbolo, estadoAccesible,
+        elemento('span', `${ingrediente.cantidad.toLocaleString('es')} ${ingrediente.unidad} · ${ingrediente.nombre}`));
+      fila.append(descripcion);
+      if (!disponible) {
+        const acciones = elemento('div', undefined, 'acciones-ingrediente');
         const esta = compras.has(ingrediente.id);
-        const accion = boton(esta ? 'En tu lista · Quitar' : 'Añadir a la lista de compras', () => esta ? quitarCompra(ingrediente.id) : agregarCompras(receta, [ingrediente.id]));
+        if (esta) acciones.append(elemento('span', 'En tu lista', 'estado-compras-ingrediente'));
+        const accion = boton(esta ? 'Quitar' : 'Añadir a compras', () => esta ? quitarCompra(ingrediente.id) : agregarCompras(receta, [ingrediente.id]));
         accion.dataset.foco = `comprar-${ingrediente.id}`;
-        accion.setAttribute('aria-label', `${esta ? 'Quitar de compras' : 'Añadir a la lista de compras'}: ${ingrediente.nombre}`);
-        fila.append(accion);
-        if (esta && !compras.get(ingrediente.id).has(receta.id)) {
-          const asociar = boton('Añadir desde esta receta', () => agregarCompras(receta, [ingrediente.id]));
-          asociar.dataset.foco = `asociar-${ingrediente.id}`;
-          fila.append(asociar);
+        accion.setAttribute('aria-label', `${esta ? 'Quitar de compras' : 'Añadir a compras'}: ${ingrediente.nombre}`);
+        if (!esta) {
+          const bolsa = document.createElement('img');
+          bolsa.src = './imagenes/bolsa.svg';
+          bolsa.alt = '';
+          bolsa.width = 16;
+          bolsa.height = 16;
+          accion.prepend(bolsa);
         }
+        acciones.append(accion);
+        fila.append(acciones);
       }
       lista.append(fila);
     }
     const todos = boton('Añadir todos los faltantes', () => agregarCompras(receta, faltantes(receta).map((i) => i.id)), '');
     todos.dataset.foco = 'todos-faltantes';
     todos.id = 'todos-faltantes';
-    todos.disabled = faltantes(receta).length === 0;
+    const pendientes = faltantes(receta);
+    const pendientesDeAnadir = pendientes.filter((ingrediente) => !compras.has(ingrediente.id));
     const pasos = elemento('ol');
     receta.pasos.forEach((paso) => pasos.append(elemento('li', paso)));
-    $('contenido-detalle').replaceChildren(titulo, elemento('p', `${receta.tiempoMinutos} minutos · ${receta.porciones} porciones`, 'meta'),
-      elemento('p', 'Comprobamos presencia, no cantidades suficientes ni seguridad alimentaria.'), elemento('h3', 'Ingredientes'),
-      elemento('p', 'Marcá lo que tenés. Añadir a compras no marca el ingrediente como disponible.'), lista, todos,
-      elemento('p', todos.disabled ? 'No falta ningún ingrediente para añadir a compras.' : 'La lista reúne ingredientes únicos. Consultá las cantidades en cada receta.', 'nota-acciones'),
-      elemento('h3', 'Paso a paso'), pasos);
+    // El detalle muestra disponibilidad; su edición sigue en Mi despensa.
+    const arriba = elemento('div', undefined, 'detalle-arriba');
+    const informacion = elemento('section', undefined, 'detalle-informacion');
+    informacion.append(titulo, elemento('p', `${receta.tiempoMinutos} minutos · ${receta.porciones} porciones`, 'meta'),
+      elemento('p', 'Revisá las cantidades antes de cocinar', 'detalle-aclaracion'));
+    const ingredientesPanel = elemento('section', undefined, 'detalle-ingredientes-panel');
+    const editar = boton('Editar mi despensa', () => {
+      $('detalle').dataset.editarDespensa = 'true';
+      $('detalle').close();
+    });
+    editar.id = 'editar-despensa-detalle';
+    editar.dataset.foco = 'editar-despensa';
+    const pieIngredientes = elemento('div', undefined, 'pie-ingredientes');
+    if (!pendientes.length) pieIngredientes.append(elemento('p', 'Tenés todos los ingredientes', 'todos-disponibles'));
+    else if (pendientesDeAnadir.length) pieIngredientes.append(todos);
+    else pieIngredientes.append(elemento('p', 'Todos los faltantes están en tu lista de compras', 'nota-acciones'));
+    pieIngredientes.append(editar);
+    const sobre = elemento('details', undefined, 'sobre-datos');
+    sobre.append(elemento('summary', 'Sobre estos datos'),
+      elemento('p', `${receta.datosDePrueba === true ? 'Receta de prueba. ' : ''}Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria. Añadir a compras no marca disponibilidad. La lista reúne ingredientes únicos, sin sumar cantidades. La ausencia de etiqueta de prueba no implica verificación nutricional, de seguridad ni de derechos de reutilización.`));
+    ingredientesPanel.append(elemento('h3', 'Ingredientes'),
+      elemento('p', '✓ En tu despensa · + Te falta', 'leyenda-ingredientes'), lista, pieIngredientes, sobre);
+    arriba.append(informacion, ingredientesPanel);
+    const figura = elemento('figure', undefined, 'detalle-imagen');
+    const imagen = document.createElement('img');
+    imagen.src = `./imagenes/detalle/${receta.id}.svg`;
+    figura.dataset.receta = receta.id;
+    imagen.alt = `Ilustración de ingredientes de ${receta.nombre}; no es una fotografía del plato`;
+    figura.append(imagen, elemento('figcaption', 'Ilustración de ingredientes · Foto del plato pendiente.'));
+    const preparacion = elemento('section', undefined, 'detalle-preparacion');
+    preparacion.append(elemento('h3', 'Preparación'), pasos);
+    $('contenido-detalle').replaceChildren(arriba, figura, preparacion);
   });
 }
 
@@ -379,7 +437,10 @@ function dibujarCompras() {
 }
 
 function actualizar(guardar = true) {
-  if (guardar) guardarDespensa();
+  if (guardar && guardarDespensa() && comprasRequierenDespensa) {
+    comprasRequierenDespensa = false;
+    guardarCompras();
+  }
   $('contador').textContent = `${despensa.size} de ${ingredientes.length} ingredientes`;
   const completas = recetas.filter((receta) => faltantes(receta).length === 0).length;
   $('resumen').textContent = `Tenés los ingredientes completos para ${completas} de ${recetas.length} recetas. Todavía no comprobamos cantidades.`;
@@ -403,7 +464,7 @@ function conectarControles() {
   $('buscar-ingredientes').addEventListener('input', mostrarDespensa);
   $('todo').addEventListener('click', () => {
     despensa = new Set(ingredientes.map((ingrediente) => ingrediente.id));
-    if (compras.size) { compras.clear(); guardarCompras(); }
+    if (compras.size) { compras.clear(); comprasRequierenDespensa = true; }
     mostrarDespensa(); actualizar();
   });
   $('nada').addEventListener('click', () => {
@@ -414,7 +475,12 @@ function conectarControles() {
   $('filtro').addEventListener('change', mostrarRecetas);
   $('detalle').addEventListener('close', () => {
     const destino = [...document.querySelectorAll('.tarjeta')].find((nodo) => nodo.dataset.receta === recetaOrigenDetalle)?.querySelector('button');
-    (destino || $('tab-recetas')).focus();
+    if ($('detalle').dataset.editarDespensa === 'true') {
+      delete $('detalle').dataset.editarDespensa;
+      cambiarSeccion('despensa');
+      $('buscar-ingredientes').focus();
+      $('titulo-despensa').scrollIntoView({ block: 'start' });
+    } else (destino || $('tab-recetas')).focus();
     botonDetalle = null;
     recetaDetalle = null;
   });
@@ -455,6 +521,11 @@ async function iniciar() {
     // Los nombres de receta se resuelven desde el catálogo por el identificador.
     const catalogo = new Map(ingredientes.map((ingrediente) => [ingrediente.id, ingrediente]));
     recetas = recetas.map((receta) => ({ ...receta, ingredientes: receta.ingredientes.map((ingrediente) => ({ ...ingrediente, nombre: catalogo.get(ingrediente.id).nombre })) }));
+    const cantidadPrueba = recetas.filter((receta) => receta.datosDePrueba === true).length;
+    const avisoPrueba = cantidadPrueba === recetas.length
+      ? 'Todas las recetas son datos de prueba. '
+      : cantidadPrueba > 0 ? `${cantidadPrueba} de ${recetas.length} recetas están marcadas como datos de prueba. ` : '';
+    $('aviso-catalogo').textContent = `Versión 1 · ${avisoPrueba}Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria.`;
     prepararCategorias();
     recuperarDespensa();
     recuperarCompras();
@@ -464,7 +535,11 @@ async function iniciar() {
     $('abrir-compras').disabled = false;
     $('estado').hidden = true;
     $('aplicacion').hidden = false;
-  } catch {
+  } catch (error) {
+    if (error.campo === 'datosDePrueba') {
+      $('estado').textContent = `No pudimos cargar las recetas: ${error.message} Revisá datos/recetas.json y recargá.`;
+      return;
+    }
     $('estado').textContent = origen === 'ingredientes'
       ? 'No pudimos cargar los ingredientes. Comprobá datos/ingredientes.json y que todos los ingredientes de las recetas tengan metadatos válidos. Luego recargá con Live Server. Tu despensa guardada no se modificó.'
       : 'No pudimos cargar las recetas. Abrí index.html con Live Server y comprobá que exista datos/recetas.json con un formato válido. Luego recargá la página.';

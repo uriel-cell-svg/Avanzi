@@ -122,3 +122,189 @@ button:disabled { cursor:default; opacity:.6; }
 #aviso-compras,#error-compras-panel { padding:12px; background:#f3e4d3; color:#633d38; }
 @media(max-width:600px) { #compras { border-radius:0; padding:20px 16px; } #abrir-compras { font-size:.8rem; padding:8px 10px; } }
 #compras { max-width:100%; }
+
+/* Propuesta visual Avanzi: tinta verde y superficies marfil.
+   La fotografía real de papel está pendiente; no se simula una textura. */
+@font-face { font-family:'Alfa Slab One'; src:url('./fuentes/AlfaSlabOne-Regular.ttf') format('truetype'); font-weight:400; font-style:normal; font-display:swap; }
+:root { --crema:#f6f2e7; --papel:#fffaf0; --tinta:#203f2f; --verde:#244c38; --salvia:#e8ecdf; --rosa:#f4efdf; --durazno:#f1ebdc; --borde:#9aa99b; --suave:#e8ecdf; }
+body { background:var(--crema); color:var(--tinta); }
+.marca { font-family:'Alfa Slab One',Georgia,serif; font-weight:400; font-size:2rem; letter-spacing:-.035em; }
+.marca img { width:30px; height:38px; }
+h2,.grupo-recetas>h3 { font-family:'Alfa Slab One',Georgia,serif; font-weight:400; letter-spacing:-.015em; }
+h2 { font-size:1.7rem; }
+h1 { font-family:system-ui,-apple-system,sans-serif; font-weight:750; letter-spacing:-.05em; font-size:clamp(1.85rem,3vw,2.65rem); max-width:620px; }
+h4 { color:var(--verde); font-size:1.5rem; }
+.identidad { padding:16px 0 12px; border-color:#cdd3c6; }
+.bienvenida { padding:20px 0 18px; }
+.bienvenida p,.aviso,.nota-acciones,#cantidad-visible,.meta,#resultados,footer { color:#4e6353; }
+.aviso { max-width:850px; font-size:.75rem; }
+button { border-radius:5px; }
+button:hover { background:#1b3929; }
+.pestanas button[aria-pressed=true] { border-bottom-color:var(--verde); }
+.pestanas button:hover { background:#e8ecdf; }
+.pestanas { margin-bottom:22px; }
+.ingrediente { border-bottom-color:#cdd3c6; }
+.ingrediente img { width:40px; height:44px; }
+.grupo-recetas>h3 { font-size:1.1rem; color:var(--verde); }
+.tarjeta { background:var(--papel); border-radius:8px; padding:14px 14px 18px; }
+.tarjeta.completa { border-color:var(--verde); }
+.tarjeta.incompleta { border-color:#7e3541; }
+.visual-receta, .tarjeta .visual-receta { background:#f4efdf!important; border-radius:4px!important; padding-top:34px; }
+.visual-receta img { height:140px; width:190px; margin:0 auto; }
+.franja-faltantes { background:#7e3541; color:#fffaf0; border-radius:4px 4px 0 0; }
+.tarjeta .etiqueta { background:#e8ecdf; color:#244c38; }
+#resumen { border-left-color:var(--verde); }
+#compras { background:var(--papel); }
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,a:focus-visible { outline:3px solid #7e3541; outline-offset:4px; }
+input::placeholder { color:#5e6a60; opacity:1; }
+.creditos { margin-top:12px; font-size:.78rem; max-width:750px; }
+.creditos summary { cursor:pointer; padding:8px 0; min-height:44px; text-decoration:underline; }
+a { color:var(--verde); text-underline-offset:3px; }
+/* El pequeño dibujo marginal usa un SVG existente; queda fuera de controles. */
+@media(min-width:1350px) {
+ body::after { content:''; position:fixed; left:12px; bottom:35px; width:72px; height:105px; background:url('./imagenes/despensa/zanahoria.svg') center/contain no-repeat; opacity:.55; pointer-events:none; }
+}
+@media(max-width:600px) {
+ .identidad { padding:10px 0; gap:10px; }
+ .marca { font-size:1.65rem; gap:6px; } .marca img { width:24px; height:30px; }
+ .bienvenida { padding:14px 0 12px; } h1 { font-size:1.7rem; line-height:1.1; } h2 { font-size:1.4rem; }
+ .bienvenida p { margin-top:8px; }
+ .aviso { font-size:.72rem; }
+ .visual-receta img { width:178px; height:130px; }
+ #abrir-compras { min-height:44px; font-size:.76rem; padding:8px; }
+ #compras .dialogo-cabecera h2 { font-size:1.35rem; }
+}
+
+/* Fotografía real, atenuada por CSS; los controles conservan superficies lisas. */
+body { position:relative; isolation:isolate; }
+body::before { content:''; position:fixed; inset:0; z-index:-1; background:url('./imagenes/papel-arrugado.jpg') center/cover no-repeat; filter:grayscale(1); opacity:.12; pointer-events:none; }
+
+.bienvenida p,.aviso,.nota-acciones,#cantidad-visible,.meta,#resultados,footer,.pestanas button { color:#435b48; }
+
+/* Exploración limitada al detalle: blanco, pimienta, albahaca y tomate. */
+#detalle { background:#fff; color:#22251f; width:min(1000px,calc(100% - 48px)); max-height:90dvh; padding:0; border:1px solid #22251f; border-radius:10px; scroll-padding-top:90px; }
+#detalle .dialogo-cabecera { position:sticky; top:0; z-index:2; background:#fff; border-bottom:1px solid #dadfd6; padding:14px 28px; margin:0; }
+#detalle .dialogo-cabecera .etiqueta { color:#236237; background:#edf5e9; }
+#detalle #contenido-detalle { padding:28px; }
+#detalle button { background:#236237; border-color:#236237; color:#fff; min-height:44px; }
+#detalle button.secundario { background:#fff; color:#236237; }
+#detalle button:hover { background:#edf5e9; color:#1d4e2c; }
+#detalle button:disabled { opacity:1; background:#f0f3ee; border-color:#93a28f; color:#465d41; }
+#detalle button:focus-visible,#detalle input:focus-visible { outline:3px solid #ad3227; outline-offset:4px; }
+#detalle input { accent-color:#236237; }
+#detalle h2 { font-size:clamp(1.6rem,3vw,2.3rem); line-height:1.14; margin:0 0 18px; color:#22251f; }
+#detalle h3 { font-size:1.5rem; color:#22251f; margin:0 0 16px; }
+#detalle .meta { color:#22251f; font-size:.95rem; padding:12px 0; border-top:1px solid #22251f; border-bottom:1px solid #22251f; }
+#detalle .detalle-aclaracion,#detalle .nota-acciones { color:#41483b; font-size:.8rem; line-height:1.65; margin:16px 0; }
+#detalle .detalle-arriba { display:grid; grid-template-columns:.85fr 1.25fr; gap:36px; }
+#detalle .detalle-ingredientes-panel { border-left:1px solid #22251f; padding-left:36px; }
+#detalle .ingredientes-detalle { margin:0 0 20px; }
+#detalle .ingredientes-detalle li { border-bottom:1px solid #dadfd6; margin:0; padding:14px 0; }
+#detalle .detalle-casilla { min-height:44px; align-items:flex-start; line-height:1.65; font-size:.9rem; color:#22251f; }
+#detalle .detalle-casilla input { margin-top:4px; }
+#detalle li[data-disponible=true] .detalle-casilla span { color:#236237; }
+#detalle li[data-disponible=false] .detalle-casilla span { color:#ad3227; }
+#detalle .ingredientes-detalle button { font-size:.78rem; margin:8px 8px 0 0; }
+#detalle .detalle-imagen { margin:32px 0; padding:28px 20px 14px; background:#f5f8f0; border-top:1px solid #22251f; border-bottom:1px solid #22251f; }
+#detalle .detalle-imagen img { display:block; height:250px; width:100%; object-fit:contain; }
+#detalle .detalle-imagen figcaption { color:#41483b; font-size:.75rem; margin-top:16px; text-align:center; }
+#detalle .detalle-preparacion { max-width:760px; margin:auto; }
+#detalle .detalle-preparacion ol { padding-left:28px; }
+#detalle .detalle-preparacion li { line-height:1.85; padding-left:10px; margin:0 0 22px; font-size:1rem; }
+#detalle .detalle-preparacion li::marker { color:#236237; font-weight:750; }
+#detalle > p[role=status] { padding:14px 20px; margin:12px 20px; background:#fff0eb; border-left:3px solid #ad3227; color:#752219; }
+@media(max-width:650px) {
+ #detalle { width:calc(100% - 16px); max-width:none; max-height:92dvh; border-radius:8px; }
+ #detalle .dialogo-cabecera { padding:12px 16px; }
+ #detalle #contenido-detalle { padding:22px 18px; }
+ #detalle .detalle-arriba { grid-template-columns:1fr; gap:24px; }
+ #detalle .detalle-ingredientes-panel { padding:24px 0 0; border-left:0; border-top:1px solid #22251f; }
+ #detalle h2 { font-size:1.75rem; }
+ #detalle .detalle-imagen { padding:20px 10px 12px; margin:28px 0; }
+ #detalle .detalle-imagen img { height:205px; }
+ #detalle .detalle-preparacion li { font-size:.95rem; }
+}
+
+/* Detalle compacto: solo presentación, controles y avisos conservados. */
+#detalle #contenido-detalle { padding:20px 28px 26px; }
+#detalle .detalle-arriba { display:block; }
+#detalle .detalle-informacion { display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:24px; }
+#detalle .detalle-informacion h2 { margin:0; }
+#detalle .detalle-informacion .meta { margin:0; padding:10px 0; white-space:nowrap; }
+#detalle .detalle-informacion .detalle-aclaracion { grid-column:1/-1; margin:10px 0 0; }
+#detalle .detalle-ingredientes-panel { border-left:0; border-top:1px solid #22251f; padding:16px 0 0; margin-top:16px; }
+#detalle .detalle-ingredientes-panel h3 { margin-bottom:6px; }
+#detalle .detalle-aclaracion,#detalle .nota-acciones { margin:8px 0; line-height:1.5; }
+#detalle .ingredientes-detalle { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 24px; margin:8px 0 12px; }
+#detalle .ingredientes-detalle li { padding:6px 0; display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; column-gap:8px; }
+#detalle .detalle-casilla { align-items:center; font-weight:550; }
+#detalle .detalle-casilla input { margin-top:0; }
+#detalle .ingredientes-detalle button { margin:0; max-width:178px; padding:8px 10px; }
+#detalle .ingredientes-detalle button+button { grid-column:2; margin-top:4px; }
+#detalle .detalle-imagen { margin:20px 0; padding:16px 16px 10px; }
+#detalle .detalle-imagen figcaption { margin-top:8px; }
+#detalle .detalle-preparacion li { margin-bottom:14px; }
+@media(max-width:650px) {
+ #detalle .dialogo-cabecera { padding:10px 16px; }
+ #detalle #contenido-detalle { padding:16px 18px 22px; }
+ #detalle .detalle-informacion { display:block; }
+ #detalle .detalle-informacion h2 { margin-bottom:10px; }
+ #detalle .detalle-informacion .meta { padding:8px 0; }
+ #detalle .detalle-informacion .detalle-aclaracion { margin-top:8px; }
+ #detalle .detalle-ingredientes-panel { padding-top:12px; margin-top:12px; }
+ #detalle .ingredientes-detalle { grid-template-columns:1fr; margin-bottom:10px; }
+ #detalle .ingredientes-detalle li { grid-template-columns:1fr; padding:4px 0; }
+ #detalle .ingredientes-detalle button { max-width:none; justify-self:start; margin-bottom:3px; }
+ #detalle .ingredientes-detalle button+button { grid-column:1; margin-top:3px; }
+ #detalle .detalle-imagen { margin:16px 0; padding:12px 8px 8px; }
+}
+
+/* Calidez solo en el detalle; catálogo y despensa conservan sus recursos. */
+#detalle .detalle-informacion .meta { border:0; padding:4px 0; }
+#detalle .detalle-ingredientes-panel { border-top:0; padding-top:6px; margin-top:14px; }
+#detalle .ingredientes-detalle li { border-bottom:0; padding:4px 0; }
+#detalle li[data-disponible] .detalle-casilla span { color:#22251f; }
+#detalle li[data-disponible=true] .estado-ingrediente { color:#236237; }
+#detalle li[data-disponible=false] .estado-ingrediente { color:#ad3227; }
+#detalle .ingredientes-detalle button { border-color:transparent; background:transparent; color:#236237; text-decoration:underline; text-underline-offset:3px; font-weight:600; }
+#detalle .ingredientes-detalle button:hover { background:#edf5e9; }
+#detalle #todos-faltantes { background:#236237; color:white; }
+#detalle #todos-faltantes:disabled { background:#f0f3ee; color:#465d41; }
+#detalle .nota-acciones:empty { display:none; }
+#detalle .detalle-imagen { border:0; border-radius:10px; background:#f4e5df; padding:6px 16px 8px; margin:16px 0 22px; }
+#detalle .detalle-imagen[data-receta="huevos-espinaca"] { background:#e2ede6; }
+#detalle .detalle-imagen[data-receta="arroz-verduras"] { background:#f3ecdb; }
+#detalle .detalle-imagen[data-receta="ensalada-garbanzos"] { background:#e9eddc; }
+#detalle .detalle-imagen img { height:200px; width:100%; object-fit:contain; }
+#detalle .detalle-imagen figcaption { margin-top:0; }
+@media(max-width:650px) {
+ #detalle .detalle-imagen { padding:4px 8px 8px; margin:14px 0 22px; }
+ #detalle .detalle-imagen img { height:150px; }
+}
+
+/* Ingredientes de lectura: la disponibilidad se edita en Mi despensa. */
+.solo-lectores { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+#detalle .detalle-ingrediente-texto { display:flex; align-items:flex-start; gap:8px; font-size:.9rem; line-height:1.6; font-weight:550; padding:6px 0; }
+#detalle li[data-disponible=true] .detalle-ingrediente-texto { color:#236237; }
+#detalle li[data-disponible=false] .detalle-ingrediente-texto { color:#ad3227; }
+#detalle .simbolo-estado { flex-shrink:0; font-size:1rem; font-weight:750; width:16px; text-align:center; }
+#detalle .acciones-ingrediente { display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:6px; }
+#detalle .estado-compras-ingrediente { font-size:.75rem; color:#236237; }
+#detalle .ingredientes-detalle button { display:inline-flex; align-items:center; gap:5px; padding:6px; max-width:none; font-size:.75rem; min-height:44px; white-space:nowrap; }
+#detalle .ingredientes-detalle button img { flex-shrink:0; width:16px; height:16px; }
+#detalle .ingredientes-detalle li { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:4px 10px; }
+#detalle .detalle-ingrediente-texto { flex:1 1 145px; }
+#detalle .leyenda-ingredientes { font-size:.8rem; color:#41483b; margin:6px 0 12px; }
+#detalle .pie-ingredientes { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:12px; }
+#detalle .todos-disponibles { color:#236237; font-weight:650; }
+#detalle #editar-despensa-detalle { background:transparent; border-color:transparent; color:#236237; text-decoration:underline; text-underline-offset:3px; font-weight:600; }
+#detalle .sobre-datos { font-size:.78rem; color:#41483b; margin-top:10px; }
+#detalle .sobre-datos summary { cursor:pointer; min-height:44px; display:flex; align-items:center; text-decoration:underline; text-underline-offset:3px; }
+#detalle .sobre-datos summary::before { content:'▸'; margin-right:6px; }
+#detalle .sobre-datos[open] summary::before { content:'▾'; }
+#detalle .sobre-datos summary:focus-visible { outline:3px solid #ad3227; outline-offset:3px; }
+@media(max-width:650px) {
+ #detalle .ingredientes-detalle li { padding:3px 0; }
+ #detalle .acciones-ingrediente { margin-left:auto; }
+ #detalle .detalle-ingrediente-texto { flex-basis:145px; }
+}

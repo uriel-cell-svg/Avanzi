@@ -22,3 +22,27 @@ Fuentes: Georgia y fuentes del sistema. No se distribuyen archivos tipográficos
 Los trece archivos `despensa/*.svg` son recursos vectoriales originales locales. Huevo, papa, tomate, limón, espinaca, arroz, pasta, garbanzos y zanahoria reutilizan los trazos de sus composiciones de recetas. Ajo, cebolla, aceite y sal se dibujaron para esta entrega con el mismo estilo. Se aplica el mismo permiso de uso, modificación y redistribución indicado arriba.
 
 La nueva fuente local y su licencia se registran en `../fuentes/FUENTES.md`; Georgia se conserva solo en la marca y como alternativa.
+
+## Propuesta tinta y marfil de Avanzi
+
+Se modificaron solo los colores de los SVG originales: trazos verde oscuro y rellenos marfil, conservando geometrías y los dos ingredientes de las recetas. No se copiaron imágenes de las plantillas adjuntas.
+
+Fotografía de papel pendiente: “Wrinkled Paper Texture Free Creative Commons (6816216700).jpg”, D. Sharon Pruitt / Pink Sherbet Photography, CC BY 2.0.
+Fuente solicitada: https://commons.wikimedia.org/wiki/File:Wrinkled_Paper_Texture_Free_Creative_Commons_(6816216700).jpg
+Licencia: https://creativecommons.org/licenses/by/2.0/
+La página y el archivo directo devolvieron HTTP 403. No se incorporó ni modificó esa fotografía, ni se creó una textura sustituta. El fondo de esta entrega es marfil liso. Cuando el usuario adjunte el original, faltará optimizarlo y registrar los cambios antes de aplicarlo.
+
+## Fotografía incorporada
+
+Archivo local: `papel-arrugado.jpg` (90.107 bytes, 1280 × 853 píxeles). Copia adjuntada por el usuario para incorporar la fotografía solicitada tras el bloqueo de descarga. Autoría y licencia según la referencia proporcionada: D. Sharon Pruitt / Pink Sherbet Photography, CC BY 2.0.
+
+Fuente: https://commons.wikimedia.org/wiki/File:Wrinkled_Paper_Texture_Free_Creative_Commons_(6816216700).jpg
+Licencia: https://creativecommons.org/licenses/by/2.0/
+
+Se conserva el JPG recibido sin modificar sus píxeles ni comprimirlo nuevamente: ya pesa unos 88 KiB. Cambios de presentación mediante CSS: desaturación, opacidad del 12 %, fondo marfil y ajuste al tamaño de pantalla con recorte proporcional. La imagen es decorativa; controles y tarjetas conservan fondos lisos. Crédito accesible desde Créditos visuales en el pie. Esta entrada sustituye el estado pendiente de la entrada anterior.
+
+## Ilustraciones coloreadas exclusivas del detalle
+
+`detalle/*.svg` son variantes nuevas de los SVG originales actuales: se cambiaron rellenos a colores de alimentos y se ajustó el encuadre para aprovechar el espacio. Conservan los trazos y el mismo permiso de reutilización del proyecto. No se recuperó código anterior ni se modificaron los recursos usados en catálogo y despensa. No representan una fotografía del plato.
+
+`bolsa.svg`: icono vectorial original local creado para Añadir a compras. Es decorativo y usa el mismo permiso de uso, modificación y redistribución indicado para los SVG del proyecto.

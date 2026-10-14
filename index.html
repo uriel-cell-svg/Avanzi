@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Qué cocino · Recetas y despensa</title>
+  <title>Avanzi · Recetas y despensa</title>
   <link rel="stylesheet" href="./estilos.css">
   <script src="./app.js" defer></script>
 </head>
 <body>
   <header class="contenedor">
-    <div class="identidad"><span class="marca">qué cocino<img src="./imagenes/ramita.svg" alt="" width="34" height="42"></span><button type="button" id="abrir-compras" class="secundario" disabled>Lista de compras <span id="contador-compras">0</span></button></div>
+    <div class="identidad"><span class="marca">Avanzi<img src="./imagenes/ramita.svg" alt="" width="34" height="42"></span><button type="button" id="abrir-compras" class="secundario" disabled>Lista de compras <span id="contador-compras">0</span></button></div>
     <div class="bienvenida"><h1>Algo rico empieza con lo que tenés</h1><p>Marcá tu despensa y elegí qué preparar.</p></div>
   </header>
   <main class="contenedor">
-    <p class="aviso">Versión 1 · Las cinco recetas son datos de prueba. Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria.</p>
+    <p class="aviso" id="aviso-catalogo">Versión 1 · Comprobamos presencia de ingredientes, no cantidades suficientes ni seguridad alimentaria.</p>
     <p id="estado" role="status" aria-live="polite">Cargando recetas…</p>
     <p id="aviso-guardado" role="status" aria-live="polite" hidden></p>
     <p id="aviso-compras" role="status" aria-live="polite" hidden></p>
@@ -40,17 +40,19 @@
       </section>
     </div>
   </main>
-  <dialog id="detalle" aria-labelledby="titulo-detalle"><div class="dialogo-cabecera"><span class="etiqueta">Receta de prueba</span><button type="button" id="cerrar-detalle" class="secundario">Cerrar</button></div><div id="contenido-detalle"></div></dialog>
+  <dialog id="detalle" aria-labelledby="titulo-detalle"><div class="dialogo-cabecera"><span><span class="etiqueta" id="etiqueta-prueba-detalle" hidden>Receta de prueba</span></span><button type="button" id="cerrar-detalle" class="secundario">Cerrar</button></div><p id="error-despensa-detalle" role="status" hidden></p><p id="error-compras-detalle" role="status" hidden></p><div id="contenido-detalle"></div></dialog>
   <dialog id="compras" aria-labelledby="titulo-compras">
     <div class="dialogo-cabecera"><h2 id="titulo-compras" tabindex="-1">Lista de compras</h2><button type="button" id="cerrar-compras" class="secundario">Cerrar</button></div>
+    <p id="error-despensa-panel" role="status" hidden></p><p id="error-compras-panel" role="status" hidden></p>
     <p>Ingredientes por conseguir. No sumamos cantidades ni calculamos precios: consultá las cantidades en cada receta.</p>
     <p id="estado-compras" role="status"></p>
     <div id="items-compras"></div>
     <button type="button" id="vaciar-compras" class="secundario">Vaciar lista</button>
     <div id="confirmar-vaciado" hidden><p>¿Querés quitar todos los ingredientes y sus asociaciones de la lista?</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
     <div id="posibilidades-compras"></div>
-    <p id="error-compras-panel" role="status" hidden></p>
   </dialog>
-  <footer class="contenedor">Tu despensa se guarda en este navegador.</footer>
+  <footer class="contenedor">Tu despensa se guarda en este navegador.
+    <details class="creditos"><summary>Créditos visuales</summary><p>Títulos breves: Alfa Slab One, alternativa a Kompot Slab. Licencia SIL OFL 1.1. <a href="./fuentes/FUENTES.md">Origen y licencias de fuentes</a>.</p><p>Dibujos SVG originales de Avanzi. <a href="./imagenes/FUENTES.md">Procedencia y permisos</a>.</p><p>Textura de papel: D. Sharon Pruitt / Pink Sherbet Photography. <a href="https://commons.wikimedia.org/wiki/File:Wrinkled_Paper_Texture_Free_Creative_Commons_(6816216700).jpg">Fotografía original</a>, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>. Copia aportada por el usuario; apariencia suavizada y desaturada mediante CSS sobre marfil.</p></details>
+  </footer>
 </body>
 </html>
