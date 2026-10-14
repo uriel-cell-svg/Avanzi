@@ -47,3 +47,5 @@
 - Mantener errores de guardado siempre visibles; aclaraciones en Sobre estos datos y nota única Revisá las cantidades antes de cocinar. Mi despensa conserva casillas y guardado coordinado.
 
 - Ajustar avisos por receta y catálogo mixto. false o ausencia no implican verificación nutricional, seguridad ni derechos. Probar con datos temporales sin cambiar el catálogo entregado.
+
+- Recuperar listas con referencias antiguas sin descartar los IDs vigentes. Conservar compras de ingredientes existentes aunque no queden recetas de origen. Limpiar solo referencias obsoletas y avisar; fallos de carga no deben escribir almacenamiento. Mantener claves y guardado coordinado.

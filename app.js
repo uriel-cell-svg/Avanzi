@@ -99,10 +99,16 @@ function recuperarDespensa() {
     if (guardado === null) return;
     const datos = JSON.parse(guardado);
     const conocidos = new Set(ingredientes.map((ingrediente) => ingrediente.id));
-    if (!Array.isArray(datos) || !datos.every((id) => typeof id === 'string' && conocidos.has(id))) {
+    if (!Array.isArray(datos) || !datos.every((id) => typeof id === 'string')) {
       throw new Error('Selección inválida.');
     }
-    despensa = new Set(datos);
+    const vigentes = datos.filter((id) => conocidos.has(id));
+    despensa = new Set(vigentes);
+    if (vigentes.length !== datos.length) {
+      const guardada = guardarDespensa();
+      const aviso = 'Se descartaron ingredientes antiguos de la despensa; tu selección vigente se conservó.';
+      avisarGuardado(guardada ? aviso : `${aviso} No pudimos guardar esta limpieza; los datos almacenados anteriores se conservan.`);
+    }
   } catch {
     despensa = new Set();
     avisarGuardado('No pudimos recuperar la despensa guardada. Empezamos con una selección vacía; podés seguir usando la app.');
@@ -258,18 +264,29 @@ function recuperarCompras() {
     const ids = new Set();
     const conocidos = new Set(ingredientes.map((i) => i.id));
     for (const item of datos) {
-      if (!item || !conocidos.has(item.id) || ids.has(item.id) || !Array.isArray(item.recetas) || !item.recetas.length ||
-          !item.recetas.every((id) => recetas.some((r) => r.id === id && r.ingredientes.some((i) => i.id === item.id)))) {
+      if (!item || typeof item.id !== 'string' || ids.has(item.id) || !Array.isArray(item.recetas) ||
+          !item.recetas.every((id) => typeof id === 'string')) {
         throw new Error('Lista inválida.');
       }
       ids.add(item.id);
     }
     let reconciliar = false;
+    let referenciasAntiguas = false;
     for (const item of datos) {
+      if (!conocidos.has(item.id)) { referenciasAntiguas = true; continue; }
+      const origenes = item.recetas.filter((id) => recetas.some((receta) => receta.id === id));
+      if (origenes.length !== item.recetas.length) referenciasAntiguas = true;
       if (despensa.has(item.id)) { reconciliar = true; continue; }
-      compras.set(item.id, new Set(item.recetas));
+      // Un ingrediente vigente puede seguir pendiente sin receta de origen.
+      compras.set(item.id, new Set(origenes));
     }
-    if (reconciliar) guardarCompras();
+    if (reconciliar || referenciasAntiguas) {
+      const guardada = guardarCompras();
+      if (referenciasAntiguas) {
+        const aviso = 'Se descartaron referencias antiguas de compras; los ingredientes vigentes se conservaron.';
+        avisoCompras(guardada ? aviso : `${aviso} No pudimos guardar esta limpieza; los datos almacenados anteriores se conservan.`);
+      }
+    }
   } catch {
     compras.clear();
     avisoCompras('No pudimos recuperar la lista de compras guardada. Empezamos con una lista vacía; tu despensa se conserva.');
@@ -406,7 +423,7 @@ function dibujarCompras() {
     for (const id of ordenadas) {
       const ingrediente = ingredientes.find((i) => i.id === id);
       const fila = elemento('article', undefined, 'compra-item');
-      fila.append(elemento('h3', ingrediente.nombre), elemento('p', `Desde: ${[...compras.get(id)].map((r) => recetas.find((receta) => receta.id === r).nombre).join(', ')}.`, 'meta'));
+      fila.append(elemento('h3', ingrediente.nombre), elemento('p', compras.get(id).size ? `Desde: ${[...compras.get(id)].map((r) => recetas.find((receta) => receta.id === r).nombre).join(', ')}.` : 'Sin receta asociada.', 'meta'));
       const acciones = elemento('div', undefined, 'acciones');
       const quitar = boton('Quitar', () => quitarCompra(id));
       quitar.dataset.foco = `quitar-${id}`;
