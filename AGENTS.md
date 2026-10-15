@@ -1,73 +1,45 @@
-# Reglas de trabajo
+# Reglas de trabajo de Avanzi
 
-- Trabajar en cambios pequeños y comprobables. Revisar el estado de Git antes y después.
-- Usar el checkout existente: las tareas en la nube ya están aisladas. No crear worktrees salvo pedido explícito.
-- Esta versión usa solo HTML, CSS y JavaScript puros y datos JSON, sin frameworks, backend, servicios pagos ni dependencias externas.
-- Debe funcionar con Live Server, sin Node.js ni compilación. Usar rutas relativas.
-- Mantener la interfaz en español, adaptable a computadora y celular. La nueva referencia principal es la opción B, Recuadro de seleccionados: fondo blanco, marca Avanzi negra, verde para selección/acciones y rojo en pequeños indicadores. Usar esta identidad en Lo que tengo, Recetas, detalle y compras; conservar la composición y funcionamiento aprobados de Lo que tengo. Cabecera, botones y campos comparten estilos; eliminar reglas antiguas de papel y adornos en lugar de ocultarlas por pestaña.
-- Cargar recetas exclusivamente desde datos/recetas.json. Identificar como datos de prueba únicamente las recetas con datosDePrueba: true; el campo es opcional y solo admite booleanos cuando está presente. No duplicarlas en JavaScript ni ocultar errores de carga.
-- Cada receta incluye identificador, nombre, ingredientes con identificadores, cantidades y unidades, porciones, tiempo y pasos.
-- La despensa empieza vacía. Permitir marcar ingredientes, Tengo todo y Desmarcar todo.
-- Comparar presencia de ingredientes y mostrar los faltantes. Aclarar que aún no se comprueban cantidades.
-- Buscar por nombre o ingrediente ignorando mayúsculas y tildes. Filtrar todas, completas y faltantes. Mostrar detalle e instrucciones.
-- Guardar y recuperar la selección con localStorage, incluida la selección vacía. Manejar datos inválidos y fallos de almacenamiento sin bloquear la app.
-- Comprobar carga, búsqueda, filtros, detalle, faltantes y persistencia parcial y vacía. Informar pruebas ejecutadas y pendientes; mostrar capturas cuando sea posible.
-- No añadir nutrientes, precios, PDF, perfil, planificador, recetas propias ni mascota. No inventar datos nutricionales.
-- Explicar cambios y pruebas en español sencillo para alguien que nunca programó.
-- No publicar ni incorporar cambios a main sin autorización. Esperar la devolución del usuario.
+## Documentos y alcance
 
-- Agrupar recetas en completas (0), Ya casi (1–3) y Con algunas compras más (>3). Contar identificadores únicos. Orden fijo por faltantes, tiempo y nombre; no añadir selectores de orden contradictorios.
-- Mostrar tiempo, porciones, disponibilidad, nombres de faltantes y botón Ver preparación en cada tarjeta.
-- Usar imágenes propias o con permiso, locales, con procedencia en imagenes/FUENTES.md. No copiar recursos de Jamie Oliver. Si no hay fotos apropiadas, usar ilustraciones identificadas sin representar otro plato como la receta.
-- Mantener contraste, etiquetas, foco visible, navegación con teclado y cierre del detalle con Escape y devolución del foco.
-- No añadir conservación ni otras funciones fuera del alcance. Entregar capturas de ambas pestañas en computadora y celular, un ZIP completo y una prueba sencilla para Live Server.
+- Trabajar en cambios pequeños y comprobables, dentro del pedido vigente. Explicar cambios, resultados y límites en español sencillo.
+- [DISEÑO.md](./DISEÑO.md) describe la estética aprobada; [DATOS.md](./DATOS.md), el contrato actual y la propuesta futura, separados. [README.md](./README.md) explica uso y comprobación; [CAMBIOS.md](./CAMBIOS.md) conserva el historial, que no agrega requisitos nuevos.
+- Las restricciones particulares de entregas anteriores están identificadas en CAMBIOS; no tratarlas como prohibiciones permanentes ni como autorización para nuevas funciones. Perfil personal y recompensas siguen solo diseñados en ETAPAS_FUTURAS.md.
 
-- Conservar las funciones y el formato del JSON de recetas; los metadatos de despensa se cargan desde datos/ingredientes.json. Lo que tengo usa el título ¿Qué tenés en casa?, sin frase debajo ni bienvenida repetida.
-- Marca Avanzi como texto real negro, separada de la ilustración adjunta de tomate, mozzarella y albahaca, generada con ChatGPT. Recurso local optimizado con transparencia, sin recortes, deformación, filtros monocromos, sombras fuertes ni recuadros. Probar 70–90 px en computadora y 50–65 px en celular y comprobar reconocimiento de los tres alimentos.
-- No generar otras imágenes ni sustituir dibujos actuales. La única ilustración generada autorizada es la aportada para la marca; registrar su origen ChatGPT. No repetir una imagen de plato en todas las tarjetas. Priorizar fotografías apropiadas con permiso; alternativa: dibujos específicos de ingredientes y tarjetas tipográficas. Registrar procedencia en imagenes/FUENTES.md.
-- No inclinar textos o botones, no añadir degradados decorativos, texturas que dificulten leer, sombras excesivas ni animaciones innecesarias.
+## Tecnología y datos
 
-- Conservar la tipografía aprobada: Alfa Slab One para marca/títulos breves, Fraunces local donde ya se utiliza y sistema para lectura/controles. Registrar licencia y origen en fuentes/FUENTES.md. Sin servicios externos de fuentes.
-- Conservar proporciones y dimensiones de los dibujos aprobados, sin recortes. Cada ingrediente muestra un SVG propio o por defecto, decorativo, y su nombre siempre visible.
-- datos/ingredientes.json contiene id, nombre y categoria obligatorios; dibujo es opcional. Si se incluye, conservar su validación de tipo y ruta local SVG. Relacionar con recetas por id y mantener los identificadores existentes y las claves de localStorage.
-- Categoría muestra Todos y solo categorías no vacías en el orden solicitado, mediante botones en una fila desplazable con estado aria-pressed. Filtrar no cambia selección ni contador global. Tengo todo y Desmarcar todo afectan toda la despensa y deben aclararlo.
-- Validar carga y formato del JSON de ingredientes; mostrar error claro sin sobrescribir la selección guardada.
+- HTML, CSS y JavaScript puros, JSON y recursos locales; Live Server, rutas relativas y ninguna compilación. Sin frameworks, backend, servicios de pago ni dependencias externas para ejecutar la app.
+- El catálogo incorporado se carga exclusivamente desde datos/recetas.json y los metadatos desde datos/ingredientes.json; las recetas del usuario tienen una clave local separada y versionada. No duplicar catálogos en JavaScript ni ocultar errores con datos sustitutos. Insertar textos del usuario como texto, no HTML.
+- Mantener identificadores estables y relaciones por ID, no por nombre. Conservar compatibilidad con los JSON existentes; documentar cualquier ampliación antes de implementarla.
+- datosDePrueba es opcional y booleano si existe. Etiquetar solo true y distinguir catálogos mixtos. Ausencia o false no acreditan nutrición, seguridad ni permisos de reutilización.
+- No inventar nutrientes, cantidades, conversiones o equivalencias. Desconocido no es cero. Una propuesta en DATOS no significa soporte implementado.
+- La disponibilidad comprueba cantidades, estados y unidades compatibles por ID. Sumar necesidades antes de restar inventario una sola vez. No contar compras pendientes como disponibles ni mezclar secos/cocidos. Conservar búsqueda, clasificación, filtros y desempates.
 
-- Lo que tengo es la pantalla inicial, con búsqueda sin tildes/mayúsculas, categorías y Ver qué puedo cocinar al pie. Filtrar no cambia selecciones. No renombrar IDs ni claves de almacenamiento al cambiar textos visibles.
-- Tarjetas completas con borde verde y Tenés todo; incompletas con borde y franja bordó rojiza con número de faltantes. Conservar dibujos visibles. Aclarar presencia, no cantidades suficientes ni seguridad alimentaria.
-- Detalle con disponibilidad de lectura sin casillas, leyenda ✓ Disponible · + Te falta y acceso Editar lo que tengo; compras no implica disponibilidad. Añadir individual o todos los faltantes; si la receta está completa, mostrar Tenés todos los ingredientes.
-- Compras por identificador único y asociaciones internas. Casilla reversible, pendientes arriba, Comprados plegable abajo, × elimina sin cambiar despensa y contador solo de pendientes.
-- Posibilidades después de comprar: unión de despensa y lista, solo recetas todavía incompletas cubiertas totalmente. Recalcular al quitar. Nunca trasladar a completas antes de tener los ingredientes realmente.
-- Validar almacenamiento de ambas listas y conservar claves/identificadores anteriores. Manejar errores sin bloqueo ni recetas de respaldo. No sumar cantidades ni calcular precios.
-- Probar primero despensa/agrupación, después detalle/compras y finalmente posibilidades. Casos 0/1/3/4, asociaciones compartidas, cobertura parcial/total, persistencia parcial/vacía, teclado, Escape y devolución de foco, computadora y celular. Datos temporales solo en pruebas si hacen falta.
-- Mantener fuentes y SVG locales. La identidad de Lo que tengo reemplaza las decisiones estéticas anteriores en toda la app; no reintroducir papel, adornos ni las frases de bienvenida retiradas. No copiar marca, fotografías, publicidad, cuentas o premium de referencias. Entregar ZIP completo y capturas de las pantallas modificadas.
+## Accesibilidad y recursos
 
-- Ingredientes del detalle: nombre y cantidad verdes si disponibles, rojos si faltantes, símbolos decorativos sin recuadro y texto accesible de estado. No repetir Tenés/Te falta al final.
-- Añadir a compras con icono de bolsa decorativo; En tu lista y Quitar si añadido. Añadir todos los faltantes solo si hay pendientes de añadir; receta completa muestra Tenés todos los ingredientes.
-- Mantener errores de guardado siempre visibles; aclaraciones en Sobre estos datos y nota única Revisá las cantidades antes de cocinar. Lo que tengo conserva casillas y guardado coordinado.
+- Interfaz en español, adaptable; etiquetas y nombres accesibles, contraste suficiente, foco visible, navegación con teclado y áreas cómodas para tocar. No comunicar estados solo con color.
+- Conservar Escape, cierre accesible, desplazamiento interno de diálogos y devolución de foco; mantener el foco tras actualizar controles.
+- Errores de carga y guardado visibles en la pantalla o diálogo de la acción, fuera de ayudas plegables. Distinguir cambios temporales de datos guardados.
+- Recursos locales propios o con permiso; registrar procedencia y modificaciones en imagenes/FUENTES.md y licencias de fuentes en fuentes/FUENTES.md. No presentar ilustraciones como fotografías del plato.
+- Conservar imágenes válidas y respaldos acotados en tarjetas, detalle, catálogo, seleccionados y compras. Si falla también el respaldo, ocultar la imagen conservando espacio, nombre y controles; sin bucles. Detalles visuales en DISEÑO.
 
-- Ajustar avisos por receta y catálogo mixto. false o ausencia no implican verificación nutricional, seguridad ni derechos. Probar con datos temporales sin cambiar el catálogo entregado.
+## Cantidades, nutrición y persistencia
 
-- Recuperar listas con referencias antiguas sin descartar los IDs vigentes. Conservar compras de ingredientes existentes aunque no queden recetas de origen. Limpiar solo referencias obsoletas y avisar; fallos de carga no deben escribir almacenamiento. Mantener claves y guardado coordinado.
+- Un solo motor nutricional: motor_avanzi.mjs del paquete. Conservar perfiles corregidos, rendimientos y equivalencias aportadas; distinguir desconocido de cero, estimación de medición y total de valor por porción. Hojas de té no ingeridas quedan fuera de nutrición, no fuera de la necesidad de compra.
+- No modificar silenciosamente los JSON originales del paquete. La excepción vigente es el parche auditado de siete tiempos; no alteró nutrientes ni ingredientes. Registrar ajustes de clasificación/compatibilidad por separado. Desayunos es editorial; Veggie no debe incluir origen animal desconocido; no confundir pasta de curry con fideos.
+- planificacion.mjs contiene la lógica pura de cantidades y la separación de necesidades de recetas retiradas; catalogo_avanzi.mjs valida/adapta el catálogo público; app.js coordina eventos y presenta; almacenamiento.mjs recupera y guarda el snapshot; persistencia_navegador.mjs detecta pestañas obsoletas. No duplicar motores o cálculos por pantalla. Módulos locales compatibles con Live Server y GitHub Pages bajo subruta, sin compilación.
+- Conservar las claves que-cocino.despensa.v1 y que-cocino.compras.v1 y los IDs del paquete. El snapshot v3 conjunto se guarda atómicamente en la primera; la segunda queda intacta como legado. No volver al guardado dividido que permite divergencias.
+- Leer formatos anteriores y operaciones provisionales sin perder selecciones/compras ni inventar cantidades. Presencia antigua = cantidad por confirmar; correspondencias ambiguas = revisión explícita. Conservar el contenido legado. Datos inválidos bloquean sobrescrituras y fallos de catálogo no escriben almacenamiento.
+- Añadir receta/ingrediente es idempotente. Porciones y preparaciones escalan necesidades; quitar receta, fila o asociación recalcula sin retirar inventario. No persistir cantidades derivadas a comprar. Conservar asociaciones y compras sin receta activa.
+- Confirmar compra suma solo la cantidad adquirida y su ID de operación evita repetición. La compra parcial deja pendiente el resto. Deshacer respeta existencias previas y modificaciones manuales posteriores.
+- Reservar inventario por orden de incorporación para no asignarlo dos veces al conjunto. Los vínculos parciales no autorizan añadir ingredientes automáticamente. La disponibilidad del detalle sigue comprobando la receta completa.
+- Registrar como máximo una transición de insuficiente a suficiente por ID de receta, persistida para no repetir al marcar/desmarcar. No añadir recompensas visuales, cuentas o servicios sin otro pedido.
+- Las recetas propias usan `recetas_usuario.mjs` para validar y guardar en `avanzi.recetas.usuario.v1`; las fotos WebP se guardan solo en IndexedDB `avanzi-fotos-v1`. No guardar Blobs ni URL en localStorage. Bloquear sobrescrituras cuando la recuperación propia sea corrupta. Conservar planes, necesidades y compras confirmadas al editar o borrar una receta propia vinculada.
+- Borrar una foto solo después de guardar el documento y comprobar que ni una receta publicada ni el borrador la referencian. Ante un cambio detectado en otra pestaña, pedir recarga antes de escribir; no presentar esta protección como sincronización ni como transacción atómica entre pestañas.
 
-- Compras: guardar comprado e incorporadoPorCompra. Deshacer retira solo lo incorporado por la compra. Una edición manual de Lo que tengo toma prioridad: actualiza estado de fila y libera la propiedad de la compra. Los botones globales sincronizan filas existentes sin crearlas ni eliminarlas.
-- Leer el formato antiguo de compras y conservar filas/asociaciones. Formato nuevo version: 2 con items y registro provisional de operación durante escrituras coordinadas; usar las mismas claves. Fallos deben conservar fila y reversibilidad tras recarga, sin migraciones destructivas.
-- Posibilidades = despensa real más filas pendientes, nunca comprados ausentes ni recetas ya completas. Mantener ayudas plegables, errores visibles, foco tras mover filas y capturas celular/computadora.
+## Verificación y Git
 
-## Lo que tengo · Recuadro de seleccionados
-
-- Mostrar Lo que tengo · N y toda la selección con dibujo, nombre y × accesible. Si está vacío, solo el título. Con muchos ingredientes, una fila horizontal desplazable de altura acotada.
-- Recuadro y catálogo comparten el estado existente. Los seleccionados permanecen en su posición original; filtros y búsqueda no ocultan la selección del recuadro. Conservar foco al desmarcar.
-- Tarjetas con dibujos propios coloreados sobre transparencia, nombres visibles, fondo verde suave y marca de selección; dos columnas en celular cuando quepan. Registrar recursos en imagenes/FUENTES.md; no usar recortes del boceto ni iconos geométricos genéricos.
-- Adaptar la composición al boceto B adjunto: pestaña subrayada, bolsa negra con contador rojo superpuesto y recuadro crema compacto. Bolsa y contador de pendientes arriba. Contador general, Acciones de Lo que tengo (⋮) y acción principal en la barra inferior; Tengo todo y Desmarcar todo dentro del menú. Explicaciones secundarias en Ayuda. Etiqueta breve de prueba cuando corresponda y errores de guardado siempre visibles.
-- Acción inferior en el flujo del documento: no tapar contenido ni teclado. Conservar búsqueda, categorías, clasificación, compras y guardado coordinado. Recetas, detalle y compras comparten esta identidad por pedido del usuario. No añadir otras funciones sin devolución.
-
-- Recetas conserva las tres secciones y cálculos existentes; contadores pequeños, buscador con lupa y etiqueta accesible, filtro funcional, bordes/estados verde o rojo con texto. Reutilizar SVG coloreados existentes, mantener proporciones y reducir mensajes repetidos. Estados vacíos breves y Sin coincidencias con búsquedas/filtros. Ayuda plegable, etiquetas de prueba correctas y errores siempre visibles.
-
-## Recursos de respaldo
-
-- Mantener el diseño aprobado. Usar los dos SVG locales de imagenes/por-defecto cuando no haya ilustración propia o no cargue. Conservar los dibujos existentes cuando funcionen.
-- Aplicar la misma recuperación acotada en tarjetas, detalle, catálogo, recuadro de seleccionados y compras. Cada ruta se intenta una sola vez por imagen; no introducir bucles ni reintentos automáticos.
-- Si también falla el respaldo, ocultar la imagen rota conservando su espacio, el nombre y los controles. No alterar selección, disponibilidad, clasificación ni guardado por errores de imágenes.
-- El dibujo genérico de cocina no representa el plato: identificarlo como ilustración genérica en el detalle. Registrar los dos SVG originales y su permiso en imagenes/FUENTES.md.
-- Probar con datos temporales sin cambiar los JSON entregados. No incorporar recetas reales, nutrientes ni la marca pendiente en esta modificación.
+- Revisar estado de Git antes y después; preservar trabajo existente. Usar el checkout disponible, sin worktrees salvo pedido explícito. No publicar, subir ni incorporar cambios a main sin autorización.
+- Verificar lo afectado y sus dependencias: carga/validación, búsqueda/filtros, grupos y desempates, detalle, selección, compras y persistencia parcial/vacía. Para almacenamiento, incluir formatos antiguos, referencias obsoletas, fallos individuales/combinados y recarga.
+- Usar datos temporales fuera de los catálogos entregados. Para cambios visuales, comprobar teclado, foco, contraste, celular/computadora, desbordes y capturas reales. No atribuir a una entrega pruebas históricas no repetidas.
+- En entregas solo documentales, cotejar con el código y verificar integridad de la aplicación. Informar pruebas ejecutadas y pendientes, y preparar el ZIP cuando se pida. No incluir herramientas temporales, credenciales ni archivos de Git.

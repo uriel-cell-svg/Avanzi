@@ -1,0 +1,34 @@
+{
+  "dibujos": {
+    "zanahoria": "./imagenes/despensa/zanahoria.svg",
+    "cebolla": "./imagenes/despensa/cebolla.svg",
+    "sal": "./imagenes/despensa/sal.svg",
+    "papa": "./imagenes/despensa/papa.svg",
+    "huevo": "./imagenes/despensa/huevo.svg",
+    "tomate": "./imagenes/despensa/tomate.svg",
+    "ajo": "./imagenes/despensa/ajo.svg",
+    "limon": "./imagenes/despensa/limon.svg",
+    "espinaca": "./imagenes/despensa/espinaca.svg",
+    "arroz-blanco": "./imagenes/despensa/arroz.svg",
+    "pasta-seca": "./imagenes/despensa/pasta.svg",
+    "garbanzos": "./imagenes/despensa/garbanzo.svg",
+    "aceite-vegetal": "./imagenes/despensa/aceite.svg"
+  },
+  "clasificacion": {
+    "repollo": {
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false
+    },
+    "chorizo": {
+      "esDeOrigenAnimal": true
+    },
+    "dashi": {
+      "esDeOrigenAnimal": null
+    }
+  },
+  "notas": [
+    "Corrección de clasificación, sin alterar perfiles nutricionales: repollo es vegetal; chorizo es de origen animal.",
+    "El dashi no se presume vegano: su composición depende de la variedad. Confirmar antes de clasificarlo.",
+    "Los IDs del paquete no se renombraron. Los dibujos propios anteriores se reutilizan por referencia."
+  ]
+}

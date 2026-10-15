@@ -1,219 +1,129 @@
-# Avanzi · Recetas, despensa y compras
+# Avanzi · Beta con inventario y compras por cantidades
 
-Proyecto para la facultad, sin fines de lucro. Ayuda a decidir qué cocinar con lo que tenés y reúne ingredientes por conseguir. Las cinco recetas son datos de prueba. Se comprueba presencia de ingredientes, **no cantidades suficientes ni seguridad alimentaria**.
+Avanzi conecta **39 recetas incorporadas, tus recetas propias, 200 ingredientes, Lo que tengo y Lista de compras**. Conserva la interfaz blanca y verde, las fuentes locales y las ilustraciones existentes. Las 39 imágenes WebP del paquete son **ilustrativas, generadas con IA**; no fotografías verificadas del resultado.
 
-## Abrir con Live Server
+## Abrir la app
 
-1. Extraé el ZIP completo en una carpeta. Conservá las carpetas `datos`, `imagenes` y `fuentes`.
-2. En VS Code: **Archivo → Abrir carpeta**, y seleccioná esa carpeta.
-3. Clic derecho sobre `index.html` → **Open with Live Server**.
+1. Extraé el ZIP completo y abrí la carpeta `Avanzi` en VS Code.
+2. Clic derecho sobre `index.html` → **Open with Live Server**.
+3. Usá el mismo navegador, dirección y puerto de antes para recuperar tus datos.
 
-No hace falta Node.js, instalar paquetes ni compilar. No abras el archivo haciendo doble clic: el JSON necesita un servidor como Live Server. Las fuentes y dibujos son locales, sin servicios externos.
-
-Si reemplazás una versión anterior, usá la misma dirección y puerto de Live Server para recuperar los datos de ese navegador. Una carpeta distinta puede abrirse en otro puerto: los datos de localStorage no se comparten entre direcciones, puertos o navegadores.
+La app no requiere Node.js, paquetes ni compilación. Usa módulos JavaScript locales que Live Server sirve directamente. No abrir el HTML con doble clic. No hay backend ni servicios remotos de fuentes, imágenes o nutrición.
 
 ## Lo que tengo
 
-La app empieza en **Lo que tengo**, con el título **¿Qué tenés en casa?**. Tocá una tarjeta para seleccionar o desmarcar: se destaca en verde y muestra ✓. Los dibujos son decorativos y los nombres siguen visibles. Buscá sin distinguir mayúsculas o tildes y elegí una categoría en la fila de botones; solo aparecen categorías con ingredientes. En celular podés deslizar esa fila para ver las demás categorías.
+Buscá por nombre o alias y filtrá por **Legumbres, Cereales, Verduras, Frutas, Carnes u Otros**. Las categorías y el recuadro de seleccionados mantienen su comportamiento.
 
-El recuadro **Lo que tengo · N** muestra toda tu selección, incluso con filtros activos. Su × desmarca el ingrediente también en el catálogo, sin mover las tarjetas. Si hay muchos seleccionados, deslizá horizontalmente la fila; cuando está vacío, solo aparece el título. Los cambios se guardan con las mismas claves de las versiones anteriores.
+Tocá una tarjeta o **Editar cantidad** para indicar cantidad y unidad. Por ejemplo: 2 huevos, 500 ml de leche, 1 kg de harina o 600 g de papas. Guardar cero o desmarcar retira esa disponibilidad. El recuadro × hace lo mismo, sin borrar necesidades de compras.
 
-En **Acciones de Lo que tengo (⋮)**, **Tengo todo** y **Desmarcar todo** actúan sobre todos los ingredientes, aunque estén ocultos por búsqueda o categoría. Si el ingrediente ya tiene fila en compras, marcarlo lo mueve a Comprados y desmarcarlo lo devuelve a Pendientes. No se crean filas nuevas automáticamente.
+Los alimentos secos y cocidos no se intercambian. En los ingredientes que las recetas usan cocidos, el editor permite elegir esa presentación. Los líquidos se muestran en ml/l y los huevos en unidades, usando las equivalencias del paquete. Las conversiones aproximadas se explican en el editor; `≈` indica redondeo de presentación, sin redondear el cálculo interno.
 
-El botón **Ver qué puedo cocinar**, al final del contenido, abre los resultados. No es una barra fija: no tapa tarjetas ni el teclado. **Ayuda** reúne las explicaciones secundarias; los errores de guardado permanecen visibles y la etiqueta **Datos de prueba** se muestra cuando corresponde. El acceso superior con bolsa cuenta los pendientes de compras. La barra inferior reúne el contador de seleccionados, el menú ⋮ y la acción principal. Las pestañas siguen disponibles. Si cambiás la despensa, los resultados se recalculan.
+**Tengo todo** conserva una marca de presencia sin inventar cantidades para los ingredientes nuevos; es necesario confirmarlas antes de considerarlos suficientes. **Desmarcar todo** retira la disponibilidad, también con filtros activos. Ambas acciones siguen dentro de ⋮; Ayuda reúne las aclaraciones.
 
-## Resultados
+## Recetas
 
-Hay tres secciones, con contador y mensaje cuando están vacías:
+Se mantienen las tres secciones por ingredientes con cantidades insuficientes: **Ya tenés todo, ¡a cocinar!**, **Ya casi** (1–3) y **Con algunas compras más**. El orden es faltantes, tiempo y nombre. Las 39 recetas incorporadas tienen tiempo total; siete tiempos se estimaron y están señalados en `datos/auditoria/tiempos_estimados_7_2026-10-15.md`. «Rápidas» exige estrictamente menos de 20 minutos.
 
-| Sección | Ingredientes únicos faltantes |
-| --- | --- |
-| Ya tenés todo, ¡a cocinar! | 0 |
-| Ya casi | 1 a 3 |
-| Con algunas compras más | Más de 3 |
+Buscá por receta o ingrediente, filtrá completas/faltantes y elegí **Todas, Rápidas, Veggie, Pastas, Carnes o Desayunos**. Rápidas requiere menos de 20 minutos; Veggie exige ingredientes declarados sin origen animal; Desayunos conserva la decisión editorial. Cada receta puede tener varias categorías.
 
-El orden dentro de cada sección es menor número de faltantes, menor tiempo y nombre. El selector manual de orden se retiró para no contradecir la agrupación. Podés buscar por nombre o ingrediente y filtrar recetas completas o incompletas; los contadores reflejan los resultados visibles.
+**Ver preparación** conserva instrucciones completas y estados de ingredientes. Permite ajustar **porciones** y **preparaciones** (por ejemplo, dos veces la misma receta). Si la receta ya está incluida en compras, el cambio recalcula sus necesidades. Los pasos originales no se reescriben ni se alteran tiempos al escalar.
 
-Las tarjetas completas tienen borde verde y texto **Tenés todo**. Las incompletas tienen borde y franja bordó con el número de faltantes. Todas conservan dibujos, nombres de faltantes, tiempo, porciones y acceso a **Ver preparación**.
+**Añadir a compras** registra un ingrediente de esa receta. **Añadir receta a compras** incluye todas sus necesidades, también las cubiertas, para poder descontar el inventario una sola vez al combinar recetas. Solo las cantidades faltantes quedan pendientes. Volver a incorporar la misma receta/ingrediente no lo duplica.
 
-## Detalle de receta
+El detalle muestra energía, proteínas, carbohidratos y grasas para la receta completa y por porción. Son **estimaciones** del motor y los datos aportados, con equivalencias aproximadas; no ajustan pérdidas de cocción o absorción. Las hojas de té coladas se compran como insumo, pero no se computan como alimento ingerido. Un cálculo incompleto no presenta valores faltantes como cero ni subtotales como una receta completa.
 
-El detalle muestra cantidades, unidades y pasos. No tiene casillas: ✓ indica Disponible y + indica Te falta. Los símbolos son estados, no controles. La disponibilidad se cambia en Lo que tengo mediante **Editar lo que tengo**, que cierra el diálogo y lleva el foco al buscador. Al volver a abrir la receta se muestra la selección actualizada.
+### Crear tus recetas
 
-Junto a los faltantes, **Añadir a compras** incorpora el ingrediente con su receta de origen; nunca lo marca disponible. Cuando está añadido se muestra **En tu lista** y **Quitar**, que lo retira globalmente de compras. Si todavía hay faltantes pendientes de añadir, se muestra **Añadir todos los faltantes**. Si todos están ya en compras, se informa; si la receta está completa, aparece **Tenés todos los ingredientes**.
+En Recetas tocá **Crear receta**. Escribí nombre, porciones, minutos de preparación y cocción; elegí ingredientes del catálogo por nombre o alias, indicá cantidades y unidades, y agregá pasos en orden. Podés mover o quitar pasos y guardar un borrador si todavía no terminaste. El total de minutos se muestra mientras editás. **Desayunos** se marca si vos lo elegís; las demás categorías se calculan con las mismas reglas del catálogo. Editar, duplicar y borrar aparecen solo en el detalle de tus recetas. Si borrás una receta incluida en compras, Avanzi avisa y conserva sus necesidades como pendientes sin asociación; una compra confirmada permanece en Lo que tengo.
 
-La nota visible recuerda **Revisá las cantidades antes de cocinar**. **Sobre estos datos** contiene las aclaraciones adicionales. Los errores de guardado permanecen visibles fuera de ese desplegable. Cerrar o Escape devuelve el foco al acceso a la receta.
+Podés añadir una foto desde archivos, galería o cámara si tu navegador ofrece esa opción. Se aceptan JPG, PNG y WebP de hasta 10 MB de origen; se reduce a un máximo aproximado de 1000 px y se guarda como WebP en **IndexedDB**. La foto y la receta solo están en ese navegador y dispositivo: GitHub Pages no las recibe ni las sincroniza. Si cambiás de navegador, dispositivo, origen de Live Server o borrás los datos del sitio, podrías perderlas. El respaldo portátil con fotos es una prioridad siguiente, todavía no implementada. Una foto ausente usa la ilustración local de respaldo.
 
-## Lista de compras
+## Compras inteligentes
 
-El acceso superior cuenta **solo pendientes**. Cada fila tiene casilla, dibujo, nombre y × para eliminar. Los orígenes de receta se conservan internamente sin mostrarlos; no se duplican ingredientes compartidos.
+Una fila por identificador de ingrediente, con cantidad pendiente y acceso a **Ver recetas y cantidades**. Las presentaciones o medidas incompatibles se conservan separadas dentro de la misma fila. El encabezado cuenta ingredientes pendientes, no cantidades ni recetas.
 
-- Marcar la casilla añade el ingrediente a Lo que tengo y mueve la fila a **Comprados (N)**, con el nombre tachado. La sección se puede plegar y desplegar.
-- Desmarcar devuelve la fila a Pendientes y retira de la despensa solamente la disponibilidad que incorporó esa compra. Si ya lo tenías, se conserva.
-- × elimina la fila y sus asociaciones, sin quitar ni añadir nada a la despensa.
-- Vaciar lista pide confirmación y conserva la despensa.
+La regla es:
 
-Una fila pendiente es una tarea de compra: puede seguir pendiente aunque ya tengas el ingrediente, cuando lo tenías antes y desmarcás la compra. Esto evita que deshacer una tarea borre una selección previa.
+**A comprar = máximo(0, suma de necesidades incluidas − cantidad disponible)**
 
-**Regla de coordinación con Lo que tengo:** una edición manual toma prioridad. Si hay una fila, marcar desde Lo que tengo la mueve a Comprados; desmarcar la devuelve a Pendientes. Esa acción manual quita a la compra la propiedad de la selección: deshacer la compra después no retira una disponibilidad elegida manualmente. Tengo todo y Desmarcar todo aplican esta regla a todas las filas, sin eliminarlas ni crear otras.
+Ejemplo: 3 huevos para una receta + 3 para otra = 6; si tenés 2, comprás **4**, no 2. El inventario se descuenta una sola vez. Los orígenes de cada cantidad permanecen visibles al desplegar la fila.
 
-Si un ingrediente comprado deja de estar disponible, su fila se reabre como pendiente. Volver a añadirlo desde una receta no lo duplica y conserva los orígenes anteriores. Añadir a compras nunca significa tenerlo.
+- La casilla abre **Registrar compra**. Confirmá cuánto adquiriste: si faltan 6 huevos y comprás 4, quedan 4 disponibles y 2 pendientes. Repetir el envío de esa misma confirmación no vuelve a sumarlos.
+- Cuando la necesidad está cubierta, pasa a **Comprados**. Esa sección también incluye lo cubierto con existencias anteriores; no implica una compra nueva.
+- Desmarcar deshace compras registradas del ingrediente. Solo retira lo incorporado por esas compras si no hubo una edición manual posterior; nunca retira existencias anteriores. Cada confirmación también tiene **Deshacer esta compra**.
+- × elimina todas las necesidades de esa fila sin modificar inventario. **Quitar vínculo** elimina solo la asociación con una receta.
+- **Guardar** en una necesidad permite ajustar esa compra. Ese ajuste no cambia los ingredientes originales ni la nutrición de la receta: si reducís una necesidad, el detalle puede seguir indicando cantidades insuficientes.
+- **Recetas incluidas** permite cambiar porciones/preparaciones o quitar una receta entera. **Vaciar lista** pide confirmación y conserva el inventario.
 
-Debajo se muestran recetas que todavía están incompletas y quedarían completas con la **despensa real más las compras pendientes**. Se excluyen las ya completas y las parcialmente cubiertas. No se suman cantidades ni se calculan precios. La nota recuerda revisar cantidades; el resto está en Sobre esta lista. Los errores de guardado siguen visibles.
+Añadir a compras **nunca significa tenerlo**. La disponibilidad de recetas incluidas reserva las existencias por orden de incorporación, considerando la receta completa, para no asignarlas dos veces. Las recetas no incluidas se evalúan individualmente. Si retirás vínculos o reducís necesidades, podés tener compras cubiertas y una receta todavía incompleta; no se añaden nuevos ingredientes sin tu acción.
 
-Las casillas y los botones tienen nombres accesibles; el foco sigue al ingrediente al cambiar de sección, y Comprados se abre cuando hace falta para mantenerlo visible. Cerrar o Escape devuelve el foco al acceso superior.
+**Después de comprar** usa el inventario real más las compras pendientes y excluye recetas ya completas o parcialmente cubiertas. No hay un calendario ni consumo automático al cocinar.
 
-## Guardado y compatibilidad
+## Datos anteriores y guardado
 
-Se conservan las claves `que-cocino.despensa.v1` y `que-cocino.compras.v1`. La despensa sigue siendo un arreglo de IDs. Las compras antiguas (`[{id, recetas}]`) se leen sin perder filas o asociaciones. No se reescriben solo por abrir la app; cuando hace falta guardar un cambio se usa el nuevo formato.
+Las selecciones antiguas se conservan como **cantidad por confirmar**, ya que antes no se guardaban cantidades. Las compras antiguas también se conservan como necesidades por confirmar. Los IDs antiguos sin una correspondencia inequívoca aparecen en **Referencias anteriores**, para que elijas el ingrediente actual; después confirmá su cantidad y presentación.
 
-Las compras ahora contienen un objeto con `version: 2` e `items`. Cada item conserva `id`, `recetas`, `comprado` e `incorporadoPorCompra`. Este último registra si la casilla de compras incorporó la disponibilidad, para deshacerla con seguridad. Una fila antigua que ya estaba disponible se conserva como comprada, con propiedad falsa, en vez de desaparecer.
+No se renombra ningún ID del paquete ni se adivina qué variedad de aceite o arroz tenías. Se conserva una copia del contenido anterior dentro del primer estado nuevo guardado.
 
-Para cambiar disponibilidad y estado de compra juntos, se guarda provisionalmente el estado anterior y la operación deseada en la misma clave de compras. Después se guarda la despensa y se confirma la lista. Si una escritura falla, se muestra un aviso y las pantallas pueden reflejar cambios temporales. Al recargar se usa el estado anterior si la despensa no confirmó la operación; si la confirmó, se recuperan la fila nueva y su propiedad desde la operación provisional. Así tampoco se pierde la posibilidad de deshacer una compra si falla la última escritura.
+Inventario, necesidades, porciones, confirmaciones y transiciones se guardan juntos en **una única escritura de localStorage**, con la clave existente `que-cocino.despensa.v1`. La clave `que-cocino.compras.v1` se lee al recuperar datos antiguos y queda intacta; deja de ser una segunda copia activa. Un fallo conserva el snapshot anterior completo; la app avisa qué es temporal y permite reintentar.
 
-No hay claves nuevas ni migraciones que borren listas. Un error de carga del catálogo no escribe almacenamiento. Las referencias antiguas se limpian sin perder ingredientes vigentes; se permiten filas sin receta de origen. Un JSON inválido o una versión desconocida muestra un aviso sin sobrescribir automáticamente los datos anteriores.
+Tus recetas se guardan por separado en `avanzi.recetas.usuario.v1` (versión 1); el catálogo público de 39 recetas no se modifica. Las fotos solo se guardan como Blob en IndexedDB `avanzi-fotos-v1`; la receta contiene `imagenId`, nunca el archivo ni una URL remota. Una foto compartida por una receta publicada y su borrador se conserva mientras cualquiera de los dos la use. Si el guardado de recetas propias está dañado se bloquea su sobrescritura y también las escrituras del inventario para proteger planes vinculados. La app muestra un aviso. Borradores y recetas propias no se sincronizan entre pestañas.
 
-Las listas se conservan parciales o vacías al recargar en el mismo navegador y dirección. No se sincronizan entre dispositivos o pestañas abiertas simultáneamente. Borrar los datos del navegador borra las listas.
+Si falla la carga de un catálogo no se escribe almacenamiento. Si los datos guardados son inválidos, se bloquea su sobrescritura y se informa. Se conservan listas vacías y referencias vigentes cuando desaparecen otras. Una receta retirada puede dejar sus necesidades como compras sin asociación activa.
 
-## Archivos
+El guardado es local a ese navegador/origen. Si Avanzi detecta que otra pestaña cambió el inventario o las recetas propias, bloquea la escritura de la pestaña desactualizada y pide recargar. Esto evita sobrescribir cambios ya detectados, pero `localStorage` no permite garantizar una transacción entre dos pestañas que escriban exactamente al mismo tiempo. No hay cuentas ni sincronización entre dispositivos. No abrir una versión antigua de Avanzi sobre el mismo origen para editar estos datos nuevos.
 
-| Archivo o carpeta | Función |
-| --- | --- |
-| `index.html` | Pantallas, buscadores, controles y diálogos. |
-| `estilos.css` | Identidad blanca y verde compartida por todas las vistas; estilos consolidados de cabecera, botones, campos, tarjetas y diálogos. |
-| `app.js` | Carga y validación, selección, agrupación, búsqueda, detalle, recuadro de selección, compras y guardado. |
-| `datos/recetas.json` | Única fuente de las cinco recetas de prueba; sin cambios en esta entrega. |
-| `datos/ingredientes.json` | Nombres, categorías y dibujos, relacionados por identificador; sin cambios. |
-| `imagenes/` | Dibujos SVG originales de marca, recetas y despensa; variantes coloreadas en `lo-que-tengo/`; permisos en `FUENTES.md`. |
-| `fuentes/` | Alfa Slab One y Fraunces locales, con licencias SIL OFL; origen en `FUENTES.md`. |
-| `AGENTS.md` | Reglas de futuros cambios. |
-| `README.md` | Estas instrucciones. |
+Para publicar más adelante en GitHub Pages, los archivos se sirven juntos desde la raíz del proyecto o desde una subruta de repositorio: las rutas locales son relativas. Se comprobó la subruta con un servidor local, sin publicar. Una dirección de Pages distinta de la de Live Server constituye otro origen y no comparte sus datos locales.
 
 ## Prueba sencilla
 
-1. Abrí **⋮ → Desmarcar todo** y seleccioná Aceite, Sal, Huevo y Espinaca. Comprobá el recuadro superior; desmarcá uno con × y volvé a seleccionarlo desde su tarjeta.
-2. Pulsá **Ver qué puedo cocinar**: los huevos con espinaca deben aparecer en **Ya tenés todo**.
-3. Abrí la tortilla de papas y pulsá **Añadir todos los faltantes**.
-4. Cerrá el detalle y abrí compras: deben aparecer Papa y Cebolla; la tortilla debe figurar entre las posibilidades después de comprar, pero todavía no entre las completas.
-5. Marcá las casillas de Papa y Cebolla en la lista. La tortilla ahora debe estar completa.
-6. Recargá: la selección permanece; compras muestra cero pendientes y conserva las filas en Comprados.
+1. Buscá Huevo en Lo que tengo y guardá **2 unidades**.
+2. Abrí **Tortilla de papas** y **Tostadas francesas**, y añadí cada receta a compras.
+3. En compras, desplegá Huevo: se muestran las necesidades de ambas recetas y se restan tus 2 huevos una sola vez.
+4. Marcá la casilla, confirmá una compra parcial y revisá cómo baja el pendiente.
+5. Recargá: inventario, porciones, necesidades y compra parcial deben permanecer.
+6. En Recetas incluidas, quitá una receta. Su aporte desaparece; lo comprado sigue en Lo que tengo.
 
-## Pruebas históricas de versiones anteriores
+Para probar sin alterar tus listas habituales, usá otro perfil o puerto de Live Server.
 
-Se ejecutaron en Chromium con servidor HTTP local:
+## Archivos principales
 
-- Casos con 0, 1, 3 y 4 faltantes; agrupación, contadores, mensajes vacíos y desempates por tiempo/nombre.
-- Doce combinaciones de búsqueda y filtros de recetas; búsqueda de despensa sin tildes, categorías y recarga parcial.
-- Detalle editable; añadir a compras sin modificar despensa; botón desactivado cuando no hay faltantes; quitar desde detalle.
-- Ingrediente compartido sin duplicación y con dos recetas de origen; cobertura total frente a parcial; recálculo al quitar; exclusión de recetas ya completas.
-- Ya lo compré; retirada desde detalle y despensa; desmarcar sin añadir automáticamente; confirmación y cancelación de vaciado.
-- Persistencia parcial y vacía de ambas listas; datos de compras inválidos; errores simulados de almacenamiento y de carga JSON.
-- Teclado, foco después de editar, Escape y devolución del foco desde ambos diálogos.
-- Ambas pestañas y diálogos a 1440, 390 y 320 píxeles sin desplazamiento horizontal; dibujos y fuente local cargados. Sin errores JavaScript en los flujos probados.
+| Archivo | Función |
+| --- | --- |
+| `index.html`, `estilos.css` | Pantallas aprobadas y controles adicionales de cantidades/porciones. |
+| `app.js` | Orquestación de la interfaz, eventos y presentación. |
+| `catalogo_avanzi.mjs` | Valida las recetas e ingredientes públicos y prepara sus metadatos visuales; no accede al DOM ni al almacenamiento. |
+| `motor_avanzi.mjs` | Único motor nutricional del paquete y clasificación de recetas. |
+| `planificacion.mjs` | Conversiones para inventario, necesidades por receta, agregación, disponibilidad y detección de transiciones. Sin DOM ni guardado. |
+| `almacenamiento.mjs` | Validación del estado, compatibilidad anterior y escritura atómica. |
+| `persistencia_navegador.mjs` | Envuelve `localStorage` y detecta pestañas desactualizadas antes de escribir; no modifica las claves ni el formato. |
+| `datos/recetas.json`, `datos/ingredientes.json` | Catálogo de 39 recetas con el parche auditado de siete tiempos, y catálogo de 200 ingredientes sin cambios. |
+| `datos/equivalencias_g.json` | Equivalencias aportadas, sin modificaciones. |
+| `datos/compatibilidad.json` | Referencias a dibujos propios y correcciones documentadas de clasificación, sin tocar nutrientes. |
+| `datos/auditoria/` | Fuentes y auditoría del paquete; no es un segundo catálogo activo. |
+| `recetas_usuario.mjs`, `editor_recetas.mjs`, `fotos_usuario.mjs` | Validación y guardado de recetas propias, formulario y fotos locales. |
+| `imagenes/`, `fuentes/` | Recursos locales y sus créditos/licencias. |
+| `pruebas/` | Pruebas automáticas; no necesarias para abrir la app. |
 
-Para líneas repetidas y empate de tiempo se interceptó el JSON solo en pruebas temporales. No se alteraron artificialmente las recetas entregadas. Las herramientas de prueba están fuera del proyecto y no son dependencias de la app.
+Las interfaces entre módulos son deliberadamente pequeñas: `catalogo_avanzi.mjs` exporta `validarRecetas`, `validarIngredientes` y `prepararIngredientes` y recibe datos JSON, sin leer almacenamiento; `planificacion.mjs` recibe estado y motor y devuelve cálculos o una copia al separar necesidades; `almacenamiento.mjs` recibe un objeto con `getItem`/`setItem` para recuperar y guardar; `persistencia_navegador.mjs` entrega ese objeto protegido y una comprobación previa; `fotos_usuario.mjs` gestiona Blobs por `imagenId` y filtra qué IDs ya no tienen referencias. `app.js` conecta esos resultados con los controles y los avisos. Ningún módulo de datos importa `app.js`.
 
-Pendiente: esta entrega en tu Live Server, otros navegadores, lector de pantalla y teléfonos reales. Las capturas móviles del detalle muestran su zona inicial: ingredientes y pasos adicionales se consultan desplazándose dentro del diálogo.
+[DATOS.md](./DATOS.md) explica contratos y persistencia; [DISEÑO.md](./DISEÑO.md), presentación; [AGENTS.md](./AGENTS.md), reglas; [CAMBIOS.md](./CAMBIOS.md), resultados por entrega.
 
-## Guardar en GitHub sin tocar main
+## Ejecutar las pruebas (opcional para desarrollo)
 
-1. Copiá los archivos descargados a la carpeta del repositorio en tu computadora.
-2. En GitHub Desktop creá o seleccioná una rama de trabajo distinta de `main`.
-3. Revisá **Changes**, escribí un resumen y hacé **Commit** en esa rama.
-4. **Publish branch** o **Push origin** guarda código en GitHub; no publica una web.
+Con Node disponible, desde la carpeta del proyecto:
 
-Para traerlo a otra computadora, cloná el repositorio o hacé **Fetch origin**, seleccioná esa rama y usá **Pull origin** si aparece. Abrí la carpeta en VS Code y usá Live Server. No hagas merge a main ni actives GitHub Pages hasta autorizarlo.
+```sh
+node pruebas/paquete.mjs
+node --test pruebas/logica.mjs
+node pruebas/tiempos_estimados.mjs
+node --test pruebas/recetas_usuario.mjs
+```
 
-## Alcance
+Las pruebas de navegador `pruebas/navegador.cjs` y `pruebas/editor_navegador.cjs` requieren una instalación **externa** de Playwright y Chromium y la app servida por HTTP. Se pueden indicar `AVANZI_PLAYWRIGHT`, `AVANZI_CHROMIUM`, `AVANZI_URL` y `AVANZI_CAPTURAS`. No instalar nada de esto para usar Avanzi con Live Server.
 
-Sin backend, dependencias, nutrientes, precios, perfil, planificador, recetas propias, mascota ni funciones premium. No se publicó ni se incorporaron cambios a main.
+Los resultados de esta entrega están en CAMBIOS. Pendientes: Live Server del usuario, teléfonos reales, otros navegadores, lector de pantalla y revisión editorial/nutricional de los datos del paquete. Las siete estimaciones de tiempo no son mediciones. El respaldo portátil de recetas propias y fotos también queda pendiente. [ETAPAS_FUTURAS.md](./ETAPAS_FUTURAS.md) separa el diseño de perfil y recompensas de esta entrega.
 
-## Evolución del guardado coordinado
+## GitHub Desktop
 
-La protección de versiones anteriores se conserva mediante el registro provisional descrito arriba. El nuevo comportamiento guarda tanto la disponibilidad como el estado de la fila y quién incorporó el ingrediente. Las pruebas históricas con Ya lo compré corresponden a la interacción anterior; hoy se compra marcando una casilla y la fila se conserva.
-
-## Histórico: propuesta limitada al detalle de receta
-
-El detalle usa fondo blanco sin papel, texto negro pimienta, verde albahaca y pequeños acentos rojo tomate. En computadora, información e ingredientes están en dos columnas; en celular, se apilan. La imagen va en el medio y la preparación numerada debajo. Cerrar permanece visible durante el desplazamiento interno. Se conservan las fuentes actuales y todas las acciones.
-
-La foto adecuada no pudo verificarse y descargarse porque el destino consultado devolvió 403. Se muestra provisionalmente la ilustración original de los ingredientes, identificada como tal, sin cambiar los dibujos de las tarjetas. No se generaron imágenes ni se usó una fotografía de otro plato.
-
-Pasaron las pruebas del flujo existente y del guardado coordinado (24 combinaciones y casos adicionales). También casillas, añadir/quitar compras, añadir todos, botón desactivado para receta completa, foco, Escape y cierre visible al desplazar en celular. Se capturó la tortilla de papas con disponibilidad parcial y completa en computadora y celular. Se comprobó contraste de los colores de texto sobre blanco, controles de al menos 44 píxeles y ausencia de desbordamiento horizontal. Pendiente: foto reutilizable del plato, otros navegadores, lectores de pantalla y teléfonos reales.
-
-## Última simplificación de ingredientes del detalle
-
-Se probaron añadir y quitar, añadir todos, selección de despensa sin cambios al añadir compras, editar despensa y actualizar la receta al volver, retirada automática de compras al marcar disponibilidad, persistencia al recargar, receta completa sin botón desactivado, aviso de almacenamiento fuera del desplegable, teclado, Escape y retorno de foco. Se generaron capturas con la misma tortilla y selección anterior, además del estado completo. No hay desplazamiento horizontal a 320, 390 y 1440 píxeles; botones de al menos 44 píxeles. Pendientes: Live Server del usuario, otros navegadores, lector de pantalla y dispositivos reales. Las pruebas anteriores que editaban casillas dentro del detalle describen versiones históricas; en la versión actual la edición se realiza en Mi despensa.
-
-## Campo opcional datosDePrueba
-
-`datosDePrueba` puede omitirse o tener `false`: la receta carga sin etiqueta de prueba. Con `true`, tarjetas y detalle muestran los avisos correspondientes. Cualquier otro tipo (incluidos null, texto y números) muestra un error de validación que indica el campo y la receta. El aviso general cuenta las recetas de prueba en catálogos mixtos; no presupone que todas lo sean. La ausencia de etiqueta no garantiza verificación nutricional, seguridad alimentaria ni derechos de reutilización.
-
-El catálogo entregado conserva sus cinco recetas y valores `true`; no se añadieron recetas reales ni nutrientes. Las pruebas de true, false, campo ausente, catálogo mixto y tipos inválidos se realizan con datos temporales.
-
-Resultados de esta modificación: pasaron en Chromium los seis casos de aceptación (catálogo actual, true, false, campo ausente, catálogo mixto y tipo inválido). Para tipos inválidos se probaron texto, número, null, objeto y lista. Los avisos se comprobaron en cabecera, contador, tarjetas y detalle; los errores identifican el campo y la receta, sin modificar almacenamiento. En un catálogo mixto se comprobó además búsqueda y añadir compras sin alterar disponibilidad. También se repitieron las pruebas del detalle simplificado, editar despensa, actualización, persistencia, teclado, foco y errores de guardado. Los datos temporales se sirvieron solo al navegador de pruebas; el JSON entregado y el CSS permanecen idénticos. Pendiente: comprobar esta entrega con Live Server en tu computadora y otros navegadores.
-
-## Recuperación de referencias antiguas
-
-Si un identificador guardado ya no existe en el catálogo, se descarta solo ese ingrediente y se conservan los demás. En compras se conservan las asociaciones a recetas que todavía existen. Un ingrediente vigente cuya receta desapareció permanece pendiente, con el texto Sin receta asociada, y puede quitarse o marcarse Ya lo compré.
-
-Se informa brevemente cuando se descartaron referencias antiguas. La limpieza se guarda únicamente después de cargar y validar los catálogos. Un error de carga no escribe ni reemplaza los datos guardados. Si falla guardar la limpieza, las referencias se omiten durante la sesión y se avisa que los datos almacenados anteriores siguen intactos. Las claves y el guardado coordinado no cambian. Los errores de JSON o estructura inválida siguen usando el manejo de errores existente.
-
-Se reprodujo antes de corregir: sal junto con un ID antiguo recuperaba cero seleccionados; una compra con receta antigua hacía recuperar cero compras incluso con otro ingrediente válido. Pasaron los seis casos solicitados con datos temporales: ingrediente añadido, ID antiguo en despensa, receta eliminada, ingrediente eliminado, selecciones vacías/recarga y fallos de carga sin escrituras. También persistencia de compras sin asociación, Ya lo compré, error al guardar la limpieza, reconciliación y catálogo incoherente. Se repitieron las pruebas del guardado coordinado y del campo datosDePrueba opcional. El catálogo entregado y el diseño permanecen iguales. Pendiente: esta entrega en tu Live Server y otros navegadores.
-
-## Pruebas de la lista con casillas
-
-Se probaron datos antiguos sin cambios al abrir, marcar/desmarcar, disponibilidad anterior que no debe retirarse, eliminación de filas compradas y pendientes, ingredientes compartidos y asociaciones, recarga, listas vacías, confirmación de vaciado, sincronización manual y global desde Mi despensa, reapertura sin duplicación y posibilidades totales/parciales. Se verificó que las recetas completas no aparezcan entre las posibilidades.
-
-Diez escenarios de marcar/desmarcar con guardado normal, fallo solo de despensa, fallo de compras, fallo de ambas y fallo de la última confirmación recuperaron la fila, su estado y su reversibilidad. Se comprobó también una acción posterior que reintenta guardar sin pérdida; carga de catálogo fallida sin escrituras; formatos inválidos sin sobrescritura; referencias antiguas; y regresión del campo datosDePrueba opcional.
-
-Se revisaron teclado, foco al mover filas, plegar/desplegar Comprados, Escape, controles de al menos 44 píxeles y ausencia de desplazamiento horizontal a 320, 390 y 1440 píxeles. Las capturas son del código renderizado. Pendiente: tu Live Server, otros navegadores, lector de pantalla y teléfonos reales.
-
-Prueba sencilla: añadí los faltantes de una receta. En compras, marcá uno: debe pasar a Comprados y aparecer en la despensa. Desmarcalo: debe volver a Pendientes y retirarse de la despensa si esa compra lo incorporó. Marcá otra vez y eliminá la fila con ×: debe seguir en la despensa. Recargá y comprobá que el estado se conserva.
-
-## Histórico: Recuadro de seleccionados
-
-Se aplica solo a Lo que tengo: blanco, Avanzi en negro, selección y acciones verdes, pequeños indicadores rojos y trece dibujos locales coloreados sobre transparencia. La tipografía aprobada, recetas, datos, IDs, almacenamiento y reglas de compras se conservan. Esta fue la revisión previa limitada a Lo que tengo; la última unificación, descrita al final, extiende su identidad a Recetas, detalle y compras.
-
-Se recibió luego el boceto B y se ajustó la propuesta existente: marca más protagonista, pestaña subrayada, contador rojo sobre la bolsa, recuadro crema compacto, categorías en una fila desplazable y barra inferior con contador, ⋮ y acción principal. Los dibujos siguen siendo variantes de los SVG propios existentes; no se recortaron ilustraciones del boceto ni se generaron imágenes. El acabado con volumen de la referencia queda pendiente de recursos individuales apropiados. No se añadieron queso ni categorías ficticias: se usa el catálogo actual. La acción inferior está en el flujo del documento para evitar superposiciones; el recuadro usa desplazamiento horizontal y mantiene una altura acotada.
-
-Pruebas aprobadas en Chromium: selección y desmarcado desde tarjetas y recuadro, orden estable del catálogo, búsquedas sin tildes/mayúsculas, categorías, recuadro completo con filtros, recarga parcial/vacía y 13 seleccionados con desplazamiento horizontal. Se comprobó teclado (Space, Enter, Escape y flechas), foco tras desmarcar, menú y Ayuda, controles de al menos 44 píxeles y ausencia de desplazamiento horizontal de página a 320, 390 y 1440 píxeles. Los contrastes de texto comprobados superan 4,5:1.
-
-También pasaron resultados, búsqueda de recetas, detalle y Editar lo que tengo, sincronización manual con compras, asociaciones compartidas, propiedad reversible de compra, listas vacías/datos antiguos, referencias obsoletas y errores visibles. Diez escenarios de marcar/desmarcar con guardado normal o fallos de despensa, compras, ambas o confirmación final conservaron fila y reversibilidad al recargar. Los fallos de carga no escriben almacenamiento; los formatos inválidos no se sobrescriben automáticamente. Se repitieron true, false, campo ausente, catálogo mixto y cinco tipos inválidos de datosDePrueba; las recetas entregadas no se alteraron.
-
-Se abrió además el proyecto desde un servidor HTTP local real: cargaron JSON, fuentes y dibujos sin errores JavaScript, archivos fallidos ni peticiones a servicios externos. Las capturas corresponden al código implementado. Se comprobó una ventana móvil reducida sin barra superpuesta; queda pendiente el teclado virtual de un teléfono real, otros navegadores, lector de pantalla y tu Live Server. Los JSON, fuentes y dibujos originales de las otras pantallas conservan sus comprobaciones SHA-256. Las herramientas de prueba y las capturas quedan fuera del código de la app, sin dependencias nuevas.
-
-Validación del ajuste al boceto recibido: pasaron nuevamente selección desde ambas zonas, búsqueda/categorías, recarga parcial y vacía, trece seleccionados, foco/teclado, resultados y detalle. También compras, asociaciones, compatibilidad y diez escenarios de escritura normal o fallida. Las capturas nuevas muestran los cuatro ingredientes de la referencia que ya existen en el catálogo: tomate, huevo, aceite y espinaca. Se conservó el orden original del catálogo.
-
-## Diseño unificado · referencia aprobada
-
-Lo que tengo sigue siendo la referencia de composición y funcionamiento. Recetas, detalle y compras usan ahora el mismo fondo blanco, texto negro suave, acciones verdes, foco visible, campos compactos y bordes discretos. Se retiraron del HTML las dos frases de bienvenida y del CSS las texturas/adornos: no se ocultan mediante estilos distintos según pestaña.
-
-Las tarjetas reutilizan los dos alimentos de los SVG coloreados existentes del detalle. Compras reutiliza los dibujos individuales coloreados de Lo que tengo. No se modificaron los SVG, fuentes ni JSON. Se conserva la clasificación 0 / 1–3 / más de 3, sus desempates y filtros. Hay contadores pequeños junto a los títulos y Sin coincidencias cuando una búsqueda o filtro deja una sección vacía. Se retiró la explicación repetida de cada receta completa; las cantidades e instrucciones siguen completas en el detalle. Las aclaraciones generales están en Ayuda, con etiquetas de prueba y errores fuera del desplegable.
-
-Se tocó JavaScript únicamente para presentar los contadores, mensajes, etiquetas y rutas a dibujos existentes, y retirar la clase que cambiaba el aspecto por pestaña. Las 28 funciones restantes y los cálculos, validaciones y guardado conservan su código. Se comprobaron por comparación los JSON, fuentes y todos los dibujos SVG originales. Las claves y las selecciones guardadas no cambian.
-
-**Ilustración de marca pendiente de archivo:** la imagen de tomate, mozzarella y albahaca se ve en el mensaje del usuario, pero su PNG original no está disponible como archivo descargable en este entorno. La cabecera muestra por ahora Avanzi como texto, sin sustituir la imagen por otra. Para incorporarla y optimizarla con transparencia hace falta recibir el PNG como archivo o dentro de un ZIP. La ilustración fue generada con ChatGPT según el usuario; su procedencia se documenta en imagenes/FUENTES.md. La verificación de tamaños, proporción y legibilidad de esa ilustración queda pendiente.
-
-Pruebas aprobadas en Chromium: diez cambios de pestaña con cabecera y fondo estables; búsqueda sin tildes/mayúsculas; filtros; tres secciones y sus contadores; mensajes de búsqueda vacía; detalle sin casillas, con estados y pasos completos; añadir/quitar individual y todos los faltantes; Editar lo que tengo; checklist reversible y recetas posibles después de comprar; recarga parcial/vacía. También menú ⋮, selección desde las dos zonas, filtros activos y trece seleccionados con desplazamiento horizontal.
-
-Se repitieron compatibilidad con datos antiguos, asociaciones compartidas, referencias obsoletas, datos inválidos y fallos de carga sin escrituras. Diez escenarios de marcar/desmarcar con guardado normal o fallos de despensa, compras, ambas y confirmación final conservaron estado y reversibilidad tras recargar. Se repitieron true, false, campo ausente, catálogo mixto y cinco tipos inválidos de datosDePrueba.
-
-Se comprobó teclado, foco al actualizar, Escape y retorno de foco, cierre visible durante el desplazamiento interno, controles de al menos 44 píxeles y ausencia de desbordes a 320, 390 y 1440 píxeles. Las capturas preliminares son del proyecto abierto en un servidor HTTP local real, sin errores JavaScript ni archivos fallidos en los flujos probados. Quedan pendientes el PNG de marca y su evaluación sobre blanco a ambos tamaños, tu Live Server, teléfonos reales, otros navegadores y lector de pantalla. Las herramientas están fuera del proyecto y no son dependencias de la app.
-
-## Ilustraciones opcionales y respaldo · última modificación
-
-Se puede añadir una receta al JSON sin crear un dibujo específico. Avanzi conserva la convención actual: busca `imagenes/detalle/<id-de-receta>.svg`; si no existe o falla, usa `imagenes/por-defecto/receta.svg`. El detalle lo identifica como **Ilustración genérica de cocina**, sin presentarlo como fotografía o representación del plato.
-
-En `datos/ingredientes.json`, **id, nombre y categoria siguen siendo obligatorios**. Podés omitir la propiedad `dibujo`; Avanzi usa `imagenes/por-defecto/ingrediente.svg`. Si la incluís, debe seguir siendo una ruta local como `./imagenes/despensa/huevo.svg`. No uses null, números o una cadena vacía para indicar ausencia: omití la propiedad. Solo se admiten las categorías existentes y los identificadores deben ser únicos y corresponder a los de las recetas.
-
-Cuando hay un dibujo definido, primero se intenta la variante coloreada de Lo que tengo; si falta, se conserva el original, y después se intenta el recurso por defecto. Esa misma recuperación se usa en catálogo, recuadro y compras. Cada ruta se intenta una sola vez por imagen. Si también falla el respaldo, la imagen queda invisible conservando su espacio: el nombre, las casillas, las acciones y los pasos siguen disponibles. En el detalle se indica **Sin ilustración**. No hay bucles de reintentos ni cambios de selección causados por imágenes.
-
-Cambios: `app.js` concentra la recuperación en una función y permite omitir dibujo; `estilos.css` añade únicamente la regla que oculta una imagen fallida sin cambiar sus dimensiones; `imagenes/por-defecto/` contiene dos SVG propios. Se actualizaron README, AGENTS y procedencia. El HTML, los JSON entregados, las fuentes y los recursos anteriores se conservaron. Las funciones de disponibilidad, clasificación, compras y almacenamiento no cambiaron. No se añadieron recetas reales, nutrientes ni la marca pendiente.
-
-Pasaron los seis casos pedidos con datos temporales: receta nueva sin SVG propio en tarjeta/detalle; ingrediente sin dibujo en catálogo/seleccionados/compras; rutas inexistentes con cada candidata intentada una sola vez; respaldo también inexistente sin iconos rotos, con nombres/controles y tamaños conservados; ilustraciones actuales sin solicitar respaldos; y selección, compras reversibles y recarga parcial/vacía. También se conservó el SVG original cuando faltó solo su variante coloreada.
-
-Se verificó que omitir dibujo no debilita ID, nombre ni categoría. Se rechazaron ID vacío/duplicado, nombre vacío, categoría desconocida, dibujo null/numérico, ruta externa y cadena vacía, sin escribir almacenamiento ante una carga inválida. El detalle etiqueta el recurso genérico y mantiene pasos completos. Se comprobó foco al comprar, navegación con teclado, Escape y ausencia de bucles tras terminar las cargas.
-
-Se repitieron las pruebas de guardado coordinado (diez escenarios normales o fallidos), compatibilidad/referencias antiguas, datosDePrueba opcional, búsqueda/categorías y selección desde ambas zonas. El proyecto se abrió además con servidor HTTP real: navegación repetida, clasificación/filtros, detalle y checklist, controles de 44 píxeles y 320/390/1440 sin desbordes. Las funciones de cálculo y guardado, el HTML, los JSON, fuentes y SVG previos siguen idénticos a la base aprobada.
-
-Las capturas muestran el código implementado con catálogos temporales enviados solo al navegador, sin incluir esos datos en el ZIP. Las herramientas de prueba quedan fuera del proyecto. Pendiente: tu Live Server, teléfonos reales, otros navegadores y lector de pantalla. La marca pendiente no se incorporó en este pedido.
+Copiá el ZIP extraído al repositorio local, seleccioná una rama distinta de `main`, revisá Changes y hacé Commit. Cuando decidas subir tu rama, usá Publish branch o Push origin; no publica una web. En otra computadora: Fetch origin, elegir esa rama y Pull origin. Esta entrega no se publicó ni se incorporó a main.
