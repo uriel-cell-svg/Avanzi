@@ -1,0 +1,4275 @@
+{
+  "base": "USDA FoodData Central SR Legacy, abril de 2018",
+  "fechaConsulta": "2026-10-15",
+  "nota": "Referencias elegidas para un proyecto educativo. Promedios y mezclas son estimaciones locales, no valores publicados como tales por USDA. No requieren confirmación del usuario.",
+  "registros": [
+    {
+      "ingredienteId": "cebolla",
+      "metodo": "referencia_USDA",
+      "criterio": "Cebolla cruda",
+      "componentes": [
+        {
+          "fdcId": 170000,
+          "descripcionEn": "Onions, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.1,
+            "carbohidratosG": 9.34,
+            "kcal": 40.0,
+            "proteinasG": 1.1
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170000/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "manteca",
+      "metodo": "referencia_USDA",
+      "criterio": "Manteca sin sal",
+      "componentes": [
+        {
+          "fdcId": 173430,
+          "descripcionEn": "Butter, without salt",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 717.0,
+            "grasasG": 81.11,
+            "carbohidratosG": 0.06,
+            "proteinasG": 0.85
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173430/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "ajo",
+      "metodo": "referencia_USDA",
+      "criterio": "Ajo crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169230,
+          "descripcionEn": "Garlic, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 33.06,
+            "kcal": 149.0,
+            "proteinasG": 6.36,
+            "grasasG": 0.5
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169230/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "sal",
+      "metodo": "referencia_USDA",
+      "criterio": "Sal de mesa",
+      "componentes": [
+        {
+          "fdcId": 173468,
+          "descripcionEn": "Salt, table",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 0.0,
+            "carbohidratosG": 0.0,
+            "kcal": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173468/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "huevo",
+      "metodo": "referencia_USDA",
+      "criterio": "Huevo entero crudo sin cáscara",
+      "componentes": [
+        {
+          "fdcId": 171287,
+          "descripcionEn": "Egg, whole, raw, fresh",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 143.0,
+            "proteinasG": 12.56,
+            "grasasG": 9.51,
+            "carbohidratosG": 0.72
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171287/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "harina-trigo",
+      "metodo": "referencia_USDA",
+      "criterio": "Harina blanca de trigo común sin enriquecer (no equivalencia exacta con grados 000/0000)",
+      "componentes": [
+        {
+          "fdcId": 169761,
+          "descripcionEn": "Wheat flour, white, all-purpose, unenriched",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.98,
+            "carbohidratosG": 76.31,
+            "kcal": 364.0,
+            "proteinasG": 10.33
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169761/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "azucar",
+      "metodo": "referencia_USDA",
+      "criterio": "Azúcar — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 169655,
+          "descripcionEn": "Sugars, granulated",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 0.0,
+            "kcal": 387.0,
+            "carbohidratosG": 99.98
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169655/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aceite-oliva",
+      "metodo": "referencia_USDA",
+      "criterio": "Aceite de oliva — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 171413,
+          "descripcionEn": "Oil, olive, salad or cooking",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 100.0,
+            "carbohidratosG": 0.0,
+            "kcal": 884.0,
+            "proteinasG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171413/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "leche",
+      "metodo": "referencia_USDA",
+      "criterio": "Leche entera, 3,25 % de grasa, con vitamina D",
+      "componentes": [
+        {
+          "fdcId": 171265,
+          "descripcionEn": "Milk, whole, 3.25% milkfat, with added vitamin D",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 3.25,
+            "carbohidratosG": 4.8,
+            "kcal": 61.0,
+            "proteinasG": 3.15
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171265/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "agua",
+      "metodo": "referencia_USDA",
+      "criterio": "Agua potable de red",
+      "componentes": [
+        {
+          "fdcId": 173647,
+          "descripcionEn": "Beverages, water, tap, drinking",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 0.0,
+            "kcal": 0.0,
+            "proteinasG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173647/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pimienta-negra",
+      "metodo": "referencia_USDA",
+      "criterio": "Pimienta negra seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 170931,
+          "descripcionEn": "Spices, pepper, black",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 3.26,
+            "carbohidratosG": 63.95,
+            "kcal": 251.0,
+            "proteinasG": 10.39
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170931/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "tomate",
+      "metodo": "referencia_USDA",
+      "criterio": "Tomate rojo maduro crudo",
+      "componentes": [
+        {
+          "fdcId": 170457,
+          "descripcionEn": "Tomatoes, red, ripe, raw, year round average",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 3.89,
+            "kcal": 18.0,
+            "grasasG": 0.2,
+            "proteinasG": 0.88
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170457/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "papa",
+      "metodo": "referencia_USDA",
+      "criterio": "Papa cruda con piel",
+      "componentes": [
+        {
+          "fdcId": 170026,
+          "descripcionEn": "Potatoes, flesh and skin, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.09,
+            "kcal": 77.0,
+            "proteinasG": 2.05,
+            "carbohidratosG": 17.49
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170026/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "zanahoria",
+      "metodo": "referencia_USDA",
+      "criterio": "Zanahoria crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 170393,
+          "descripcionEn": "Carrots, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.93,
+            "grasasG": 0.24,
+            "carbohidratosG": 9.58,
+            "kcal": 41.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170393/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aceite-vegetal",
+      "metodo": "referencia_USDA",
+      "criterio": "Aceite de girasol como aceite vegetal estándar.",
+      "componentes": [
+        {
+          "fdcId": 171025,
+          "descripcionEn": "Oil, sunflower, linoleic, (approx. 65%)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 100.0,
+            "carbohidratosG": 0.0,
+            "kcal": 884.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171025/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pimenton",
+      "metodo": "referencia_USDA",
+      "criterio": "Pimentón seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 171329,
+          "descripcionEn": "Spices, paprika",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 14.14,
+            "grasasG": 12.89,
+            "carbohidratosG": 53.99,
+            "kcal": 282.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171329/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "perejil",
+      "metodo": "referencia_USDA",
+      "criterio": "Perejil crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 170416,
+          "descripcionEn": "Parsley, fresh",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 6.33,
+            "kcal": 36.0,
+            "grasasG": 0.79,
+            "proteinasG": 2.97
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170416/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "canela",
+      "metodo": "referencia_USDA",
+      "criterio": "Canela seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 171320,
+          "descripcionEn": "Spices, cinnamon, ground",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 3.99,
+            "grasasG": 1.24,
+            "carbohidratosG": 80.59,
+            "kcal": 247.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171320/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "limon",
+      "metodo": "referencia_USDA",
+      "criterio": "Limón crudo sin cáscara (no ralladura)",
+      "componentes": [
+        {
+          "fdcId": 167746,
+          "descripcionEn": "Lemons, raw, without peel",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 1.1,
+            "grasasG": 0.3,
+            "carbohidratosG": 9.32,
+            "kcal": 29.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/167746/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "crema-leche",
+      "metodo": "referencia_USDA",
+      "criterio": "Crema de leche líquida para batir, alta en grasa",
+      "componentes": [
+        {
+          "fdcId": 170859,
+          "descripcionEn": "Cream, fluid, heavy whipping",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 36.08,
+            "kcal": 340.0,
+            "proteinasG": 2.84,
+            "carbohidratosG": 2.84
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170859/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "queso",
+      "metodo": "promedio_simple",
+      "criterio": "Promedio simple de cheddar, muzzarella y gruyere; referencia genérica, no queso crema.",
+      "componentes": [
+        {
+          "fdcId": 173414,
+          "descripcionEn": "Cheese, cheddar (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 3.37,
+            "kcal": 403.0,
+            "proteinasG": 22.87,
+            "grasasG": 33.31
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173414/nutrients"
+        },
+        {
+          "fdcId": 170845,
+          "descripcionEn": "Cheese, mozzarella, whole milk",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 22.17,
+            "grasasG": 22.14,
+            "carbohidratosG": 2.4,
+            "kcal": 299.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170845/nutrients"
+        },
+        {
+          "fdcId": 171242,
+          "descripcionEn": "Cheese, gruyere",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 413.0,
+            "grasasG": 32.34,
+            "carbohidratosG": 0.36,
+            "proteinasG": 29.81
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171242/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "jengibre",
+      "metodo": "referencia_USDA",
+      "criterio": "Jengibre crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169231,
+          "descripcionEn": "Ginger root, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.75,
+            "proteinasG": 1.82,
+            "carbohidratosG": 17.77,
+            "kcal": 80.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169231/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pasta-seca",
+      "metodo": "referencia_USDA",
+      "criterio": "Pasta de trigo seca sin enriquecer",
+      "componentes": [
+        {
+          "fdcId": 168927,
+          "descripcionEn": "Pasta, dry, unenriched",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 13.04,
+            "grasasG": 1.51,
+            "carbohidratosG": 74.67,
+            "kcal": 371.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168927/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pollo",
+      "metodo": "referencia_USDA",
+      "criterio": "Pollo crudo, carne sin piel ni huesos.",
+      "componentes": [
+        {
+          "fdcId": 171052,
+          "descripcionEn": "Chicken, broilers or fryers, meat only, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 3.08,
+            "carbohidratosG": 0.0,
+            "kcal": 119.0,
+            "proteinasG": 21.39
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171052/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "comino",
+      "metodo": "referencia_USDA",
+      "criterio": "Comino seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 170923,
+          "descripcionEn": "Spices, cumin seed",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 17.81,
+            "grasasG": 22.27,
+            "carbohidratosG": 44.24,
+            "kcal": 375.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170923/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "laurel",
+      "metodo": "referencia_USDA",
+      "criterio": "Laurel seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 170917,
+          "descripcionEn": "Spices, bay leaf",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 7.61,
+            "grasasG": 8.36,
+            "carbohidratosG": 74.97,
+            "kcal": 313.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170917/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "arroz-blanco",
+      "metodo": "referencia_USDA",
+      "criterio": "Arroz blanco de grano largo, seco, sin enriquecer",
+      "componentes": [
+        {
+          "fdcId": 169756,
+          "descripcionEn": "Rice, white, long-grain, regular, raw, unenriched",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 7.13,
+            "grasasG": 0.66,
+            "carbohidratosG": 79.95,
+            "kcal": 365.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169756/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aji-picante",
+      "metodo": "referencia_USDA",
+      "criterio": "Ají picante fresco crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 170106,
+          "descripcionEn": "Peppers, hot chili, red, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.44,
+            "carbohidratosG": 8.81,
+            "kcal": 40.0,
+            "proteinasG": 1.87
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170106/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "panceta",
+      "metodo": "referencia_USDA",
+      "criterio": "Panceta curada, sin cocinar",
+      "componentes": [
+        {
+          "fdcId": 168277,
+          "descripcionEn": "Pork, cured, bacon, unprepared",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 13.66,
+            "grasasG": 37.13,
+            "carbohidratosG": 0.0,
+            "kcal": 393.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168277/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pure-tomate-concentrado",
+      "metodo": "referencia_USDA",
+      "criterio": "Extracto de tomate en lata sin sal agregada",
+      "componentes": [
+        {
+          "fdcId": 170459,
+          "descripcionEn": "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 18.91,
+            "kcal": 82.0,
+            "grasasG": 0.47,
+            "proteinasG": 4.32
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170459/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "carne-vacuna",
+      "metodo": "promedio_simple",
+      "criterio": "Media simple de cuatro cortes vacunos crudos, con grasa comestible: chuck eye, top sirloin, top round y rib eye. No es un promedio de consumo argentino.",
+      "componentes": [
+        {
+          "fdcId": 168660,
+          "descripcionEn": "Beef, chuck eye roast, boneless, America's Beef Roast, separable lean and fat, trimmed to 0\" fat, all grades, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 11.48,
+            "carbohidratosG": 0.0,
+            "kcal": 180.0,
+            "proteinasG": 19.18
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168660/nutrients"
+        },
+        {
+          "fdcId": 168726,
+          "descripcionEn": "Beef, top sirloin, steak, separable lean and fat, trimmed to 1/8\" fat, all grades, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 12.71,
+            "proteinasG": 20.3,
+            "kcal": 201.0,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168726/nutrients"
+        },
+        {
+          "fdcId": 169529,
+          "descripcionEn": "Beef, round, top round, steak, separable lean and fat, trimmed to 1/8\" fat, all grades, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 22.06,
+            "grasasG": 7.93,
+            "kcal": 166.0,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169529/nutrients"
+        },
+        {
+          "fdcId": 172156,
+          "descripcionEn": "Beef, rib eye steak/roast, boneless, lip-on, separable lean and fat, trimmed to 1/8\" fat, all grades, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 18.85,
+            "grasasG": 18.73,
+            "carbohidratosG": 0.0,
+            "kcal": 244.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172156/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pan",
+      "metodo": "referencia_USDA",
+      "criterio": "Pan blanco comercial",
+      "componentes": [
+        {
+          "fdcId": 174924,
+          "descripcionEn": "Bread, white, commercially prepared (includes soft bread crumbs)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 3.33,
+            "carbohidratosG": 49.42,
+            "kcal": 266.0,
+            "proteinasG": 8.85
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174924/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "salsa-soja",
+      "metodo": "referencia_USDA",
+      "criterio": "Salsa de soja y trigo, tipo shoyu",
+      "componentes": [
+        {
+          "fdcId": 174277,
+          "descripcionEn": "Soy sauce made from soy and wheat (shoyu)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.57,
+            "carbohidratosG": 4.93,
+            "proteinasG": 8.14,
+            "kcal": 53.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174277/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "caldo-pollo",
+      "metodo": "referencia_USDA",
+      "criterio": "Caldo de pollo listo para consumir (no concentrado)",
+      "componentes": [
+        {
+          "fdcId": 174536,
+          "descripcionEn": "Soup, chicken broth, ready-to-serve",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.64,
+            "grasasG": 0.21,
+            "carbohidratosG": 0.44,
+            "kcal": 6.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174536/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "nuez-moscada",
+      "metodo": "referencia_USDA",
+      "criterio": "Nuez moscada seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 171326,
+          "descripcionEn": "Spices, nutmeg, ground",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 5.84,
+            "grasasG": 36.31,
+            "carbohidratosG": 49.29,
+            "kcal": 525.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171326/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "parmesano",
+      "metodo": "referencia_USDA",
+      "criterio": "Queso parmesano — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 170848,
+          "descripcionEn": "Cheese, parmesan, hard",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 25.0,
+            "proteinasG": 35.75,
+            "carbohidratosG": 3.22,
+            "kcal": 392.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170848/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "caldo",
+      "metodo": "promedio_simple",
+      "criterio": "Promedio de caldos de pollo, carne y verduras listos para consumir; no cubito concentrado.",
+      "componentes": [
+        {
+          "fdcId": 174536,
+          "descripcionEn": "Soup, chicken broth, ready-to-serve",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.64,
+            "grasasG": 0.21,
+            "carbohidratosG": 0.44,
+            "kcal": 6.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174536/nutrients"
+        },
+        {
+          "fdcId": 171538,
+          "descripcionEn": "Soup, beef broth or bouillon canned, ready-to-serve",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.22,
+            "carbohidratosG": 0.04,
+            "kcal": 7.0,
+            "proteinasG": 1.14
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171538/nutrients"
+        },
+        {
+          "fdcId": 171583,
+          "descripcionEn": "Soup, vegetable broth, ready to serve",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.24,
+            "grasasG": 0.07,
+            "carbohidratosG": 0.93,
+            "kcal": 5.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171583/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "miel",
+      "metodo": "referencia_USDA",
+      "criterio": "Miel — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 169640,
+          "descripcionEn": "Honey",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.3,
+            "grasasG": 0.0,
+            "carbohidratosG": 82.4,
+            "kcal": 304.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169640/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "oregano-seco",
+      "metodo": "referencia_USDA",
+      "criterio": "Orégano seco seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 171328,
+          "descripcionEn": "Spices, oregano, dried",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 4.28,
+            "carbohidratosG": 68.92,
+            "kcal": 265.0,
+            "proteinasG": 9.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171328/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "carne-picada-vacuna",
+      "metodo": "referencia_USDA",
+      "criterio": "Carne picada vacuna cruda, 15 % de grasa",
+      "componentes": [
+        {
+          "fdcId": 171796,
+          "descripcionEn": "Beef, ground, 85% lean meat / 15% fat, raw (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 15.0,
+            "proteinasG": 18.59,
+            "carbohidratosG": 0.0,
+            "kcal": 215.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171796/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "jugo-limon",
+      "metodo": "referencia_USDA",
+      "criterio": "Jugo de limón — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 167747,
+          "descripcionEn": "Lemon juice, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.35,
+            "grasasG": 0.24,
+            "carbohidratosG": 6.9,
+            "kcal": 22.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/167747/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pechuga-pollo",
+      "metodo": "referencia_USDA",
+      "criterio": "Pechuga de pollo cruda sin piel ni hueso",
+      "componentes": [
+        {
+          "fdcId": 171077,
+          "descripcionEn": "Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 2.62,
+            "kcal": 120.0,
+            "proteinasG": 22.5,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171077/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "salchicha",
+      "metodo": "referencia_USDA",
+      "criterio": "Salchicha tipo viena de carne y ave, hervida.",
+      "componentes": [
+        {
+          "fdcId": 171633,
+          "descripcionEn": "Frankfurter, meat and poultry, cooked, boiled",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 4.96,
+            "kcal": 298.0,
+            "grasasG": 26.28,
+            "proteinasG": 10.31
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171633/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "albahaca",
+      "metodo": "referencia_USDA",
+      "criterio": "Albahaca crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 172232,
+          "descripcionEn": "Basil, fresh",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.64,
+            "carbohidratosG": 2.65,
+            "kcal": 23.0,
+            "proteinasG": 3.15
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172232/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cayena",
+      "metodo": "referencia_USDA",
+      "criterio": "Pimienta de Cayena seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 170932,
+          "descripcionEn": "Spices, pepper, red or cayenne",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 17.27,
+            "carbohidratosG": 56.63,
+            "kcal": 318.0,
+            "proteinasG": 12.01
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170932/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "mezcla-especias",
+      "metodo": "mezcla_estimada",
+      "criterio": "Mezcla genérica estimada a partes iguales de pimentón, comino, coriandro y pimienta; sin sal.",
+      "componentes": [
+        {
+          "fdcId": 171329,
+          "descripcionEn": "Spices, paprika",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 14.14,
+            "grasasG": 12.89,
+            "carbohidratosG": 53.99,
+            "kcal": 282.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171329/nutrients"
+        },
+        {
+          "fdcId": 170923,
+          "descripcionEn": "Spices, cumin seed",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 17.81,
+            "grasasG": 22.27,
+            "carbohidratosG": 44.24,
+            "kcal": 375.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170923/nutrients"
+        },
+        {
+          "fdcId": 170922,
+          "descripcionEn": "Spices, coriander seed",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 17.77,
+            "carbohidratosG": 54.99,
+            "kcal": 298.0,
+            "proteinasG": 12.37
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170922/nutrients"
+        },
+        {
+          "fdcId": 170931,
+          "descripcionEn": "Spices, pepper, black",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 3.26,
+            "carbohidratosG": 63.95,
+            "kcal": 251.0,
+            "proteinasG": 10.39
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170931/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cilantro",
+      "metodo": "referencia_USDA",
+      "criterio": "Cilantro fresco crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169997,
+          "descripcionEn": "Coriander (cilantro) leaves, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 2.13,
+            "carbohidratosG": 3.67,
+            "kcal": 23.0,
+            "grasasG": 0.52
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169997/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "hongos",
+      "metodo": "referencia_USDA",
+      "criterio": "Champiñones crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169251,
+          "descripcionEn": "Mushrooms, white, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.34,
+            "proteinasG": 3.09,
+            "carbohidratosG": 3.26,
+            "kcal": 22.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169251/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "levadura-seca",
+      "metodo": "referencia_USDA",
+      "criterio": "Levadura seca — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 175043,
+          "descripcionEn": "Leavening agents, yeast, baker's, active dry",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 7.61,
+            "carbohidratosG": 41.22,
+            "kcal": 325.0,
+            "proteinasG": 40.44
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/175043/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "mostaza",
+      "metodo": "referencia_USDA",
+      "criterio": "Mostaza amarilla preparada",
+      "componentes": [
+        {
+          "fdcId": 172234,
+          "descripcionEn": "Mustard, prepared, yellow",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 3.74,
+            "grasasG": 3.34,
+            "carbohidratosG": 5.83,
+            "kcal": 60.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172234/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "apio",
+      "metodo": "referencia_USDA",
+      "criterio": "Apio crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169988,
+          "descripcionEn": "Celery, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 14.0,
+            "carbohidratosG": 2.97,
+            "grasasG": 0.17,
+            "proteinasG": 0.69
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169988/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cebolla-verdeo",
+      "metodo": "referencia_USDA",
+      "criterio": "Cebolla de verdeo crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 170005,
+          "descripcionEn": "Onions, spring or scallions (includes tops and bulb), raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 32.0,
+            "grasasG": 0.19,
+            "proteinasG": 1.83,
+            "carbohidratosG": 7.34
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170005/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "morron",
+      "metodo": "referencia_USDA",
+      "criterio": "Morrón rojo crudo como opción estándar.",
+      "componentes": [
+        {
+          "fdcId": 170108,
+          "descripcionEn": "Peppers, sweet, red, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 26.0,
+            "carbohidratosG": 6.03,
+            "proteinasG": 0.99,
+            "grasasG": 0.3
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170108/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "extracto-vainilla",
+      "metodo": "referencia_USDA",
+      "criterio": "Extracto de vainilla — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 173471,
+          "descripcionEn": "Vanilla extract",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.06,
+            "carbohidratosG": 12.65,
+            "kcal": 288.0,
+            "proteinasG": 0.06
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173471/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "polvo-hornear",
+      "metodo": "referencia_USDA",
+      "criterio": "Polvo de hornear de doble acción con sulfato de aluminio y sodio",
+      "componentes": [
+        {
+          "fdcId": 172803,
+          "descripcionEn": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 0.0,
+            "carbohidratosG": 27.7,
+            "kcal": 53.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172803/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "salsa-tomate",
+      "metodo": "referencia_USDA",
+      "criterio": "Salsa de tomate en lata",
+      "componentes": [
+        {
+          "fdcId": 170054,
+          "descripcionEn": "Tomato products, canned, sauce",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 1.2,
+            "kcal": 24.0,
+            "grasasG": 0.3,
+            "carbohidratosG": 5.31
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170054/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "crema-acida",
+      "metodo": "referencia_USDA",
+      "criterio": "Crema ácida cultivada (no equivale a toda crème fraîche)",
+      "componentes": [
+        {
+          "fdcId": 171257,
+          "descripcionEn": "Cream, sour, cultured",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 2.44,
+            "grasasG": 19.35,
+            "carbohidratosG": 4.63,
+            "kcal": 198.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171257/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "tomate-enlatado",
+      "metodo": "referencia_USDA",
+      "criterio": "Tomate rojo maduro enlatado en jugo de tomate",
+      "componentes": [
+        {
+          "fdcId": 170051,
+          "descripcionEn": "Tomatoes, red, ripe, canned, packed in tomato juice",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.25,
+            "carbohidratosG": 3.47,
+            "kcal": 16.0,
+            "proteinasG": 0.79
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170051/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "vinagre",
+      "metodo": "referencia_USDA",
+      "criterio": "Vinagre blanco — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 172237,
+          "descripcionEn": "Vinegar, distilled",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "proteinasG": 0.0,
+            "carbohidratosG": 0.04,
+            "kcal": 18.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172237/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "ajo-polvo",
+      "metodo": "referencia_USDA",
+      "criterio": "Ajo en polvo seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 171325,
+          "descripcionEn": "Spices, garlic powder",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 16.55,
+            "grasasG": 0.73,
+            "carbohidratosG": 72.73,
+            "kcal": 331.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171325/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "azucar-negra",
+      "metodo": "referencia_USDA",
+      "criterio": "Azúcar rubia o negra — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 168833,
+          "descripcionEn": "Sugars, brown",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 98.09,
+            "kcal": 380.0,
+            "proteinasG": 0.12
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168833/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "mayonesa",
+      "metodo": "referencia_USDA",
+      "criterio": "Mayonesa regular comercial",
+      "componentes": [
+        {
+          "fdcId": 171009,
+          "descripcionEn": "Salad dressing, mayonnaise, regular",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.96,
+            "grasasG": 74.85,
+            "carbohidratosG": 0.57,
+            "kcal": 680.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171009/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "romero",
+      "metodo": "referencia_USDA",
+      "criterio": "Romero crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 173473,
+          "descripcionEn": "Rosemary, fresh",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 5.86,
+            "carbohidratosG": 20.7,
+            "kcal": 131.0,
+            "proteinasG": 3.31
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173473/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "tomillo",
+      "metodo": "referencia_USDA",
+      "criterio": "Tomillo crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 173470,
+          "descripcionEn": "Thyme, fresh",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 5.56,
+            "grasasG": 1.68,
+            "carbohidratosG": 24.45,
+            "kcal": 101.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173470/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "coriandro",
+      "metodo": "referencia_USDA",
+      "criterio": "Semillas de coriandro (no hojas frescas)",
+      "componentes": [
+        {
+          "fdcId": 170922,
+          "descripcionEn": "Spices, coriander seed",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 17.77,
+            "carbohidratosG": 54.99,
+            "kcal": 298.0,
+            "proteinasG": 12.37
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170922/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "curcuma",
+      "metodo": "referencia_USDA",
+      "criterio": "Cúrcuma seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 172231,
+          "descripcionEn": "Spices, turmeric, ground",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 3.25,
+            "carbohidratosG": 67.14,
+            "kcal": 312.0,
+            "proteinasG": 9.68
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172231/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "maicena",
+      "metodo": "referencia_USDA",
+      "criterio": "Almidón de maíz — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 169698,
+          "descripcionEn": "Cornstarch",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.05,
+            "carbohidratosG": 91.27,
+            "kcal": 381.0,
+            "proteinasG": 0.26
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169698/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pan-rallado",
+      "metodo": "referencia_USDA",
+      "criterio": "Pan rallado — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 174928,
+          "descripcionEn": "Bread, crumbs, dry, grated, plain",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 5.3,
+            "proteinasG": 13.35,
+            "carbohidratosG": 71.98,
+            "kcal": 395.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174928/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "salsa-inglesa",
+      "metodo": "referencia_USDA",
+      "criterio": "Salsa inglesa — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 171610,
+          "descripcionEn": "Sauce, worcestershire",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 0.0,
+            "carbohidratosG": 19.17,
+            "kcal": 77.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171610/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "yogur",
+      "metodo": "referencia_USDA",
+      "criterio": "Yogur natural entero",
+      "componentes": [
+        {
+          "fdcId": 171284,
+          "descripcionEn": "Yogurt, plain, whole milk",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 61.0,
+            "proteinasG": 3.47,
+            "grasasG": 3.25,
+            "carbohidratosG": 4.66
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171284/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cerdo",
+      "metodo": "referencia_USDA",
+      "criterio": "Carne de cerdo cruda: compuesto USDA de cortes, con grasa comestible.",
+      "componentes": [
+        {
+          "fdcId": 167810,
+          "descripcionEn": "Pork, fresh, composite of trimmed leg, loin, shoulder, and spareribs, (includes cuts to be cured), separable lean and fat, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 18.22,
+            "grasasG": 14.79,
+            "carbohidratosG": 0.0,
+            "kcal": 211.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/167810/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "morron-rojo",
+      "metodo": "referencia_USDA",
+      "criterio": "Morrón rojo crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 170108,
+          "descripcionEn": "Peppers, sweet, red, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 26.0,
+            "carbohidratosG": 6.03,
+            "proteinasG": 0.99,
+            "grasasG": 0.3
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170108/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "salsa-picante",
+      "metodo": "referencia_USDA",
+      "criterio": "Salsa picante — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 171604,
+          "descripcionEn": "Sauce, peppers, hot, chili, mature red, canned",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.9,
+            "grasasG": 0.6,
+            "carbohidratosG": 3.9,
+            "kcal": 21.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171604/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "arvejas",
+      "metodo": "referencia_USDA",
+      "criterio": "Arvejas verdes crudas",
+      "componentes": [
+        {
+          "fdcId": 170419,
+          "descripcionEn": "Peas, green, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 14.45,
+            "kcal": 81.0,
+            "proteinasG": 5.42,
+            "grasasG": 0.4
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170419/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "clavo-olor",
+      "metodo": "referencia_USDA",
+      "criterio": "Clavo de olor seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 171321,
+          "descripcionEn": "Spices, cloves, ground",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 13.0,
+            "carbohidratosG": 65.53,
+            "kcal": 274.0,
+            "proteinasG": 5.97
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171321/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "huevo-yema",
+      "metodo": "referencia_USDA",
+      "criterio": "Yema de huevo cruda",
+      "componentes": [
+        {
+          "fdcId": 172184,
+          "descripcionEn": "Egg, yolk, raw, fresh",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 26.54,
+            "proteinasG": 15.86,
+            "carbohidratosG": 3.59,
+            "kcal": 322.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172184/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "lima",
+      "metodo": "referencia_USDA",
+      "criterio": "Lima cruda",
+      "componentes": [
+        {
+          "fdcId": 168155,
+          "descripcionEn": "Limes, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.2,
+            "carbohidratosG": 10.54,
+            "proteinasG": 0.7,
+            "kcal": 30.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168155/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aji-molido",
+      "metodo": "alimento_similar",
+      "criterio": "Ají seco molido: se aproxima con pimiento rojo/cayena en polvo.",
+      "componentes": [
+        {
+          "fdcId": 170932,
+          "descripcionEn": "Spices, pepper, red or cayenne",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 17.27,
+            "carbohidratosG": 56.63,
+            "kcal": 318.0,
+            "proteinasG": 12.01
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170932/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aji-polvo",
+      "metodo": "referencia_USDA",
+      "criterio": "Mezcla de especias chili en polvo (no ají fresco)",
+      "componentes": [
+        {
+          "fdcId": 171319,
+          "descripcionEn": "Spices, chili powder",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 14.28,
+            "carbohidratosG": 49.7,
+            "kcal": 282.0,
+            "proteinasG": 13.46
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171319/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "bicarbonato",
+      "metodo": "referencia_USDA",
+      "criterio": "Bicarbonato de sodio — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 175040,
+          "descripcionEn": "Leavening agents, baking soda",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 0.0,
+            "kcal": 0.0,
+            "proteinasG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/175040/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "choclo",
+      "metodo": "referencia_USDA",
+      "criterio": "Choclo amarillo crudo",
+      "componentes": [
+        {
+          "fdcId": 169998,
+          "descripcionEn": "Corn, sweet, yellow, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 3.27,
+            "grasasG": 1.35,
+            "carbohidratosG": 18.7,
+            "kcal": 86.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169998/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "fruta",
+      "metodo": "promedio_simple",
+      "criterio": "Promedio de manzana, naranja y banana frescas, partes comestibles.",
+      "componentes": [
+        {
+          "fdcId": 171688,
+          "descripcionEn": "Apples, raw, with skin (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 13.81,
+            "kcal": 52.0,
+            "grasasG": 0.17,
+            "proteinasG": 0.26
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171688/nutrients"
+        },
+        {
+          "fdcId": 169097,
+          "descripcionEn": "Oranges, raw, all commercial varieties",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.12,
+            "carbohidratosG": 11.75,
+            "kcal": 47.0,
+            "proteinasG": 0.94
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169097/nutrients"
+        },
+        {
+          "fdcId": 173944,
+          "descripcionEn": "Bananas, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 22.84,
+            "kcal": 89.0,
+            "proteinasG": 1.09,
+            "grasasG": 0.33
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173944/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "grasa-cerdo",
+      "metodo": "referencia_USDA",
+      "criterio": "Grasa de cerdo — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 171401,
+          "descripcionEn": "Lard",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 902.0,
+            "proteinasG": 0.0,
+            "grasasG": 100.0,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171401/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aceite-sesamo",
+      "metodo": "referencia_USDA",
+      "criterio": "Aceite de sésamo — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 171016,
+          "descripcionEn": "Oil, sesame, salad or cooking",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 100.0,
+            "carbohidratosG": 0.0,
+            "kcal": 884.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171016/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "brocoli",
+      "metodo": "referencia_USDA",
+      "criterio": "Brócoli crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 170379,
+          "descripcionEn": "Broccoli, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 6.64,
+            "kcal": 34.0,
+            "grasasG": 0.37,
+            "proteinasG": 2.82
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170379/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cebolla-morada",
+      "metodo": "alimento_similar",
+      "criterio": "Se aproxima con cebolla cruda genérica.",
+      "componentes": [
+        {
+          "fdcId": 170000,
+          "descripcionEn": "Onions, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.1,
+            "carbohidratosG": 9.34,
+            "kcal": 40.0,
+            "proteinasG": 1.1
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170000/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cebolla-polvo",
+      "metodo": "referencia_USDA",
+      "criterio": "Cebolla en polvo seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 171327,
+          "descripcionEn": "Spices, onion powder",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 1.04,
+            "carbohidratosG": 79.12,
+            "kcal": 341.0,
+            "proteinasG": 10.41
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171327/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cerveza",
+      "metodo": "referencia_USDA",
+      "criterio": "Cerveza regular",
+      "componentes": [
+        {
+          "fdcId": 168746,
+          "descripcionEn": "Alcoholic beverage, beer, regular, all",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.46,
+            "carbohidratosG": 3.55,
+            "kcal": 43.0,
+            "grasasG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168746/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "vino",
+      "metodo": "promedio_simple",
+      "criterio": "Promedio de vino blanco y tinto de mesa.",
+      "componentes": [
+        {
+          "fdcId": 174837,
+          "descripcionEn": "Alcoholic beverage, wine, table, white",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 2.6,
+            "proteinasG": 0.07,
+            "kcal": 82.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174837/nutrients"
+        },
+        {
+          "fdcId": 173190,
+          "descripcionEn": "Alcoholic beverage, wine, table, red",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 2.61,
+            "kcal": 85.0,
+            "proteinasG": 0.07
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173190/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "vino-blanco",
+      "metodo": "referencia_USDA",
+      "criterio": "Vino blanco de mesa",
+      "componentes": [
+        {
+          "fdcId": 174837,
+          "descripcionEn": "Alcoholic beverage, wine, table, white",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 2.6,
+            "proteinasG": 0.07,
+            "kcal": 82.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174837/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "zapallito-zucchini",
+      "metodo": "referencia_USDA",
+      "criterio": "Zucchini crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169291,
+          "descripcionEn": "Squash, summer, zucchini, includes skin, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.32,
+            "carbohidratosG": 3.11,
+            "kcal": 17.0,
+            "proteinasG": 1.21
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169291/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "avena",
+      "metodo": "referencia_USDA",
+      "criterio": "Avena seca",
+      "componentes": [
+        {
+          "fdcId": 169705,
+          "descripcionEn": "Oats (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 16.89,
+            "grasasG": 6.9,
+            "carbohidratosG": 66.27,
+            "kcal": 389.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169705/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "azucar-impalpable",
+      "metodo": "referencia_USDA",
+      "criterio": "Azúcar impalpable — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 169656,
+          "descripcionEn": "Sugars, powdered",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "kcal": 389.0,
+            "proteinasG": 0.0,
+            "carbohidratosG": 99.77
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169656/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cardamomo",
+      "metodo": "referencia_USDA",
+      "criterio": "Cardamomo seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 170919,
+          "descripcionEn": "Spices, cardamom",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 10.76,
+            "grasasG": 6.7,
+            "carbohidratosG": 68.47,
+            "kcal": 311.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170919/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "echalote",
+      "metodo": "referencia_USDA",
+      "criterio": "Echalote crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 170499,
+          "descripcionEn": "Shallots, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 16.8,
+            "kcal": 72.0,
+            "grasasG": 0.1,
+            "proteinasG": 2.5
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170499/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "eneldo",
+      "metodo": "referencia_USDA",
+      "criterio": "Eneldo crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 172233,
+          "descripcionEn": "Dill weed, fresh",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 1.12,
+            "carbohidratosG": 7.02,
+            "kcal": 43.0,
+            "proteinasG": 3.46
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172233/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "espinaca",
+      "metodo": "referencia_USDA",
+      "criterio": "Espinaca crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 168462,
+          "descripcionEn": "Spinach, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 2.86,
+            "grasasG": 0.39,
+            "carbohidratosG": 3.63,
+            "kcal": 23.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168462/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "ketchup",
+      "metodo": "referencia_USDA",
+      "criterio": "Ketchup — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 168556,
+          "descripcionEn": "Catsup",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 1.04,
+            "grasasG": 0.1,
+            "carbohidratosG": 27.4,
+            "kcal": 101.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168556/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "mezcla-verduras",
+      "metodo": "promedio_simple",
+      "criterio": "Promedio de zanahoria, brócoli, zucchini y arvejas crudos.",
+      "componentes": [
+        {
+          "fdcId": 170393,
+          "descripcionEn": "Carrots, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.93,
+            "grasasG": 0.24,
+            "carbohidratosG": 9.58,
+            "kcal": 41.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170393/nutrients"
+        },
+        {
+          "fdcId": 170379,
+          "descripcionEn": "Broccoli, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 6.64,
+            "kcal": 34.0,
+            "grasasG": 0.37,
+            "proteinasG": 2.82
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170379/nutrients"
+        },
+        {
+          "fdcId": 169291,
+          "descripcionEn": "Squash, summer, zucchini, includes skin, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.32,
+            "carbohidratosG": 3.11,
+            "kcal": 17.0,
+            "proteinasG": 1.21
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169291/nutrients"
+        },
+        {
+          "fdcId": 170419,
+          "descripcionEn": "Peas, green, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 14.45,
+            "kcal": 81.0,
+            "proteinasG": 5.42,
+            "grasasG": 0.4
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170419/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "queso-cheddar",
+      "metodo": "referencia_USDA",
+      "criterio": "Queso cheddar — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 173414,
+          "descripcionEn": "Cheese, cheddar (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 3.37,
+            "kcal": 403.0,
+            "proteinasG": 22.87,
+            "grasasG": 33.31
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173414/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "te-negro",
+      "metodo": "referencia_USDA",
+      "criterio": "Té negro preparado en agua (no hojas secas)",
+      "componentes": [
+        {
+          "fdcId": 173227,
+          "descripcionEn": "Beverages, tea, black, brewed, prepared with tap water",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 0.0,
+            "carbohidratosG": 0.3,
+            "kcal": 1.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173227/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "brandy",
+      "metodo": "alimento_similar",
+      "criterio": "Aproximación con destilado de 40% alcohol; la energía incluye alcohol.",
+      "componentes": [
+        {
+          "fdcId": 174815,
+          "descripcionEn": "Alcoholic beverage, distilled, all (gin, rum, vodka, whiskey) 80 proof",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 0.0,
+            "kcal": 231.0,
+            "proteinasG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174815/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cebollin",
+      "metodo": "referencia_USDA",
+      "criterio": "Ciboulette crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169994,
+          "descripcionEn": "Chives, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 30.0,
+            "proteinasG": 3.27,
+            "grasasG": 0.73,
+            "carbohidratosG": 4.35
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169994/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "jamon",
+      "metodo": "referencia_USDA",
+      "criterio": "Jamón cocido deshuesado, aproximadamente 11 % de grasa",
+      "componentes": [
+        {
+          "fdcId": 167872,
+          "descripcionEn": "Pork, cured, ham, boneless, regular (approximately 11% fat), roasted",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 9.02,
+            "carbohidratosG": 0.0,
+            "kcal": 178.0,
+            "proteinasG": 22.62
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/167872/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "manzana",
+      "metodo": "referencia_USDA",
+      "criterio": "Manzana crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 171688,
+          "descripcionEn": "Apples, raw, with skin (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 13.81,
+            "kcal": 52.0,
+            "grasasG": 0.17,
+            "proteinasG": 0.26
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171688/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "naranja",
+      "metodo": "referencia_USDA",
+      "criterio": "Naranja crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169097,
+          "descripcionEn": "Oranges, raw, all commercial varieties",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.12,
+            "carbohidratosG": 11.75,
+            "kcal": 47.0,
+            "proteinasG": 0.94
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169097/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "porotos",
+      "metodo": "referencia_USDA",
+      "criterio": "Porotos secos tipo kidney como opción estándar; no cocidos.",
+      "componentes": [
+        {
+          "fdcId": 175193,
+          "descripcionEn": "Beans, kidney, all types, mature seeds, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 60.01,
+            "kcal": 333.0,
+            "grasasG": 0.83,
+            "proteinasG": 23.58
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/175193/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "repollo",
+      "metodo": "referencia_USDA",
+      "criterio": "Repollo crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169975,
+          "descripcionEn": "Cabbage, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.1,
+            "carbohidratosG": 5.8,
+            "kcal": 25.0,
+            "proteinasG": 1.28
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169975/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "banana",
+      "metodo": "referencia_USDA",
+      "criterio": "Banana crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 173944,
+          "descripcionEn": "Bananas, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 22.84,
+            "kcal": 89.0,
+            "proteinasG": 1.09,
+            "grasasG": 0.33
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173944/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "berenjena",
+      "metodo": "referencia_USDA",
+      "criterio": "Berenjena crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169228,
+          "descripcionEn": "Eggplant, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.18,
+            "carbohidratosG": 5.88,
+            "kcal": 25.0,
+            "proteinasG": 0.98
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169228/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "calabaza",
+      "metodo": "referencia_USDA",
+      "criterio": "Zapallo tipo pumpkin crudo (no todas las variedades)",
+      "componentes": [
+        {
+          "fdcId": 168448,
+          "descripcionEn": "Pumpkin, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 6.5,
+            "kcal": 26.0,
+            "grasasG": 0.1,
+            "proteinasG": 1.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168448/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "caldo-vacuno",
+      "metodo": "referencia_USDA",
+      "criterio": "Caldo de carne en lata listo para consumir",
+      "componentes": [
+        {
+          "fdcId": 171538,
+          "descripcionEn": "Soup, beef broth or bouillon canned, ready-to-serve",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.22,
+            "carbohidratosG": 0.04,
+            "kcal": 7.0,
+            "proteinasG": 1.14
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171538/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cordero",
+      "metodo": "referencia_USDA",
+      "criterio": "Cordero crudo: compuesto USDA de cortes con grasa comestible.",
+      "componentes": [
+        {
+          "fdcId": 172479,
+          "descripcionEn": "Lamb, composite of trimmed retail cuts, separable lean and fat, trimmed to 1/4\" fat, choice, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 16.88,
+            "grasasG": 21.59,
+            "carbohidratosG": 0.0,
+            "kcal": 267.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172479/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "fideos",
+      "metodo": "referencia_USDA",
+      "criterio": "Fideos de trigo secos, sin huevo.",
+      "componentes": [
+        {
+          "fdcId": 168927,
+          "descripcionEn": "Pasta, dry, unenriched",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 13.04,
+            "grasasG": 1.51,
+            "carbohidratosG": 74.67,
+            "kcal": 371.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168927/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "garam-masala",
+      "metodo": "mezcla_estimada",
+      "criterio": "Mezcla estimada: comino 25%, coriandro 25%, canela 15%, cardamomo 10%, clavo 10%, pimienta 15%.",
+      "componentes": [
+        {
+          "fdcId": 170923,
+          "descripcionEn": "Spices, cumin seed",
+          "pesoRelativo": 25,
+          "por100gOriginal": {
+            "proteinasG": 17.81,
+            "grasasG": 22.27,
+            "carbohidratosG": 44.24,
+            "kcal": 375.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170923/nutrients"
+        },
+        {
+          "fdcId": 170922,
+          "descripcionEn": "Spices, coriander seed",
+          "pesoRelativo": 25,
+          "por100gOriginal": {
+            "grasasG": 17.77,
+            "carbohidratosG": 54.99,
+            "kcal": 298.0,
+            "proteinasG": 12.37
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170922/nutrients"
+        },
+        {
+          "fdcId": 171320,
+          "descripcionEn": "Spices, cinnamon, ground",
+          "pesoRelativo": 15,
+          "por100gOriginal": {
+            "proteinasG": 3.99,
+            "grasasG": 1.24,
+            "carbohidratosG": 80.59,
+            "kcal": 247.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171320/nutrients"
+        },
+        {
+          "fdcId": 170919,
+          "descripcionEn": "Spices, cardamom",
+          "pesoRelativo": 10,
+          "por100gOriginal": {
+            "proteinasG": 10.76,
+            "grasasG": 6.7,
+            "carbohidratosG": 68.47,
+            "kcal": 311.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170919/nutrients"
+        },
+        {
+          "fdcId": 171321,
+          "descripcionEn": "Spices, cloves, ground",
+          "pesoRelativo": 10,
+          "por100gOriginal": {
+            "grasasG": 13.0,
+            "carbohidratosG": 65.53,
+            "kcal": 274.0,
+            "proteinasG": 5.97
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171321/nutrients"
+        },
+        {
+          "fdcId": 170931,
+          "descripcionEn": "Spices, pepper, black",
+          "pesoRelativo": 15,
+          "por100gOriginal": {
+            "grasasG": 3.26,
+            "carbohidratosG": 63.95,
+            "kcal": 251.0,
+            "proteinasG": 10.39
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170931/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "leche-coco",
+      "metodo": "referencia_USDA",
+      "criterio": "Leche de coco cruda obtenida de pulpa y agua",
+      "componentes": [
+        {
+          "fdcId": 170172,
+          "descripcionEn": "Nuts, coconut milk, raw (liquid expressed from grated meat and water)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 2.29,
+            "grasasG": 23.84,
+            "carbohidratosG": 5.54,
+            "kcal": 230.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170172/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pasas-uva",
+      "metodo": "referencia_USDA",
+      "criterio": "Pasas de uva — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 168165,
+          "descripcionEn": "Raisins, dark, seedless (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 3.3,
+            "grasasG": 0.25,
+            "carbohidratosG": 79.32,
+            "kcal": 299.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168165/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pepino",
+      "metodo": "referencia_USDA",
+      "criterio": "Pepino crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 168409,
+          "descripcionEn": "Cucumber, with peel, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 3.63,
+            "kcal": 15.0,
+            "grasasG": 0.11,
+            "proteinasG": 0.65
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168409/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "puerro",
+      "metodo": "referencia_USDA",
+      "criterio": "Puerro crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169246,
+          "descripcionEn": "Leeks, (bulb and lower leaf-portion), raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 61.0,
+            "grasasG": 0.3,
+            "proteinasG": 1.5,
+            "carbohidratosG": 14.15
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169246/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "queso-muzzarella",
+      "metodo": "referencia_USDA",
+      "criterio": "Mozzarella de leche entera",
+      "componentes": [
+        {
+          "fdcId": 170845,
+          "descripcionEn": "Cheese, mozzarella, whole milk",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 22.17,
+            "grasasG": 22.14,
+            "carbohidratosG": 2.4,
+            "kcal": 299.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170845/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "queso-pecorino",
+      "metodo": "referencia_USDA",
+      "criterio": "Queso romano de referencia USDA; confirmar equivalencia con pecorino",
+      "componentes": [
+        {
+          "fdcId": 171249,
+          "descripcionEn": "Cheese, romano",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 387.0,
+            "grasasG": 26.94,
+            "carbohidratosG": 3.63,
+            "proteinasG": 31.8
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171249/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aceituna",
+      "metodo": "referencia_USDA",
+      "criterio": "Aceituna madura en lata",
+      "componentes": [
+        {
+          "fdcId": 169094,
+          "descripcionEn": "Olives, ripe, canned (small-extra large)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.84,
+            "grasasG": 10.9,
+            "carbohidratosG": 6.04,
+            "kcal": 116.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169094/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "anis",
+      "metodo": "referencia_USDA",
+      "criterio": "Semilla de anís (no anís estrellado)",
+      "componentes": [
+        {
+          "fdcId": 171316,
+          "descripcionEn": "Spices, anise seed",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 15.9,
+            "carbohidratosG": 50.02,
+            "kcal": 337.0,
+            "proteinasG": 17.6
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171316/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "chocolate-amargo",
+      "metodo": "referencia_USDA",
+      "criterio": "Chocolate con 70–85 % de cacao",
+      "componentes": [
+        {
+          "fdcId": 170273,
+          "descripcionEn": "Chocolate, dark, 70-85% cacao solids",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 42.63,
+            "carbohidratosG": 45.9,
+            "kcal": 598.0,
+            "proteinasG": 7.79
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170273/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "garbanzos",
+      "metodo": "referencia_USDA",
+      "criterio": "Garbanzos secos crudos (no cocidos ni en lata)",
+      "componentes": [
+        {
+          "fdcId": 173756,
+          "descripcionEn": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 62.95,
+            "kcal": 378.0,
+            "proteinasG": 20.47,
+            "grasasG": 6.04
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173756/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "margarina",
+      "metodo": "referencia_USDA",
+      "criterio": "Margarina en barra, 80 % de grasa, con sal (no grasa vegetal pura)",
+      "componentes": [
+        {
+          "fdcId": 172346,
+          "descripcionEn": "Margarine, regular, 80% fat, composite, stick, with salt",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 80.71,
+            "proteinasG": 0.16,
+            "carbohidratosG": 0.7,
+            "kcal": 717.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172346/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "paleta-vacuna",
+      "metodo": "alimento_similar",
+      "criterio": "Aproximación de paleta vacuna cruda con chuck arm pot roast, carne y grasa comestible.",
+      "componentes": [
+        {
+          "fdcId": 168668,
+          "descripcionEn": "Beef, chuck, arm pot roast, separable lean and fat, trimmed to 1/8\" fat, choice, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 19.14,
+            "grasasG": 18.57,
+            "kcal": 249.0,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168668/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "vino-tinto",
+      "metodo": "referencia_USDA",
+      "criterio": "Vino tinto de mesa",
+      "componentes": [
+        {
+          "fdcId": 173190,
+          "descripcionEn": "Alcoholic beverage, wine, table, red",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 2.61,
+            "kcal": 85.0,
+            "proteinasG": 0.07
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173190/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aceite-girasol",
+      "metodo": "referencia_USDA",
+      "criterio": "Aceite de girasol linoleico (aprox. 65 %)",
+      "componentes": [
+        {
+          "fdcId": 171025,
+          "descripcionEn": "Oil, sunflower, linoleic, (approx. 65%)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 100.0,
+            "carbohidratosG": 0.0,
+            "kcal": 884.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171025/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "arandano-rojo",
+      "metodo": "referencia_USDA",
+      "criterio": "Arándano rojo crudo (no desecado)",
+      "componentes": [
+        {
+          "fdcId": 171722,
+          "descripcionEn": "Cranberries, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 46.0,
+            "proteinasG": 0.46,
+            "carbohidratosG": 11.97,
+            "grasasG": 0.13
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171722/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "batata",
+      "metodo": "referencia_USDA",
+      "criterio": "Batata crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 168482,
+          "descripcionEn": "Sweet potato, raw, unprepared (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 20.12,
+            "kcal": 86.0,
+            "grasasG": 0.05,
+            "proteinasG": 1.57
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168482/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "caldo-verduras",
+      "metodo": "referencia_USDA",
+      "criterio": "Caldo de verduras listo para servir",
+      "componentes": [
+        {
+          "fdcId": 171583,
+          "descripcionEn": "Soup, vegetable broth, ready to serve",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.24,
+            "grasasG": 0.07,
+            "carbohidratosG": 0.93,
+            "kcal": 5.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171583/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "camarones",
+      "metodo": "referencia_USDA",
+      "criterio": "Camarones crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 175179,
+          "descripcionEn": "Crustaceans, shrimp, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.51,
+            "carbohidratosG": 0.0,
+            "kcal": 85.0,
+            "proteinasG": 20.1
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/175179/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "carne-picada-cerdo",
+      "metodo": "referencia_USDA",
+      "criterio": "Carne picada de cerdo cruda",
+      "componentes": [
+        {
+          "fdcId": 167902,
+          "descripcionEn": "Pork, fresh, ground, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 16.88,
+            "grasasG": 21.19,
+            "carbohidratosG": 0.0,
+            "kcal": 263.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/167902/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "chauchas",
+      "metodo": "referencia_USDA",
+      "criterio": "Chauchas crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169961,
+          "descripcionEn": "Beans, snap, green, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.22,
+            "proteinasG": 1.83,
+            "carbohidratosG": 6.97,
+            "kcal": 31.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169961/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "chuleta-cerdo",
+      "metodo": "referencia_USDA",
+      "criterio": "Lomo porcino crudo con carne y grasa separable; confirmar corte de la costeleta",
+      "componentes": [
+        {
+          "fdcId": 167818,
+          "descripcionEn": "Pork, fresh, loin, whole, separable lean and fat, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 12.58,
+            "carbohidratosG": 0.0,
+            "kcal": 198.0,
+            "proteinasG": 19.74
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/167818/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "curry-polvo",
+      "metodo": "referencia_USDA",
+      "criterio": "Curry en polvo seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 170924,
+          "descripcionEn": "Spices, curry powder",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 325.0,
+            "proteinasG": 14.29,
+            "grasasG": 14.01,
+            "carbohidratosG": 55.83
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170924/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "jalapeno",
+      "metodo": "referencia_USDA",
+      "criterio": "Jalapeño crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 168576,
+          "descripcionEn": "Peppers, jalapeno, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.91,
+            "grasasG": 0.37,
+            "carbohidratosG": 6.5,
+            "kcal": 29.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168576/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "jarabe-arce",
+      "metodo": "referencia_USDA",
+      "criterio": "Jarabe de arce — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 169661,
+          "descripcionEn": "Syrups, maple",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.04,
+            "grasasG": 0.06,
+            "carbohidratosG": 67.04,
+            "kcal": 260.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169661/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "mani",
+      "metodo": "referencia_USDA",
+      "criterio": "Maní crudo",
+      "componentes": [
+        {
+          "fdcId": 172430,
+          "descripcionEn": "Peanuts, all types, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 25.8,
+            "grasasG": 49.24,
+            "carbohidratosG": 16.13,
+            "kcal": 567.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172430/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "mantequilla-mani",
+      "metodo": "referencia_USDA",
+      "criterio": "Pasta de maní suave sin sal",
+      "componentes": [
+        {
+          "fdcId": 172470,
+          "descripcionEn": "Peanut butter, smooth style, without salt",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 22.21,
+            "grasasG": 51.36,
+            "carbohidratosG": 22.31,
+            "kcal": 598.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172470/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "menta",
+      "metodo": "referencia_USDA",
+      "criterio": "Hierbabuena fresca (Mentha spicata)",
+      "componentes": [
+        {
+          "fdcId": 173475,
+          "descripcionEn": "Spearmint, fresh",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.73,
+            "carbohidratosG": 8.41,
+            "kcal": 44.0,
+            "proteinasG": 3.29
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173475/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "morron-verde",
+      "metodo": "referencia_USDA",
+      "criterio": "Morrón verde crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 170427,
+          "descripcionEn": "Peppers, sweet, green, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 0.17,
+            "proteinasG": 0.86,
+            "carbohidratosG": 4.64,
+            "kcal": 20.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170427/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "nuez",
+      "metodo": "referencia_USDA",
+      "criterio": "Nuez — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 170187,
+          "descripcionEn": "Nuts, walnuts, english",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 13.71,
+            "kcal": 654.0,
+            "proteinasG": 15.23,
+            "grasasG": 65.21
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170187/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "porotos-rojos",
+      "metodo": "referencia_USDA",
+      "criterio": "Porotos tipo kidney secos crudos",
+      "componentes": [
+        {
+          "fdcId": 175193,
+          "descripcionEn": "Beans, kidney, all types, mature seeds, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 60.01,
+            "kcal": 333.0,
+            "grasasG": 0.83,
+            "proteinasG": 23.58
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/175193/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "rabano",
+      "metodo": "referencia_USDA",
+      "criterio": "Rabanito crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169276,
+          "descripcionEn": "Radishes, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 3.4,
+            "kcal": 16.0,
+            "proteinasG": 0.68,
+            "grasasG": 0.1
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169276/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "sazon",
+      "metodo": "mezcla_estimada",
+      "criterio": "Mezcla estimada: sal 50%, pimentón 20%, ajo en polvo 15%, comino 15%.",
+      "componentes": [
+        {
+          "fdcId": 173468,
+          "descripcionEn": "Salt, table",
+          "pesoRelativo": 50,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 0.0,
+            "carbohidratosG": 0.0,
+            "kcal": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173468/nutrients"
+        },
+        {
+          "fdcId": 171329,
+          "descripcionEn": "Spices, paprika",
+          "pesoRelativo": 20,
+          "por100gOriginal": {
+            "proteinasG": 14.14,
+            "grasasG": 12.89,
+            "carbohidratosG": 53.99,
+            "kcal": 282.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171329/nutrients"
+        },
+        {
+          "fdcId": 171325,
+          "descripcionEn": "Spices, garlic powder",
+          "pesoRelativo": 15,
+          "por100gOriginal": {
+            "proteinasG": 16.55,
+            "grasasG": 0.73,
+            "carbohidratosG": 72.73,
+            "kcal": 331.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171325/nutrients"
+        },
+        {
+          "fdcId": 170923,
+          "descripcionEn": "Spices, cumin seed",
+          "pesoRelativo": 15,
+          "por100gOriginal": {
+            "proteinasG": 17.81,
+            "grasasG": 22.27,
+            "carbohidratosG": 44.24,
+            "kcal": 375.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170923/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "semillas-sesamo",
+      "metodo": "referencia_USDA",
+      "criterio": "Semillas de sésamo — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 170150,
+          "descripcionEn": "Seeds, sesame seeds, whole, dried",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 17.73,
+            "grasasG": 49.67,
+            "carbohidratosG": 23.45,
+            "kcal": 573.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170150/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "tofu",
+      "metodo": "referencia_USDA",
+      "criterio": "Tofu regular crudo preparado con sulfato de calcio",
+      "componentes": [
+        {
+          "fdcId": 172476,
+          "descripcionEn": "Tofu, raw, regular, prepared with calcium sulfate",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 1.87,
+            "grasasG": 4.78,
+            "kcal": 76.0,
+            "proteinasG": 8.08
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172476/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aceite-coco",
+      "metodo": "referencia_USDA",
+      "criterio": "Aceite de coco — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 171412,
+          "descripcionEn": "Oil, coconut",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 99.06,
+            "kcal": 892.0,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171412/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "almendra",
+      "metodo": "referencia_USDA",
+      "criterio": "Almendra — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 170567,
+          "descripcionEn": "Nuts, almonds",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 21.15,
+            "grasasG": 49.93,
+            "carbohidratosG": 21.55,
+            "kcal": 579.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170567/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "bechamel",
+      "metodo": "referencia_USDA",
+      "criterio": "Salsa blanca ligera preparada con manteca.",
+      "componentes": [
+        {
+          "fdcId": 174542,
+          "descripcionEn": "Sauce, white, thin, prepared-from-recipe, with butter",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 3.95,
+            "grasasG": 2.56,
+            "carbohidratosG": 8.29,
+            "kcal": 72.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174542/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cacao",
+      "metodo": "referencia_USDA",
+      "criterio": "Cacao seco en polvo sin azúcar",
+      "componentes": [
+        {
+          "fdcId": 169593,
+          "descripcionEn": "Cocoa, dry powder, unsweetened",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 57.9,
+            "kcal": 228.0,
+            "proteinasG": 19.6,
+            "grasasG": 13.7
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169593/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cafe",
+      "metodo": "referencia_USDA",
+      "criterio": "Café preparado en agua (no café molido)",
+      "componentes": [
+        {
+          "fdcId": 171890,
+          "descripcionEn": "Beverages, coffee, brewed, prepared with tap water",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 1.0,
+            "proteinasG": 0.12,
+            "grasasG": 0.02,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171890/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "galletita",
+      "metodo": "referencia_USDA",
+      "criterio": "Galletitas dulces simples de manteca como opción estándar.",
+      "componentes": [
+        {
+          "fdcId": 172819,
+          "descripcionEn": "Cookies, butter, commercially prepared, unenriched",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 6.1,
+            "grasasG": 18.8,
+            "carbohidratosG": 68.9,
+            "kcal": 467.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172819/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "harina-panadera",
+      "metodo": "referencia_USDA",
+      "criterio": "Harina blanca de trigo para pan, enriquecida",
+      "componentes": [
+        {
+          "fdcId": 168896,
+          "descripcionEn": "Wheat flour, white, bread, enriched",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 11.98,
+            "grasasG": 1.66,
+            "carbohidratosG": 72.53,
+            "kcal": 361.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168896/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "hinojo-semillas",
+      "metodo": "referencia_USDA",
+      "criterio": "Semillas de hinojo",
+      "componentes": [
+        {
+          "fdcId": 171323,
+          "descripcionEn": "Spices, fennel seed",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 15.8,
+            "grasasG": 14.87,
+            "carbohidratosG": 52.29,
+            "kcal": 345.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171323/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "huevo-clara",
+      "metodo": "referencia_USDA",
+      "criterio": "Clara de huevo cruda",
+      "componentes": [
+        {
+          "fdcId": 172183,
+          "descripcionEn": "Egg, white, raw, fresh",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 10.9,
+            "grasasG": 0.17,
+            "kcal": 52.0,
+            "carbohidratosG": 0.73
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172183/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "lechuga",
+      "metodo": "referencia_USDA",
+      "criterio": "Lechuga de hoja verde cruda",
+      "componentes": [
+        {
+          "fdcId": 169249,
+          "descripcionEn": "Lettuce, green leaf, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 2.87,
+            "kcal": 15.0,
+            "proteinasG": 1.36,
+            "grasasG": 0.15
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169249/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "lentejas-secas",
+      "metodo": "referencia_USDA",
+      "criterio": "Lentejas secas crudas",
+      "componentes": [
+        {
+          "fdcId": 172420,
+          "descripcionEn": "Lentils, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 1.06,
+            "proteinasG": 24.63,
+            "carbohidratosG": 63.35,
+            "kcal": 352.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172420/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "masa-madre",
+      "metodo": "mezcla_estimada",
+      "criterio": "Masa madre de hidratación 100%: harina y agua en igual peso. Se omiten cambios menores por fermentación.",
+      "componentes": [
+        {
+          "fdcId": 169761,
+          "descripcionEn": "Wheat flour, white, all-purpose, unenriched",
+          "pesoRelativo": 50,
+          "por100gOriginal": {
+            "grasasG": 0.98,
+            "carbohidratosG": 76.31,
+            "kcal": 364.0,
+            "proteinasG": 10.33
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169761/nutrients"
+        },
+        {
+          "fdcId": 173647,
+          "descripcionEn": "Beverages, water, tap, drinking",
+          "pesoRelativo": 50,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 0.0,
+            "kcal": 0.0,
+            "proteinasG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173647/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "mejorana",
+      "metodo": "referencia_USDA",
+      "criterio": "Mejorana seca",
+      "componentes": [
+        {
+          "fdcId": 170928,
+          "descripcionEn": "Spices, marjoram, dried",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 7.04,
+            "carbohidratosG": 60.56,
+            "kcal": 271.0,
+            "proteinasG": 12.66
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170928/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "mermelada",
+      "metodo": "referencia_USDA",
+      "criterio": "Mermelada genérica con azúcar",
+      "componentes": [
+        {
+          "fdcId": 169641,
+          "descripcionEn": "Jams and preserves",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.37,
+            "grasasG": 0.07,
+            "carbohidratosG": 68.86,
+            "kcal": 278.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169641/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "muslo-pollo",
+      "metodo": "referencia_USDA",
+      "criterio": "Carne de muslo de pollo cruda sin piel",
+      "componentes": [
+        {
+          "fdcId": 173627,
+          "descripcionEn": "Chicken, broilers or fryers, dark meat, thigh, meat only, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 121.0,
+            "grasasG": 4.12,
+            "proteinasG": 19.66,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173627/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "panceta-fresca",
+      "metodo": "referencia_USDA",
+      "criterio": "Panceta de cerdo fresca cruda",
+      "componentes": [
+        {
+          "fdcId": 167812,
+          "descripcionEn": "Pork, fresh, belly, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 53.01,
+            "carbohidratosG": 0.0,
+            "kcal": 518.0,
+            "proteinasG": 9.34
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/167812/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pescado",
+      "metodo": "referencia_USDA",
+      "criterio": "Pescado blanco crudo: bacalao como referencia magra genérica.",
+      "componentes": [
+        {
+          "fdcId": 171955,
+          "descripcionEn": "Fish, cod, Atlantic, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 82.0,
+            "proteinasG": 17.81,
+            "grasasG": 0.67,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171955/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pimienta-blanca",
+      "metodo": "referencia_USDA",
+      "criterio": "Pimienta blanca seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 170933,
+          "descripcionEn": "Spices, pepper, white",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 10.4,
+            "grasasG": 2.12,
+            "carbohidratosG": 68.61,
+            "kcal": 296.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170933/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "queso-gruyere",
+      "metodo": "referencia_USDA",
+      "criterio": "Queso gruyere — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 171242,
+          "descripcionEn": "Cheese, gruyere",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 413.0,
+            "grasasG": 32.34,
+            "carbohidratosG": 0.36,
+            "proteinasG": 29.81
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171242/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "remolacha",
+      "metodo": "referencia_USDA",
+      "criterio": "Remolacha crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169145,
+          "descripcionEn": "Beets, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 9.56,
+            "kcal": 43.0,
+            "grasasG": 0.17,
+            "proteinasG": 1.61
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169145/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "ricota",
+      "metodo": "referencia_USDA",
+      "criterio": "Ricota de leche entera",
+      "componentes": [
+        {
+          "fdcId": 170851,
+          "descripcionEn": "Cheese, ricotta, whole milk",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 7.54,
+            "grasasG": 10.18,
+            "carbohidratosG": 7.27,
+            "kcal": 150.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170851/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "salvia",
+      "metodo": "referencia_USDA",
+      "criterio": "Salvia seca molida",
+      "componentes": [
+        {
+          "fdcId": 170935,
+          "descripcionEn": "Spices, sage, ground",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 10.63,
+            "grasasG": 12.75,
+            "carbohidratosG": 60.73,
+            "kcal": 315.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170935/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "suero-leche",
+      "metodo": "referencia_USDA",
+      "criterio": "Buttermilk cultivado líquido bajo en grasa (no suero dulce)",
+      "componentes": [
+        {
+          "fdcId": 170874,
+          "descripcionEn": "Milk, buttermilk, fluid, cultured, lowfat",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 40.0,
+            "grasasG": 1.07,
+            "proteinasG": 3.31,
+            "carbohidratosG": 4.79
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170874/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "tortilla-maiz",
+      "metodo": "referencia_USDA",
+      "criterio": "Tortilla de maíz lista para hornear o freír",
+      "componentes": [
+        {
+          "fdcId": 175036,
+          "descripcionEn": "Tortillas, ready-to-bake or -fry, corn",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 5.7,
+            "grasasG": 2.85,
+            "carbohidratosG": 44.64,
+            "kcal": 218.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/175036/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "yogur-griego",
+      "metodo": "referencia_USDA",
+      "criterio": "Yogur griego natural entero",
+      "componentes": [
+        {
+          "fdcId": 171304,
+          "descripcionEn": "Yogurt, Greek, plain, whole milk",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 9.0,
+            "grasasG": 5.0,
+            "carbohidratosG": 3.98,
+            "kcal": 97.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171304/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "aceite-mani",
+      "metodo": "referencia_USDA",
+      "criterio": "Aceite de maní — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 171410,
+          "descripcionEn": "Oil, peanut, salad or cooking",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 100.0,
+            "carbohidratosG": 0.0,
+            "kcal": 884.0,
+            "proteinasG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171410/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "arroz-integral",
+      "metodo": "referencia_USDA",
+      "criterio": "Arroz integral seco — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 169703,
+          "descripcionEn": "Rice, brown, long-grain, raw (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 3.2,
+            "carbohidratosG": 76.25,
+            "kcal": 367.0,
+            "proteinasG": 7.54
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169703/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "azafran",
+      "metodo": "referencia_USDA",
+      "criterio": "Azafrán seca/o de referencia USDA",
+      "componentes": [
+        {
+          "fdcId": 170934,
+          "descripcionEn": "Spices, saffron",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 65.37,
+            "kcal": 310.0,
+            "proteinasG": 11.43,
+            "grasasG": 5.85
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170934/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "azucar-vainillada",
+      "metodo": "mezcla_estimada",
+      "criterio": "Mezcla estimada de azúcar 98% y extracto de vainilla 2%.",
+      "componentes": [
+        {
+          "fdcId": 169655,
+          "descripcionEn": "Sugars, granulated",
+          "pesoRelativo": 98,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 0.0,
+            "kcal": 387.0,
+            "carbohidratosG": 99.98
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169655/nutrients"
+        },
+        {
+          "fdcId": 173471,
+          "descripcionEn": "Vanilla extract",
+          "pesoRelativo": 2,
+          "por100gOriginal": {
+            "grasasG": 0.06,
+            "carbohidratosG": 12.65,
+            "kcal": 288.0,
+            "proteinasG": 0.06
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173471/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "baguette",
+      "metodo": "referencia_USDA",
+      "criterio": "Pan francés o de Viena",
+      "componentes": [
+        {
+          "fdcId": 172675,
+          "descripcionEn": "Bread, french or vienna (includes sourdough)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 10.75,
+            "grasasG": 2.42,
+            "carbohidratosG": 51.88,
+            "kcal": 272.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172675/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "bondiola",
+      "metodo": "referencia_USDA",
+      "criterio": "Paleta de cerdo cruda con carne y grasa; confirmar equivalencia del corte",
+      "componentes": [
+        {
+          "fdcId": 167843,
+          "descripcionEn": "Pork, fresh, shoulder, whole, separable lean and fat, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 17.99,
+            "carbohidratosG": 0.0,
+            "kcal": 236.0,
+            "proteinasG": 17.18
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/167843/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "centeno-harina",
+      "metodo": "referencia_USDA",
+      "criterio": "Harina de centeno — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 168886,
+          "descripcionEn": "Rye flour, medium",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 10.88,
+            "grasasG": 1.52,
+            "carbohidratosG": 75.43,
+            "kcal": 349.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168886/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "cereza",
+      "metodo": "referencia_USDA",
+      "criterio": "Cereza crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 171719,
+          "descripcionEn": "Cherries, sweet, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 16.01,
+            "kcal": 63.0,
+            "grasasG": 0.2,
+            "proteinasG": 1.06
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171719/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "chorizo",
+      "metodo": "referencia_USDA",
+      "criterio": "Chorizo porcino crudo de referencia estadounidense (confirmar producto argentino)",
+      "componentes": [
+        {
+          "fdcId": 173859,
+          "descripcionEn": "Sausage, pork, chorizo, link or ground, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 25.1,
+            "carbohidratosG": 3.78,
+            "kcal": 296.0,
+            "proteinasG": 13.63
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173859/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "conejo",
+      "metodo": "referencia_USDA",
+      "criterio": "Conejo doméstico crudo, mezcla de cortes",
+      "componentes": [
+        {
+          "fdcId": 172521,
+          "descripcionEn": "Game meat, rabbit, domesticated, composite of cuts, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 5.55,
+            "carbohidratosG": 0.0,
+            "kcal": 136.0,
+            "proteinasG": 20.05
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172521/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "dashi",
+      "metodo": "alimento_similar",
+      "criterio": "Caldo dashi preparado aproximado con caldo de pescado casero; no polvo concentrado.",
+      "componentes": [
+        {
+          "fdcId": 172885,
+          "descripcionEn": "Soup, stock, fish, home-prepared",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 2.26,
+            "grasasG": 0.81,
+            "carbohidratosG": 0.0,
+            "kcal": 16.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172885/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "fideos-huevo",
+      "metodo": "referencia_USDA",
+      "criterio": "Fideos al huevo secos — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 169755,
+          "descripcionEn": "Noodles, egg, dry, unenriched",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 71.27,
+            "kcal": 384.0,
+            "grasasG": 4.44,
+            "proteinasG": 14.16
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169755/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "harina-integral",
+      "metodo": "referencia_USDA",
+      "criterio": "Harina integral de trigo",
+      "componentes": [
+        {
+          "fdcId": 168893,
+          "descripcionEn": "Wheat flour, whole-grain (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 2.5,
+            "carbohidratosG": 71.97,
+            "kcal": 340.0,
+            "proteinasG": 13.21
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168893/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "hierbas-provenzal",
+      "metodo": "mezcla_estimada",
+      "criterio": "Hierbas provenzales secas: tomillo, romero, orégano y albahaca en partes iguales.",
+      "componentes": [
+        {
+          "fdcId": 170938,
+          "descripcionEn": "Spices, thyme, dried",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 7.43,
+            "carbohidratosG": 63.94,
+            "kcal": 276.0,
+            "proteinasG": 9.11
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170938/nutrients"
+        },
+        {
+          "fdcId": 171333,
+          "descripcionEn": "Spices, rosemary, dried",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 4.88,
+            "grasasG": 15.22,
+            "carbohidratosG": 64.06,
+            "kcal": 331.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171333/nutrients"
+        },
+        {
+          "fdcId": 171328,
+          "descripcionEn": "Spices, oregano, dried",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 4.28,
+            "carbohidratosG": 68.92,
+            "kcal": 265.0,
+            "proteinasG": 9.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171328/nutrients"
+        },
+        {
+          "fdcId": 171317,
+          "descripcionEn": "Spices, basil, dried",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 4.07,
+            "carbohidratosG": 47.75,
+            "kcal": 233.0,
+            "proteinasG": 22.98
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171317/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "higado-vacuno",
+      "metodo": "referencia_USDA",
+      "criterio": "Hígado vacuno crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 169451,
+          "descripcionEn": "Beef, variety meats and by-products, liver, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 3.63,
+            "proteinasG": 20.36,
+            "carbohidratosG": 3.89,
+            "kcal": 135.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169451/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "jugo-lima",
+      "metodo": "referencia_USDA",
+      "criterio": "Jugo de lima — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 168156,
+          "descripcionEn": "Lime juice, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.42,
+            "grasasG": 0.07,
+            "carbohidratosG": 8.42,
+            "kcal": 25.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168156/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "jugo-naranja",
+      "metodo": "referencia_USDA",
+      "criterio": "Jugo de naranja — perfil genérico USDA; confirmar presentación",
+      "componentes": [
+        {
+          "fdcId": 169098,
+          "descripcionEn": "Orange juice, raw (Includes foods for USDA's Food Distribution Program)",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 0.7,
+            "grasasG": 0.2,
+            "carbohidratosG": 10.4,
+            "kcal": 45.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169098/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "langosta",
+      "metodo": "referencia_USDA",
+      "criterio": "Langosta crudo/a; porción comestible",
+      "componentes": [
+        {
+          "fdcId": 174208,
+          "descripcionEn": "Crustaceans, lobster, northern, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 16.52,
+            "grasasG": 0.75,
+            "carbohidratosG": 0.0,
+            "kcal": 77.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174208/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "leche-evaporada",
+      "metodo": "referencia_USDA",
+      "criterio": "Leche evaporada en lata con vitamina D, sin vitamina A agregada",
+      "componentes": [
+        {
+          "fdcId": 171276,
+          "descripcionEn": "Milk, canned, evaporated, with added vitamin D and without added vitamin A",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "kcal": 134.0,
+            "proteinasG": 6.81,
+            "grasasG": 7.56,
+            "carbohidratosG": 10.04
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171276/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "lentejas-rojas",
+      "metodo": "referencia_USDA",
+      "criterio": "Lentejas rosadas o rojas secas crudas",
+      "componentes": [
+        {
+          "fdcId": 174284,
+          "descripcionEn": "Lentils, pink or red, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "carbohidratosG": 63.1,
+            "kcal": 358.0,
+            "proteinasG": 23.91,
+            "grasasG": 2.17
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/174284/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "lomo-cerdo",
+      "metodo": "referencia_USDA",
+      "criterio": "Solomillo de cerdo crudo, solo carne magra",
+      "componentes": [
+        {
+          "fdcId": 168249,
+          "descripcionEn": "Pork, fresh, loin, tenderloin, separable lean only, raw",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 2.17,
+            "proteinasG": 20.95,
+            "kcal": 109.0,
+            "carbohidratosG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/168249/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "masa-hojaldre",
+      "metodo": "referencia_USDA",
+      "criterio": "Masa de hojaldre congelada lista para hornear",
+      "componentes": [
+        {
+          "fdcId": 172790,
+          "descripcionEn": "Puff pastry, frozen, ready-to-bake",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "grasasG": 38.1,
+            "carbohidratosG": 45.1,
+            "kcal": 551.0,
+            "proteinasG": 7.3
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172790/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "masa-pizza",
+      "metodo": "mezcla_estimada",
+      "criterio": "Masa cruda estimada con 1000 g harina, 650 g agua, 20 g aceite, 20 g sal y 10 g levadura seca; antes de hornear.",
+      "componentes": [
+        {
+          "fdcId": 169761,
+          "descripcionEn": "Wheat flour, white, all-purpose, unenriched",
+          "pesoRelativo": 1000,
+          "por100gOriginal": {
+            "grasasG": 0.98,
+            "carbohidratosG": 76.31,
+            "kcal": 364.0,
+            "proteinasG": 10.33
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169761/nutrients"
+        },
+        {
+          "fdcId": 173647,
+          "descripcionEn": "Beverages, water, tap, drinking",
+          "pesoRelativo": 650,
+          "por100gOriginal": {
+            "grasasG": 0.0,
+            "carbohidratosG": 0.0,
+            "kcal": 0.0,
+            "proteinasG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173647/nutrients"
+        },
+        {
+          "fdcId": 171413,
+          "descripcionEn": "Oil, olive, salad or cooking",
+          "pesoRelativo": 20,
+          "por100gOriginal": {
+            "grasasG": 100.0,
+            "carbohidratosG": 0.0,
+            "kcal": 884.0,
+            "proteinasG": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171413/nutrients"
+        },
+        {
+          "fdcId": 173468,
+          "descripcionEn": "Salt, table",
+          "pesoRelativo": 20,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 0.0,
+            "carbohidratosG": 0.0,
+            "kcal": 0.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/173468/nutrients"
+        },
+        {
+          "fdcId": 175043,
+          "descripcionEn": "Leavening agents, yeast, baker's, active dry",
+          "pesoRelativo": 10,
+          "por100gOriginal": {
+            "grasasG": 7.61,
+            "carbohidratosG": 41.22,
+            "kcal": 325.0,
+            "proteinasG": 40.44
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/175043/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "mostaza-polvo",
+      "metodo": "referencia_USDA",
+      "criterio": "Semilla de mostaza molida",
+      "componentes": [
+        {
+          "fdcId": 170929,
+          "descripcionEn": "Spices, mustard seed, ground",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 26.08,
+            "grasasG": 36.24,
+            "carbohidratosG": 28.09,
+            "kcal": 508.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170929/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pasta-curry",
+      "metodo": "mezcla_estimada",
+      "criterio": "Pasta de curry genérica estimada: ají fresco 50%, cebolla 15%, ajo 10%, jengibre 10%, jugo de limón 5%, aceite 5%, curry en polvo 5%.",
+      "componentes": [
+        {
+          "fdcId": 170106,
+          "descripcionEn": "Peppers, hot chili, red, raw",
+          "pesoRelativo": 50,
+          "por100gOriginal": {
+            "grasasG": 0.44,
+            "carbohidratosG": 8.81,
+            "kcal": 40.0,
+            "proteinasG": 1.87
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170106/nutrients"
+        },
+        {
+          "fdcId": 170000,
+          "descripcionEn": "Onions, raw",
+          "pesoRelativo": 15,
+          "por100gOriginal": {
+            "grasasG": 0.1,
+            "carbohidratosG": 9.34,
+            "kcal": 40.0,
+            "proteinasG": 1.1
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170000/nutrients"
+        },
+        {
+          "fdcId": 169230,
+          "descripcionEn": "Garlic, raw",
+          "pesoRelativo": 10,
+          "por100gOriginal": {
+            "carbohidratosG": 33.06,
+            "kcal": 149.0,
+            "proteinasG": 6.36,
+            "grasasG": 0.5
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169230/nutrients"
+        },
+        {
+          "fdcId": 169231,
+          "descripcionEn": "Ginger root, raw",
+          "pesoRelativo": 10,
+          "por100gOriginal": {
+            "grasasG": 0.75,
+            "proteinasG": 1.82,
+            "carbohidratosG": 17.77,
+            "kcal": 80.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/169231/nutrients"
+        },
+        {
+          "fdcId": 167747,
+          "descripcionEn": "Lemon juice, raw",
+          "pesoRelativo": 5,
+          "por100gOriginal": {
+            "proteinasG": 0.35,
+            "grasasG": 0.24,
+            "carbohidratosG": 6.9,
+            "kcal": 22.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/167747/nutrients"
+        },
+        {
+          "fdcId": 171025,
+          "descripcionEn": "Oil, sunflower, linoleic, (approx. 65%)",
+          "pesoRelativo": 5,
+          "por100gOriginal": {
+            "proteinasG": 0.0,
+            "grasasG": 100.0,
+            "carbohidratosG": 0.0,
+            "kcal": 884.0
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/171025/nutrients"
+        },
+        {
+          "fdcId": 170924,
+          "descripcionEn": "Spices, curry powder",
+          "pesoRelativo": 5,
+          "por100gOriginal": {
+            "kcal": 325.0,
+            "proteinasG": 14.29,
+            "grasasG": 14.01,
+            "carbohidratosG": 55.83
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/170924/nutrients"
+        }
+      ]
+    },
+    {
+      "ingredienteId": "pasta-miso",
+      "metodo": "referencia_USDA",
+      "criterio": "Pasta miso estándar.",
+      "componentes": [
+        {
+          "fdcId": 172442,
+          "descripcionEn": "Miso",
+          "pesoRelativo": 1,
+          "por100gOriginal": {
+            "proteinasG": 12.79,
+            "carbohidratosG": 25.37,
+            "kcal": 198.0,
+            "grasasG": 6.01
+          },
+          "url": "https://fdc.nal.usda.gov/food-details/172442/nutrients"
+        }
+      ]
+    }
+  ]
+}

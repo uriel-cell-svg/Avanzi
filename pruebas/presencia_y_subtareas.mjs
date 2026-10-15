@@ -1,0 +1,96 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {crearMotorCantidades,estadoVacio} from '../planificacion.mjs';
+import {guardarEstado,recuperarEstado,CLAVE_DESPENSA} from '../almacenamiento.mjs';
+
+const leer=nombre=>JSON.parse(fs.readFileSync(new URL(`../datos/${nombre}`,import.meta.url)));
+const ingredientes=leer('ingredientes.json').ingredientes;
+const eq=leer('equivalencias_g.json');
+const r=(id,cantidad,unidad='unidad')=>({id,nombre:id,porciones:1,pasos:['Cocinar'],ingredientes:[{ingredienteId:'huevo',cantidad,unidad}]});
+const a=r('prueba-a',3),b=r('prueba-b',2),motor=crearMotorCantidades([a,b],ingredientes,eq);
+const agregar=(s,receta)=>motor.agregarNecesidades(s,receta.id,motor.requerimientos(receta).map(x=>x.clave));
+const grupo=s=>motor.resumenCompras(s).find(g=>g.id==='huevo');
+const memoria=()=>{const datos=new Map();return {getItem:k=>datos.get(k)??null,setItem:(k,v)=>datos.set(k,v),datos};};
+
+test('presencia binaria conserva cantidades históricas sin usarlas para disponibilidad',()=>{
+ const s=estadoVacio();motor.ajustarInventario(s,'huevo',1,'unidad');
+ assert.equal(motor.disponibilidad(a,s).completa,true);
+ assert.equal(s.inventario[0].cantidad,1);
+ motor.establecerPresencia(s,'huevo',false);
+ assert.equal(motor.disponibilidad(a,s).completa,false);
+ motor.establecerPresencia(s,'huevo',true);
+ assert.equal(motor.disponibilidad(a,s).completa,true);
+});
+test('cada receta es subtarea única; marcar una resta solo su cantidad',()=>{
+ const s=estadoVacio();agregar(s,a);agregar(s,b);agregar(s,a);
+ assert.equal(grupo(s).variantes[0].pendiente,5);
+ const subtareas=grupo(s).variantes[0].origenes;
+ assert.equal(subtareas.length,2);
+ motor.marcarSubtarea(s,'huevo',subtareas[0].id,true);
+ assert.equal(grupo(s).variantes[0].pendiente,2);
+ assert.equal(grupo(s).completo,false);
+ assert.equal(motor.disponibilidad(a,s).completa,true);
+ motor.marcarSubtarea(s,'huevo',subtareas[0].id,false);
+ assert.equal(grupo(s).variantes[0].pendiente,5);
+ assert.equal(motor.disponibilidad(a,s).completa,false);
+});
+test('casilla principal completa y reabre todas las subtareas',()=>{
+ const s=estadoVacio();agregar(s,a);agregar(s,b);
+ motor.marcarIngrediente(s,'huevo',true);
+ assert.equal(grupo(s).completo,true);assert.equal(grupo(s).variantes[0].pendiente,0);
+ motor.marcarIngrediente(s,'huevo',false);
+ assert.equal(grupo(s).variantes[0].pendiente,5);
+ assert.ok(grupo(s).variantes[0].origenes.every(o=>!o.completado));
+});
+test('subtarea completada se recupera después de guardar y recargar',()=>{
+ const s=estadoVacio(),store=memoria();agregar(s,a);agregar(s,b);
+ motor.marcarSubtarea(s,'huevo',grupo(s).variantes[0].origenes[0].id,true);
+ assert.equal(guardarEstado(store,s,motor).ok,true);
+ assert.equal(JSON.parse(store.getItem(CLAVE_DESPENSA)).planes.length,2);
+ const recuperado=recuperarEstado(store,motor);
+ assert.equal(recuperado.bloqueado,false);
+ assert.equal(grupo(recuperado.estado).variantes[0].pendiente,2);
+ motor.marcarIngrediente(recuperado.estado,'huevo',true);
+ guardarEstado(store,recuperado.estado,motor);
+ const otra=recuperarEstado(store,motor).estado;
+ motor.marcarSubtarea(otra,'huevo',grupo(otra).variantes[0].origenes[0].id,false);
+ assert.equal(grupo(otra).variantes[0].pendiente,3);
+});
+test('cambiar porciones y quitar receta conservan estado y recalculan pendiente',()=>{
+ const s=estadoVacio();agregar(s,a);agregar(s,b);
+ const id=grupo(s).variantes[0].origenes[0].id;motor.marcarSubtarea(s,'huevo',id,true);
+ motor.cambiarPorciones(s,'prueba-a',2);
+ assert.equal(grupo(s).variantes[0].pendiente,2);
+ assert.equal(grupo(s).variantes[0].origenes[0].cantidad,6);
+ motor.marcarSubtarea(s,'huevo',id,false);
+ assert.equal(grupo(s).variantes[0].pendiente,8);
+ motor.quitarReceta(s,'prueba-a');assert.equal(grupo(s).variantes[0].pendiente,2);
+});
+test('desmarcar disponibilidad adquirida no borra disponibilidad marcada manualmente',()=>{
+ const s=estadoVacio();agregar(s,a);motor.establecerPresencia(s,'huevo',true);
+ motor.marcarIngrediente(s,'huevo',true);motor.marcarIngrediente(s,'huevo',false);
+ assert.equal(motor.tieneIngrediente(s,'huevo'),true);
+ assert.equal(grupo(s).variantes[0].pendiente,3);
+});
+test('snapshot anterior conserva recibos y cantidades sin marcar subtareas por suposición',()=>{
+ const s=estadoVacio(),store=memoria();agregar(s,a);
+ motor.ajustarInventario(s,'huevo',2,'unidad');
+ s.planes[0].ingredientes[0]={clave:s.planes[0].ingredientes[0].clave};
+ s.comprasRealizadas.push({id:'antigua',clave:'huevo|base|unidad',ingredienteId:'huevo',estado:'base',cantidad:1,unidad:'unidad',fecha:'2026-10-15',revisionManual:1,deshecha:false});
+ store.setItem(CLAVE_DESPENSA,JSON.stringify(s));
+ const antes=store.getItem(CLAVE_DESPENSA),re=recuperarEstado(store,motor);
+ assert.equal(store.getItem(CLAVE_DESPENSA),antes);
+ assert.equal(re.estado.inventario[0].cantidad,2);
+ assert.equal(re.estado.comprasRealizadas[0].id,'antigua');
+ assert.equal(grupo(re.estado).variantes[0].pendiente,3);
+ assert.match(re.avisos.join(' '),/compras anteriores/i);
+});
+test('un tipo inválido de completado bloquea sobrescritura',()=>{
+ const s=estadoVacio(),store=memoria();agregar(s,a);
+ s.planes[0].ingredientes[0].completado='sí';
+ store.setItem(CLAVE_DESPENSA,JSON.stringify(s));
+ const re=recuperarEstado(store,motor);
+ assert.equal(re.bloqueado,true);
+ assert.equal(guardarEstado(store,re.estado,motor,re.bloqueado).ok,false);
+});

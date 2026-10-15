@@ -1,80 +1,4535 @@
-[
-  {
-    "id": "arroz",
-    "nombre": "Arroz",
-    "categoria": "Cereales y derivados",
-    "dibujo": "./imagenes/despensa/arroz.svg"
-  },
-  {
-    "id": "zanahoria",
-    "nombre": "Zanahoria",
-    "categoria": "Verduras",
-    "dibujo": "./imagenes/despensa/zanahoria.svg"
-  },
-  {
-    "id": "cebolla",
-    "nombre": "Cebolla",
-    "categoria": "Verduras",
-    "dibujo": "./imagenes/despensa/cebolla.svg"
-  },
-  {
-    "id": "aceite",
-    "nombre": "Aceite",
-    "categoria": "Aceites y condimentos",
-    "dibujo": "./imagenes/despensa/aceite.svg"
-  },
-  {
-    "id": "sal",
-    "nombre": "Sal",
-    "categoria": "Aceites y condimentos",
-    "dibujo": "./imagenes/despensa/sal.svg"
-  },
-  {
-    "id": "papa",
-    "nombre": "Papa",
-    "categoria": "Verduras",
-    "dibujo": "./imagenes/despensa/papa.svg"
-  },
-  {
-    "id": "huevo",
-    "nombre": "Huevo",
-    "categoria": "Huevos y lácteos",
-    "dibujo": "./imagenes/despensa/huevo.svg"
-  },
-  {
-    "id": "pasta",
-    "nombre": "Pasta",
-    "categoria": "Cereales y derivados",
-    "dibujo": "./imagenes/despensa/pasta.svg"
-  },
-  {
-    "id": "tomate",
-    "nombre": "Tomate",
-    "categoria": "Verduras",
-    "dibujo": "./imagenes/despensa/tomate.svg"
-  },
-  {
-    "id": "ajo",
-    "nombre": "Ajo",
-    "categoria": "Verduras",
-    "dibujo": "./imagenes/despensa/ajo.svg"
-  },
-  {
-    "id": "garbanzo",
-    "nombre": "Garbanzos cocidos",
-    "categoria": "Legumbres",
-    "dibujo": "./imagenes/despensa/garbanzo.svg"
-  },
-  {
-    "id": "limon",
-    "nombre": "Limón",
-    "categoria": "Frutas",
-    "dibujo": "./imagenes/despensa/limon.svg"
-  },
-  {
-    "id": "espinaca",
-    "nombre": "Espinaca",
-    "categoria": "Verduras",
-    "dibujo": "./imagenes/despensa/espinaca.svg"
-  }
-]
+{
+  "version": 3,
+  "idioma": "es-AR",
+  "baseNutricional": "100 g de porción comestible",
+  "nota": "ml para líquidos: los nutrientes siguen por 100 g; densidades estimadas, no usar mg como volumen",
+  "ingredientes": [
+    {
+      "id": "cebolla",
+      "nombreEs": "Cebolla",
+      "nombreEn": "onion",
+      "aliasEs": [
+        "cebollas"
+      ],
+      "aliasEn": [
+        "onion",
+        "onions",
+        "white onion",
+        "yellow onion"
+      ],
+      "por100g": {
+        "kcal": 40,
+        "proteinasG": 1.1,
+        "carbohidratosG": 9.3,
+        "grasasG": 0.1
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "manteca",
+      "nombreEs": "Manteca",
+      "nombreEn": "butter",
+      "aliasEs": [
+        "mantequilla"
+      ],
+      "aliasEn": [
+        "butter",
+        "unsalted butter",
+        "salted butter"
+      ],
+      "por100g": {
+        "kcal": 717,
+        "proteinasG": 0.8,
+        "carbohidratosG": 0.1,
+        "grasasG": 81.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "ajo",
+      "nombreEs": "Ajo",
+      "nombreEn": "garlic",
+      "aliasEs": [
+        "ajos",
+        "diente de ajo",
+        "dientes de ajo"
+      ],
+      "aliasEn": [
+        "garlic",
+        "garlic cloves",
+        "cloves of garlic"
+      ],
+      "por100g": {
+        "kcal": 149,
+        "proteinasG": 6.4,
+        "carbohidratosG": 33.1,
+        "grasasG": 0.5
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "sal",
+      "nombreEs": "Sal",
+      "nombreEn": "salt",
+      "aliasEs": [],
+      "aliasEn": [
+        "salt",
+        "sea salt",
+        "kosher salt",
+        "table salt"
+      ],
+      "por100g": {
+        "kcal": 0,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "huevo",
+      "nombreEs": "Huevo",
+      "nombreEn": "eggs",
+      "aliasEs": [
+        "huevos"
+      ],
+      "aliasEn": [
+        "eggs",
+        "egg",
+        "free-range eggs"
+      ],
+      "por100g": {
+        "kcal": 143,
+        "proteinasG": 12.6,
+        "carbohidratosG": 0.7,
+        "grasasG": 9.5
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "harina-trigo",
+      "nombreEs": "Harina de trigo",
+      "nombreEn": "flour",
+      "aliasEs": [
+        "harina común",
+        "harina de trigo común"
+      ],
+      "aliasEn": [
+        "flour",
+        "all-purpose flour",
+        "all purpose flour",
+        "plain flour",
+        "wheat flour",
+        "AP flour"
+      ],
+      "por100g": {
+        "kcal": 364,
+        "proteinasG": 10.3,
+        "carbohidratosG": 76.3,
+        "grasasG": 1.0
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "azucar",
+      "nombreEs": "Azúcar",
+      "nombreEn": "sugar",
+      "aliasEs": [],
+      "aliasEn": [
+        "sugar",
+        "white sugar",
+        "granulated sugar",
+        "caster sugar",
+        "castor sugar"
+      ],
+      "por100g": {
+        "kcal": 387,
+        "proteinasG": 0.0,
+        "carbohidratosG": 100.0,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "aceite-oliva",
+      "nombreEs": "Aceite de oliva",
+      "nombreEn": "olive oil",
+      "aliasEs": [
+        "aceite de oliva extra virgen"
+      ],
+      "aliasEn": [
+        "olive oil",
+        "extra virgin olive oil",
+        "extra-virgin olive oil",
+        "EVOO"
+      ],
+      "por100g": {
+        "kcal": 884,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 100.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 0.916,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "leche",
+      "nombreEs": "Leche",
+      "nombreEn": "milk",
+      "aliasEs": [],
+      "aliasEn": [
+        "milk",
+        "whole milk",
+        "full-fat milk",
+        "full fat milk"
+      ],
+      "por100g": {
+        "kcal": 61,
+        "proteinasG": 3.1,
+        "carbohidratosG": 4.8,
+        "grasasG": 3.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": 1.03,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "agua",
+      "nombreEs": "Agua",
+      "nombreEn": "water",
+      "aliasEs": [],
+      "aliasEn": [
+        "water",
+        "boiling water",
+        "cold water",
+        "warm water"
+      ],
+      "por100g": {
+        "kcal": 0,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.0,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "pimienta-negra",
+      "nombreEs": "Pimienta negra",
+      "nombreEn": "black pepper",
+      "aliasEs": [
+        "pimienta"
+      ],
+      "aliasEn": [
+        "black pepper",
+        "peppercorns",
+        "peppercorn",
+        "pepper",
+        "ground pepper"
+      ],
+      "por100g": {
+        "kcal": 251,
+        "proteinasG": 10.4,
+        "carbohidratosG": 64.0,
+        "grasasG": 3.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "tomate",
+      "nombreEs": "Tomate",
+      "nombreEn": "tomato",
+      "aliasEs": [
+        "tomates"
+      ],
+      "aliasEn": [
+        "tomato",
+        "tomatoes",
+        "fresh tomatoes",
+        "tomatos"
+      ],
+      "por100g": {
+        "kcal": 18,
+        "proteinasG": 0.9,
+        "carbohidratosG": 3.9,
+        "grasasG": 0.2
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "papa",
+      "nombreEs": "Papa",
+      "nombreEn": "potato",
+      "aliasEs": [
+        "papas",
+        "patata",
+        "patatas"
+      ],
+      "aliasEn": [
+        "potato",
+        "potatoes"
+      ],
+      "por100g": {
+        "kcal": 77,
+        "proteinasG": 2.0,
+        "carbohidratosG": 17.5,
+        "grasasG": 0.1
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "zanahoria",
+      "nombreEs": "Zanahoria",
+      "nombreEn": "carrot",
+      "aliasEs": [],
+      "aliasEn": [
+        "carrot",
+        "carrots"
+      ],
+      "por100g": {
+        "kcal": 41,
+        "proteinasG": 0.9,
+        "carbohidratosG": 9.6,
+        "grasasG": 0.2
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "aceite-vegetal",
+      "nombreEs": "Aceite vegetal",
+      "nombreEn": "vegetable oil",
+      "aliasEs": [],
+      "aliasEn": [
+        "vegetable oil",
+        "cooking oil",
+        "neutral oil",
+        "oil",
+        "frying oil"
+      ],
+      "por100g": {
+        "kcal": 884,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 100.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 0.92,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "pimenton",
+      "nombreEs": "Pimentón",
+      "nombreEn": "paprika",
+      "aliasEs": [
+        "paprika",
+        "pimentón dulce",
+        "pimentón ahumado"
+      ],
+      "aliasEn": [
+        "paprika",
+        "paprica",
+        "sweet paprika",
+        "smoked paprika"
+      ],
+      "por100g": {
+        "kcal": 282,
+        "proteinasG": 14.1,
+        "carbohidratosG": 54.0,
+        "grasasG": 12.9
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "perejil",
+      "nombreEs": "Perejil",
+      "nombreEn": "parsley",
+      "aliasEs": [],
+      "aliasEn": [
+        "parsley",
+        "parsely",
+        "flat-leaf parsley",
+        "flat leaf parsley"
+      ],
+      "por100g": {
+        "kcal": 36,
+        "proteinasG": 3.0,
+        "carbohidratosG": 6.3,
+        "grasasG": 0.8
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "canela",
+      "nombreEs": "Canela",
+      "nombreEn": "cinnamon",
+      "aliasEs": [],
+      "aliasEn": [
+        "cinnamon",
+        "cinnamom",
+        "cinamon",
+        "cinnamon sticks",
+        "ground cinnamon"
+      ],
+      "por100g": {
+        "kcal": 247,
+        "proteinasG": 4.0,
+        "carbohidratosG": 80.6,
+        "grasasG": 1.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "limon",
+      "nombreEs": "Limón",
+      "nombreEn": "lemon",
+      "aliasEs": [
+        "limones"
+      ],
+      "aliasEn": [
+        "lemon",
+        "lemons"
+      ],
+      "por100g": {
+        "kcal": 29,
+        "proteinasG": 1.1,
+        "carbohidratosG": 9.3,
+        "grasasG": 0.3
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "crema-leche",
+      "nombreEs": "Crema de leche",
+      "nombreEn": "cream",
+      "aliasEs": [
+        "nata",
+        "nata para montar"
+      ],
+      "aliasEn": [
+        "cream",
+        "heavy cream",
+        "double cream",
+        "whipping cream",
+        "single cream",
+        "heavy whipping cream"
+      ],
+      "por100g": {
+        "kcal": 340,
+        "proteinasG": 2.8,
+        "carbohidratosG": 2.8,
+        "grasasG": 36.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": 0.99,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "queso",
+      "nombreEs": "Queso",
+      "nombreEn": "cheese",
+      "aliasEs": [
+        "quesos"
+      ],
+      "aliasEn": [
+        "cheese",
+        "grated cheese",
+        "shredded cheese"
+      ],
+      "por100g": {
+        "kcal": 372,
+        "proteinasG": 24.9,
+        "carbohidratosG": 2.0,
+        "grasasG": 29.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "jengibre",
+      "nombreEs": "Jengibre",
+      "nombreEn": "ginger",
+      "aliasEs": [],
+      "aliasEn": [
+        "ginger",
+        "ginger root",
+        "fresh ginger",
+        "gingerroot"
+      ],
+      "por100g": {
+        "kcal": 80,
+        "proteinasG": 1.8,
+        "carbohidratosG": 17.8,
+        "grasasG": 0.8
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pasta-seca",
+      "nombreEs": "Pasta seca",
+      "nombreEn": "pasta",
+      "aliasEs": [
+        "fideos secos",
+        "espaguetis",
+        "spaghetti",
+        "macarrones"
+      ],
+      "aliasEn": [
+        "pasta",
+        "spaghetti",
+        "macaroni",
+        "penne",
+        "fettuccine",
+        "fettucine",
+        "linguine",
+        "fusilli",
+        "rigatoni",
+        "tagliatelle",
+        "farfalle",
+        "rotini",
+        "ziti"
+      ],
+      "por100g": {
+        "kcal": 371,
+        "proteinasG": 13.0,
+        "carbohidratosG": 74.7,
+        "grasasG": 1.5
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pollo",
+      "nombreEs": "Pollo",
+      "nombreEn": "chicken",
+      "aliasEs": [],
+      "aliasEn": [
+        "chicken",
+        "whole chicken",
+        "chickens",
+        "ckicken"
+      ],
+      "por100g": {
+        "kcal": 119,
+        "proteinasG": 21.4,
+        "carbohidratosG": 0.0,
+        "grasasG": 3.1
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "comino",
+      "nombreEs": "Comino",
+      "nombreEn": "cumin",
+      "aliasEs": [],
+      "aliasEn": [
+        "cumin",
+        "cumin seeds",
+        "ground cumin"
+      ],
+      "por100g": {
+        "kcal": 375,
+        "proteinasG": 17.8,
+        "carbohidratosG": 44.2,
+        "grasasG": 22.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "laurel",
+      "nombreEs": "Laurel",
+      "nombreEn": "bay leaf",
+      "aliasEs": [],
+      "aliasEn": [
+        "bay leaf",
+        "bay leaves",
+        "bayleaf",
+        "bayleaves",
+        "bay leafs",
+        "loorber leaves"
+      ],
+      "por100g": {
+        "kcal": 313,
+        "proteinasG": 7.6,
+        "carbohidratosG": 75.0,
+        "grasasG": 8.4
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "arroz-blanco",
+      "nombreEs": "Arroz blanco seco",
+      "nombreEn": "rice",
+      "aliasEs": [],
+      "aliasEn": [
+        "rice",
+        "white rice",
+        "long grain rice",
+        "long-grain rice",
+        "basmati rice",
+        "jasmine rice"
+      ],
+      "por100g": {
+        "kcal": 365,
+        "proteinasG": 7.1,
+        "carbohidratosG": 80.0,
+        "grasasG": 0.7
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "aji-picante",
+      "nombreEs": "Ají picante fresco",
+      "nombreEn": "chili",
+      "aliasEs": [],
+      "aliasEn": [
+        "chili",
+        "chilli",
+        "chilis",
+        "chillies",
+        "chilies",
+        "chiles",
+        "chile",
+        "chilli peppers",
+        "chili peppers",
+        "hot peppers",
+        "red chili",
+        "red chilli"
+      ],
+      "por100g": {
+        "kcal": 40,
+        "proteinasG": 1.9,
+        "carbohidratosG": 8.8,
+        "grasasG": 0.4
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "panceta",
+      "nombreEs": "Panceta",
+      "nombreEn": "bacon",
+      "aliasEs": [
+        "bacon",
+        "tocino curado"
+      ],
+      "aliasEn": [
+        "bacon",
+        "pancetta",
+        "streaky bacon"
+      ],
+      "por100g": {
+        "kcal": 393,
+        "proteinasG": 13.7,
+        "carbohidratosG": 0.0,
+        "grasasG": 37.1
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pure-tomate-concentrado",
+      "nombreEs": "Extracto de tomate",
+      "nombreEn": "tomato paste",
+      "aliasEs": [],
+      "aliasEn": [
+        "tomato paste",
+        "tomato purée",
+        "tomato puree",
+        "concentrated tomato"
+      ],
+      "por100g": {
+        "kcal": 82,
+        "proteinasG": 4.3,
+        "carbohidratosG": 18.9,
+        "grasasG": 0.5
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "carne-vacuna",
+      "nombreEs": "Carne vacuna",
+      "nombreEn": "beef",
+      "aliasEs": [],
+      "aliasEn": [
+        "beef",
+        "beef steak",
+        "steak"
+      ],
+      "por100g": {
+        "kcal": 198,
+        "proteinasG": 20.1,
+        "carbohidratosG": 0.0,
+        "grasasG": 12.7
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pan",
+      "nombreEs": "Pan",
+      "nombreEn": "bread",
+      "aliasEs": [],
+      "aliasEn": [
+        "bread",
+        "white bread",
+        "bread slices",
+        "loaf of bread"
+      ],
+      "por100g": {
+        "kcal": 266,
+        "proteinasG": 8.8,
+        "carbohidratosG": 49.4,
+        "grasasG": 3.3
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "salsa-soja",
+      "nombreEs": "Salsa de soja",
+      "nombreEn": "soy sauce",
+      "aliasEs": [],
+      "aliasEn": [
+        "soy sauce",
+        "soya sauce",
+        "light soy sauce",
+        "dark soy sauce"
+      ],
+      "por100g": {
+        "kcal": 53,
+        "proteinasG": 8.1,
+        "carbohidratosG": 4.9,
+        "grasasG": 0.6
+      },
+      "grupo": "legumbres",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.16,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "caldo-pollo",
+      "nombreEs": "Caldo de pollo",
+      "nombreEn": "chicken stock",
+      "aliasEs": [],
+      "aliasEn": [
+        "chicken stock",
+        "chicken broth"
+      ],
+      "por100g": {
+        "kcal": 6,
+        "proteinasG": 0.6,
+        "carbohidratosG": 0.4,
+        "grasasG": 0.2
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": 1.0,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "nuez-moscada",
+      "nombreEs": "Nuez moscada",
+      "nombreEn": "nutmeg",
+      "aliasEs": [],
+      "aliasEn": [
+        "nutmeg",
+        "ground nutmeg",
+        "nutmegs",
+        "nuez moscada"
+      ],
+      "por100g": {
+        "kcal": 525,
+        "proteinasG": 5.8,
+        "carbohidratosG": 49.3,
+        "grasasG": 36.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "parmesano",
+      "nombreEs": "Queso parmesano",
+      "nombreEn": "parmesan",
+      "aliasEs": [],
+      "aliasEn": [
+        "parmesan",
+        "parmigiano",
+        "parmigiano-reggiano",
+        "parmigiano reggiano"
+      ],
+      "por100g": {
+        "kcal": 392,
+        "proteinasG": 35.8,
+        "carbohidratosG": 3.2,
+        "grasasG": 25.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "caldo",
+      "nombreEs": "Caldo",
+      "nombreEn": "broth",
+      "aliasEs": [],
+      "aliasEn": [
+        "broth",
+        "stock",
+        "bouillon"
+      ],
+      "por100g": {
+        "kcal": 6,
+        "proteinasG": 0.7,
+        "carbohidratosG": 0.5,
+        "grasasG": 0.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.0,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "miel",
+      "nombreEs": "Miel",
+      "nombreEn": "honey",
+      "aliasEs": [],
+      "aliasEn": [
+        "honey"
+      ],
+      "por100g": {
+        "kcal": 304,
+        "proteinasG": 0.3,
+        "carbohidratosG": 82.4,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "oregano-seco",
+      "nombreEs": "Orégano seco",
+      "nombreEn": "oregano",
+      "aliasEs": [],
+      "aliasEn": [
+        "oregano",
+        "dried oregano"
+      ],
+      "por100g": {
+        "kcal": 265,
+        "proteinasG": 9.0,
+        "carbohidratosG": 68.9,
+        "grasasG": 4.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "carne-picada-vacuna",
+      "nombreEs": "Carne picada vacuna",
+      "nombreEn": "ground beef",
+      "aliasEs": [
+        "carne molida de res",
+        "carne picada",
+        "picada vacuna"
+      ],
+      "aliasEn": [
+        "ground beef",
+        "beef mince",
+        "minced beef",
+        "mince beef",
+        "hamburger meat"
+      ],
+      "por100g": {
+        "kcal": 215,
+        "proteinasG": 18.6,
+        "carbohidratosG": 0.0,
+        "grasasG": 15.0
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "jugo-limon",
+      "nombreEs": "Jugo de limón",
+      "nombreEn": "lemon juice",
+      "aliasEs": [],
+      "aliasEn": [
+        "lemon juice",
+        "juice of lemon",
+        "juice of a lemon",
+        "juice of one lemon"
+      ],
+      "por100g": {
+        "kcal": 22,
+        "proteinasG": 0.3,
+        "carbohidratosG": 6.9,
+        "grasasG": 0.2
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.03,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "pechuga-pollo",
+      "nombreEs": "Pechuga de pollo",
+      "nombreEn": "chicken breast",
+      "aliasEs": [],
+      "aliasEn": [
+        "chicken breast",
+        "chicken breasts",
+        "boneless skinless chicken breasts"
+      ],
+      "por100g": {
+        "kcal": 120,
+        "proteinasG": 22.5,
+        "carbohidratosG": 0.0,
+        "grasasG": 2.6
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "salchicha",
+      "nombreEs": "Salchicha",
+      "nombreEn": "sausage",
+      "aliasEs": [],
+      "aliasEn": [
+        "sausage",
+        "sausages",
+        "salsiccia",
+        "falukorv"
+      ],
+      "por100g": {
+        "kcal": 298,
+        "proteinasG": 10.3,
+        "carbohidratosG": 5.0,
+        "grasasG": 26.3
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "albahaca",
+      "nombreEs": "Albahaca",
+      "nombreEn": "basil",
+      "aliasEs": [],
+      "aliasEn": [
+        "basil",
+        "fresh basil"
+      ],
+      "por100g": {
+        "kcal": 23,
+        "proteinasG": 3.1,
+        "carbohidratosG": 2.6,
+        "grasasG": 0.6
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cayena",
+      "nombreEs": "Pimienta de Cayena",
+      "nombreEn": "cayenne",
+      "aliasEs": [],
+      "aliasEn": [
+        "cayenne",
+        "cayenne pepper"
+      ],
+      "por100g": {
+        "kcal": 318,
+        "proteinasG": 12.0,
+        "carbohidratosG": 56.6,
+        "grasasG": 17.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "mezcla-especias",
+      "nombreEs": "Mezcla de especias",
+      "nombreEn": "mixed spice",
+      "aliasEs": [],
+      "aliasEn": [
+        "mixed spice",
+        "chinese five spice",
+        "chinese 5 spice",
+        "spices",
+        "seasoning"
+      ],
+      "por100g": {
+        "kcal": 302,
+        "proteinasG": 13.7,
+        "carbohidratosG": 54.3,
+        "grasasG": 14.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cilantro",
+      "nombreEs": "Cilantro fresco",
+      "nombreEn": "cilantro",
+      "aliasEs": [],
+      "aliasEn": [
+        "cilantro",
+        "coriander leaves",
+        "fresh coriander"
+      ],
+      "por100g": {
+        "kcal": 23,
+        "proteinasG": 2.1,
+        "carbohidratosG": 3.7,
+        "grasasG": 0.5
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "hongos",
+      "nombreEs": "Champiñones",
+      "nombreEn": "mushrooms",
+      "aliasEs": [],
+      "aliasEn": [
+        "mushrooms",
+        "mushroom",
+        "button mushrooms",
+        "champignon",
+        "champignons"
+      ],
+      "por100g": {
+        "kcal": 22,
+        "proteinasG": 3.1,
+        "carbohidratosG": 3.3,
+        "grasasG": 0.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "levadura-seca",
+      "nombreEs": "Levadura seca",
+      "nombreEn": "yeast",
+      "aliasEs": [
+        "levadura instantánea",
+        "levadura seca activa"
+      ],
+      "aliasEn": [
+        "yeast",
+        "dry yeast",
+        "instant yeast",
+        "active dry yeast"
+      ],
+      "por100g": {
+        "kcal": 325,
+        "proteinasG": 40.4,
+        "carbohidratosG": 41.2,
+        "grasasG": 7.6
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "mostaza",
+      "nombreEs": "Mostaza preparada",
+      "nombreEn": "mustard",
+      "aliasEs": [],
+      "aliasEn": [
+        "mustard",
+        "dijon mustard",
+        "yellow mustard"
+      ],
+      "por100g": {
+        "kcal": 60,
+        "proteinasG": 3.7,
+        "carbohidratosG": 5.8,
+        "grasasG": 3.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "apio",
+      "nombreEs": "Apio",
+      "nombreEn": "celery",
+      "aliasEs": [],
+      "aliasEn": [
+        "celery",
+        "celery stalks"
+      ],
+      "por100g": {
+        "kcal": 14,
+        "proteinasG": 0.7,
+        "carbohidratosG": 3.0,
+        "grasasG": 0.2
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cebolla-verdeo",
+      "nombreEs": "Cebolla de verdeo",
+      "nombreEn": "spring onion",
+      "aliasEs": [
+        "verdeo",
+        "cebolleta",
+        "cebollín"
+      ],
+      "aliasEn": [
+        "spring onion",
+        "spring onions",
+        "scallion",
+        "scallions",
+        "green onion",
+        "green onions"
+      ],
+      "por100g": {
+        "kcal": 32,
+        "proteinasG": 1.8,
+        "carbohidratosG": 7.3,
+        "grasasG": 0.2
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "morron",
+      "nombreEs": "Morrón",
+      "nombreEn": "bell pepper",
+      "aliasEs": [
+        "pimiento",
+        "pimiento morrón",
+        "morrones"
+      ],
+      "aliasEn": [
+        "bell pepper",
+        "bell peppers",
+        "capsicum",
+        "sweet pepper",
+        "sweet peppers"
+      ],
+      "por100g": {
+        "kcal": 26,
+        "proteinasG": 1.0,
+        "carbohidratosG": 6.0,
+        "grasasG": 0.3
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "extracto-vainilla",
+      "nombreEs": "Extracto de vainilla",
+      "nombreEn": "vanilla extract",
+      "aliasEs": [],
+      "aliasEn": [
+        "vanilla extract",
+        "vanilla essence",
+        "vanilla"
+      ],
+      "por100g": {
+        "kcal": 288,
+        "proteinasG": 0.1,
+        "carbohidratosG": 12.7,
+        "grasasG": 0.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "polvo-hornear",
+      "nombreEs": "Polvo de hornear",
+      "nombreEn": "baking powder",
+      "aliasEs": [
+        "polvo leudante"
+      ],
+      "aliasEn": [
+        "baking powder"
+      ],
+      "por100g": {
+        "kcal": 53,
+        "proteinasG": 0.0,
+        "carbohidratosG": 27.7,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "salsa-tomate",
+      "nombreEs": "Salsa de tomate",
+      "nombreEn": "tomato sauce",
+      "aliasEs": [],
+      "aliasEn": [
+        "tomato sauce",
+        "passata",
+        "marinara sauce",
+        "pasta sauce",
+        "tomato passata"
+      ],
+      "por100g": {
+        "kcal": 24,
+        "proteinasG": 1.2,
+        "carbohidratosG": 5.3,
+        "grasasG": 0.3
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.03,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "crema-acida",
+      "nombreEs": "Crema ácida",
+      "nombreEn": "sour cream",
+      "aliasEs": [],
+      "aliasEn": [
+        "sour cream",
+        "crème fraîche",
+        "creme fraiche",
+        "crème fraiche"
+      ],
+      "por100g": {
+        "kcal": 198,
+        "proteinasG": 2.4,
+        "carbohidratosG": 4.6,
+        "grasasG": 19.4
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "tomate-enlatado",
+      "nombreEs": "Tomate en lata",
+      "nombreEn": "canned tomatoes",
+      "aliasEs": [],
+      "aliasEn": [
+        "canned tomatoes",
+        "tinned tomatoes",
+        "can of tomatoes",
+        "tin of tomatoes",
+        "crushed tomatoes",
+        "diced tomatoes",
+        "chopped tomatoes"
+      ],
+      "por100g": {
+        "kcal": 16,
+        "proteinasG": 0.8,
+        "carbohidratosG": 3.5,
+        "grasasG": 0.2
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "vinagre",
+      "nombreEs": "Vinagre blanco",
+      "nombreEn": "vinegar",
+      "aliasEs": [],
+      "aliasEn": [
+        "vinegar",
+        "white vinegar",
+        "distilled vinegar"
+      ],
+      "por100g": {
+        "kcal": 18,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.01,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "ajo-polvo",
+      "nombreEs": "Ajo en polvo",
+      "nombreEn": "garlic powder",
+      "aliasEs": [
+        "ajo deshidratado en polvo"
+      ],
+      "aliasEn": [
+        "garlic powder",
+        "granulated garlic",
+        "garlic granules"
+      ],
+      "por100g": {
+        "kcal": 331,
+        "proteinasG": 16.6,
+        "carbohidratosG": 72.7,
+        "grasasG": 0.7
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "azucar-negra",
+      "nombreEs": "Azúcar rubia o negra",
+      "nombreEn": "brown sugar",
+      "aliasEs": [],
+      "aliasEn": [
+        "brown sugar",
+        "light brown sugar",
+        "dark brown sugar",
+        "demerara sugar"
+      ],
+      "por100g": {
+        "kcal": 380,
+        "proteinasG": 0.1,
+        "carbohidratosG": 98.1,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "mayonesa",
+      "nombreEs": "Mayonesa",
+      "nombreEn": "mayonnaise",
+      "aliasEs": [],
+      "aliasEn": [
+        "mayonnaise",
+        "mayo",
+        "mayonaise",
+        "mayonnese",
+        "aioli"
+      ],
+      "por100g": {
+        "kcal": 680,
+        "proteinasG": 1.0,
+        "carbohidratosG": 0.6,
+        "grasasG": 74.8
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "romero",
+      "nombreEs": "Romero",
+      "nombreEn": "rosemary",
+      "aliasEs": [],
+      "aliasEn": [
+        "rosemary",
+        "fresh rosemary"
+      ],
+      "por100g": {
+        "kcal": 131,
+        "proteinasG": 3.3,
+        "carbohidratosG": 20.7,
+        "grasasG": 5.9
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "tomillo",
+      "nombreEs": "Tomillo",
+      "nombreEn": "thyme",
+      "aliasEs": [],
+      "aliasEn": [
+        "thyme",
+        "fresh thyme"
+      ],
+      "por100g": {
+        "kcal": 101,
+        "proteinasG": 5.6,
+        "carbohidratosG": 24.4,
+        "grasasG": 1.7
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "coriandro",
+      "nombreEs": "Semillas de coriandro",
+      "nombreEn": "coriander",
+      "aliasEs": [],
+      "aliasEn": [
+        "coriander",
+        "ground coriander",
+        "coriander seeds"
+      ],
+      "por100g": {
+        "kcal": 298,
+        "proteinasG": 12.4,
+        "carbohidratosG": 55.0,
+        "grasasG": 17.8
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "curcuma",
+      "nombreEs": "Cúrcuma",
+      "nombreEn": "turmeric",
+      "aliasEs": [],
+      "aliasEn": [
+        "turmeric",
+        "ground turmeric",
+        "tumeric",
+        "curcuma"
+      ],
+      "por100g": {
+        "kcal": 312,
+        "proteinasG": 9.7,
+        "carbohidratosG": 67.1,
+        "grasasG": 3.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "maicena",
+      "nombreEs": "Almidón de maíz",
+      "nombreEn": "cornstarch",
+      "aliasEs": [
+        "maizena",
+        "fécula de maíz"
+      ],
+      "aliasEn": [
+        "cornstarch",
+        "corn starch",
+        "cornflour",
+        "corn flour"
+      ],
+      "por100g": {
+        "kcal": 381,
+        "proteinasG": 0.3,
+        "carbohidratosG": 91.3,
+        "grasasG": 0.1
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pan-rallado",
+      "nombreEs": "Pan rallado",
+      "nombreEn": "breadcrumbs",
+      "aliasEs": [],
+      "aliasEn": [
+        "breadcrumbs",
+        "bread crumbs",
+        "bread-crumbs",
+        "panko"
+      ],
+      "por100g": {
+        "kcal": 395,
+        "proteinasG": 13.3,
+        "carbohidratosG": 72.0,
+        "grasasG": 5.3
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "salsa-inglesa",
+      "nombreEs": "Salsa inglesa",
+      "nombreEn": "worcestershire sauce",
+      "aliasEs": [
+        "salsa Worcestershire"
+      ],
+      "aliasEn": [
+        "worcestershire sauce",
+        "worcestershire",
+        "worchestershire sauce"
+      ],
+      "por100g": {
+        "kcal": 77,
+        "proteinasG": 0.0,
+        "carbohidratosG": 19.2,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "yogur",
+      "nombreEs": "Yogur natural",
+      "nombreEn": "yogurt",
+      "aliasEs": [],
+      "aliasEn": [
+        "yogurt",
+        "yoghurt",
+        "plain yogurt",
+        "natural yoghurt"
+      ],
+      "por100g": {
+        "kcal": 61,
+        "proteinasG": 3.5,
+        "carbohidratosG": 4.7,
+        "grasasG": 3.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cerdo",
+      "nombreEs": "Carne de cerdo",
+      "nombreEn": "pork",
+      "aliasEs": [],
+      "aliasEn": [
+        "pork",
+        "pork meat"
+      ],
+      "por100g": {
+        "kcal": 211,
+        "proteinasG": 18.2,
+        "carbohidratosG": 0.0,
+        "grasasG": 14.8
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "morron-rojo",
+      "nombreEs": "Morrón rojo",
+      "nombreEn": "red bell pepper",
+      "aliasEs": [
+        "pimiento rojo",
+        "morrones rojos"
+      ],
+      "aliasEn": [
+        "red bell pepper",
+        "red bell peppers",
+        "red pepper",
+        "red peppers",
+        "red capsicum"
+      ],
+      "por100g": {
+        "kcal": 26,
+        "proteinasG": 1.0,
+        "carbohidratosG": 6.0,
+        "grasasG": 0.3
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "salsa-picante",
+      "nombreEs": "Salsa picante",
+      "nombreEn": "hot sauce",
+      "aliasEs": [],
+      "aliasEn": [
+        "hot sauce",
+        "sriracha",
+        "tabasco",
+        "sriacha",
+        "redhot sauce"
+      ],
+      "por100g": {
+        "kcal": 21,
+        "proteinasG": 0.9,
+        "carbohidratosG": 3.9,
+        "grasasG": 0.6
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "arvejas",
+      "nombreEs": "Arvejas",
+      "nombreEn": "peas",
+      "aliasEs": [
+        "guisantes"
+      ],
+      "aliasEn": [
+        "peas",
+        "green peas",
+        "frozen peas"
+      ],
+      "por100g": {
+        "kcal": 81,
+        "proteinasG": 5.4,
+        "carbohidratosG": 14.4,
+        "grasasG": 0.4
+      },
+      "grupo": "legumbres",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "clavo-olor",
+      "nombreEs": "Clavo de olor",
+      "nombreEn": "cloves",
+      "aliasEs": [],
+      "aliasEn": [
+        "cloves",
+        "clove",
+        "ground cloves"
+      ],
+      "por100g": {
+        "kcal": 274,
+        "proteinasG": 6.0,
+        "carbohidratosG": 65.5,
+        "grasasG": 13.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "huevo-yema",
+      "nombreEs": "Yema de huevo",
+      "nombreEn": "egg yolks",
+      "aliasEs": [],
+      "aliasEn": [
+        "egg yolks",
+        "egg yolk",
+        "yolks",
+        "yolk"
+      ],
+      "por100g": {
+        "kcal": 322,
+        "proteinasG": 15.9,
+        "carbohidratosG": 3.6,
+        "grasasG": 26.5
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "lima",
+      "nombreEs": "Lima",
+      "nombreEn": "limes",
+      "aliasEs": [
+        "limas"
+      ],
+      "aliasEn": [
+        "limes",
+        "lime"
+      ],
+      "por100g": {
+        "kcal": 30,
+        "proteinasG": 0.7,
+        "carbohidratosG": 10.5,
+        "grasasG": 0.2
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "aji-molido",
+      "nombreEs": "Ají molido",
+      "nombreEn": "red pepper flakes",
+      "aliasEs": [],
+      "aliasEn": [
+        "red pepper flakes",
+        "chili flakes",
+        "chilli flakes",
+        "red chilli flakes",
+        "crushed red pepper",
+        "chile flakes"
+      ],
+      "por100g": {
+        "kcal": 318,
+        "proteinasG": 12.0,
+        "carbohidratosG": 56.6,
+        "grasasG": 17.3
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "aji-polvo",
+      "nombreEs": "Ají en polvo / mezcla chili",
+      "nombreEn": "chili powder",
+      "aliasEs": [],
+      "aliasEn": [
+        "chili powder",
+        "chilli powder",
+        "chile powder"
+      ],
+      "por100g": {
+        "kcal": 282,
+        "proteinasG": 13.5,
+        "carbohidratosG": 49.7,
+        "grasasG": 14.3
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "bicarbonato",
+      "nombreEs": "Bicarbonato de sodio",
+      "nombreEn": "baking soda",
+      "aliasEs": [],
+      "aliasEn": [
+        "baking soda",
+        "sodium bicarbonate",
+        "bicarbonate of soda"
+      ],
+      "por100g": {
+        "kcal": 0,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "choclo",
+      "nombreEs": "Choclo",
+      "nombreEn": "corn",
+      "aliasEs": [
+        "maíz dulce",
+        "elote"
+      ],
+      "aliasEn": [
+        "corn",
+        "sweetcorn",
+        "sweet corn",
+        "corn kernels"
+      ],
+      "por100g": {
+        "kcal": 86,
+        "proteinasG": 3.3,
+        "carbohidratosG": 18.7,
+        "grasasG": 1.4
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "fruta",
+      "nombreEs": "Fruta",
+      "nombreEn": "fruit",
+      "aliasEs": [],
+      "aliasEn": [
+        "fruit",
+        "fruits",
+        "berries"
+      ],
+      "por100g": {
+        "kcal": 63,
+        "proteinasG": 0.8,
+        "carbohidratosG": 16.1,
+        "grasasG": 0.2
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "grasa-cerdo",
+      "nombreEs": "Grasa de cerdo",
+      "nombreEn": "lard",
+      "aliasEs": [
+        "manteca de cerdo"
+      ],
+      "aliasEn": [
+        "lard"
+      ],
+      "por100g": {
+        "kcal": 902,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 100.0
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "aceite-sesamo",
+      "nombreEs": "Aceite de sésamo",
+      "nombreEn": "sesame oil",
+      "aliasEs": [],
+      "aliasEn": [
+        "sesame oil"
+      ],
+      "por100g": {
+        "kcal": 884,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 100.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 0.92,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "brocoli",
+      "nombreEs": "Brócoli",
+      "nombreEn": "broccoli",
+      "aliasEs": [],
+      "aliasEn": [
+        "broccoli",
+        "broccli"
+      ],
+      "por100g": {
+        "kcal": 34,
+        "proteinasG": 2.8,
+        "carbohidratosG": 6.6,
+        "grasasG": 0.4
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cebolla-morada",
+      "nombreEs": "Cebolla morada",
+      "nombreEn": "red onion",
+      "aliasEs": [],
+      "aliasEn": [
+        "red onion",
+        "red onions"
+      ],
+      "por100g": {
+        "kcal": 40,
+        "proteinasG": 1.1,
+        "carbohidratosG": 9.3,
+        "grasasG": 0.1
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cebolla-polvo",
+      "nombreEs": "Cebolla en polvo",
+      "nombreEn": "onion powder",
+      "aliasEs": [],
+      "aliasEn": [
+        "onion powder"
+      ],
+      "por100g": {
+        "kcal": 341,
+        "proteinasG": 10.4,
+        "carbohidratosG": 79.1,
+        "grasasG": 1.0
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cerveza",
+      "nombreEs": "Cerveza",
+      "nombreEn": "beer",
+      "aliasEs": [],
+      "aliasEn": [
+        "beer",
+        "lager",
+        "stout",
+        "ale",
+        "porter"
+      ],
+      "por100g": {
+        "kcal": 43,
+        "proteinasG": 0.5,
+        "carbohidratosG": 3.5,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.01,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "vino",
+      "nombreEs": "Vino",
+      "nombreEn": "wine",
+      "aliasEs": [],
+      "aliasEn": [
+        "wine"
+      ],
+      "por100g": {
+        "kcal": 84,
+        "proteinasG": 0.1,
+        "carbohidratosG": 2.6,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 0.99,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "vino-blanco",
+      "nombreEs": "Vino blanco",
+      "nombreEn": "white wine",
+      "aliasEs": [],
+      "aliasEn": [
+        "white wine",
+        "dry white wine",
+        "white whine"
+      ],
+      "por100g": {
+        "kcal": 82,
+        "proteinasG": 0.1,
+        "carbohidratosG": 2.6,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 0.99,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "zapallito-zucchini",
+      "nombreEs": "Zucchini",
+      "nombreEn": "zucchini",
+      "aliasEs": [
+        "calabacín",
+        "zucchini"
+      ],
+      "aliasEn": [
+        "zucchini",
+        "courgette",
+        "courgettes",
+        "zucchinis"
+      ],
+      "por100g": {
+        "kcal": 17,
+        "proteinasG": 1.2,
+        "carbohidratosG": 3.1,
+        "grasasG": 0.3
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "avena",
+      "nombreEs": "Avena",
+      "nombreEn": "oats",
+      "aliasEs": [],
+      "aliasEn": [
+        "oats",
+        "oatmeal",
+        "rolled oats",
+        "porridge oats",
+        "oat flakes",
+        "oat"
+      ],
+      "por100g": {
+        "kcal": 389,
+        "proteinasG": 16.9,
+        "carbohidratosG": 66.3,
+        "grasasG": 6.9
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "azucar-impalpable",
+      "nombreEs": "Azúcar impalpable",
+      "nombreEn": "powdered sugar",
+      "aliasEs": [
+        "azúcar glas",
+        "azúcar en polvo"
+      ],
+      "aliasEn": [
+        "powdered sugar",
+        "icing sugar",
+        "confectioners sugar",
+        "confectioner's sugar",
+        "confectioners' sugar"
+      ],
+      "por100g": {
+        "kcal": 389,
+        "proteinasG": 0.0,
+        "carbohidratosG": 99.8,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cardamomo",
+      "nombreEs": "Cardamomo",
+      "nombreEn": "cardamom",
+      "aliasEs": [],
+      "aliasEn": [
+        "cardamom",
+        "cardamom pods"
+      ],
+      "por100g": {
+        "kcal": 311,
+        "proteinasG": 10.8,
+        "carbohidratosG": 68.5,
+        "grasasG": 6.7
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "echalote",
+      "nombreEs": "Echalote",
+      "nombreEn": "shallot",
+      "aliasEs": [],
+      "aliasEn": [
+        "shallot",
+        "shallots"
+      ],
+      "por100g": {
+        "kcal": 72,
+        "proteinasG": 2.5,
+        "carbohidratosG": 16.8,
+        "grasasG": 0.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "eneldo",
+      "nombreEs": "Eneldo",
+      "nombreEn": "dill",
+      "aliasEs": [],
+      "aliasEn": [
+        "dill",
+        "dill weed"
+      ],
+      "por100g": {
+        "kcal": 43,
+        "proteinasG": 3.5,
+        "carbohidratosG": 7.0,
+        "grasasG": 1.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "espinaca",
+      "nombreEs": "Espinaca",
+      "nombreEn": "spinach",
+      "aliasEs": [],
+      "aliasEn": [
+        "spinach",
+        "baby spinach"
+      ],
+      "por100g": {
+        "kcal": 23,
+        "proteinasG": 2.9,
+        "carbohidratosG": 3.6,
+        "grasasG": 0.4
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "ketchup",
+      "nombreEs": "Ketchup",
+      "nombreEn": "ketchup",
+      "aliasEs": [],
+      "aliasEn": [
+        "ketchup",
+        "catsup"
+      ],
+      "por100g": {
+        "kcal": 101,
+        "proteinasG": 1.0,
+        "carbohidratosG": 27.4,
+        "grasasG": 0.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "mezcla-verduras",
+      "nombreEs": "Mezcla de verduras",
+      "nombreEn": "mixed vegetables",
+      "aliasEs": [],
+      "aliasEn": [
+        "mixed vegetables",
+        "vegetables",
+        "veggies",
+        "veggie"
+      ],
+      "por100g": {
+        "kcal": 43,
+        "proteinasG": 2.6,
+        "carbohidratosG": 8.4,
+        "grasasG": 0.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "queso-cheddar",
+      "nombreEs": "Queso cheddar",
+      "nombreEn": "cheddar",
+      "aliasEs": [],
+      "aliasEn": [
+        "cheddar",
+        "cheddar cheese"
+      ],
+      "por100g": {
+        "kcal": 403,
+        "proteinasG": 22.9,
+        "carbohidratosG": 3.4,
+        "grasasG": 33.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "te-negro",
+      "nombreEs": "Té negro preparado",
+      "nombreEn": "black tea",
+      "aliasEs": [],
+      "aliasEn": [
+        "black tea",
+        "tea",
+        "teas"
+      ],
+      "por100g": {
+        "kcal": 1,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.3,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "brandy",
+      "nombreEs": "Brandy",
+      "nombreEn": "brandy",
+      "aliasEs": [],
+      "aliasEn": [
+        "brandy",
+        "cognac"
+      ],
+      "por100g": {
+        "kcal": 231,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cebollin",
+      "nombreEs": "Ciboulette",
+      "nombreEn": "chives",
+      "aliasEs": [
+        "cebollino",
+        "ciboulette"
+      ],
+      "aliasEn": [
+        "chives",
+        "chive"
+      ],
+      "por100g": {
+        "kcal": 30,
+        "proteinasG": 3.3,
+        "carbohidratosG": 4.3,
+        "grasasG": 0.7
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "jamon",
+      "nombreEs": "Jamón cocido",
+      "nombreEn": "ham",
+      "aliasEs": [],
+      "aliasEn": [
+        "ham",
+        "cooked ham"
+      ],
+      "por100g": {
+        "kcal": 178,
+        "proteinasG": 22.6,
+        "carbohidratosG": 0.0,
+        "grasasG": 9.0
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "manzana",
+      "nombreEs": "Manzana",
+      "nombreEn": "apples",
+      "aliasEs": [],
+      "aliasEn": [
+        "apples",
+        "apple"
+      ],
+      "por100g": {
+        "kcal": 52,
+        "proteinasG": 0.3,
+        "carbohidratosG": 13.8,
+        "grasasG": 0.2
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "naranja",
+      "nombreEs": "Naranja",
+      "nombreEn": "oranges",
+      "aliasEs": [],
+      "aliasEn": [
+        "oranges",
+        "orange"
+      ],
+      "por100g": {
+        "kcal": 47,
+        "proteinasG": 0.9,
+        "carbohidratosG": 11.8,
+        "grasasG": 0.1
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "porotos",
+      "nombreEs": "Porotos secos",
+      "nombreEn": "beans",
+      "aliasEs": [
+        "frijoles",
+        "alubias",
+        "habichuelas"
+      ],
+      "aliasEn": [
+        "beans"
+      ],
+      "por100g": {
+        "kcal": 333,
+        "proteinasG": 23.6,
+        "carbohidratosG": 60.0,
+        "grasasG": 0.8
+      },
+      "grupo": "legumbres",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "repollo",
+      "nombreEs": "Repollo",
+      "nombreEn": "cabbage",
+      "aliasEs": [],
+      "aliasEn": [
+        "cabbage",
+        "white cabbage",
+        "green cabbage"
+      ],
+      "por100g": {
+        "kcal": 25,
+        "proteinasG": 1.3,
+        "carbohidratosG": 5.8,
+        "grasasG": 0.1
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "banana",
+      "nombreEs": "Banana",
+      "nombreEn": "bananas",
+      "aliasEs": [],
+      "aliasEn": [
+        "bananas",
+        "banana"
+      ],
+      "por100g": {
+        "kcal": 89,
+        "proteinasG": 1.1,
+        "carbohidratosG": 22.8,
+        "grasasG": 0.3
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "berenjena",
+      "nombreEs": "Berenjena",
+      "nombreEn": "eggplant",
+      "aliasEs": [],
+      "aliasEn": [
+        "eggplant",
+        "eggplants",
+        "aubergine",
+        "aubergines"
+      ],
+      "por100g": {
+        "kcal": 25,
+        "proteinasG": 1.0,
+        "carbohidratosG": 5.9,
+        "grasasG": 0.2
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "calabaza",
+      "nombreEs": "Calabaza",
+      "nombreEn": "pumpkin",
+      "aliasEs": [
+        "zapallo"
+      ],
+      "aliasEn": [
+        "pumpkin",
+        "butternut squash",
+        "squash"
+      ],
+      "por100g": {
+        "kcal": 26,
+        "proteinasG": 1.0,
+        "carbohidratosG": 6.5,
+        "grasasG": 0.1
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "caldo-vacuno",
+      "nombreEs": "Caldo de carne",
+      "nombreEn": "beef broth",
+      "aliasEs": [
+        "caldo de res",
+        "caldo de carne vacuna"
+      ],
+      "aliasEn": [
+        "beef broth",
+        "beef stock"
+      ],
+      "por100g": {
+        "kcal": 7,
+        "proteinasG": 1.1,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.2
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": 1.0,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "cordero",
+      "nombreEs": "Cordero",
+      "nombreEn": "lamb",
+      "aliasEs": [],
+      "aliasEn": [
+        "lamb",
+        "mutton"
+      ],
+      "por100g": {
+        "kcal": 267,
+        "proteinasG": 16.9,
+        "carbohidratosG": 0.0,
+        "grasasG": 21.6
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "fideos",
+      "nombreEs": "Fideos secos",
+      "nombreEn": "noodles",
+      "aliasEs": [],
+      "aliasEn": [
+        "noodles"
+      ],
+      "por100g": {
+        "kcal": 371,
+        "proteinasG": 13.0,
+        "carbohidratosG": 74.7,
+        "grasasG": 1.5
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "garam-masala",
+      "nombreEs": "Garam masala",
+      "nombreEn": "garam masala",
+      "aliasEs": [],
+      "aliasEn": [
+        "garam masala"
+      ],
+      "por100g": {
+        "kcal": 301,
+        "proteinasG": 11.4,
+        "carbohidratosG": 59.9,
+        "grasasG": 12.7
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "leche-coco",
+      "nombreEs": "Leche de coco",
+      "nombreEn": "coconut milk",
+      "aliasEs": [],
+      "aliasEn": [
+        "coconut milk"
+      ],
+      "por100g": {
+        "kcal": 230,
+        "proteinasG": 2.3,
+        "carbohidratosG": 5.5,
+        "grasasG": 23.8
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.01,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "pasas-uva",
+      "nombreEs": "Pasas de uva",
+      "nombreEn": "raisins",
+      "aliasEs": [],
+      "aliasEn": [
+        "raisins",
+        "sultanas"
+      ],
+      "por100g": {
+        "kcal": 299,
+        "proteinasG": 3.3,
+        "carbohidratosG": 79.3,
+        "grasasG": 0.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pepino",
+      "nombreEs": "Pepino",
+      "nombreEn": "cucumber",
+      "aliasEs": [],
+      "aliasEn": [
+        "cucumber",
+        "cucumbers"
+      ],
+      "por100g": {
+        "kcal": 15,
+        "proteinasG": 0.7,
+        "carbohidratosG": 3.6,
+        "grasasG": 0.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "puerro",
+      "nombreEs": "Puerro",
+      "nombreEn": "leek",
+      "aliasEs": [
+        "puerros"
+      ],
+      "aliasEn": [
+        "leek",
+        "leeks"
+      ],
+      "por100g": {
+        "kcal": 61,
+        "proteinasG": 1.5,
+        "carbohidratosG": 14.2,
+        "grasasG": 0.3
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "queso-muzzarella",
+      "nombreEs": "Queso muzzarella",
+      "nombreEn": "mozzarella",
+      "aliasEs": [
+        "mozzarella",
+        "muzarela",
+        "muzzarella"
+      ],
+      "aliasEn": [
+        "mozzarella",
+        "mozzarella cheese"
+      ],
+      "por100g": {
+        "kcal": 299,
+        "proteinasG": 22.2,
+        "carbohidratosG": 2.4,
+        "grasasG": 22.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "queso-pecorino",
+      "nombreEs": "Queso pecorino",
+      "nombreEn": "pecorino",
+      "aliasEs": [],
+      "aliasEn": [
+        "pecorino",
+        "pecorino romano"
+      ],
+      "por100g": {
+        "kcal": 387,
+        "proteinasG": 31.8,
+        "carbohidratosG": 3.6,
+        "grasasG": 26.9
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "aceituna",
+      "nombreEs": "Aceituna",
+      "nombreEn": "olives",
+      "aliasEs": [],
+      "aliasEn": [
+        "olives",
+        "black olives",
+        "green olives",
+        "kalamata olives"
+      ],
+      "por100g": {
+        "kcal": 116,
+        "proteinasG": 0.8,
+        "carbohidratosG": 6.0,
+        "grasasG": 10.9
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "anis",
+      "nombreEs": "Anís",
+      "nombreEn": "anise",
+      "aliasEs": [],
+      "aliasEn": [
+        "anise",
+        "aniseed",
+        "star anise"
+      ],
+      "por100g": {
+        "kcal": 337,
+        "proteinasG": 17.6,
+        "carbohidratosG": 50.0,
+        "grasasG": 15.9
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "chocolate-amargo",
+      "nombreEs": "Chocolate amargo",
+      "nombreEn": "dark chocolate",
+      "aliasEs": [],
+      "aliasEn": [
+        "dark chocolate",
+        "bittersweet chocolate",
+        "semi-sweet chocolate",
+        "semisweet chocolate",
+        "chocolate"
+      ],
+      "por100g": {
+        "kcal": 598,
+        "proteinasG": 7.8,
+        "carbohidratosG": 45.9,
+        "grasasG": 42.6
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "garbanzos",
+      "nombreEs": "Garbanzos secos",
+      "nombreEn": "chickpeas",
+      "aliasEs": [
+        "garbanzo"
+      ],
+      "aliasEn": [
+        "chickpeas",
+        "chick peas",
+        "garbanzo beans"
+      ],
+      "por100g": {
+        "kcal": 378,
+        "proteinasG": 20.5,
+        "carbohidratosG": 63.0,
+        "grasasG": 6.0
+      },
+      "grupo": "legumbres",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "margarina",
+      "nombreEs": "Margarina",
+      "nombreEn": "margarine",
+      "aliasEs": [],
+      "aliasEn": [
+        "margarine",
+        "shortening"
+      ],
+      "por100g": {
+        "kcal": 717,
+        "proteinasG": 0.2,
+        "carbohidratosG": 0.7,
+        "grasasG": 80.7
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "paleta-vacuna",
+      "nombreEs": "Paleta vacuna",
+      "nombreEn": "chuck",
+      "aliasEs": [],
+      "aliasEn": [
+        "chuck",
+        "chuck steak",
+        "beef chuck",
+        "chuck roast"
+      ],
+      "por100g": {
+        "kcal": 249,
+        "proteinasG": 19.1,
+        "carbohidratosG": 0.0,
+        "grasasG": 18.6
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "vino-tinto",
+      "nombreEs": "Vino tinto",
+      "nombreEn": "red wine",
+      "aliasEs": [],
+      "aliasEn": [
+        "red wine",
+        "dry red wine"
+      ],
+      "por100g": {
+        "kcal": 85,
+        "proteinasG": 0.1,
+        "carbohidratosG": 2.6,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 0.99,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "aceite-girasol",
+      "nombreEs": "Aceite de girasol",
+      "nombreEn": "sunflower oil",
+      "aliasEs": [],
+      "aliasEn": [
+        "sunflower oil"
+      ],
+      "por100g": {
+        "kcal": 884,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 100.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 0.92,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "arandano-rojo",
+      "nombreEs": "Arándano rojo",
+      "nombreEn": "cranberries",
+      "aliasEs": [
+        "cranberry"
+      ],
+      "aliasEn": [
+        "cranberries",
+        "cranberry"
+      ],
+      "por100g": {
+        "kcal": 46,
+        "proteinasG": 0.5,
+        "carbohidratosG": 12.0,
+        "grasasG": 0.1
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "batata",
+      "nombreEs": "Batata",
+      "nombreEn": "sweet potato",
+      "aliasEs": [
+        "boniato",
+        "camote"
+      ],
+      "aliasEn": [
+        "sweet potato",
+        "sweet potatoes",
+        "sweet pototoes"
+      ],
+      "por100g": {
+        "kcal": 86,
+        "proteinasG": 1.6,
+        "carbohidratosG": 20.1,
+        "grasasG": 0.1
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "caldo-verduras",
+      "nombreEs": "Caldo de verduras",
+      "nombreEn": "vegetable stock",
+      "aliasEs": [],
+      "aliasEn": [
+        "vegetable stock",
+        "vegetable broth",
+        "veggie broth"
+      ],
+      "por100g": {
+        "kcal": 5,
+        "proteinasG": 0.2,
+        "carbohidratosG": 0.9,
+        "grasasG": 0.1
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.0,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "camarones",
+      "nombreEs": "Camarones",
+      "nombreEn": "shrimp",
+      "aliasEs": [],
+      "aliasEn": [
+        "shrimp",
+        "shrimps",
+        "prawns",
+        "prawn"
+      ],
+      "por100g": {
+        "kcal": 85,
+        "proteinasG": 20.1,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.5
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "carne-picada-cerdo",
+      "nombreEs": "Carne picada de cerdo",
+      "nombreEn": "ground pork",
+      "aliasEs": [],
+      "aliasEn": [
+        "ground pork",
+        "pork mince",
+        "minced pork"
+      ],
+      "por100g": {
+        "kcal": 263,
+        "proteinasG": 16.9,
+        "carbohidratosG": 0.0,
+        "grasasG": 21.2
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "chauchas",
+      "nombreEs": "Chauchas",
+      "nombreEn": "green beans",
+      "aliasEs": [
+        "judías verdes",
+        "ejotes"
+      ],
+      "aliasEn": [
+        "green beans",
+        "string beans",
+        "french beans"
+      ],
+      "por100g": {
+        "kcal": 31,
+        "proteinasG": 1.8,
+        "carbohidratosG": 7.0,
+        "grasasG": 0.2
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "chuleta-cerdo",
+      "nombreEs": "Costeleta de cerdo",
+      "nombreEn": "pork chops",
+      "aliasEs": [],
+      "aliasEn": [
+        "pork chops",
+        "pork chop",
+        "porkchops"
+      ],
+      "por100g": {
+        "kcal": 198,
+        "proteinasG": 19.7,
+        "carbohidratosG": 0.0,
+        "grasasG": 12.6
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "curry-polvo",
+      "nombreEs": "Curry en polvo",
+      "nombreEn": "curry powder",
+      "aliasEs": [
+        "curry"
+      ],
+      "aliasEn": [
+        "curry powder"
+      ],
+      "por100g": {
+        "kcal": 325,
+        "proteinasG": 14.3,
+        "carbohidratosG": 55.8,
+        "grasasG": 14.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "jalapeno",
+      "nombreEs": "Jalapeño",
+      "nombreEn": "jalapeño",
+      "aliasEs": [],
+      "aliasEn": [
+        "jalapeño",
+        "jalapeno",
+        "jalapeños",
+        "jalapenos"
+      ],
+      "por100g": {
+        "kcal": 29,
+        "proteinasG": 0.9,
+        "carbohidratosG": 6.5,
+        "grasasG": 0.4
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "jarabe-arce",
+      "nombreEs": "Jarabe de arce",
+      "nombreEn": "maple syrup",
+      "aliasEs": [],
+      "aliasEn": [
+        "maple syrup"
+      ],
+      "por100g": {
+        "kcal": 260,
+        "proteinasG": 0.0,
+        "carbohidratosG": 67.0,
+        "grasasG": 0.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "mani",
+      "nombreEs": "Maní",
+      "nombreEn": "peanuts",
+      "aliasEs": [
+        "cacahuate",
+        "cacahuete",
+        "maníes"
+      ],
+      "aliasEn": [
+        "peanuts",
+        "peanut"
+      ],
+      "por100g": {
+        "kcal": 567,
+        "proteinasG": 25.8,
+        "carbohidratosG": 16.1,
+        "grasasG": 49.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "mantequilla-mani",
+      "nombreEs": "Pasta de maní",
+      "nombreEn": "peanut butter",
+      "aliasEs": [
+        "mantequilla de maní",
+        "manteca de maní",
+        "crema de cacahuate"
+      ],
+      "aliasEn": [
+        "peanut butter"
+      ],
+      "por100g": {
+        "kcal": 598,
+        "proteinasG": 22.2,
+        "carbohidratosG": 22.3,
+        "grasasG": 51.4
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "menta",
+      "nombreEs": "Menta",
+      "nombreEn": "mint",
+      "aliasEs": [],
+      "aliasEn": [
+        "mint",
+        "mint leaves"
+      ],
+      "por100g": {
+        "kcal": 44,
+        "proteinasG": 3.3,
+        "carbohidratosG": 8.4,
+        "grasasG": 0.7
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "morron-verde",
+      "nombreEs": "Morrón verde",
+      "nombreEn": "green bell pepper",
+      "aliasEs": [
+        "pimiento verde",
+        "morrones verdes"
+      ],
+      "aliasEn": [
+        "green bell pepper",
+        "green bell peppers",
+        "green pepper",
+        "green peppers"
+      ],
+      "por100g": {
+        "kcal": 20,
+        "proteinasG": 0.9,
+        "carbohidratosG": 4.6,
+        "grasasG": 0.2
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "nuez",
+      "nombreEs": "Nuez",
+      "nombreEn": "walnuts",
+      "aliasEs": [],
+      "aliasEn": [
+        "walnuts",
+        "walnut"
+      ],
+      "por100g": {
+        "kcal": 654,
+        "proteinasG": 15.2,
+        "carbohidratosG": 13.7,
+        "grasasG": 65.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "porotos-rojos",
+      "nombreEs": "Porotos rojos secos",
+      "nombreEn": "kidney beans",
+      "aliasEs": [
+        "frijoles rojos",
+        "alubias rojas"
+      ],
+      "aliasEn": [
+        "kidney beans",
+        "red kidney beans"
+      ],
+      "por100g": {
+        "kcal": 333,
+        "proteinasG": 23.6,
+        "carbohidratosG": 60.0,
+        "grasasG": 0.8
+      },
+      "grupo": "legumbres",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "rabano",
+      "nombreEs": "Rabanito",
+      "nombreEn": "radish",
+      "aliasEs": [
+        "rábano",
+        "rabanitos"
+      ],
+      "aliasEn": [
+        "radish",
+        "radishes"
+      ],
+      "por100g": {
+        "kcal": 16,
+        "proteinasG": 0.7,
+        "carbohidratosG": 3.4,
+        "grasasG": 0.1
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "sazon",
+      "nombreEs": "Sazón (mezcla de condimentos)",
+      "nombreEn": "sazon",
+      "aliasEs": [],
+      "aliasEn": [
+        "sazon",
+        "sazón",
+        "adobo seasoning",
+        "cajun seasoning",
+        "creole seasoning"
+      ],
+      "por100g": {
+        "kcal": 162,
+        "proteinasG": 8.0,
+        "carbohidratosG": 28.3,
+        "grasasG": 6.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "semillas-sesamo",
+      "nombreEs": "Semillas de sésamo",
+      "nombreEn": "sesame seeds",
+      "aliasEs": [],
+      "aliasEn": [
+        "sesame seeds",
+        "sesame"
+      ],
+      "por100g": {
+        "kcal": 573,
+        "proteinasG": 17.7,
+        "carbohidratosG": 23.4,
+        "grasasG": 49.7
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "tofu",
+      "nombreEs": "Tofu",
+      "nombreEn": "tofu",
+      "aliasEs": [],
+      "aliasEn": [
+        "tofu"
+      ],
+      "por100g": {
+        "kcal": 76,
+        "proteinasG": 8.1,
+        "carbohidratosG": 1.9,
+        "grasasG": 4.8
+      },
+      "grupo": "legumbres",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "aceite-coco",
+      "nombreEs": "Aceite de coco",
+      "nombreEn": "coconut oil",
+      "aliasEs": [],
+      "aliasEn": [
+        "coconut oil"
+      ],
+      "por100g": {
+        "kcal": 892,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 99.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 0.925,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "almendra",
+      "nombreEs": "Almendra",
+      "nombreEn": "almonds",
+      "aliasEs": [],
+      "aliasEn": [
+        "almonds",
+        "almond",
+        "almond flakes"
+      ],
+      "por100g": {
+        "kcal": 579,
+        "proteinasG": 21.1,
+        "carbohidratosG": 21.6,
+        "grasasG": 49.9
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "bechamel",
+      "nombreEs": "Salsa blanca",
+      "nombreEn": "bechamel",
+      "aliasEs": [],
+      "aliasEn": [
+        "bechamel",
+        "béchamel"
+      ],
+      "por100g": {
+        "kcal": 72,
+        "proteinasG": 4.0,
+        "carbohidratosG": 8.3,
+        "grasasG": 2.6
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cacao",
+      "nombreEs": "Cacao amargo en polvo",
+      "nombreEn": "cocoa",
+      "aliasEs": [],
+      "aliasEn": [
+        "cocoa",
+        "cocoa powder",
+        "cacao powder"
+      ],
+      "por100g": {
+        "kcal": 228,
+        "proteinasG": 19.6,
+        "carbohidratosG": 57.9,
+        "grasasG": 13.7
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cafe",
+      "nombreEs": "Café preparado",
+      "nombreEn": "coffee",
+      "aliasEs": [],
+      "aliasEn": [
+        "coffee",
+        "espresso"
+      ],
+      "por100g": {
+        "kcal": 1,
+        "proteinasG": 0.1,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "galletita",
+      "nombreEs": "Galletitas",
+      "nombreEn": "cookies",
+      "aliasEs": [],
+      "aliasEn": [
+        "cookies",
+        "biscuits",
+        "digestive biscuits",
+        "graham crackers"
+      ],
+      "por100g": {
+        "kcal": 467,
+        "proteinasG": 6.1,
+        "carbohidratosG": 68.9,
+        "grasasG": 18.8
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "harina-panadera",
+      "nombreEs": "Harina de fuerza",
+      "nombreEn": "bread flour",
+      "aliasEs": [],
+      "aliasEn": [
+        "bread flour",
+        "strong flour",
+        "strong white flour"
+      ],
+      "por100g": {
+        "kcal": 361,
+        "proteinasG": 12.0,
+        "carbohidratosG": 72.5,
+        "grasasG": 1.7
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "hinojo-semillas",
+      "nombreEs": "Semillas de hinojo",
+      "nombreEn": "fennel seeds",
+      "aliasEs": [],
+      "aliasEn": [
+        "fennel seeds"
+      ],
+      "por100g": {
+        "kcal": 345,
+        "proteinasG": 15.8,
+        "carbohidratosG": 52.3,
+        "grasasG": 14.9
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "huevo-clara",
+      "nombreEs": "Clara de huevo",
+      "nombreEn": "egg whites",
+      "aliasEs": [],
+      "aliasEn": [
+        "egg whites",
+        "egg white",
+        "whites"
+      ],
+      "por100g": {
+        "kcal": 52,
+        "proteinasG": 10.9,
+        "carbohidratosG": 0.7,
+        "grasasG": 0.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "lechuga",
+      "nombreEs": "Lechuga",
+      "nombreEn": "lettuce",
+      "aliasEs": [],
+      "aliasEn": [
+        "lettuce",
+        "romaine",
+        "iceberg lettuce"
+      ],
+      "por100g": {
+        "kcal": 15,
+        "proteinasG": 1.4,
+        "carbohidratosG": 2.9,
+        "grasasG": 0.1
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "lentejas-secas",
+      "nombreEs": "Lentejas secas",
+      "nombreEn": "lentils",
+      "aliasEs": [
+        "lentejas"
+      ],
+      "aliasEn": [
+        "lentils",
+        "green lentils",
+        "brown lentils"
+      ],
+      "por100g": {
+        "kcal": 352,
+        "proteinasG": 24.6,
+        "carbohidratosG": 63.4,
+        "grasasG": 1.1
+      },
+      "grupo": "legumbres",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "masa-madre",
+      "nombreEs": "Masa madre",
+      "nombreEn": "sourdough starter",
+      "aliasEs": [],
+      "aliasEn": [
+        "sourdough starter",
+        "starter",
+        "sourdough"
+      ],
+      "por100g": {
+        "kcal": 182,
+        "proteinasG": 5.2,
+        "carbohidratosG": 38.2,
+        "grasasG": 0.5
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "mejorana",
+      "nombreEs": "Mejorana",
+      "nombreEn": "marjoram",
+      "aliasEs": [],
+      "aliasEn": [
+        "marjoram"
+      ],
+      "por100g": {
+        "kcal": 271,
+        "proteinasG": 12.7,
+        "carbohidratosG": 60.6,
+        "grasasG": 7.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "mermelada",
+      "nombreEs": "Mermelada",
+      "nombreEn": "jam",
+      "aliasEs": [],
+      "aliasEn": [
+        "jam",
+        "preserves",
+        "marmalade"
+      ],
+      "por100g": {
+        "kcal": 278,
+        "proteinasG": 0.4,
+        "carbohidratosG": 68.9,
+        "grasasG": 0.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "muslo-pollo",
+      "nombreEs": "Muslo de pollo",
+      "nombreEn": "chicken thigh",
+      "aliasEs": [],
+      "aliasEn": [
+        "chicken thigh",
+        "chicken thighs"
+      ],
+      "por100g": {
+        "kcal": 121,
+        "proteinasG": 19.7,
+        "carbohidratosG": 0.0,
+        "grasasG": 4.1
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "panceta-fresca",
+      "nombreEs": "Panceta fresca",
+      "nombreEn": "pork belly",
+      "aliasEs": [],
+      "aliasEn": [
+        "pork belly"
+      ],
+      "por100g": {
+        "kcal": 518,
+        "proteinasG": 9.3,
+        "carbohidratosG": 0.0,
+        "grasasG": 53.0
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pescado",
+      "nombreEs": "Pescado blanco",
+      "nombreEn": "fish",
+      "aliasEs": [],
+      "aliasEn": [
+        "fish",
+        "white fish",
+        "whitefish"
+      ],
+      "por100g": {
+        "kcal": 82,
+        "proteinasG": 17.8,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.7
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pimienta-blanca",
+      "nombreEs": "Pimienta blanca",
+      "nombreEn": "white pepper",
+      "aliasEs": [],
+      "aliasEn": [
+        "white pepper"
+      ],
+      "por100g": {
+        "kcal": 296,
+        "proteinasG": 10.4,
+        "carbohidratosG": 68.6,
+        "grasasG": 2.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "queso-gruyere",
+      "nombreEs": "Queso gruyere",
+      "nombreEn": "gruyere",
+      "aliasEs": [],
+      "aliasEn": [
+        "gruyere",
+        "gruyère"
+      ],
+      "por100g": {
+        "kcal": 413,
+        "proteinasG": 29.8,
+        "carbohidratosG": 0.4,
+        "grasasG": 32.3
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "remolacha",
+      "nombreEs": "Remolacha",
+      "nombreEn": "beetroot",
+      "aliasEs": [],
+      "aliasEn": [
+        "beetroot",
+        "beet",
+        "beets",
+        "beetroots"
+      ],
+      "por100g": {
+        "kcal": 43,
+        "proteinasG": 1.6,
+        "carbohidratosG": 9.6,
+        "grasasG": 0.2
+      },
+      "grupo": "verduras",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "ricota",
+      "nombreEs": "Ricota",
+      "nombreEn": "ricotta",
+      "aliasEs": [
+        "ricotta"
+      ],
+      "aliasEn": [
+        "ricotta"
+      ],
+      "por100g": {
+        "kcal": 150,
+        "proteinasG": 7.5,
+        "carbohidratosG": 7.3,
+        "grasasG": 10.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "salvia",
+      "nombreEs": "Salvia",
+      "nombreEn": "sage",
+      "aliasEs": [],
+      "aliasEn": [
+        "sage"
+      ],
+      "por100g": {
+        "kcal": 315,
+        "proteinasG": 10.6,
+        "carbohidratosG": 60.7,
+        "grasasG": 12.8
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "suero-leche",
+      "nombreEs": "Buttermilk",
+      "nombreEn": "buttermilk",
+      "aliasEs": [],
+      "aliasEn": [
+        "buttermilk"
+      ],
+      "por100g": {
+        "kcal": 40,
+        "proteinasG": 3.3,
+        "carbohidratosG": 4.8,
+        "grasasG": 1.1
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "tortilla-maiz",
+      "nombreEs": "Tortilla de maíz",
+      "nombreEn": "corn tortillas",
+      "aliasEs": [],
+      "aliasEn": [
+        "corn tortillas",
+        "corn tortilla",
+        "mexican tortillas",
+        "tortillas",
+        "tortilla"
+      ],
+      "por100g": {
+        "kcal": 218,
+        "proteinasG": 5.7,
+        "carbohidratosG": 44.6,
+        "grasasG": 2.9
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "yogur-griego",
+      "nombreEs": "Yogur griego natural",
+      "nombreEn": "greek yogurt",
+      "aliasEs": [],
+      "aliasEn": [
+        "greek yogurt",
+        "greek yoghurt"
+      ],
+      "por100g": {
+        "kcal": 97,
+        "proteinasG": 9.0,
+        "carbohidratosG": 4.0,
+        "grasasG": 5.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "aceite-mani",
+      "nombreEs": "Aceite de maní",
+      "nombreEn": "peanut oil",
+      "aliasEs": [],
+      "aliasEn": [
+        "peanut oil",
+        "groundnut oil"
+      ],
+      "por100g": {
+        "kcal": 884,
+        "proteinasG": 0.0,
+        "carbohidratosG": 0.0,
+        "grasasG": 100.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 0.92,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "arroz-integral",
+      "nombreEs": "Arroz integral seco",
+      "nombreEn": "brown rice",
+      "aliasEs": [],
+      "aliasEn": [
+        "brown rice"
+      ],
+      "por100g": {
+        "kcal": 367,
+        "proteinasG": 7.5,
+        "carbohidratosG": 76.2,
+        "grasasG": 3.2
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "azafran",
+      "nombreEs": "Azafrán",
+      "nombreEn": "saffron",
+      "aliasEs": [],
+      "aliasEn": [
+        "saffron"
+      ],
+      "por100g": {
+        "kcal": 310,
+        "proteinasG": 11.4,
+        "carbohidratosG": 65.4,
+        "grasasG": 5.8
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "azucar-vainillada",
+      "nombreEs": "Azúcar vainillada",
+      "nombreEn": "vanilla sugar",
+      "aliasEs": [],
+      "aliasEn": [
+        "vanilla sugar",
+        "vanillin sugar"
+      ],
+      "por100g": {
+        "kcal": 385,
+        "proteinasG": 0.0,
+        "carbohidratosG": 98.2,
+        "grasasG": 0.0
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "baguette",
+      "nombreEs": "Baguette",
+      "nombreEn": "baguette",
+      "aliasEs": [],
+      "aliasEn": [
+        "baguette",
+        "baguettes",
+        "french bread"
+      ],
+      "por100g": {
+        "kcal": 272,
+        "proteinasG": 10.8,
+        "carbohidratosG": 51.9,
+        "grasasG": 2.4
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "bondiola",
+      "nombreEs": "Bondiola de cerdo",
+      "nombreEn": "pork shoulder",
+      "aliasEs": [],
+      "aliasEn": [
+        "pork shoulder",
+        "pork butt"
+      ],
+      "por100g": {
+        "kcal": 236,
+        "proteinasG": 17.2,
+        "carbohidratosG": 0.0,
+        "grasasG": 18.0
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "centeno-harina",
+      "nombreEs": "Harina de centeno",
+      "nombreEn": "rye flour",
+      "aliasEs": [],
+      "aliasEn": [
+        "rye flour"
+      ],
+      "por100g": {
+        "kcal": 349,
+        "proteinasG": 10.9,
+        "carbohidratosG": 75.4,
+        "grasasG": 1.5
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "cereza",
+      "nombreEs": "Cereza",
+      "nombreEn": "cherries",
+      "aliasEs": [],
+      "aliasEn": [
+        "cherries",
+        "cherry"
+      ],
+      "por100g": {
+        "kcal": 63,
+        "proteinasG": 1.1,
+        "carbohidratosG": 16.0,
+        "grasasG": 0.2
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "chorizo",
+      "nombreEs": "Chorizo",
+      "nombreEn": "chorizo",
+      "aliasEs": [],
+      "aliasEn": [
+        "chorizo"
+      ],
+      "por100g": {
+        "kcal": 296,
+        "proteinasG": 13.6,
+        "carbohidratosG": 3.8,
+        "grasasG": 25.1
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "conejo",
+      "nombreEs": "Conejo",
+      "nombreEn": "rabbit",
+      "aliasEs": [],
+      "aliasEn": [
+        "rabbit",
+        "rabbits"
+      ],
+      "por100g": {
+        "kcal": 136,
+        "proteinasG": 20.1,
+        "carbohidratosG": 0.0,
+        "grasasG": 5.5
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "dashi",
+      "nombreEs": "Caldo dashi",
+      "nombreEn": "dashi",
+      "aliasEs": [],
+      "aliasEn": [
+        "dashi",
+        "dashi stock"
+      ],
+      "por100g": {
+        "kcal": 16,
+        "proteinasG": 2.3,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.8
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "fideos-huevo",
+      "nombreEs": "Fideos al huevo secos",
+      "nombreEn": "egg noodles",
+      "aliasEs": [],
+      "aliasEn": [
+        "egg noodles"
+      ],
+      "por100g": {
+        "kcal": 384,
+        "proteinasG": 14.2,
+        "carbohidratosG": 71.3,
+        "grasasG": 4.4
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "harina-integral",
+      "nombreEs": "Harina integral de trigo",
+      "nombreEn": "wholemeal flour",
+      "aliasEs": [],
+      "aliasEn": [
+        "wholemeal flour",
+        "whole wheat flour",
+        "wholewheat flour",
+        "whole-wheat flour",
+        "wholemeal wheat flour"
+      ],
+      "por100g": {
+        "kcal": 340,
+        "proteinasG": 13.2,
+        "carbohidratosG": 72.0,
+        "grasasG": 2.5
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "hierbas-provenzal",
+      "nombreEs": "Hierbas provenzales",
+      "nombreEn": "herbes de provence",
+      "aliasEs": [],
+      "aliasEn": [
+        "herbes de provence",
+        "herbs de provence"
+      ],
+      "por100g": {
+        "kcal": 276,
+        "proteinasG": 11.5,
+        "carbohidratosG": 61.2,
+        "grasasG": 7.8
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "higado-vacuno",
+      "nombreEs": "Hígado vacuno",
+      "nombreEn": "liver",
+      "aliasEs": [
+        "hígado de vaca",
+        "hígado de res"
+      ],
+      "aliasEn": [
+        "liver",
+        "beef liver"
+      ],
+      "por100g": {
+        "kcal": 135,
+        "proteinasG": 20.4,
+        "carbohidratosG": 3.9,
+        "grasasG": 3.6
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "jugo-lima",
+      "nombreEs": "Jugo de lima",
+      "nombreEn": "lime juice",
+      "aliasEs": [],
+      "aliasEn": [
+        "lime juice"
+      ],
+      "por100g": {
+        "kcal": 25,
+        "proteinasG": 0.4,
+        "carbohidratosG": 8.4,
+        "grasasG": 0.1
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.03,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "jugo-naranja",
+      "nombreEs": "Jugo de naranja",
+      "nombreEn": "orange juice",
+      "aliasEs": [],
+      "aliasEn": [
+        "orange juice"
+      ],
+      "por100g": {
+        "kcal": 45,
+        "proteinasG": 0.7,
+        "carbohidratosG": 10.4,
+        "grasasG": 0.2
+      },
+      "grupo": "frutas",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": 1.04,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "langosta",
+      "nombreEs": "Langosta",
+      "nombreEn": "lobster",
+      "aliasEs": [],
+      "aliasEn": [
+        "lobster"
+      ],
+      "por100g": {
+        "kcal": 77,
+        "proteinasG": 16.5,
+        "carbohidratosG": 0.0,
+        "grasasG": 0.8
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "leche-evaporada",
+      "nombreEs": "Leche evaporada",
+      "nombreEn": "evaporated milk",
+      "aliasEs": [],
+      "aliasEn": [
+        "evaporated milk"
+      ],
+      "por100g": {
+        "kcal": 134,
+        "proteinasG": 6.8,
+        "carbohidratosG": 10.0,
+        "grasasG": 7.6
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": 1.07,
+      "unidadPreferida": "ml",
+      "densidadEsAproximada": true
+    },
+    {
+      "id": "lentejas-rojas",
+      "nombreEs": "Lentejas rojas secas",
+      "nombreEn": "red lentils",
+      "aliasEs": [],
+      "aliasEn": [
+        "red lentils"
+      ],
+      "por100g": {
+        "kcal": 358,
+        "proteinasG": 23.9,
+        "carbohidratosG": 63.1,
+        "grasasG": 2.2
+      },
+      "grupo": "legumbres",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "lomo-cerdo",
+      "nombreEs": "Lomo de cerdo",
+      "nombreEn": "pork loin",
+      "aliasEs": [],
+      "aliasEn": [
+        "pork loin",
+        "pork tenderloin"
+      ],
+      "por100g": {
+        "kcal": 109,
+        "proteinasG": 20.9,
+        "carbohidratosG": 0.0,
+        "grasasG": 2.2
+      },
+      "grupo": "carnes",
+      "esDeOrigenAnimal": true,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "masa-hojaldre",
+      "nombreEs": "Masa de hojaldre",
+      "nombreEn": "puff pastry",
+      "aliasEs": [],
+      "aliasEn": [
+        "puff pastry"
+      ],
+      "por100g": {
+        "kcal": 551,
+        "proteinasG": 7.3,
+        "carbohidratosG": 45.1,
+        "grasasG": 38.1
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "masa-pizza",
+      "nombreEs": "Masa para pizza",
+      "nombreEn": "pizza dough",
+      "aliasEs": [],
+      "aliasEn": [
+        "pizza dough"
+      ],
+      "por100g": {
+        "kcal": 226,
+        "proteinasG": 6.3,
+        "carbohidratosG": 45.1,
+        "grasasG": 1.8
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "mostaza-polvo",
+      "nombreEs": "Mostaza en polvo",
+      "nombreEn": "mustard powder",
+      "aliasEs": [],
+      "aliasEn": [
+        "mustard powder",
+        "dry mustard",
+        "ground mustard"
+      ],
+      "por100g": {
+        "kcal": 508,
+        "proteinasG": 26.1,
+        "carbohidratosG": 28.1,
+        "grasasG": 36.2
+      },
+      "grupo": "otros",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pasta-curry",
+      "nombreEs": "Pasta de curry",
+      "nombreEn": "curry paste",
+      "aliasEs": [],
+      "aliasEn": [
+        "curry paste",
+        "red curry paste",
+        "green curry paste"
+      ],
+      "por100g": {
+        "kcal": 110,
+        "proteinasG": 2.6,
+        "carbohidratosG": 14.0,
+        "grasasG": 6.1
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    },
+    {
+      "id": "pasta-miso",
+      "nombreEs": "Miso",
+      "nombreEn": "miso",
+      "aliasEs": [],
+      "aliasEn": [
+        "miso",
+        "miso paste"
+      ],
+      "por100g": {
+        "kcal": 198,
+        "proteinasG": 12.8,
+        "carbohidratosG": 25.4,
+        "grasasG": 6.0
+      },
+      "grupo": "cereales",
+      "esDeOrigenAnimal": false,
+      "densidadGPorMl": null,
+      "unidadPreferida": "g",
+      "densidadEsAproximada": false
+    }
+  ]
+}

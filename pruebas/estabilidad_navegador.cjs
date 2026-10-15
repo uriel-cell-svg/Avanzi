@@ -1,0 +1,92 @@
+// Prueba opcional con Chromium externo: no es dependencia de Avanzi.
+const {chromium}=require(process.env.AVANZI_PLAYWRIGHT||'/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const assert=require('node:assert/strict');
+const URL_APP=process.env.AVANZI_URL||'http://127.0.0.1:8016/';
+
+(async()=>{
+ const browser=await chromium.launch({executablePath:process.env.AVANZI_CHROMIUM||'/usr/bin/chromium',args:['--no-sandbox']});
+ try{
+  const context=await browser.newContext(),p=await context.newPage();
+  await p.goto(URL_APP);await p.locator('#aplicacion').waitFor({state:'visible'});
+  const imagen=await p.screenshot();
+  await p.locator('#tab-recetas').click();await p.locator('#crear-receta').click();
+  const editor=p.locator('#receta-propia-dialogo');
+  await editor.getByLabel('Nombre de la receta').fill('Prueba de foto');
+  await editor.getByLabel('Porciones').fill('1');
+  await editor.getByLabel('Preparación (minutos)').fill('5');
+  await editor.getByLabel('Cocción (minutos)').fill('5');
+  await editor.getByLabel('Buscar ingrediente por nombre o alias').fill('huevo');
+  await editor.locator('.editor-resultados').getByRole('button',{name:'Huevo',exact:true}).click();
+  await editor.locator('.editor-fila input[type=number]').fill('1');
+  await editor.locator('.editor-fila select').last().selectOption('unidad');
+  await editor.locator('textarea').fill('Cocinar.');
+  await editor.locator('input[type=file]').setInputFiles({name:'a.png',mimeType:'image/png',buffer:imagen});
+  await editor.getByRole('button',{name:'Guardar receta'}).click();await editor.waitFor({state:'hidden'});
+  await p.locator('.tarjeta').filter({hasText:'Prueba de foto'}).getByRole('button',{name:/Ver preparación/}).click();
+  await p.locator('#detalle').getByRole('button',{name:'Editar receta'}).click();
+  await editor.waitFor({state:'visible'});
+  await editor.locator('input[type=file]').setInputFiles({name:'b.png',mimeType:'image/png',buffer:imagen});
+  await editor.getByRole('button',{name:'Guardar borrador'}).click();await editor.waitFor({state:'hidden'});
+  const leerFotos=()=>p.evaluate(async()=>{
+   const documento=JSON.parse(localStorage.getItem('avanzi.recetas.usuario.v1'));
+   const ids=await new Promise((resolve,reject)=>{const q=indexedDB.open('avanzi-fotos-v1');q.onerror=()=>reject(q.error);q.onsuccess=()=>{const g=q.result.transaction('fotos').objectStore('fotos').getAllKeys();g.onsuccess=()=>resolve(g.result);g.onerror=()=>reject(g.error);};});
+   return {publicada:documento.recetas[0].imagenId,borrador:documento.borrador.imagenId,ids};
+  });
+  let fotos=await leerFotos();assert.notEqual(fotos.publicada,fotos.borrador);
+  assert.ok(fotos.ids.includes(fotos.publicada));assert.ok(fotos.ids.includes(fotos.borrador));
+  await p.reload();await p.locator('#aplicacion').waitFor({state:'visible'});await p.locator('#tab-recetas').click();
+  await p.waitForFunction(()=>[...document.querySelectorAll('.tarjeta')].filter(e=>e.textContent.includes('Prueba de foto')).some(e=>[...e.querySelectorAll('img')].some(i=>i.alt.includes('Foto aportada')&&i.complete&&i.naturalWidth>0)));
+  fotos=await leerFotos();assert.ok(fotos.ids.includes(fotos.publicada));
+  console.log('PASS foto publicada y foto de borrador permanecen tras recarga');
+  await context.close();
+
+  const dos=await browser.newContext(),a=await dos.newPage(),b=await dos.newPage();
+  await Promise.all([a.goto(URL_APP),b.goto(URL_APP)]);
+  await Promise.all([a.locator('#aplicacion').waitFor({state:'visible'}),b.locator('#aplicacion').waitFor({state:'visible'})]);
+  await a.locator('#buscar-ingredientes').fill('huevo');
+  await a.locator('#ingredientes input[value="huevo"]').check();
+  await b.locator('#buscar-ingredientes').fill('tomate');
+  await b.locator('#ingredientes input[value="tomate"]').check();
+  assert.match(await b.locator('#aviso-recuperacion').innerText(),/otra pestaña/i);
+  assert.equal(await b.evaluate(()=>JSON.parse(localStorage.getItem('que-cocino.despensa.v1')).inventario.some(i=>i.ingredienteId==='tomate'&&(i.cantidad===null||i.cantidad>0))),false);
+  await b.reload();await b.locator('#aplicacion').waitFor({state:'visible'});
+  assert.equal(await b.evaluate(()=>JSON.parse(localStorage.getItem('que-cocino.despensa.v1')).inventario.some(i=>i.ingredienteId==='huevo'&&(i.cantidad===null||i.cantidad>0))),true);
+  console.log('PASS pestaña obsoleta avisa y no pisa inventario reciente');
+  await dos.close();
+
+  const fallo=await browser.newContext(),f=await fallo.newPage();
+  await f.goto(URL_APP);await f.locator('#aplicacion').waitFor({state:'visible'});
+  await f.locator('#tab-recetas').click();await f.locator('#crear-receta').click();
+  const form=f.locator('#receta-propia-dialogo');
+  await form.getByLabel('Nombre de la receta').fill('Plan ante fallo');
+  await form.getByLabel('Porciones').fill('1');
+  await form.getByLabel('Preparación (minutos)').fill('5');
+  await form.getByLabel('Cocción (minutos)').fill('5');
+  await form.getByLabel('Buscar ingrediente por nombre o alias').fill('huevo');
+  await form.locator('.editor-resultados').getByRole('button',{name:'Huevo',exact:true}).click();
+  await form.locator('.editor-fila input[type=number]').fill('1');
+  await form.locator('.editor-fila select').last().selectOption('unidad');
+  await form.locator('textarea').fill('Cocinar.');
+  await form.getByRole('button',{name:'Guardar receta'}).click();await form.waitFor({state:'hidden'});
+  await f.locator('.tarjeta').filter({hasText:'Plan ante fallo'}).getByRole('button',{name:/Ver preparación/}).click();
+  await f.locator('#todos-faltantes').click();await f.locator('#cerrar-detalle').click();
+  const antes=await f.evaluate(()=>localStorage.getItem('que-cocino.despensa.v1'));
+  await f.locator('.tarjeta').filter({hasText:'Plan ante fallo'}).getByRole('button',{name:/Ver preparación/}).click();
+  await f.locator('#detalle').getByRole('button',{name:'Editar receta'}).click();await form.waitFor({state:'visible'});
+  await form.locator('.editor-fila').getByRole('button',{name:'Quitar ingrediente'}).click();
+  await form.getByLabel('Buscar ingrediente por nombre o alias').fill('tomate');
+  await form.locator('.editor-resultados').getByRole('button',{name:'Tomate',exact:true}).click();
+  await form.locator('.editor-fila input[type=number]').fill('50');
+  await form.locator('.editor-fila select').last().selectOption('g');
+  await f.evaluate(()=>{const original=Storage.prototype.setItem;let fallar=true;Storage.prototype.setItem=function(clave,valor){if(clave==='avanzi.recetas.usuario.v1'&&fallar){fallar=false;throw new Error('Fallo simulado');}return original.call(this,clave,valor);};});
+  f.once('dialog',dialog=>dialog.accept());
+  await form.getByRole('button',{name:'Guardar cambios'}).click();
+  assert.match(await form.locator('#error-receta-propia').innerText(),/guardar|fallo|simulado/i);
+  assert.equal(await f.evaluate(()=>localStorage.getItem('que-cocino.despensa.v1')),antes);
+  await f.reload();await f.locator('#aplicacion').waitFor({state:'visible'});
+  assert.equal(await f.evaluate(()=>JSON.parse(localStorage.getItem('que-cocino.despensa.v1')).planes.length),1);
+  assert.equal(await f.evaluate(()=>JSON.parse(localStorage.getItem('avanzi.recetas.usuario.v1')).recetas[0].ingredientes[0].ingredienteId),'huevo');
+  console.log('PASS fallo al guardar receta restaura plan y necesidad anteriores');
+  await fallo.close();
+ }finally{await browser.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});
