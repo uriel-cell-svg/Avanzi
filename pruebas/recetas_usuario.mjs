@@ -55,15 +55,17 @@ test('crear, editar, borrar, borrador y recuperación sin modificar el catálogo
   assert.equal(recuperarRecetasUsuario(s,motor,catalogo,base).datos.recetas.length,0);
   assert.equal(base.length,39);
 });
-test('recetas propias comparten motor de planificación, compras y parciales',()=>{
+test('recetas propias comparten motor de subtareas, porciones y presencia',()=>{
   const r=prepararRecetaUsuario(entrada({ingredientes:[{ingredienteId:'huevo',cantidad:3,unidad:'unidad',estadoAlimento:'base'}]}),motor,catalogo,base);
   const m=crearMotorCantidades([...base,r],catalogo,eq),s=estadoVacio();
   m.agregarNecesidades(s,r.id,m.requerimientos(r).map(x=>x.clave),2);
   m.ajustarInventario(s,'huevo',1,'unidad');
-  assert.equal(m.resumenCompras(s).find(g=>g.id==='huevo').variantes[0].pendiente,2);
-  m.confirmarCompra(s,m.requerimientos(r)[0],1,'unidad','operacion-prueba');
-  assert.equal(m.resumenCompras(s).find(g=>g.id==='huevo').variantes[0].pendiente,1);
-  m.cambiarPorciones(s,r.id,4);assert.equal(m.resumenCompras(s).find(g=>g.id==='huevo').variantes[0].pendiente,4);
+  assert.equal(m.resumenCompras(s).find(g=>g.id==='huevo').variantes[0].pendiente,3);
+  assert.equal(m.disponibilidad(r,s).completa,true);
+  m.marcarIngrediente(s,'huevo',true);
+  assert.equal(m.resumenCompras(s).find(g=>g.id==='huevo').variantes[0].pendiente,0);
+  m.cambiarPorciones(s,r.id,4);assert.equal(m.resumenCompras(s).find(g=>g.id==='huevo').variantes[0].pendiente,0);
+  m.marcarIngrediente(s,'huevo',false);assert.equal(m.resumenCompras(s).find(g=>g.id==='huevo').variantes[0].pendiente,6);
 });
 test('desvincular receta propia conserva necesidades y compra parcial confirmada',()=>{
   const r=prepararRecetaUsuario(entrada({ingredientes:[{ingredienteId:'huevo',cantidad:3,unidad:'unidad',estadoAlimento:'base'}]}),motor,catalogo,base);
@@ -72,7 +74,7 @@ test('desvincular receta propia conserva necesidades y compra parcial confirmada
   m.confirmarCompra(s,m.requerimientos(r)[0],1,'unidad','compra-real');
   const separado=separarNecesidadesReceta(s,r,m);
   assert.equal(separado.planes.length,0);assert.equal(separado.manuales.length,1);
-  assert.equal(m.resumenCompras(separado).find(g=>g.id==='huevo').variantes[0].pendiente,2);
+  assert.equal(m.resumenCompras(separado).find(g=>g.id==='huevo').variantes[0].pendiente,3);
   assert.equal(separado.comprasRealizadas[0].id,'compra-real');
   assert.equal(s.planes.length,1);
 });

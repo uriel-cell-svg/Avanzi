@@ -1,6 +1,6 @@
 # Diseño aprobado de Avanzi
 
-Referencia vigente: «Lo que tengo · Recuadro de seleccionados», opción B, y su unificación con Recetas, detalle y compras. Describe la identidad aprobada y su continuidad en la integración por cantidades. La lógica nueva vive en módulos locales; la presentación sigue en index.html, estilos.css y app.js. No propone rediseñar ni recuperar código de capturas anteriores.
+Referencia vigente: «Lo que tengo · Recuadro de seleccionados», opción B, y su unificación con Recetas, detalle y compras. La selección visible es binaria y las compras usan subtareas. Las cantidades permanecen en recetas, compras y nutrición. La lógica vive en módulos locales; la presentación, en index.html, estilos.css y app.js.
 
 ## Identidad compartida
 
@@ -33,24 +33,24 @@ Estos valores describen el CSS aprobado; no autorizan extender fondos de acento 
 - Pantalla inicial: «¿Qué tenés en casa?», sin subtítulo. Etiqueta breve de datos de prueba solo cuando corresponde.
 - Recuadro crema «Lo que tengo · N». Muestra todos los seleccionados, incluso con filtros activos: dibujo, nombre y × accesible. Vacío: solo título. Muchos seleccionados: una fila horizontal desplazable de altura acotada.
 - Buscador con lupa y etiqueta accesible, categorías como botones en una fila desplazable. «Todos» y solo categorías presentes del catálogo de 200: Legumbres, Cereales, Verduras, Frutas, Carnes y Otros. La búsqueda y las categorías no alteran selección ni contador total.
-- Catálogo estable: los ingredientes seleccionados no se mueven ni desaparecen. Cuatro columnas en computadora, dos hasta 650 px y una hasta 300 px. Dibujo protagonista, nombre visible, tarjeta verde suave y ✓ al seleccionar. Casilla real operable por teclado dentro de la tarjeta. Seleccionar abre la confirmación de cantidad; Editar cantidad permite actualizarla. Cantidad o estado por confirmar en texto secundario, sin inferir suficiencia de una simple marca.
+- Catálogo estable: los ingredientes seleccionados no se mueven ni desaparecen. Cuatro columnas en computadora, dos hasta 650 px y una hasta 300 px. Dibujo protagonista, nombre visible, tarjeta verde suave y ✓ al seleccionar. Casilla real operable por teclado: tocarla alterna presencia sin abrir un formulario de cantidad.
 - Pie en el flujo del documento: contador, menú accesible ⋮ con «Tengo todo»/«Desmarcar todo» y botón principal «Ver qué puedo cocinar». Las acciones globales afectan también ingredientes ocultos. No tapar contenido ni teclado con una barra fija.
 - Ayuda desplegable para las explicaciones; errores de guardado siempre visibles.
 
 ## Recetas
 
 - Título, etiqueta de prueba cuando corresponde, búsqueda «Buscar receta o ingrediente» con lupa y etiqueta accesible; filtro «Mostrar» y categoría de receta. Categorías: Todas, Rápidas, Veggie, Pastas, Carnes y Desayunos. Sin selector manual de orden.
-- Tres grupos con contadores pequeños: «Ya tenés todo, ¡a cocinar!» (0 ingredientes con cantidad insuficiente), «Ya casi» (1–3) y «Con algunas compras más» (más de 3). Orden por faltantes, tiempo y nombre dentro de cada grupo.
-- Tarjetas blancas redondeadas: borde verde y «Cantidades suficientes» si completas; borde rojizo y franja bordó con número de faltantes si incompletas. Nombre, tiempo, porciones, nombres de faltantes, etiqueta de prueba cuando corresponde y «Ver preparación».
+- Tres grupos con contadores pequeños: «Ya tenés todo, ¡a cocinar!» (0 ingredientes ausentes), «Ya casi» (1–3) y «Con algunas compras más» (más de 3). Orden por faltantes, tiempo y nombre.
+- Tarjetas blancas redondeadas: borde verde e «Ingredientes disponibles» si completas; borde rojizo y franja bordó con número de faltantes si incompletas. Nombre, tiempo, porciones, faltantes, prueba cuando corresponda y «Ver preparación».
 - Las 39 recetas muestran sus WebP locales, identificadas como imágenes ilustrativas generadas con IA. Se conservan dibujos y respaldos anteriores; proporciones contenidas, sin recortes. Tres columnas en escritorio, dos hasta 1000 px y una hasta 650 px.
-- «Crear receta» comparte la cabecera de la sección sin desplazar búsqueda o filtros. El editor usa diálogo blanco desplazable, campos y botones con el mismo foco y tamaño táctil; filas de ingredientes compactas y pasos reordenables. Solo las recetas propias muestran «Editar receta» y «Duplicar receta» en detalle y «Borrar receta» con confirmación en el editor. Sus fotos locales se identifican como «Imagen aportada por el usuario»; el respaldo SVG no se presenta como foto del plato.
+- «Crear receta» comparte la cabecera de sección. El editor usa diálogo blanco desplazable, buscador único de ingredientes con resultados por nombre/alias, cantidad y unidad tras elegir uno, y pasos reordenables. Solo las recetas propias muestran «Editar receta» y «Borrar receta» con confirmación; hay un solo borrador recuperable. Las fotos locales se identifican como aportadas por el usuario.
 - Vacíos específicos sin filtros; «Sin coincidencias» con búsqueda/filtro. Ayuda general plegable, sin explicación repetida en cada tarjeta completa.
 
 ## Detalle
 
 - Diálogo blanco con desplazamiento interno, cabecera y «Cerrar» siempre accesibles. Escape y cierre devuelven el foco; «Editar lo que tengo» cierra y enfoca el buscador de ingredientes.
-- Arriba: título, tiempo y porciones, y una nota «Revisá las cantidades antes de cocinar». En escritorio, título y metadatos comparten fila; debajo hay dos columnas compactas de ingredientes. En celular se apilan y hay una columna de ingredientes.
-- Sin casillas de disponibilidad. Nombre y cantidad en verde con ✓ si suficientes, en rojo con + si faltan cantidades. Leyenda única «✓ Cantidad suficiente · + Falta cantidad». Se muestra la cantidad pendiente en texto secundario. Porciones y Preparaciones tienen campos compactos y Aplicar.
+- Arriba: título, tiempo y porciones. En escritorio, título y metadatos comparten fila; debajo hay dos columnas compactas de ingredientes. En celular se apilan.
+- Sin casillas de disponibilidad. Nombre y cantidad en verde con ✓ si el ingrediente está presente, en rojo con + si falta. Leyenda «✓ Lo tenés · + Te falta», sin repetir la cantidad faltante. Porciones y Preparaciones conservan campos compactos.
 - Acciones individuales de bajo peso: bolsa + «Añadir a compras», o «En tu lista» y «Quitar». Se acomodan al lado o debajo del nombre sin reducir su legibilidad.
 - Acción principal «Añadir receta a compras» incorpora sus necesidades sin duplicarlas. Si ya está completa, se mantiene el estado de suficiencia; si ya está incluida, se informa. Acceso secundario «Editar lo que tengo». Las acciones individuales conservan menor peso visual.
 - «Sobre estos datos» reúne aclaraciones; etiqueta de prueba y avisos de guardado permanecen visibles fuera de ese desplegable.
@@ -59,9 +59,9 @@ Estos valores describen el CSS aprobado; no autorizan extender fondos de acento 
 ## Lista de compras
 
 - Panel blanco a la derecha en computadora, ancho completo en celular. Cierre accesible durante el desplazamiento y retorno de foco al acceso de bolsa.
-- Pendientes arriba: casilla, dibujo pequeño decorativo, nombre, cantidad por comprar y × con nombre accesible. La casilla abre un diálogo para confirmar la cantidad efectivamente comprada; una compra parcial sigue pendiente. No mostrar «Desde…», «Quitar» ni «Ya lo compré» como botones de fila.
-- «Comprados (N)» plegable debajo, incluye necesidades cubiertas por compras o existencias anteriores; casillas marcadas y nombres tachados. El contador superior solo cuenta pendientes. Mantener foco al mover filas y abrir Comprados cuando el foco lo necesite.
-- «Ver recetas y cantidades» despliega asociaciones, edición de necesidad y retirada de vínculo; Recetas incluidas permite porciones/preparaciones y quitar recetas. «Vaciar lista» conserva confirmación/cancelación. Debajo, «Después de comprar» muestra recetas cubiertas por selección real y pendientes, excluyendo las ya completas.
+- Pendientes arriba: una fila por ingrediente con casilla principal, dibujo, nombre, total pendiente y × accesible. Debajo, subtareas por receta con casilla y cantidad; las completadas se tachan. La casilla principal cambia todas las subtareas.
+- «Compras completadas (N)» plegable reúne ingredientes sin subtareas pendientes. Cada casilla permanece recuperable tras recargar; desmarcar devuelve su cantidad al pendiente. El contador superior solo cuenta ingredientes pendientes.
+- Recetas incluidas permite porciones/preparaciones y quitar recetas. «Vaciar lista» conserva confirmación/cancelación. Debajo, «Después de comprar» muestra recetas posibles si se cubren las subtareas abiertas.
 - Nota breve sobre cantidades, ayuda «Sobre esta lista» y avisos de guardado visibles. Las reglas reversibles de la checklist se conservan según AGENTS y README.
 
 ## Recursos y fallos de carga
@@ -72,4 +72,4 @@ La recuperación se aplica a tarjeta, detalle, catálogo, recuadro y compras, co
 
 ## Criterios de comprobación
 
-Para una futura modificación visual: revisar 320, 390 y 1440 px, ausencia de desbordamiento de página (se permiten las filas horizontales previstas), contraste, foco, áreas táctiles, nombres largos, ambos estados de disponibilidad, diálogos y avisos. Tomar capturas del código renderizado. Resultados de las comprobaciones efectivamente ejecutadas: CAMBIOS.md; no confundir estos criterios con pruebas históricas.
+Para una futura modificación visual: revisar 320, 360, 390, 768 y 1440 px, ausencia de desbordamiento de página (se permiten las filas horizontales previstas), contraste, foco, áreas táctiles, nombres largos, ambos estados de disponibilidad, diálogos y avisos. Tomar capturas del código renderizado. Resultados de las comprobaciones efectivamente ejecutadas: CAMBIOS.md; no confundir estos criterios con pruebas históricas.

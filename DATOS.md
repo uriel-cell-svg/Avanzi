@@ -1,6 +1,6 @@
 # Datos de Avanzi · integración de 39 recetas
 
-Contrato vigente implementado en esta entrega. Sustituye el contrato de presencia sin cantidades. Los nutrientes, rendimientos, ingredientes y equivalencias del paquete se conservan. `datos/recetas.json` incorpora únicamente la corrección auditada de siete tiempos del parche del 15-10-2026.
+Contrato de catálogo y persistencia vigente. La disponibilidad visible volvió a ser binaria; las cantidades siguen en recetas, compras y nutrición. Los nutrientes, rendimientos, ingredientes y equivalencias del paquete se conservan. `datos/recetas.json` incorpora únicamente la corrección auditada de siete tiempos del parche del 15-10-2026.
 
 ## Catálogos activos
 
@@ -52,21 +52,15 @@ El caso de garbanzos del paquete conserva un texto heredado que dice «secos», 
 
 Se mantienen decimales internamente; `≈` marca una presentación redondeada a dos decimales. Menos de 0,01 se informa como tal, nunca como cero. Un importe pendiente pequeño no se borra mediante redondeo visual.
 
-## Necesidades, inventario y recetas incluidas
+## Presencia y subtareas de compras
 
-Cada necesidad está identificada por receta + ingrediente + estado + unidad canónica. Dentro de una receta se suman líneas repetidas antes de registrarla. Repetir Añadir es idempotente. `porciones / porcionesOriginales × preparaciones` escala intencionalmente la cantidad. Las necesidades no se guardan como «cantidad a comprar»: esta se deriva en cada actualización.
+La disponibilidad visible es binaria por `ingredienteId`: un ingrediente está presente si se marcó manualmente en Lo que tengo o si alguna subtarea de compra quedó completada. No se comparan cantidades de inventario con recetas. Las cantidades históricas del inventario se conservan sin reescribirlas al abrir y no se usan para descontar compras. Desmarcar una compra no retira una marca manual previa. Desmarcar el ingrediente en Lo que tengo reabre sus subtareas completadas para que su ausencia sea coherente en ambas vistas.
 
-Por cada combinación compatible:
+Cada asociación de `planes[].ingredientes[]` guarda una `clave` canónica y `completado?: boolean`. La identidad estable de subtarea combina `recetaId` + `clave`; las necesidades `manuales[]` usan su propio ID. La ausencia de `completado` en snapshots anteriores equivale a `false`: no se supone que una compra antigua quedó cubierta. `comprasRealizadas[]` permanece como historial, sin migración destructiva.
 
-`pendiente = max(0, suma de necesidades incluidas − inventario disponible)`
+Una receta escala sus necesidades por `porciones / porcionesOriginales × preparaciones`. Repetir Añadir es idempotente. Por variante compatible, `pendiente = suma(cantidades de subtareas no completadas)`. Variantes sin equivalencia fiable no se suman; la UI agrupa las variantes bajo el mismo ingrediente. Marcar la casilla principal cambia todas sus subtareas; marcar una sola conserva las otras. Al quedar todas completadas, la fila pasa a Compras completadas, desde donde puede reabrirse incluso después de recargar.
 
-La UI agrupa esas combinaciones en una sola fila por ID de ingrediente. Con 3 huevos + 3 y un inventario de 2, se necesitan 4. No se resta el mismo inventario a cada receta por separado. Se conserva la lista de recetas de origen.
-
-Añadir la receta completa registra todos sus requerimientos; añadir individualmente registra solo esa asociación. Quitar receta, quitar vínculo o eliminar fila retira la necesidad correspondiente, no el inventario. Editar una necesidad de compras guarda una cantidad base ajustada para esa asociación, que luego escala al cambiar porciones; no modifica receta ni nutrición.
-
-Para determinar recetas preparables dentro del conjunto, se reserva inventario en el orden en que se incluyeron. Cada receta se comprueba completa y las anteriores reservan sus cantidades originales ajustadas por porciones/preparaciones. Así no se declaran simultáneamente listas dos recetas que compiten por el mismo ingrediente. No se consume físicamente inventario al planificar. Las recetas fuera del conjunto se evalúan individualmente.
-
-Si se han quitado asociaciones o reducido necesidades, la compra puede no cubrir todos los ingredientes originales del conjunto. La aplicación informa las disponibilidades reales y no añade nuevas compras automáticamente. «Después de comprar» simula solo los pendientes expresamente registrados, no cantidades desconocidas ni compras ya cubiertas.
+Quitar una receta, vínculo o fila retira solo las necesidades correspondientes. Las compras completadas no crean automáticamente una cantidad nueva en inventario: su estado de compra es una fuente separada de presencia. «Después de comprar» simula la presencia que aportan las subtareas todavía pendientes, sin añadirlas al almacenamiento.
 
 ## Nutrición y categorías
 
@@ -94,8 +88,8 @@ Mismo mecanismo local y misma clave `que-cocino.despensa.v1`, ahora con un objet
 | --- | --- |
 | `version` | 3. |
 | `inventario` | Registros con ingredienteId, estado, unidad, cantidad (o null heredado), clave de combinación, actualizadoEn y revisionManual. |
-| `planes` | recetaId, porciones, veces y asociaciones de ingredientes incluidas; ajuste opcional cantidadBase. |
-| `manuales` | Necesidades sin receta activa, conservadas de versiones anteriores o de recetas retiradas. |
+| `planes` | recetaId, porciones, veces y asociaciones de ingredientes con `clave`, `completado` opcional y ajuste legado `cantidadBase`. |
+| `manuales` | Necesidades sin receta activa; también admiten `completado` opcional. |
 | `comprasRealizadas` | ID único de confirmación, ingrediente/estado/unidad, cantidad incorporada, fecha, revisión manual y marca de deshecha. |
 | `transiciones` | Un evento por ID de receta que pasó de insuficiente a suficiente, con fecha. Sin monedas, niveles ni UI de recompensa. |
 | `porRevisar` | Referencias anteriores que requieren elegir una correspondencia explícita. |
@@ -103,9 +97,9 @@ Mismo mecanismo local y misma clave `que-cocino.despensa.v1`, ahora con un objet
 
 `clave` es la identidad de la combinación (ingrediente, estado, unidad), no otra cantidad. Las asociaciones guardan un respaldo de **necesidad**, no de pendiente, para conservar una compra si desaparece su receta. No hay otra copia activa del inventario ni una tabla de pendientes persistida.
 
-Una sola llamada `localStorage.setItem` guarda el snapshot completo; la atomicidad evita la divergencia inventario/compras entre escrituras. Ante fallo, queda el snapshot anterior entero; la sesión puede mostrar cambios temporales, con aviso y reintento. Un ID de confirmación impide aplicar dos veces el mismo envío. La columna de comprados se deriva de si la necesidad está cubierta; una compra parcial continúa pendiente.
+Una sola llamada `localStorage.setItem` guarda el snapshot completo; un fallo conserva la versión anterior. La pestaña desactualizada se bloquea al detectar un cambio en las claves activas. El estado de cada casilla queda en el mismo snapshot que sus asociaciones; no se guardan totales derivados.
 
-Deshacer una compra retira solo su incremento, sin tocar lo que había antes. Si el usuario editó manualmente esa existencia después, no se deshace su elección: `revisionManual` protege ese cambio. Eliminar una necesidad no elimina confirmaciones ni existencias. La detección de transiciones mantiene los IDs ya registrados para que marcar/desmarcar y recargar no genere eventos repetidos. No protege contra borrar manualmente todos los datos locales; un futuro servidor deberá resolver esa identidad si se añaden cuentas.
+Los recibos antiguos, cantidades y revisiones manuales permanecen para recuperar datos previos, aunque la nueva vista no ofrece el formulario «Registrar compra». `transiciones` conserva IDs registrados, sin implementar recompensas. Una escritura exactamente simultánea en dos pestañas sigue sin poder garantizarse como transacción con localStorage.
 
 ### Compatibilidad y fallos
 

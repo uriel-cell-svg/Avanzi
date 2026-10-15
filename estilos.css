@@ -135,6 +135,13 @@ li[data-disponible=false] .detalle-ingrediente-texto { color:var(--rojo); }
 .eliminar-compra:hover { background:var(--seleccion); }
 .compra-completada .compra-etiqueta span { text-decoration:line-through; text-decoration-thickness:1px; color:var(--secundario); }
 #comprados { margin:20px 0; }
+.subtareas-compra { display:grid; gap:2px; padding:4px 0 8px 44px; }
+.subtarea-compra { display:flex; align-items:center; gap:10px; min-height:44px; padding:5px 4px; font-size:.88rem; line-height:1.4; cursor:pointer; }
+.subtarea-compra input { flex:none; width:22px; height:22px; accent-color:var(--verde); }
+.subtarea-compra span { overflow-wrap:anywhere; }
+.subtarea-completada span { text-decoration:line-through; color:var(--secundario); }
+#receta-propia-dialogo .editor-resultados { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; max-height:180px; overflow:auto; }
+#receta-propia-dialogo .editor-resultados button { min-height:44px; text-align:left; }
 #compras summary { font-weight:650; font-size:.85rem; }
 .compras-vacias { font-size:.85rem; color:var(--secundario); margin:10px 0; }
 #vaciar-compras { margin-top:12px; font-size:.8rem; }
@@ -284,7 +291,7 @@ input[type=number] { width:100%; min-width:0; min-height:44px; padding:8px; bord
 #receta-propia-dialogo textarea { width:100%; min-height:90px; resize:vertical; }
 #receta-propia-dialogo .editor-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
 #receta-propia-dialogo .editor-filas,#receta-propia-dialogo .editor-pasos { display:grid; gap:12px; }
-#receta-propia-dialogo .editor-fila { display:grid; grid-template-columns:minmax(160px,2fr) minmax(85px,1fr) minmax(130px,1fr) minmax(100px,1fr); gap:8px; border-bottom:1px solid var(--borde); padding-bottom:12px; }
+#receta-propia-dialogo .editor-fila { display:grid; grid-template-columns:minmax(130px,2fr) minmax(85px,1fr) minmax(100px,1fr); gap:8px; align-items:end; border-bottom:1px solid var(--borde); padding-bottom:12px; }
 #receta-propia-dialogo .editor-fila button { grid-column:1/-1; justify-self:start; }
 #receta-propia-dialogo .editor-paso { border-bottom:1px solid var(--borde); padding-bottom:12px; }
 #receta-propia-dialogo .editor-paso button { margin:5px 5px 0 0; }
@@ -295,5 +302,7 @@ input[type=number] { width:100%; min-width:0; min-height:44px; padding:8px; bord
 @media(max-width:650px) {
  #receta-propia-dialogo .editor-grid { grid-template-columns:1fr 1fr; }
  #receta-propia-dialogo .editor-fila { grid-template-columns:1fr 1fr; }
- #receta-propia-dialogo .editor-fila label:first-child { grid-column:1/-1; }
+ #receta-propia-dialogo .editor-fila strong { grid-column:1/-1; }
+ #receta-propia-dialogo .editor-resultados { grid-template-columns:1fr; }
+ .subtareas-compra { padding-left:24px; }
 }

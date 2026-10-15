@@ -47,6 +47,8 @@ Se conserva el JPG recibido sin modificar sus píxeles ni comprimirlo nuevamente
 
 `bolsa.svg`: icono vectorial original local creado para Añadir a compras. Es decorativo y usa el mismo permiso de uso, modificación y redistribución indicado para los SVG del proyecto.
 
+`carrito.svg`: icono vectorial original local creado para la acción compacta de añadir un ingrediente a compras. Usa el mismo permiso del proyecto; no se descargó de terceros.
+
 ## Lo que tengo · Recursos coloreados individuales
 
 Los trece SVG de `lo-que-tengo/` son variantes de los dibujos propios de `despensa/`: aceite, ajo, arroz, cebolla, espinaca, garbanzo, huevo, limon, papa, pasta, sal, tomate y zanahoria. Autoría: dibujos originales preparados para Avanzi en este proyecto. Se conservaron los trazos y se modificaron rellenos y colores para reconocer los alimentos: tomate rojo, limón amarillo, hojas verdes y tonos naturales. Fondo transparente; no incluyen textos, controles ni fondos recortados de referencias.

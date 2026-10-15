@@ -7,7 +7,7 @@ const campo=(texto,tipo,valor,opciones={})=>{
 };
 const normalizar=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');
 
-export function crearEditorRecetas({dialog,catalogo,motor,guardar,borrar,cerrar}) {
+export function crearEditorRecetas({dialog,catalogo,motor,guardar,borrar,descartar,cerrar}) {
   let actual=null,origen=null;
   const formulario=el('form');formulario.id='form-receta-propia';formulario.noValidate=true;
   const aviso=el('p');aviso.id='error-receta-propia';aviso.setAttribute('role','status');aviso.setAttribute('aria-live','polite');
@@ -36,33 +36,34 @@ export function crearEditorRecetas({dialog,catalogo,motor,guardar,borrar,cerrar}
     const desayuno=el('label',undefined,'editor-check'),check=el('input');check.type='checkbox';check.checked=receta?.esDesayuno===true;desayuno.append(check,el('span','Es apropiada para desayunar (elección editorial)'));
     formulario.append(nombre.label,tiempos,total,desayuno,el('h3','Ingredientes'));
     const buscador=campo('Buscar ingrediente por nombre o alias','search','');buscador.input.placeholder='Buscar ingrediente';formulario.append(buscador.label);
+    const resultados=el('div',undefined,'editor-resultados');resultados.setAttribute('role','group');resultados.setAttribute('aria-label','Resultados de ingredientes');formulario.append(resultados);
     const filas=el('div',undefined,'editor-filas');formulario.append(filas);
     const opcionesOrdenadas=[...catalogo].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
-    function filaIngrediente(item={}) {
+    function filaIngrediente(item) {
       const cont=el('div',undefined,'editor-fila');
-      const label=el('label','Ingrediente'),select=el('select');select.required=true;
-      const opciones=()=>{
-        const previo=select.value||item.ingredienteId||'',q=normalizar(buscador.input.value.trim());select.replaceChildren();
-        const vacio=el('option','Elegí un ingrediente');vacio.value='';select.append(vacio);
-        for(const i of opcionesOrdenadas){if(q&&!normalizar([i.nombre,...(i.aliasEs||[])].join(' ')).includes(q)&&i.id!==previo)continue;
-          const o=el('option',i.nombre);o.value=i.id;select.append(o);}
-        select.value=previo;
-      };opciones();label.append(select);
+      const ficha=catalogo.find(i=>i.id===item.ingredienteId);
+      const nombre=el('strong',ficha?.nombre||item.ingredienteId);
       const cantidad=campo('Cantidad','number',item.cantidad??'',{required:true,min:'0.000001',step:'any'});
-      const estadoLabel=el('label','Presentación'),estado=el('select');for(const [v,t] of [['base','Como figura en catálogo'],['cocido','Cocido / escurrido'],['hebras','Hebras para infusionar']]){const o=el('option',t);o.value=v;estado.append(o);}estado.value=item.estadoAlimento||'base';estadoLabel.append(estado);
+      const estado=item.estadoAlimento||'base';
       const unidadLabel=el('label','Unidad'),unidad=el('select');unidadLabel.append(unidad);
-      function cargarUnidades(){const id=select.value,anterior=unidad.value||item.unidad;unidad.replaceChildren();unidad.disabled=!id;
-        if(!id){const op=el('option','Primero elegí ingrediente');op.value='';unidad.append(op);return;}
-        for(const v of motor.opcionesUnidades(id,estado.value)){const o=el('option',v==='unidad'?'unidades':v);o.value=v;unidad.append(o);}unidad.value=[...unidad.options].some(o=>o.value===anterior)?anterior:motor.unidadBase(id,estado.value);}
-      select.onchange=cargarUnidades;estado.onchange=cargarUnidades;cargarUnidades();
-      const quitar=el('button','Quitar ingrediente','secundario');quitar.type='button';quitar.onclick=()=>{const siguiente=cont.nextElementSibling||cont.previousElementSibling;cont.remove();(siguiente?.querySelector('select')||agregarIngrediente).focus();};
-      cont.append(label,cantidad.label,estadoLabel,unidadLabel,quitar);filas.append(cont);
-      cont._leer=()=>({ingredienteId:select.value,cantidad:cantidad.input.valueAsNumber,unidad:unidad.value,estadoAlimento:estado.value});
-      cont._filtrar=opciones;
+      for(const v of motor.opcionesUnidades(item.ingredienteId,estado)){const o=el('option',v==='unidad'?'unidades':v);o.value=v;unidad.append(o);}
+      unidad.value=[...unidad.options].some(o=>o.value===item.unidad)?item.unidad:motor.unidadBase(item.ingredienteId,estado);
+      const quitar=el('button','Quitar ingrediente','secundario');quitar.type='button';quitar.onclick=()=>{cont.remove();buscador.input.focus();mostrarResultados();};
+      cont.append(nombre,cantidad.label,unidadLabel,quitar);filas.append(cont);
+      cont._leer=()=>({ingredienteId:item.ingredienteId,cantidad:cantidad.input.valueAsNumber,unidad:unidad.value,estadoAlimento:estado});
+      return cont;
     }
-    const agregarIngrediente=el('button','Agregar ingrediente','secundario');agregarIngrediente.type='button';agregarIngrediente.onclick=()=>{filaIngrediente();filas.lastElementChild.querySelector('select').focus();};
-    buscador.input.oninput=()=>filas.querySelectorAll('.editor-fila').forEach(f=>f._filtrar());
-    (receta?.ingredientes?.length?receta.ingredientes:[{}]).forEach(filaIngrediente);
+    function mostrarResultados(){
+      resultados.replaceChildren();const q=normalizar(buscador.input.value.trim());if(!q)return;
+      const elegidos=new Set([...filas.children].map(f=>f._leer().ingredienteId));
+      for(const i of opcionesOrdenadas.filter(i=>!elegidos.has(i.id)&&normalizar([i.nombre,...(i.aliasEs||[])].join(' ')).includes(q)).slice(0,12)){
+        const elegir=el('button',i.nombre,'secundario');elegir.type='button';elegir.onclick=()=>{const fila=filaIngrediente({ingredienteId:i.id,estadoAlimento:'base'});buscador.input.value='';mostrarResultados();fila.querySelector('input').focus();};resultados.append(elegir);
+      }
+      if(!resultados.children.length)resultados.append(el('p','Sin coincidencias','meta'));
+    }
+    const agregarIngrediente=el('button','Agregar ingrediente','secundario');agregarIngrediente.type='button';agregarIngrediente.onclick=()=>buscador.input.focus();
+    buscador.input.oninput=mostrarResultados;
+    (receta?.ingredientes||[]).forEach(filaIngrediente);
     formulario.append(agregarIngrediente,el('h3','Preparación'));
     const pasos=el('div',undefined,'editor-pasos');formulario.append(pasos);
     function filaPaso(texto=''){
@@ -93,6 +94,10 @@ export function crearEditorRecetas({dialog,catalogo,motor,guardar,borrar,cerrar}
       }catch(error){mostrarError(error.message);}finally{publicar.disabled=draft.disabled=false;}}
     formulario.onsubmit=e=>{e.preventDefault();ejecutar(false);};draft.onclick=()=>ejecutar(true);
     acciones.append(publicar,draft);
+    if(borrador){const descartarBoton=el('button','Descartar borrador','secundario');descartarBoton.type='button';descartarBoton.onclick=async()=>{
+      if(!confirm('¿Descartar este borrador? La receta terminada, si existe, se conserva.'))return;
+      const r=await descartar();if(r.ok)dialog.close();else mostrarError(r.mensaje);
+    };acciones.append(descartarBoton);}
     if(receta&&!duplicar&&!borrador){const eliminar=el('button','Borrar receta','secundario');eliminar.type='button';eliminar.onclick=async()=>{
       if(!confirm(`¿Borrar «${receta.nombre}»? Si está en compras, sus necesidades quedarán sin asociación; lo comprado seguirá en Lo que tengo.`))return;
       const r=await borrar(receta);if(r.ok)dialog.close();else mostrarError(r.mensaje);

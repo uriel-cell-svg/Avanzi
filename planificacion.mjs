@@ -100,6 +100,17 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
   }
   const existencias = (estado, clave) => estado.inventario.find(i => i.clave === clave);
   const cantidadDisponible = (estado, clave) => existencias(estado,clave)?.cantidad ?? 0;
+  const presenteManual = (estado,id) => estado.inventario.some(i=>i.ingredienteId===id&&(i.cantidad===null||i.cantidad>EPSILON));
+  const presentePorCompra = (estado,id) => estado.planes.some(p=>p.ingredientes.some(i=>i.clave.startsWith(id+'|')&&i.completado===true)) || estado.manuales.some(i=>i.ingredienteId===id&&i.completado===true);
+  const tieneIngrediente = (estado,id) => presenteManual(estado,id)||presentePorCompra(estado,id);
+  function establecerPresencia(estado,id,presente) {
+    if(presente){if(!presenteManual(estado,id))ajustarInventario(estado,id,null,unidadBase(id));}
+    else {
+      quitarInventario(estado,id);
+      for(const p of estado.planes)for(const i of p.ingredientes)if(i.clave.startsWith(id+'|'))i.completado=false;
+      for(const i of estado.manuales)if(i.ingredienteId===id)i.completado=false;
+    }
+  }
   function ajustarInventario(estado, id, cantidad, unidad, alimento = 'base', fecha = new Date().toISOString(), manual = true) {
     const item = canonizar(id, cantidad, unidad, alimento);
     const anterior = existencias(estado,item.clave);
@@ -121,7 +132,7 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     const permitidos=new Set(requerimientos(receta,plan.porciones,plan.veces).map(i=>i.clave));
     for(const clave of claves) {
       if(!permitidos.has(clave)) throw new Error('Ingrediente ajeno a la receta.');
-      if(!plan.ingredientes.some(i=>i.clave===clave)) plan.ingredientes.push({clave});
+      if(!plan.ingredientes.some(i=>i.clave===clave)) plan.ingredientes.push({clave,completado:false});
     }
   }
   function cambiarPorciones(estado, recetaId, porciones, veces = 1) {
@@ -142,22 +153,37 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     if(!enlace) throw new Error('Esa asociación ya no existe.');
     enlace.cantidadBase=cantidad/(plan.porciones/recetario.get(recetaId).porciones*plan.veces);
   }
+  function marcarSubtarea(estado,ingredienteId,identidad,completado) {
+    let linea;
+    if(identidad.startsWith('plan:')){
+      const [recetaId,clave]=JSON.parse(identidad.slice(5));
+      linea=estado.planes.find(p=>p.recetaId===recetaId)?.ingredientes.find(i=>i.clave===clave&&clave.startsWith(ingredienteId+'|'));
+    }else if(identidad.startsWith('manual:'))linea=estado.manuales.find(i=>i.id===identidad.slice(7)&&i.ingredienteId===ingredienteId);
+    if(!linea)throw new Error('La compra ya no está en la lista.');
+    linea.completado=Boolean(completado);
+  }
+  const identidadPlan=(recetaId,clave)=>`plan:${JSON.stringify([recetaId,clave])}`;
+  const identidadManual=id=>`manual:${id}`;
+  function marcarIngrediente(estado,id,completado){
+    for(const p of estado.planes)for(const i of p.ingredientes)if(i.clave.startsWith(id+'|'))i.completado=Boolean(completado);
+    for(const i of estado.manuales)if(i.ingredienteId===id)i.completado=Boolean(completado);
+  }
   function resumenCompras(estado) {
     const variantes=new Map();
     const sumar=(r,origen)=>{
       let grupo=variantes.get(r.clave);
       if(!grupo) {grupo={...r,total:0,desconocida:false,origenes:[]};variantes.set(r.clave,grupo);}
-      if(r.cantidad===null) grupo.desconocida=true; else grupo.total=limpiar(grupo.total+r.cantidad);
+      if(!origen.completado){if(r.cantidad===null) grupo.desconocida=true; else grupo.total=limpiar(grupo.total+r.cantidad);}
       grupo.origenes.push(origen);
     };
-    for(const p of estado.planes) for(const r of requerimientosPlan(p)) sumar(r,{recetaId:p.recetaId,nombre:recetario.get(p.recetaId).nombre,cantidad:r.cantidad});
-    for(const r of estado.manuales) sumar(r,{recetaId:null,nombre:r.nombreOrigen||'Lista anterior',cantidad:r.cantidad,manualId:r.id});
+    for(const p of estado.planes) for(const r of requerimientosPlan(p)) {const enlace=p.ingredientes.find(i=>i.clave===r.clave);sumar(r,{id:identidadPlan(p.recetaId,r.clave),recetaId:p.recetaId,nombre:recetario.get(p.recetaId).nombre,cantidad:r.cantidad,completado:enlace?.completado===true});}
+    for(const r of estado.manuales) sumar(r,{id:identidadManual(r.id),recetaId:null,nombre:r.nombreOrigen||'Lista anterior',cantidad:r.cantidad,manualId:r.id,completado:r.completado===true});
     const grupos=new Map();
     for(const v of variantes.values()) {
-      v.disponible=cantidadDisponible(estado,v.clave);
-      v.sinCantidadConfirmada=existencias(estado,v.clave)?.cantidad===null;
-      v.pendiente=limpiar(Math.max(0,v.total-v.disponible));
-      v.completo=!v.desconocida && v.pendiente<=EPSILON;
+      v.disponible=0;
+      v.sinCantidadConfirmada=false;
+      v.pendiente=v.total;
+      v.completo=v.origenes.every(o=>o.completado);
       let g=grupos.get(v.ingredienteId);
       if(!g){g={id:v.ingredienteId,nombre:catalogo.get(v.ingredienteId).nombreEs||catalogo.get(v.ingredienteId).nombre,variantes:[]};grupos.set(v.ingredienteId,g);}
       g.variantes.push(v);
@@ -193,27 +219,20 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
   function disponibilidad(receta, estado, porciones = receta.porciones, veces = 1, reservarPlan = true) {
     const plan=estado.planes.find(p=>p.recetaId===receta.id);
     const requeridos=requerimientos(receta,plan?.porciones??porciones,plan?.veces??veces);
-    const reservado=new Map();
-    // Orden de incorporación explícito: una existencia no se asigna a dos recetas planeadas.
-    if(reservarPlan && plan) {
-      for(const anterior of estado.planes) {
-        if(anterior.recetaId===receta.id)break;
-        for(const r of requerimientos(recetario.get(anterior.recetaId),anterior.porciones,anterior.veces)) reservado.set(r.clave,(reservado.get(r.clave)||0)+(r.cantidad||0));
-      }
-    }
     const lineas=requeridos.map(r=>{
-      const real=cantidadDisponible(estado,r.clave);
-      const disponible=Math.max(0,real-(reservado.get(r.clave)||0));
-      const pendiente=r.cantidad===null?null:limpiar(Math.max(0,r.cantidad-disponible));
-      return {...r,disponible,real,reservado:reservado.get(r.clave)||0,pendiente,
-        desconocida:r.cantidad===null || existencias(estado,r.clave)?.cantidad===null,completo:r.cantidad!==null&&pendiente<=EPSILON};
+      const presente=tieneIngrediente(estado,r.ingredienteId);
+      const real=presente?r.cantidad:0;
+      const disponible=real;
+      const pendiente=presente?0:r.cantidad;
+      return {...r,disponible,real,reservado:0,pendiente,
+        desconocida:r.cantidad===null,completo:presente};
     });
     const faltantes=lineas.filter(i=>!i.completo);
     return {lineas,faltantes,completa:!faltantes.length,estado:!faltantes.length?'suficiente':lineas.some(i=>i.disponible>0)?'parcial':'sin-ingredientes'};
   }
   function posibilidades(estado) {
     const futuro=copiar(estado);
-    for(const g of resumenCompras(estado))for(const v of g.variantes)if(!v.desconocida && v.pendiente>EPSILON && !v.sinCantidadConfirmada) ajustarInventario(futuro,v.ingredienteId,v.disponible+v.pendiente,v.unidad,v.estado,undefined,false);
+    for(const g of resumenCompras(estado))if(!g.completo)establecerPresencia(futuro,g.id,true);
     return recetas.filter(r=>!disponibilidad(r,estado).completa && disponibilidad(r,futuro).completa);
   }
   function detectarTransiciones(antes,despues,fecha = new Date().toISOString()) {
@@ -224,7 +243,7 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     return nuevas;
   }
   return {catalogo,recetario,canonizar,unidadBase,opcionesUnidades,nombreCantidad,requerimientos,requerimientosPlan,existencias,cantidadDisponible,
-    ajustarInventario,quitarInventario,agregarNecesidades,cambiarPorciones,quitarVinculo,quitarReceta,editarNecesidad,resumenCompras,quitarCompra,
+    ajustarInventario,quitarInventario,establecerPresencia,tieneIngrediente,marcarSubtarea,marcarIngrediente,agregarNecesidades,cambiarPorciones,quitarVinculo,quitarReceta,editarNecesidad,resumenCompras,quitarCompra,
     confirmarCompra,deshacerCompra,disponibilidad,posibilidades,detectarTransiciones};
 }
 /** Retira un plan sin perder sus necesidades ni las compras ya confirmadas. No guarda. */
@@ -234,7 +253,7 @@ export function separarNecesidadesReceta(estado,receta,motor) {
   for(const necesidad of motor.requerimientosPlan(plan)){
     copia.manuales.push({
       ...motor.canonizar(necesidad.ingredienteId,necesidad.cantidad,necesidad.unidad,necesidad.estado),
-      id:`receta-retirada:${receta.id}:${necesidad.clave}`,
+      id:`receta-retirada:${receta.id}:${necesidad.clave}`,completado:plan.ingredientes.find(i=>i.clave===necesidad.clave)?.completado===true,
       nombreOrigen:`Receta anterior: ${receta.nombre}`
     });
   }

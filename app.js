@@ -1,5 +1,5 @@
 import {calcularNutrientes,clasificarReceta} from './motor_avanzi.mjs';
-import {crearMotorCantidades,estadoVacio,copiar,cantidadLegible,EPSILON,separarNecesidadesReceta} from './planificacion.mjs';
+import {crearMotorCantidades,estadoVacio,copiar,cantidadLegible,separarNecesidadesReceta} from './planificacion.mjs';
 import {recuperarEstado,guardarEstado} from './almacenamiento.mjs';
 import {crearEditorRecetas} from './editor_recetas.mjs';
 import {vacioRecetasUsuario,nuevoIdReceta,esPropia,prepararRecetaUsuario,recuperarRecetasUsuario,guardarRecetasUsuario} from './recetas_usuario.mjs';
@@ -33,8 +33,8 @@ function liberarFotoLocal(id){
   const url=urlsFotos.get(id);if(url)URL.revokeObjectURL(url);urlsFotos.delete(id);
   fotosPendientes.get(id)?.then(()=>{const tardia=urlsFotos.get(id);if(tardia)URL.revokeObjectURL(tardia);urlsFotos.delete(id);}).catch(()=>{});
 }
-let recetaDetalle=null,recetaOrigenDetalle=null,opcionesDetalle=null,accionCantidad=null,focoCantidad=null;
-const seleccionados=()=>new Set(estado.inventario.filter(i=>i.cantidad===null||i.cantidad>EPSILON).map(i=>i.ingredienteId));
+let recetaDetalle=null,recetaOrigenDetalle=null,opcionesDetalle=null;
+const seleccionados=()=>new Set(ingredientes.filter(i=>motor.tieneIngrediente(estado,i.id)).map(i=>i.id));
 const planDe=id=>estado.planes.find(p=>p.recetaId===id);
 const disponibilidad=r=>motor.disponibilidad(r,estado);
 const faltantes=r=>disponibilidad(r).faltantes;
@@ -131,7 +131,7 @@ function boton(texto, accion, clase = 'secundario') {
 }
 
 function mensajeGuardado(mensaje) {
-  for(const id of ['aviso-guardado','error-despensa-detalle','error-despensa-panel','error-cantidad']){
+  for(const id of ['aviso-guardado','error-despensa-detalle','error-despensa-panel']){
     $(id).textContent=mensaje;$(id).hidden=!mensaje;
   }
   $('reintentar-guardado').hidden=!sinGuardar||bloqueado||almacenamientoSeguro.desactualizado();
@@ -154,10 +154,6 @@ function conservarFoco(contenedor,dibujar) {
   dibujar();
   if(clave){const destino=[...contenedor.querySelectorAll('[data-foco]')].find(i=>i.dataset.foco===clave);(destino||contenedor.querySelector('h2')||$('titulo-compras')).focus({preventScroll:true});}
 }
-function resumenInventario(id) {
-  const items=estado.inventario.filter(i=>i.ingredienteId===id&&(i.cantidad===null||i.cantidad>EPSILON));
-  return items.map(i=>`${cantidadLegible(i.cantidad,i.unidad)}${i.estado==='cocido'?' cocidos':i.estado==='hebras'?' en hebras':''}`).join(' · ');
-}
 function mostrarDespensa() {
   conservarFoco($('ingredientes'),()=>{
     $('ingredientes').replaceChildren();
@@ -170,14 +166,10 @@ function mostrarDespensa() {
       const tarjeta=elemento('div',undefined,'tarjeta-ingrediente');
       const etiqueta=elemento('label',undefined,'ingrediente');
       const casilla=document.createElement('input');casilla.type='checkbox';casilla.value=i.id;casilla.checked=seleccion.has(i.id);casilla.dataset.foco=`stock-${i.id}`;
-      casilla.addEventListener('change',()=>{
-        if(!casilla.checked)cambiar(s=>motor.quitarInventario(s,i.id));
-        else {casilla.checked=false;editarInventario(i.id);}
-      });
+      casilla.addEventListener('change',()=>cambiar(s=>motor.establecerPresencia(s,i.id,casilla.checked)));
       const marca=elemento('span','✓','marca-seleccion');marca.setAttribute('aria-hidden','true');
-      etiqueta.append(casilla,marca,dibujoIngredienteInicio(i),elemento('span',i.nombre,'nombre-ingrediente'),elemento('span',resumenInventario(i.id)||'Sin cantidad registrada','cantidad-tarjeta'));
-      const editar=boton('Editar cantidad',()=>editarInventario(i.id),'editar-cantidad');editar.dataset.foco=`editar-${i.id}`;editar.setAttribute('aria-label',`Editar cantidad de ${i.nombre}`);
-      tarjeta.append(etiqueta,editar);$('ingredientes').append(tarjeta);
+      etiqueta.append(casilla,marca,dibujoIngredienteInicio(i),elemento('span',i.nombre,'nombre-ingrediente'));
+      tarjeta.append(etiqueta);$('ingredientes').append(tarjeta);
     }
     if(!visibles.length)$('ingredientes').append(elemento('p','Sin coincidencias','vacio'));
   });
@@ -189,7 +181,7 @@ function mostrarSeleccion() {
   list.replaceChildren();list.hidden=!seleccion.size;
   $('cantidad-seleccion').textContent=seleccion.size;$('cantidad-seleccion-pie').textContent=`${seleccion.size} seleccionados`;
   for(const i of ingredientes.filter(i=>seleccion.has(i.id))){
-    const li=elemento('li',undefined,'seleccion-item');const quitar=boton('×',()=>cambiar(s=>motor.quitarInventario(s,i.id)),'quitar-seleccion');
+    const li=elemento('li',undefined,'seleccion-item');const quitar=boton('×',()=>cambiar(s=>motor.establecerPresencia(s,i.id,false)),'quitar-seleccion');
     quitar.dataset.ingrediente=i.id;quitar.setAttribute('aria-label',`Desmarcar ${i.nombre}`);
     li.append(quitar,dibujoIngredienteInicio(i),elemento('span',i.nombre));list.append(li);
   }
@@ -233,9 +225,9 @@ function tarjetaReceta(r) {
   const figura=elemento('figure',undefined,`visual-receta ${r.imagen||r.imagenId?'con-imagen-local':''}`),img=imagenReceta(r,etiquetaFoto);img.loading='lazy';
   if(n)figura.append(elemento('span',`Falta${n===1?'':'n'} ${n} ingrediente${n===1?'':'s'}`,'franja-faltantes'));
   figura.append(img);tarjeta.append(figura);
-  if(info.completa)tarjeta.append(elemento('span','Cantidades suficientes','etiqueta'));
+  if(info.completa)tarjeta.append(elemento('span','Ingredientes disponibles','etiqueta'));
   tarjeta.append(elemento('h4',r.nombre),elemento('p',`${textoTiempo(r)} · ${p?.porciones??r.porciones} porciones${p?.veces>1?` × ${p.veces}`:''}${r.datosDePrueba===true?' · Datos de prueba':''}`,'meta'));
-  if(n)tarjeta.append(elemento('p',`Te falta: ${info.faltantes.map(i=>`${i.nombre} (${cantidadLegible(i.pendiente,i.unidad)})`).join(', ')}.`,'faltantes'));
+  if(n)tarjeta.append(elemento('p',`Te falta: ${info.faltantes.map(i=>i.nombre).join(', ')}.`,'faltantes'));
   if(r.imagen)tarjeta.append(elemento('p','Imagen ilustrativa IA','meta'));
   if(etiquetaFoto)tarjeta.append(etiquetaFoto);
   const ver=boton('Ver preparación',()=>mostrarDetalle(r));ver.setAttribute('aria-label',`Ver preparación: ${r.nombre}`);tarjeta.append(ver);return tarjeta;
@@ -259,7 +251,7 @@ function dibujarDetalle() {
     $('etiqueta-prueba-detalle').hidden=r.datosDePrueba!==true;
     const titulo=elemento('h2',r.nombre);titulo.id='titulo-detalle';titulo.tabIndex=-1;
     const arriba=elemento('div',undefined,'detalle-arriba'),general=elemento('section',undefined,'detalle-informacion');
-    general.append(titulo,elemento('p',`${textoTiempo(r)} · ${op.porciones} porciones${op.veces>1?` × ${op.veces} preparaciones`:''}`,'meta'),elemento('p','Revisá las cantidades antes de cocinar','detalle-aclaracion'));
+    general.append(titulo,elemento('p',`${textoTiempo(r)} · ${op.porciones} porciones${op.veces>1?` × ${op.veces} preparaciones`:''}`,'meta'));
     arriba.append(general,formPorciones(r,op.porciones,op.veces,(porciones,veces)=>{
       opcionesDetalle={porciones,veces};if(planDe(r.id))cambiar(s=>motor.cambiarPorciones(s,r.id,porciones,veces));else dibujarDetalle();
     }));
@@ -268,34 +260,32 @@ function dibujarDetalle() {
       const fila=elemento('li');fila.dataset.disponible=String(i.completo);const desc=elemento('div',undefined,'detalle-ingrediente-texto');
       const simbolo=elemento('span',i.completo?'✓':'+','simbolo-estado');simbolo.setAttribute('aria-hidden','true');
       const nombre=elemento('span',`${cantidadLegible(i.cantidad,i.unidad)} · ${i.nombre}`);
-      nombre.append(elemento('small',i.completo?'Cantidad suficiente':`Falta: ${cantidadLegible(i.pendiente,i.unidad)}${i.desconocida?' · Confirmá cuánto tenés':''}`,'cantidad-detalle'));
       desc.append(simbolo,nombre);fila.append(desc);
       const esta=p?.ingredientes.some(x=>x.clave===i.clave);
       const acciones=elemento('div',undefined,'acciones-ingrediente');
       if(esta)acciones.append(elemento('span','En tu lista','estado-compras-ingrediente'));
       if(!i.completo||esta){
-        const accion=boton(esta?'Quitar':'Añadir a compras',()=>cambiar(s=>esta?motor.quitarVinculo(s,r.id,i.clave):motor.agregarNecesidades(s,r.id,[i.clave],op.porciones,op.veces)));
+        const accion=boton(esta?'Quitar':'+',()=>cambiar(s=>esta?motor.quitarVinculo(s,r.id,i.clave):motor.agregarNecesidades(s,r.id,[i.clave],op.porciones,op.veces)));
+        if(!esta){const icono=document.createElement('img');icono.src='./imagenes/carrito.svg';icono.alt='';icono.width=18;icono.height=18;accion.prepend(icono);}
         accion.dataset.foco=`comprar-${i.clave}`;accion.setAttribute('aria-label',`${esta?'Quitar de compras':'Añadir a compras'}: ${i.nombre}`);
         acciones.append(accion);fila.append(acciones);
       }
       lista.append(fila);
     }
     const pie=elemento('div',undefined,'pie-ingredientes');
-    if(info.completa)pie.append(elemento('p','Tenés todos los ingredientes en cantidad suficiente','todos-disponibles'));
+    if(info.completa)pie.append(elemento('p','Tenés todos los ingredientes','todos-disponibles'));
     if(!p||info.lineas.some(i=>!p.ingredientes.some(x=>x.clave===i.clave))){
       const todos=boton('Añadir receta a compras',()=>cambiar(s=>motor.agregarNecesidades(s,r.id,info.lineas.map(i=>i.clave),op.porciones,op.veces)),'');todos.id='todos-faltantes';todos.dataset.foco='todos-faltantes';pie.append(todos);
     }else pie.append(elemento('p','Receta incluida en compras','nota-acciones'));
     const editar=boton('Editar lo que tengo',()=>{$('detalle').dataset.editarDespensa='true';$('detalle').close();});editar.id='editar-despensa-detalle';editar.dataset.foco='editar-despensa';pie.append(editar);
     if(esPropia(r)){
       const accionesPropias=elemento('div',undefined,'editor-acciones');
-      accionesPropias.append(boton('Editar receta',()=>{$('detalle').close();setTimeout(()=>editor.abrir(r),0)}),
-        boton('Duplicar receta',()=>{$('detalle').close();setTimeout(()=>editor.abrir(r,{duplicar:true}),0)}));
+      accionesPropias.append(boton('Editar receta',()=>{$('detalle').close();setTimeout(()=>editor.abrir(r),0)}));
       pie.append(accionesPropias);
     }
-    const sobre=elemento('details',undefined,'sobre-datos');sobre.append(elemento('summary','Sobre estos datos'),elemento('p',`${r.datosDePrueba===true?'Receta de prueba. ':''}Las cantidades y equivalencias pueden ser aproximadas. Añadir a compras no aumenta el inventario. El botón de receta registra sus necesidades; solo quedan pendientes las cantidades que faltan. No se garantiza seguridad alimentaria.`));
-    if(p)sobre.append(elemento('p','En recetas incluidas se reserva el inventario por orden de incorporación, sin asignarlo dos veces. El detalle siempre comprueba todos los ingredientes, incluso si quitaste un vínculo de compras.'));
+    const sobre=elemento('details',undefined,'sobre-datos');sobre.append(elemento('summary','Sobre estos datos'),elemento('p',`${r.datosDePrueba===true?'Receta de prueba. ':''}Las cantidades y equivalencias nutricionales pueden ser aproximadas. La disponibilidad usa presencia de ingredientes. No se garantiza seguridad alimentaria.`));
     if(r.fuente){const fuente=elemento('p',`Fuente: ${r.fuente.sitio || r.fuente.autor || 'Paquete aportado'}. `);if(/^https:\/\//.test(r.fuente.url||'')){const enlace=elemento('a','Consultar receta original');enlace.href=r.fuente.url;enlace.target='_blank';enlace.rel='noopener noreferrer';fuente.append(enlace);}sobre.append(fuente);}
-    panel.append(elemento('h3','Ingredientes'),elemento('p','✓ Cantidad suficiente · + Falta cantidad','leyenda-ingredientes'),lista,pie,sobre);arriba.append(panel);
+    panel.append(elemento('h3','Ingredientes'),elemento('p','✓ Lo tenés · + Te falta','leyenda-ingredientes'),lista,pie,sobre);arriba.append(panel);
     const figura=elemento('figure',undefined,`detalle-imagen ${r.imagen||r.imagenId?'con-imagen-local':''}`),leyenda=elemento('figcaption');figura.append(imagenReceta(r,leyenda),leyenda);
     const preparacion=elemento('section',undefined,'detalle-preparacion'),pasos=elemento('ol');r.pasos.forEach(paso=>pasos.append(elemento('li',paso)));preparacion.append(elemento('h3','Preparación'),pasos);
     const factor=op.porciones/r.porciones*op.veces;
@@ -338,6 +328,8 @@ function restaurarTrasFalloReceta(anterior,fallo) {
 async function guardarRecetaPropia(datos,archivo,quitarImagen,esBorrador,duplicar) {
   if(recetasUsuarioBloqueadas)return {ok:false,mensaje:'Tus recetas guardadas no se pudieron recuperar. No se sobrescribirán.'};
   try{almacenamientoSeguro.comprobar();}catch(error){return {ok:false,mensaje:error.message};}
+  if(esBorrador&&recetasUsuario.borrador&&recetasUsuario.borrador.id!==datos.id&&datos.id&&
+    !confirm('Ya hay un borrador distinto. ¿Querés reemplazarlo al guardar este?'))return {ok:false,mensaje:'El borrador anterior se conservó.'};
   const id=duplicar||!datos.id?nuevoIdReceta():datos.id;
   const anterior=recetasUsuario.recetas.find(r=>r.id===id);
   const entrada={...datos,id,imagenId:duplicar?null:datos.imagenId};
@@ -354,7 +346,7 @@ async function guardarRecetaPropia(datos,archivo,quitarImagen,esBorrador,duplica
   const borradorAnterior=recetasUsuario.borrador;
   const doc=copiar(recetasUsuario);
   if(esBorrador)doc.borrador=entrada;
-  else {doc.recetas=doc.recetas.filter(r=>r.id!==id);doc.recetas.push(preparada);if(doc.borrador?.id===id)doc.borrador=null;}
+  else {doc.recetas=doc.recetas.filter(r=>r.id!==id);doc.recetas.push(preparada);if(!datos.id||doc.borrador?.id===id)doc.borrador=null;}
   let anteriorEstado=null;
   if(!esBorrador&&anterior&&planDe(id)){
     const clavesAntes=new Set(motor.requerimientos(anterior).map(n=>n.clave));
@@ -394,92 +386,48 @@ async function borrarRecetaPropia(receta) {
   }
   return {ok:true};
 }
-function abrirCantidad({id,alimento='base',modo='inventario',item=null,alGuardar=null,titulo=null}) {
-  const ficha=motor.catalogo.get(id);focoCantidad=document.activeElement;const token=focoCantidad?.dataset.foco;
-  $('titulo-cantidad').textContent=titulo||`${modo==='compra'?'Registrar compra':'Cantidad disponible'}: ${ficha.nombre}`;
-  const form=$('form-cantidad');form.replaceChildren();$('error-cantidad').hidden=true;
-  const estados=new Set(['base']);
-  for(const r of recetas)for(const i of motor.requerimientos(r))if(i.ingredienteId===id)estados.add(i.estado);
-  estado.inventario.filter(i=>i.ingredienteId===id).forEach(i=>estados.add(i.estado));
-  const labelEstado=elemento('label','Presentación'),selEstado=document.createElement('select');selEstado.id='cantidad-estado';
-  for(const valor of estados){const option=elemento('option',valor==='cocido'?'Cocido / escurrido':valor==='hebras'?'Hebras para infusionar':/seco/i.test(ficha.nombre)?'Seco':id==='te-negro'?'Té preparado':'Como figura en el catálogo');option.value=valor;selEstado.append(option);}selEstado.value=alimento;selEstado.disabled=modo==='compra';labelEstado.append(selEstado);
-  const label=elemento('label',modo==='compra'?'Cantidad efectivamente comprada':'Cantidad que tenés'),input=document.createElement('input');input.type='number';input.id='cantidad-valor';input.step='any';input.min=modo==='compra'?'0.000001':'0';input.required=true;input.inputMode='decimal';label.append(input);
-  const labelUnidad=elemento('label','Unidad'),selUnidad=document.createElement('select');selUnidad.id='cantidad-unidad';labelUnidad.append(selUnidad);
-  const cargar=()=>{
-    const base=motor.unidadBase(id,selEstado.value),stock=estado.inventario.find(i=>i.ingredienteId===id&&i.estado===selEstado.value&&(i.cantidad===null||i.cantidad>0));
-    const utilizadas=recetas.flatMap(r=>motor.requerimientos(r)).filter(i=>i.ingredienteId===id&&i.estado===selEstado.value).map(i=>i.unidad);
-    const opts=[...new Set([...motor.opcionesUnidades(id,selEstado.value),...utilizadas,...(item?[item.unidad]:[]),...(stock?[stock.unidad]:[])])];
-    selUnidad.replaceChildren();opts.forEach(u=>{const opt=elemento('option',u==='unidad'?'unidades':u);opt.value=u;selUnidad.append(opt);});
-    selUnidad.value=modo==='compra'?item.unidad:stock?.unidad||base;
-    input.value=modo==='compra'?(item.pendiente>0?item.pendiente:''):(stock?.cantidad??'');
-  };cargar();selEstado.addEventListener('change',cargar);
-  const nota=elemento('p',modo==='compra'?'Se suma únicamente la cantidad que confirmás. Una compra parcial deja el resto pendiente.':'Una cantidad desconocida no cuenta como suficiente. Registrar cero retira esa disponibilidad.','meta');
-  const conversion=elemento('p','g/kg y ml/l se convierten directamente. Unidades, densidades y medidas caseras usan equivalencias aproximadas del paquete; seco y cocido no se mezclan.','meta');
-  const botones=elemento('div',undefined,'acciones-formulario'),submit=elemento('button',modo==='compra'?'Confirmar compra':'Guardar cantidad');submit.type='submit';
-  const cancelar=boton('Cancelar',()=>$('cantidad-dialogo').close());botones.append(submit,cancelar);form.append(labelEstado,label,labelUnidad,nota,conversion,botones);
-  const operacionId=Array.from(crypto.getRandomValues(new Uint32Array(4)),n=>n.toString(16).padStart(8,'0')).join('-');
-  accionCantidad=()=>{
-    if(!form.reportValidity())return;
-    const cantidad=input.valueAsNumber,unidad=selUnidad.value,presentacion=selEstado.value;
-    const ok=cambiar(s=>{
-      if(modo==='compra')motor.confirmarCompra(s,item,cantidad,unidad,operacionId);
-      else {motor.ajustarInventario(s,id,cantidad,unidad,presentacion);if(alGuardar)alGuardar(s,cantidad,unidad,presentacion);}
-    });
-    if(ok)$('cantidad-dialogo').close();
-  };
-  $('cantidad-dialogo').dataset.retorno=token||'';$('cantidad-dialogo').showModal();$('cantidad-dialogo').scrollTop=0;input.focus();
+async function descartarBorrador() {
+  if(recetasUsuarioBloqueadas)return {ok:false,mensaje:'Los datos locales de recetas propias están bloqueados.'};
+  try{almacenamientoSeguro.comprobar();}catch(error){return {ok:false,mensaje:error.message};}
+  const anterior=recetasUsuario.borrador,doc={...recetasUsuario,borrador:null};
+  const guardado=guardarRecetasUsuario(almacenamientoLocal,doc,false,motor,ingredientes,recetasBase);
+  if(!guardado.ok)return guardado;
+  recetasUsuario=doc;actualizarRecetario();
+  for(const foto of fotosSinReferencias([anterior?.imagenId],doc)){liberarFotoLocal(foto);await borrarFoto(foto).catch(()=>mensajeGuardado('El borrador se descartó; no se pudo limpiar su foto.'));}
+  return {ok:true};
 }
-const editarInventario=id=>abrirCantidad({id});
 function filaCompra(grupo) {
   const contenedor=elemento('article',undefined,grupo.completo?'compra-completada':'');contenedor.dataset.ingrediente=grupo.id;
   const fila=elemento('div',undefined,'compra-fila'),etiqueta=elemento('label',undefined,'compra-etiqueta');
-  const check=document.createElement('input');check.type='checkbox';check.checked=grupo.completo;check.dataset.foco=`compra-${grupo.id}`;check.setAttribute('aria-label',`${grupo.completo?'Deshacer compras registradas':'Registrar compra de'} ${grupo.nombre}`);
-  check.addEventListener('change',()=>{
-    check.checked=grupo.completo;
-    if(grupo.completo){
-      const recibos=estado.comprasRealizadas.filter(c=>c.ingredienteId===grupo.id&&!c.deshecha);
-      if(!recibos.length){mensajeGuardado('Esta cantidad ya está en Lo que tengo. Editala allí para cambiar tu disponibilidad; no hay una compra registrada que deshacer.');return;}
-      cambiar(s=>{[...recibos].reverse().forEach(c=>motor.deshacerCompra(s,c.id));});return;
-    }
-    const item=grupo.variantes.find(v=>!v.completo);
-    if(item.desconocida){mensajeGuardado('Confirmá la cantidad de la necesidad en Ver recetas y cantidades antes de comprar.');return;}
-    abrirCantidad({id:grupo.id,alimento:item.estado,modo:'compra',item});
-  });
-  const nombre=elemento('span',grupo.nombre);nombre.append(elemento('small',grupo.completo?'Cubierto con lo que tenés':grupo.variantes.filter(v=>!v.completo).map(v=>`${cantidadLegible(v.desconocida?null:v.pendiente,v.unidad)}${v.estado==='cocido'?' cocidos':v.estado==='hebras'?' en hebras':''}`).join(' · '),'cantidad-compra'));
+  const check=document.createElement('input');check.type='checkbox';check.checked=grupo.completo;check.dataset.foco=`compra-${grupo.id}`;check.setAttribute('aria-label',`${grupo.completo?'Reabrir todas las subtareas de':'Completar todas las subtareas de'} ${grupo.nombre}`);
+  check.addEventListener('change',()=>cambiar(s=>motor.marcarIngrediente(s,grupo.id,check.checked)));
+  const nombre=elemento('span',grupo.nombre);
+  const pendientes=grupo.variantes.filter(v=>!v.completo).map(v=>cantidadLegible(v.desconocida?null:v.pendiente,v.unidad));
+  nombre.append(elemento('small',grupo.completo?'Todo completado':`Pendiente: ${pendientes.join(' · ')}`,'cantidad-compra'));
   etiqueta.append(check,dibujoIngredienteInicio(motor.catalogo.get(grupo.id)),nombre);
   const eliminar=boton('×',()=>cambiar(s=>motor.quitarCompra(s,grupo.id)),'eliminar-compra');eliminar.setAttribute('aria-label',`Eliminar ${grupo.nombre} de compras`);eliminar.dataset.foco=`eliminar-${grupo.id}`;fila.append(etiqueta,eliminar);
-  const detalles=elemento('details',undefined,'origenes-compra');detalles.dataset.ingrediente=grupo.id;detalles.append(elemento('summary','Ver recetas y cantidades'));
+  const detalles=elemento('div',undefined,'subtareas-compra');
   for(const v of grupo.variantes){
-    detalles.append(elemento('p',`${motor.nombreCantidad(v)}: ${cantidadLegible(v.desconocida?null:v.total,v.unidad)} necesarios − ${cantidadLegible(v.disponible,v.unidad)} disponibles${v.sinCantidadConfirmada?' (cantidad anterior por confirmar)':''}.`,'meta'));
     for(const origen of v.origenes){
-      const bloque=elemento('div',undefined,'origen-compra');bloque.append(elemento('p',origen.nombre));
-      const form=elemento('form',undefined,'editar-necesidad'),label=elemento('label',`Necesidad (${v.unidad})`),input=document.createElement('input');input.type='number';input.min='0.000001';input.step='any';input.required=true;input.value=origen.cantidad??'';input.setAttribute('aria-label',`Cantidad de ${grupo.nombre} para ${origen.nombre}`);input.dataset.foco=`cantidad-${v.clave}-${origen.recetaId||origen.manualId}`;label.append(input);
-      const save=elemento('button','Guardar','secundario');save.type='submit';save.dataset.foco=`guardar-${v.clave}-${origen.recetaId||origen.manualId}`;
-      form.append(label,save);form.addEventListener('submit',e=>{e.preventDefault();if(form.reportValidity())cambiar(s=>{
-        if(origen.recetaId)motor.editarNecesidad(s,origen.recetaId,v.clave,input.valueAsNumber);
-        else s.manuales.find(m=>m.id===origen.manualId).cantidad=input.valueAsNumber;
-      });});
-      const quitar=boton('Quitar vínculo',()=>cambiar(s=>origen.recetaId?motor.quitarVinculo(s,origen.recetaId,v.clave):s.manuales=s.manuales.filter(m=>m.id!==origen.manualId)));
-      quitar.setAttribute('aria-label',`Quitar vínculo de ${grupo.nombre} con ${origen.nombre}`);quitar.dataset.foco=`quitar-${v.clave}-${origen.recetaId||origen.manualId}`;bloque.append(form,quitar);detalles.append(bloque);
+      const sub=elemento('label',undefined,`subtarea-compra${origen.completado?' subtarea-completada':''}`),casilla=document.createElement('input');
+      casilla.type='checkbox';casilla.checked=origen.completado;casilla.dataset.foco=`sub-${origen.id}`;
+      casilla.setAttribute('aria-label',`${origen.completado?'Reabrir':'Completar'} ${cantidadLegible(origen.cantidad,v.unidad)} de ${grupo.nombre} para ${origen.nombre}`);
+      casilla.addEventListener('change',()=>cambiar(s=>motor.marcarSubtarea(s,grupo.id,origen.id,casilla.checked)));
+      sub.append(casilla,elemento('span',`${origen.nombre} · ${cantidadLegible(origen.cantidad,v.unidad)}`));detalles.append(sub);
     }
-    if(!v.completo&&!v.desconocida){const compra=boton(`Registrar compra · ${motor.nombreCantidad(v)}`,()=>abrirCantidad({id:grupo.id,alimento:v.estado,modo:'compra',item:v}));compra.dataset.foco=`registrar-${v.clave}`;detalles.append(compra);}
   }
-  const ultimas=estado.comprasRealizadas.filter(c=>c.ingredienteId===grupo.id&&!c.deshecha);
-  for(const c of ultimas){const linea=elemento('p',`Compraste ${cantidadLegible(c.cantidad,c.unidad)}. `);linea.append(boton('Deshacer esta compra',()=>cambiar(s=>motor.deshacerCompra(s,c.id))));detalles.append(linea);}
   contenedor.append(fila,detalles);return contenedor;
 }
 function dibujarCompras() {
   const focoAnterior=$('compras').contains(document.activeElement)?document.activeElement.dataset.foco:null;
-  const abiertos=new Set([...$('items-compras').querySelectorAll('details[open][data-ingrediente]')].map(i=>i.dataset.ingrediente));
   const compradoAbierto=$('comprados')?.open;
   conservarFoco($('items-compras'),()=>{
     const grupos=motor.resumenCompras(estado),pendientes=grupos.filter(g=>!g.completo),completas=grupos.filter(g=>g.completo);
     const frag=document.createDocumentFragment();
     pendientes.forEach(g=>frag.append(filaCompra(g)));
     if(!pendientes.length)frag.append(elemento('p','No tenés compras pendientes.','compras-vacias'));
-    if(completas.length){const comprado=elemento('details');comprado.id='comprados';comprado.open=compradoAbierto||false;comprado.append(elemento('summary',`Comprados (${completas.length})`));completas.forEach(g=>comprado.append(filaCompra(g)));frag.append(comprado);}
+    if(completas.length){const comprado=elemento('details');comprado.id='comprados';comprado.open=compradoAbierto||false;comprado.append(elemento('summary',`Compras completadas (${completas.length})`));completas.forEach(g=>comprado.append(filaCompra(g)));frag.append(comprado);}
     $('items-compras').replaceChildren(frag);
-    $('items-compras').querySelectorAll('details[data-ingrediente]').forEach(d=>d.open=abiertos.has(d.dataset.ingrediente));
     const foco=document.activeElement?.dataset.foco;if(foco){const id=foco.replace(/^compra-/,'');if(completas.some(g=>g.id===id))$('comprados').open=true;}
   });
   // Si el control enfocado pasó a Comprados, abrirlo antes de devolverle foco.
@@ -511,19 +459,22 @@ function mostrarReferencias() {
 function actualizar() {
   mostrarDespensa();mostrarSeleccion();mostrarRecetas();mostrarReferencias();
   $('contador-compras').textContent=motor.resumenCompras(estado).filter(g=>!g.completo).length;
-  $('resumen').textContent=`${recetas.filter(r=>disponibilidad(r).completa).length} recetas con cantidades suficientes. La compra pendiente no se cuenta como disponible.`;
+  $('resumen').textContent=`${recetas.filter(r=>disponibilidad(r).completa).length} recetas con todos sus ingredientes. Las compras pendientes no cuentan como disponibles.`;
   if($('detalle').open)dibujarDetalle();if($('compras').open)dibujarCompras();
 }
 function conectarControles() {
-  $('crear-receta').addEventListener('click',()=>editor.abrir());
+  $('crear-receta').addEventListener('click',()=>{
+    if(recetasUsuario.borrador&&!confirm('Ya tenés un borrador. ¿Querés reemplazarlo? El borrador anterior solo se descarta cuando guardes el nuevo.'))return;
+    editor.abrir();
+  });
   $('continuar-borrador').addEventListener('click',()=>editor.abrir(recetasUsuario.borrador,{borrador:true}));
   for(const seccion of ['despensa','recetas'])$(`tab-${seccion}`).addEventListener('click',()=>cambiarSeccion(seccion));
   $('ver-cocinar').addEventListener('click',()=>{cambiarSeccion('recetas');$('titulo-recetas').tabIndex=-1;$('titulo-recetas').focus();$('titulo-recetas').scrollIntoView({block:'start'});});
   $('buscar-ingredientes').addEventListener('input',mostrarDespensa);$('categoria').addEventListener('change',mostrarDespensa);
   for(const id of ['busqueda','filtro','categoria-recetas'])$(id).addEventListener(id==='busqueda'?'input':'change',mostrarRecetas);
   const cerrarAcciones=()=>{$('acciones-despensa').open=false;$('acciones-despensa').querySelector('summary').focus();};
-  $('todo').addEventListener('click',()=>{cambiar(s=>{for(const i of ingredientes)if(!seleccionados().has(i.id))motor.ajustarInventario(s,i.id,null,motor.unidadBase(i.id));});cerrarAcciones();});
-  $('nada').addEventListener('click',()=>{cambiar(s=>{for(const i of ingredientes)motor.quitarInventario(s,i.id);});cerrarAcciones();});
+  $('todo').addEventListener('click',()=>{cambiar(s=>{for(const i of ingredientes)motor.establecerPresencia(s,i.id,true);});cerrarAcciones();});
+  $('nada').addEventListener('click',()=>{cambiar(s=>{for(const i of ingredientes)motor.establecerPresencia(s,i.id,false);});cerrarAcciones();});
   $('acciones-despensa').addEventListener('keydown',e=>{if(e.key==='Escape'&&$('acciones-despensa').open){e.preventDefault();cerrarAcciones();}});
   document.addEventListener('click',e=>{if(!$('acciones-despensa').contains(e.target))$('acciones-despensa').open=false;});
   $('cerrar-detalle').addEventListener('click',()=>$('detalle').close());
@@ -536,14 +487,6 @@ function conectarControles() {
   $('vaciar-compras').addEventListener('click',()=>{$('confirmar-vaciado').hidden=false;$('cancelar-vaciar').focus();});
   $('cancelar-vaciar').addEventListener('click',()=>{$('confirmar-vaciado').hidden=true;$('vaciar-compras').focus();});
   $('confirmar-vaciar').addEventListener('click',()=>{cambiar(s=>{s.planes=[];s.manuales=[];});$('titulo-compras').focus();});
-  $('form-cantidad').addEventListener('submit',e=>{e.preventDefault();accionCantidad?.();});
-  $('cerrar-cantidad').addEventListener('click',()=>$('cantidad-dialogo').close());
-  $('cantidad-dialogo').addEventListener('close',()=>{
-    const clave=$('cantidad-dialogo').dataset.retorno;const scopes=$('compras').open?$('compras'):$('detalle').open?$('detalle'):$('despensa');
-    const destino=[...scopes.querySelectorAll('[data-foco]')].find(i=>i.dataset.foco===clave);
-    if(destino?.closest('#comprados'))$('comprados').open=true;
-    (destino|| (focoCantidad?.isConnected?focoCantidad:null) ||scopes.querySelector('button')||$('buscar-ingredientes')).focus({preventScroll:true});
-  });
   $('reintentar-guardado').addEventListener('click',guardar);
 }
 async function iniciar() {
@@ -569,7 +512,7 @@ async function iniciar() {
     for(const id of ['etiqueta-prueba-inicio','etiqueta-prueba-recetas','etiqueta-prueba-compras']){$(id).hidden=prueba===0;$(id).textContent=prueba===recetas.length?'Datos de prueba':'Incluye datos de prueba';}
     $('aviso-catalogo').textContent=`${prueba?`${prueba} recetas de prueba. `:''}Las cantidades y la nutrición son estimaciones del paquete aportado; algunas requieren revisión editorial. Las imágenes son ilustrativas generadas con IA.`;
     $('ayuda-catalogo').textContent='Registrá cantidades para comprobar suficiencia. Tengo todo conserva presencia sin inventar cantidades: confirmalas para cocinar.';
-    editor=crearEditorRecetas({dialog:$('receta-propia-dialogo'),catalogo:ingredientes,motor,guardar:guardarRecetaPropia,borrar:borrarRecetaPropia});
+    editor=crearEditorRecetas({dialog:$('receta-propia-dialogo'),catalogo:ingredientes,motor,guardar:guardarRecetaPropia,borrar:borrarRecetaPropia,descartar:descartarBorrador});
     prepararCategorias();conectarControles();$('continuar-borrador').hidden=!recetasUsuario.borrador;actualizar();$('estado').hidden=true;$('aplicacion').hidden=false;$('abrir-compras').disabled=false;
   }catch(error){$('estado').textContent=`No pudimos cargar Avanzi: ${error.message} Revisá los archivos con Live Server. No se modificaron tus datos guardados.`;}
 }

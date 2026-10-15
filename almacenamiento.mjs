@@ -46,7 +46,7 @@ export function validarEstado(datos,motor) {
     }
     const permitidos=new Set(motor.requerimientos(motor.recetario.get(p.recetaId),p.porciones,p.veces).map(i=>i.clave)),enlaces=new Set();
     p.ingredientes=p.ingredientes.filter(i=>{
-      if(!i||!texto(i.clave)||enlaces.has(i.clave)||(i.cantidadBase!==undefined&&(!Number.isFinite(i.cantidadBase)||i.cantidadBase<=0)))throw new Error('Asociación guardada inválida.');
+      if(!i||!texto(i.clave)||enlaces.has(i.clave)||(i.completado!==undefined&&typeof i.completado!=='boolean')||(i.cantidadBase!==undefined&&(!Number.isFinite(i.cantidadBase)||i.cantidadBase<=0)))throw new Error('Asociación guardada inválida.');
       enlaces.add(i.clave);
       if(!permitidos.has(i.clave)){avisos.push('Se descartó una asociación antigua; las restantes se conservaron.');return false;}
       return true;
@@ -55,7 +55,7 @@ export function validarEstado(datos,motor) {
   });
   const manualIds=new Set();
   s.manuales=s.manuales.filter(i=>{
-    if(!texto(i?.id)||manualIds.has(i.id)||!texto(i.nombreOrigen))throw new Error('Necesidad manual inválida.');
+    if(!texto(i?.id)||manualIds.has(i.id)||!texto(i.nombreOrigen)||(i.completado!==undefined&&typeof i.completado!=='boolean'))throw new Error('Necesidad manual inválida.');
     manualIds.add(i.id);
     if(!comprobarItem(i)){avisos.push('Se omitió una compra de un ingrediente retirado.');return false;}
     return true;
@@ -68,6 +68,8 @@ export function validarEstado(datos,motor) {
   const transiciones=new Set();
   for(const t of s.transiciones){if(!texto(t?.recetaId)||!texto(t.id)||!texto(t.fecha)||transiciones.has(t.recetaId))throw new Error('Registro de transición inválido.');transiciones.add(t.recetaId);}
   for(const item of s.porRevisar)if(!item||!texto(item.id)||!texto(item.nombre)||!texto(item.tipo))throw new Error('Referencia anterior inválida.');
+  if(s.comprasRealizadas.some(i=>!i.deshecha)&&s.planes.some(p=>p.ingredientes.some(i=>i.completado===undefined)))
+    avisos.push('Tus compras anteriores se conservaron. Revisá sus subtareas: no se marcaron como completadas automáticamente.');
   return {estado:s,avisos:[...new Set(avisos)]};
 }
 export function recuperarEstado(storage,motor) {

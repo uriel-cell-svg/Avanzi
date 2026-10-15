@@ -13,7 +13,7 @@
 - Mantener identificadores estables y relaciones por ID, no por nombre. Conservar compatibilidad con los JSON existentes; documentar cualquier ampliación antes de implementarla.
 - datosDePrueba es opcional y booleano si existe. Etiquetar solo true y distinguir catálogos mixtos. Ausencia o false no acreditan nutrición, seguridad ni permisos de reutilización.
 - No inventar nutrientes, cantidades, conversiones o equivalencias. Desconocido no es cero. Una propuesta en DATOS no significa soporte implementado.
-- La disponibilidad comprueba cantidades, estados y unidades compatibles por ID. Sumar necesidades antes de restar inventario una sola vez. No contar compras pendientes como disponibles ni mezclar secos/cocidos. Conservar búsqueda, clasificación, filtros y desempates.
+- La disponibilidad visible comprueba presencia de ingredientes por ID, sin exigir cantidades. Las cantidades de recetas siguen en nutrición y compras; sumar únicamente subtareas pendientes con unidades compatibles. Una compra pendiente no cuenta como disponible. Conservar búsqueda, clasificación, filtros y desempates.
 
 ## Accesibilidad y recursos
 
@@ -31,8 +31,8 @@
 - Conservar las claves que-cocino.despensa.v1 y que-cocino.compras.v1 y los IDs del paquete. El snapshot v3 conjunto se guarda atómicamente en la primera; la segunda queda intacta como legado. No volver al guardado dividido que permite divergencias.
 - Leer formatos anteriores y operaciones provisionales sin perder selecciones/compras ni inventar cantidades. Presencia antigua = cantidad por confirmar; correspondencias ambiguas = revisión explícita. Conservar el contenido legado. Datos inválidos bloquean sobrescrituras y fallos de catálogo no escriben almacenamiento.
 - Añadir receta/ingrediente es idempotente. Porciones y preparaciones escalan necesidades; quitar receta, fila o asociación recalcula sin retirar inventario. No persistir cantidades derivadas a comprar. Conservar asociaciones y compras sin receta activa.
-- Confirmar compra suma solo la cantidad adquirida y su ID de operación evita repetición. La compra parcial deja pendiente el resto. Deshacer respeta existencias previas y modificaciones manuales posteriores.
-- Reservar inventario por orden de incorporación para no asignarlo dos veces al conjunto. Los vínculos parciales no autorizan añadir ingredientes automáticamente. La disponibilidad del detalle sigue comprobando la receta completa.
+- Cada vínculo receta/ingrediente tiene un estado `completado` estable. Completar una subtarea deja de sumarla al pendiente; desmarcarla la recupera. La casilla principal cambia todas las subtareas. Conservar recibos anteriores como legado sin convertirlos silenciosamente en subtareas completadas.
+- La selección manual y la presencia derivada de compras completadas son fuentes distintas. No descontar cantidades de despensa de las subtareas; no inferir pesos ni conversiones sin equivalencia. La disponibilidad del detalle comprueba todos los ingredientes de la receta por presencia.
 - Registrar como máximo una transición de insuficiente a suficiente por ID de receta, persistida para no repetir al marcar/desmarcar. No añadir recompensas visuales, cuentas o servicios sin otro pedido.
 - Las recetas propias usan `recetas_usuario.mjs` para validar y guardar en `avanzi.recetas.usuario.v1`; las fotos WebP se guardan solo en IndexedDB `avanzi-fotos-v1`. No guardar Blobs ni URL en localStorage. Bloquear sobrescrituras cuando la recuperación propia sea corrupta. Conservar planes, necesidades y compras confirmadas al editar o borrar una receta propia vinculada.
 - Borrar una foto solo después de guardar el documento y comprobar que ni una receta publicada ni el borrador la referencian. Ante un cambio detectado en otra pestaña, pedir recarga antes de escribir; no presentar esta protección como sincronización ni como transacción atómica entre pestañas.

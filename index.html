@@ -41,8 +41,8 @@
         <div id="ingredientes" class="ingredientes"></div>
         <details id="ayuda-lo-tengo"><summary>Ayuda</summary>
           <p id="alcance-botones">Tengo todo y Desmarcar todo actúan sobre toda la selección, también los ingredientes ocultos por búsqueda o categoría.</p>
-          <p>Las tarjetas y el recuadro comparten tu inventario. Editá cantidades para comprobar qué recetas podés preparar. Buscar o filtrar no cambia lo que tenés.</p>
-          <p id="ayuda-catalogo">Comprobamos cantidades registradas mediante equivalencias del paquete, sin garantizar seguridad alimentaria.</p>
+          <p>Las tarjetas y el recuadro comparten tu selección. Buscar o filtrar no cambia lo que tenés. La disponibilidad comprueba presencia, no cantidad suficiente.</p>
+          <p id="ayuda-catalogo">Las cantidades de las recetas se usan para compras y estimaciones nutricionales, sin garantizar seguridad alimentaria.</p>
           <p id="resumen"></p>
         </details>
         <div class="ir-recetas"><span id="cantidad-seleccion-pie">0 seleccionados</span>
@@ -59,7 +59,7 @@
         <p id="resultados" role="status"></p><div id="lista-recetas"></div>
         <details id="ayuda-recetas" class="ayuda"><summary>Ayuda</summary>
           <p>Elegí una receta y abrí Ver preparación para consultar las cantidades y los pasos. Las tres secciones se actualizan con Lo que tengo.</p>
-    <p class="aviso" id="aviso-catalogo">Versión 1 · Comprobamos cantidades registradas mediante equivalencias del paquete, sin garantizar seguridad alimentaria.</p>
+    <p class="aviso" id="aviso-catalogo">Disponibilidad por presencia de ingredientes; las cantidades se muestran para cocinar y comprar.</p>
         </details>
       </section>
     </div>
@@ -76,9 +76,8 @@
     <div id="confirmar-vaciado" hidden><p>¿Querés vaciar la lista? Lo que tengo no cambiará.</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
     <details id="plan-compras"><summary>Recetas incluidas (0)</summary></details>
     <div id="posibilidades-compras"></div>
-    <details id="ayuda-compras"><summary>Sobre esta lista</summary><p>Sumamos necesidades por ingrediente y descontamos una sola vez lo que tenés. Añadir una receta otra vez no duplica sus cantidades. Podés ajustar porciones, preparaciones o quitar vínculos en Recetas incluidas y Ver recetas y cantidades.</p><p>La casilla abre la confirmación de cuánto compraste. Una compra parcial deja el resto pendiente. Comprados incluye necesidades ya cubiertas por el inventario. Deshacer retira solo compras registradas que no hayas editado manualmente. Eliminar una fila nunca retira alimentos de Lo que tengo.</p><p>Los ingredientes secos, cocidos y las medidas sin equivalencia fiable se mantienen separados dentro de una misma fila. La disponibilidad del conjunto reserva cantidades por orden de incorporación de recetas. Quitar un vínculo o editar una necesidad cambia la compra, no los ingredientes ni la nutrición de la receta. El detalle sigue comprobando la receta completa; si quitás necesidades, algunas recetas pueden seguir incompletas después de comprar.</p></details>
+    <details id="ayuda-compras"><summary>Sobre esta lista</summary><p>Cada subtarea corresponde a una receta. Marcarla indica que esa compra quedó cubierta; podés desmarcarla incluso después de recargar. La casilla principal cambia todas las subtareas del ingrediente. Las cantidades pendientes se suman solo entre subtareas abiertas y no se descuentan cantidades de Lo que tengo.</p><p>Una compra completada se distingue internamente de un ingrediente marcado a mano. Las medidas sin equivalencia fiable permanecen separadas. Las compras anteriores y sus confirmaciones se conservan en los datos locales; esta vista usa las nuevas casillas. Eliminar una fila no borra el inventario manual.</p></details>
   </dialog>
-  <dialog id="cantidad-dialogo" aria-labelledby="titulo-cantidad"><div class="dialogo-cabecera"><h2 id="titulo-cantidad"></h2><button type="button" id="cerrar-cantidad" class="secundario">Cerrar</button></div><p id="error-cantidad" role="status" hidden></p><form id="form-cantidad"></form></dialog>
   <dialog id="receta-propia-dialogo" aria-labelledby="titulo-receta-propia"></dialog>
   <footer class="contenedor">
     <details class="creditos"><summary>Créditos visuales</summary><p>Títulos breves: Alfa Slab One, alternativa a Kompot Slab. Licencia SIL OFL 1.1. <a href="./fuentes/FUENTES.md">Origen y licencias de fuentes</a>.</p><p>Dibujos SVG originales de Avanzi e imágenes ilustrativas generadas con IA aportadas en el paquete de 39 recetas. <a href="./imagenes/FUENTES.md">Procedencia y permisos</a>.</p></details>
