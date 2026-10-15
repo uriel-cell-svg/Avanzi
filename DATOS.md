@@ -31,7 +31,7 @@ ID único y nombre no vacío (`nombreEs`; se admite `nombre` al adaptar). Se con
 - Grupos exactos: `legumbres`, `cereales`, `verduras`, `frutas`, `carnes`, `otros`. La interfaz los muestra en español con inicial mayúscula y añade Todos.
 - `por100g`: `kcal`, `proteinasG`, `carbohidratosG`, `grasasG`, números finitos no negativos. Un perfil incompleto no se considera cero: impide una estimación completa.
 - Densidad positiva si existe. Sirve para relacionar ml con g, no para confundir volumen con masa.
-- `dibujo` es opcional. Si está presente debe cumplir `^\./imagenes/despensa/[a-z0-9-]+\.svg$`. Las referencias a los dibujos anteriores están en compatibilidad; los restantes ingredientes usan el SVG de respaldo. Nombre y controles siempre visibles.
+- `dibujo` es opcional. Si está presente debe cumplir `^\./imagenes/despensa/[a-z0-9-]+\.svg$`. Las referencias a los dibujos anteriores están en compatibilidad. `compatibilidad.json` puede agrupar IDs en `familiasVisuales`: cada familia apunta a un SVG local de `imagenes/lo-que-tengo/`, sin alterar ID, grupo ni datos nutricionales. Los dibujos individuales tienen prioridad; los ingredientes sin familia explícita usan la familia de su grupo o el respaldo. Nombre y controles siempre visibles.
 
 Correcciones de clasificación aisladas del archivo original: repollo se trata como Verduras y vegetal; chorizo como animal; dashi queda con origen animal sin confirmar, por lo que no se declara vegano. No se alteraron los valores por 100 g. «Pasta de curry» y «miso» no se detectan como fideos por contener la palabra pasta.
 
@@ -92,7 +92,8 @@ Mismo mecanismo local y misma clave `que-cocino.despensa.v1`, ahora con un objet
 | `manuales` | Necesidades sin receta activa; también admiten `completado` opcional. |
 | `comprasRealizadas` | ID único de confirmación, ingrediente/estado/unidad, cantidad incorporada, fecha, revisión manual y marca de deshecha. |
 | `transiciones` | Un evento por ID de receta que pasó de insuficiente a suficiente, con fecha. Sin monedas, niveles ni UI de recompensa. |
-| `porRevisar` | Referencias anteriores que requieren elegir una correspondencia explícita. |
+| `porRevisar` | Referencias anteriores sin correspondencia inequívoca; se conservan sin formulario de asignación. |
+| `referenciasResueltas` | Campo opcional: referencias antiguas vinculadas automáticamente, con su origen y el ID actual; evita perder el registro original al resolverlas. |
 | `legado` | Cuando procede, contenido anterior original de las dos claves, conservado para recuperación/auditoría. |
 
 `clave` es la identidad de la combinación (ingrediente, estado, unidad), no otra cantidad. Las asociaciones guardan un respaldo de **necesidad**, no de pendiente, para conservar una compra si desaparece su receta. No hay otra copia activa del inventario ni una tabla de pendientes persistida.
@@ -105,7 +106,7 @@ Los recibos antiguos, cantidades y revisiones manuales permanecen para recuperar
 
 Antes de leer listas se cargan y validan catálogos/equivalencias. Si fallan, ninguna escritura. Un formato guardado inválido bloquea sobrescrituras. Referencias obsoletas se omiten individualmente con aviso, conservando las vigentes.
 
-Se leen la despensa antigua (arreglo de IDs), las compras antiguas (arreglo o version: 2) y su operación provisional. Esta última se resuelve según qué selección efectivamente quedó guardada. Los IDs conocidos se recuperan con cantidad desconocida; no se les asigna 1 ni se supone suficiencia. Los desconocidos pasan a revisión explícita. Las compras compradas antiguas también se conservan como necesidades por confirmar.
+Se leen la despensa antigua (arreglo de IDs), las compras antiguas (arreglo o version: 2) y su operación provisional. Esta última se resuelve según qué selección efectivamente quedó guardada. Los IDs conocidos se recuperan con cantidad desconocida; no se les asigna 1 ni se supone suficiencia. Los IDs antiguos se vinculan solo si coinciden con un ID actual o con un único nombre/alias normalizado del catálogo. Nombres genéricos ambiguos como «aceite», «arroz» y «pasta» permanecen sin asignar. Las referencias no resueltas siguen en `porRevisar`; las resueltas se archivan en `referenciasResueltas`. La recuperación no escribe hasta una acción posterior del usuario. Las compras compradas antiguas también se conservan como necesidades por confirmar.
 
 La clave `que-cocino.compras.v1` queda intacta como legado; si ya hay snapshot v3 se usa solo este. No se reescribe nada solo por abrir la app; la conversión se guarda con la primera acción y conserva los textos anteriores. No hay sincronización entre pestañas/dispositivos. Una futura cuenta puede trasladar este estado por IDs; no se incorporan servicios ahora.
 

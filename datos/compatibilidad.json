@@ -14,6 +14,23 @@
     "garbanzos": "./imagenes/despensa/garbanzo.svg",
     "aceite-vegetal": "./imagenes/despensa/aceite.svg"
   },
+  "familiasVisuales": {
+    "aceite": ["aceite-oliva", "aceite-sesamo", "aceite-girasol", "aceite-coco", "aceite-mani"],
+    "hojas": ["perejil", "laurel", "albahaca", "cilantro", "apio", "cebolla-verdeo", "romero", "tomillo", "eneldo", "cebollin", "repollo", "menta", "puerro", "lechuga", "mejorana", "salvia", "hierbas-provenzal"],
+    "raices": ["jengibre", "echalote", "batata", "rabano", "remolacha"],
+    "fruta": ["lima", "fruta", "manzana", "naranja", "banana", "arandano-rojo", "cereza", "pasas-uva", "aceituna"],
+    "granos": ["avena", "maicena", "harina-trigo", "harina-panadera", "centeno-harina", "harina-integral", "arroz-integral"],
+    "pasta": ["fideos", "fideos-huevo"],
+    "carne": ["paleta-vacuna", "conejo", "pescado", "langosta"],
+    "lacteos": ["manteca", "leche", "crema-leche", "queso", "parmesano", "crema-acida", "yogur", "queso-cheddar", "leche-coco", "queso-muzzarella", "queso-pecorino", "margarina", "bechamel", "ricota", "suero-leche", "yogur-griego", "queso-gruyere", "leche-evaporada"],
+    "legumbres": ["arvejas", "porotos", "porotos-rojos", "lentejas-secas", "lentejas-rojas", "tofu", "mani", "mantequilla-mani"],
+    "panificados": ["pan", "pan-rallado", "galletita", "baguette", "tortilla-maiz", "masa-madre", "masa-hojaldre", "masa-pizza", "levadura-seca", "polvo-hornear", "bicarbonato"],
+    "liquidos": ["agua", "caldo", "caldo-pollo", "caldo-vacuno", "caldo-verduras", "dashi", "vinagre", "salsa-soja", "salsa-inglesa", "salsa-picante", "cerveza", "vino", "vino-blanco", "vino-tinto", "brandy", "te-negro", "cafe", "jugo-limon", "jugo-lima", "jugo-naranja", "extracto-vainilla", "miel", "jarabe-arce"],
+    "dulces": ["azucar", "azucar-negra", "azucar-impalpable", "azucar-vainillada", "chocolate-amargo", "cacao", "mermelada"],
+    "verdura": ["pure-tomate-concentrado", "salsa-tomate", "tomate-enlatado", "hongos", "mezcla-verduras", "pepino", "jalapeno", "morron", "morron-rojo", "morron-verde", "berenjena", "calabaza", "choclo", "brocoli", "zapallito-zucchini", "chauchas"],
+    "huevo": ["huevo-yema", "huevo-clara"],
+    "condimentos": ["garam-masala", "pasta-curry", "pasta-miso", "ajo-polvo", "cebolla-polvo", "aji-molido", "aji-polvo", "curry-polvo", "mostaza-polvo"]
+  },
   "clasificacion": {
     "repollo": {
       "grupo": "verduras",

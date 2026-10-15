@@ -18,6 +18,8 @@ Si desmarcás un ingrediente cuya presencia provenía de subtareas compradas, es
 
 **Tengo todo** y **Desmarcar todo** actúan sobre todo el catálogo, incluso si hay filtros activos. Las cantidades antiguas se conservan en los datos locales para no perder información, pero ya no se piden ni determinan la disponibilidad.
 
+El catálogo usa dibujos individuales cuando existen y dibujos por familia para los demás ingredientes. Las referencias antiguas con un único nombre o alias coincidente se relacionan automáticamente. Las ambiguas se conservan en los datos locales sin alterar la selección ni la lista; un aviso indica cuántas quedaron sin correspondencia.
+
 ## Recetas
 
 Se mantienen las tres secciones por ingredientes ausentes: **Ya tenés todo, ¡a cocinar!**, **Ya casi** (1–3) y **Con algunas compras más**. El orden es faltantes, tiempo y nombre. Las 39 recetas incorporadas tienen tiempo total; siete tiempos se estimaron y están señalados en `datos/auditoria/tiempos_estimados_7_2026-10-15.md`. «Rápidas» exige estrictamente menos de 20 minutos.

@@ -2,6 +2,8 @@
 import {CATEGORIAS_INGREDIENTE} from './motor_avanzi.mjs';
 
 const GRUPOS={legumbres:'Legumbres',cereales:'Cereales',verduras:'Verduras',frutas:'Frutas',carnes:'Carnes',otros:'Otros'};
+const DIBUJOS_FAMILIA={aceite:'aceite',hojas:'hojas',raices:'papa',fruta:'fruta',granos:'arroz',pasta:'pasta',carne:'carne',lacteos:'lacteos',legumbres:'garbanzo',panificados:'pan',liquidos:'liquidos',dulces:'dulces',verdura:'verdura',huevo:'huevo',condimentos:'condimentos'};
+const FAMILIA_GRUPO={legumbres:'legumbres',cereales:'granos',verduras:'verdura',frutas:'fruta',carnes:'carne',otros:'condimentos'};
 export const CATEGORIAS=Object.values(GRUPOS);
 const texto=x=>typeof x==='string'&&x.trim().length>0;
 const rutaImagen=x=>typeof x==='string'&&/^(?:\.\/)?imagenes\/[a-z0-9/-]+\.(?:svg|webp|png|jpg)$/.test(x)&&!x.includes('..');
@@ -37,7 +39,13 @@ export function validarIngredientes(datos,recetas) {
 }
 export function prepararIngredientes(ingredientes,compat) {
   if(!compat?.dibujos||!compat.clasificacion)throw new Error('Referencias locales inválidas.');
+  const familias=new Map();
+  for(const [familia,ids] of Object.entries(compat.familiasVisuales||{})){
+    if(!DIBUJOS_FAMILIA[familia]||!Array.isArray(ids))throw new Error('Familia visual inválida.');
+    for(const id of ids){if(familias.has(id))throw new Error(`Familia visual duplicada: ${id}.`);familias.set(id,familia);}
+  }
   return ingredientes.map(i=>({...i,...compat.clasificacion[i.id],nombre:i.nombreEs||i.nombre,
-    categoria:GRUPOS[compat.clasificacion[i.id]?.grupo||i.grupo],dibujo:compat.dibujos[i.id]??i.dibujo}))
+    categoria:GRUPOS[compat.clasificacion[i.id]?.grupo||i.grupo],
+    dibujo:compat.dibujos[i.id]??i.dibujo??`./imagenes/lo-que-tengo/${DIBUJOS_FAMILIA[familias.get(i.id)||FAMILIA_GRUPO[compat.clasificacion[i.id]?.grupo||i.grupo]]}.svg`}))
     .sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
 }

@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {gramosAMililitros,mililitrosAGramos,mostrarCantidad,calcularNutrientes,calcularReceta,clasificarReceta} from '../motor_avanzi.mjs';
+import {prepararIngredientes} from '../catalogo_avanzi.mjs';
 const cat=JSON.parse(fs.readFileSync(new URL('../datos/ingredientes.json',import.meta.url),'utf8')).ingredientes;
+const compat=JSON.parse(fs.readFileSync(new URL('../datos/compatibilidad.json',import.meta.url),'utf8'));
+const visuales=prepararIngredientes(cat,compat);
+for(const ingrediente of visuales)assert.ok(fs.existsSync(new URL('../'+ingrediente.dibujo.replace(/^\.\//,''),import.meta.url)),`Falta dibujo: ${ingrediente.id}`);
+assert.match(visuales.find(i=>i.id==='pasta-curry').dibujo,/condimentos\.svg$/);
 const {recetas}=JSON.parse(fs.readFileSync(new URL('../datos/recetas.json',import.meta.url),'utf8'));
 const by=Object.fromEntries(cat.map(x=>[x.id,x]));
 assert.equal(cat.length,200);

@@ -113,6 +113,15 @@ function dibujoIngredienteInicio(ingrediente) {
     ingrediente.dibujo
   ], IMAGEN_INGREDIENTE_POR_DEFECTO);
 }
+function metadatosReceta(r,porciones,veces=1) {
+  const meta=elemento('div',undefined,'meta meta-receta');
+  for(const [ruta,valor] of [['reloj',textoTiempo(r)],['porciones',`${porciones} porciones${veces>1?` × ${veces} preparaciones`:''}`]]){
+    const dato=elemento('span',undefined,'meta-dato'),icono=document.createElement('img');icono.src=`./imagenes/${ruta}.svg`;icono.alt='';icono.width=18;icono.height=18;
+    dato.append(icono,elemento('span',valor));meta.append(dato);
+  }
+  if(r.datosDePrueba===true)meta.append(elemento('span','Datos de prueba'));
+  return meta;
+}
 
 
 function cambiarSeccion(seccion) {
@@ -226,7 +235,7 @@ function tarjetaReceta(r) {
   if(n)figura.append(elemento('span',`Falta${n===1?'':'n'} ${n} ingrediente${n===1?'':'s'}`,'franja-faltantes'));
   figura.append(img);tarjeta.append(figura);
   if(info.completa)tarjeta.append(elemento('span','Ingredientes disponibles','etiqueta'));
-  tarjeta.append(elemento('h4',r.nombre),elemento('p',`${textoTiempo(r)} · ${p?.porciones??r.porciones} porciones${p?.veces>1?` × ${p.veces}`:''}${r.datosDePrueba===true?' · Datos de prueba':''}`,'meta'));
+  tarjeta.append(elemento('h4',r.nombre),metadatosReceta(r,p?.porciones??r.porciones,p?.veces??1));
   if(n)tarjeta.append(elemento('p',`Te falta: ${info.faltantes.map(i=>i.nombre).join(', ')}.`,'faltantes'));
   if(r.imagen)tarjeta.append(elemento('p','Imagen ilustrativa IA','meta'));
   if(etiquetaFoto)tarjeta.append(etiquetaFoto);
@@ -251,7 +260,7 @@ function dibujarDetalle() {
     $('etiqueta-prueba-detalle').hidden=r.datosDePrueba!==true;
     const titulo=elemento('h2',r.nombre);titulo.id='titulo-detalle';titulo.tabIndex=-1;
     const arriba=elemento('div',undefined,'detalle-arriba'),general=elemento('section',undefined,'detalle-informacion');
-    general.append(titulo,elemento('p',`${textoTiempo(r)} · ${op.porciones} porciones${op.veces>1?` × ${op.veces} preparaciones`:''}`,'meta'));
+    general.append(titulo,metadatosReceta(r,op.porciones,op.veces));
     arriba.append(general,formPorciones(r,op.porciones,op.veces,(porciones,veces)=>{
       opcionesDetalle={porciones,veces};if(planDe(r.id))cambiar(s=>motor.cambiarPorciones(s,r.id,porciones,veces));else dibujarDetalle();
     }));
@@ -275,7 +284,7 @@ function dibujarDetalle() {
     const pie=elemento('div',undefined,'pie-ingredientes');
     if(info.completa)pie.append(elemento('p','Tenés todos los ingredientes','todos-disponibles'));
     if(!p||info.lineas.some(i=>!p.ingredientes.some(x=>x.clave===i.clave))){
-      const todos=boton('Añadir receta a compras',()=>cambiar(s=>motor.agregarNecesidades(s,r.id,info.lineas.map(i=>i.clave),op.porciones,op.veces)),'');todos.id='todos-faltantes';todos.dataset.foco='todos-faltantes';pie.append(todos);
+      const todos=boton('Añadir receta a compras',()=>cambiar(s=>motor.agregarNecesidades(s,r.id,info.lineas.map(i=>i.clave),op.porciones,op.veces)),'');todos.id='todos-faltantes';todos.dataset.foco='todos-faltantes';const carrito=document.createElement('img');carrito.src='./imagenes/carrito.svg';carrito.alt='';carrito.width=18;carrito.height=18;todos.prepend(carrito);pie.append(todos);
     }else pie.append(elemento('p','Receta incluida en compras','nota-acciones'));
     const editar=boton('Editar lo que tengo',()=>{$('detalle').dataset.editarDespensa='true';$('detalle').close();});editar.id='editar-despensa-detalle';editar.dataset.foco='editar-despensa';pie.append(editar);
     if(esPropia(r)){
@@ -440,24 +449,8 @@ function dibujarCompras() {
   $('estado-compras').textContent=`Pendientes · ${motor.resumenCompras(estado).filter(g=>!g.completo).length}`;
   $('vaciar-compras').disabled=!estado.planes.length&&!estado.manuales.length;if($('vaciar-compras').disabled)$('confirmar-vaciado').hidden=true;
 }
-function mostrarReferencias() {
-  const panel=$('referencias-anteriores');panel.hidden=!estado.porRevisar.length;panel.replaceChildren(elemento('summary',`Referencias anteriores (${estado.porRevisar.length})`));
-  for(const item of estado.porRevisar){
-    const bloque=elemento('div',undefined,'referencia-anterior');bloque.append(elemento('p',`${item.nombre} · ${item.tipo==='inventario'?'Lo que tengo':'Compras'}`));
-    const label=elemento('label','Relacionar con ingrediente actual'),select=document.createElement('select');const vacio=elemento('option','Elegí una correspondencia');vacio.value='';select.append(vacio);ingredientes.forEach(i=>{const op=elemento('option',i.nombre);op.value=i.id;select.append(op);});label.append(select);
-    const resolver=boton('Confirmar correspondencia',()=>{
-      if(!select.value){select.focus();return;}
-      cambiar(s=>{
-        const id=select.value;
-        if(item.tipo==='inventario'){if(!s.inventario.some(i=>i.ingredienteId===id))motor.ajustarInventario(s,id,null,motor.unidadBase(id));}
-        else if(!s.manuales.some(m=>m.id===`legado:${id}`))s.manuales.push({...motor.canonizar(id,null,motor.unidadBase(id)),id:`legado:${id}`,nombreOrigen:'Lista anterior',origenesLegados:item.original?.recetas||[]});
-        s.porRevisar=s.porRevisar.filter(x=>x!==item);
-      });
-    });bloque.append(label,resolver);panel.append(bloque);
-  }
-}
 function actualizar() {
-  mostrarDespensa();mostrarSeleccion();mostrarRecetas();mostrarReferencias();
+  mostrarDespensa();mostrarSeleccion();mostrarRecetas();
   $('contador-compras').textContent=motor.resumenCompras(estado).filter(g=>!g.completo).length;
   $('resumen').textContent=`${recetas.filter(r=>disponibilidad(r).completa).length} recetas con todos sus ingredientes. Las compras pendientes no cuentan como disponibles.`;
   if($('detalle').open)dibujarDetalle();if($('compras').open)dibujarCompras();
@@ -512,7 +505,7 @@ async function iniciar() {
     for(const id of ['etiqueta-prueba-inicio','etiqueta-prueba-recetas','etiqueta-prueba-compras']){$(id).hidden=prueba===0;$(id).textContent=prueba===recetas.length?'Datos de prueba':'Incluye datos de prueba';}
     $('aviso-catalogo').textContent=`${prueba?`${prueba} recetas de prueba. `:''}Las cantidades y la nutrición son estimaciones del paquete aportado; algunas requieren revisión editorial. Las imágenes son ilustrativas generadas con IA.`;
     $('ayuda-catalogo').textContent='Registrá cantidades para comprobar suficiencia. Tengo todo conserva presencia sin inventar cantidades: confirmalas para cocinar.';
-    editor=crearEditorRecetas({dialog:$('receta-propia-dialogo'),catalogo:ingredientes,motor,guardar:guardarRecetaPropia,borrar:borrarRecetaPropia,descartar:descartarBorrador});
+    editor=crearEditorRecetas({dialog:$('receta-propia-dialogo'),catalogo:ingredientes,motor,dibujoIngrediente:dibujoIngredienteInicio,guardar:guardarRecetaPropia,borrar:borrarRecetaPropia,descartar:descartarBorrador});
     prepararCategorias();conectarControles();$('continuar-borrador').hidden=!recetasUsuario.borrador;actualizar();$('estado').hidden=true;$('aplicacion').hidden=false;$('abrir-compras').disabled=false;
   }catch(error){$('estado').textContent=`No pudimos cargar Avanzi: ${error.message} Revisá los archivos con Live Server. No se modificaron tus datos guardados.`;}
 }

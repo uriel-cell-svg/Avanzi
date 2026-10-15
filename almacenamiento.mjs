@@ -4,6 +4,31 @@ export const CLAVE_DESPENSA='que-cocino.despensa.v1';
 export const CLAVE_COMPRAS='que-cocino.compras.v1';
 const texto=x=>typeof x==='string'&&x.trim().length>0;
 const iguales=(a,b)=>new Set(a).size===new Set(b).size&&a.every(x=>b.includes(x));
+const normalizar=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es').trim().replace(/\s+/g,' ');
+const ambiguos=new Set(['aceite','arroz','pasta']);
+function resolverReferencias(estado,motor) {
+  if(!estado.porRevisar.length)return;
+  const indice=new Map();
+  for(const ingrediente of motor.catalogo.values())for(const nombre of [ingrediente.nombreEs,ingrediente.nombre,...(ingrediente.aliasEs||[])]){
+    if(!texto(nombre))continue;
+    const clave=normalizar(nombre),ids=indice.get(clave)||new Set();ids.add(ingrediente.id);indice.set(clave,ids);
+  }
+  const pendientes=[];
+  for(const ref of estado.porRevisar){
+    const clave=normalizar(ref.id),coincidencias=indice.get(clave);
+    const id=motor.catalogo.has(ref.id)?ref.id:!ambiguos.has(clave)&&coincidencias?.size===1?[...coincidencias][0]:null;
+    if(!id||!['inventario','compras'].includes(ref.tipo)){pendientes.push(ref);continue;}
+    if(ref.tipo==='inventario'){
+      if(!estado.inventario.some(i=>i.ingredienteId===id))motor.ajustarInventario(estado,id,null,motor.unidadBase(id));
+    }else if(!estado.manuales.some(i=>i.id===`legado:${id}`)){
+      const item=motor.canonizar(id,null,motor.unidadBase(id));
+      const recetas=Array.isArray(ref.original?.recetas)?ref.original.recetas:[];
+      estado.manuales.push({...item,id:`legado:${id}`,nombreOrigen:recetas.length?`Recetas anteriores: ${recetas.join(', ')}`:'Lista anterior',origenesLegados:[...recetas]});
+    }
+    (estado.referenciasResueltas??=[]).push({...ref,ingredienteId:id});
+  }
+  estado.porRevisar=pendientes;
+}
 function validarListaAntigua(items) {
   if(!Array.isArray(items))throw new Error('Lista de compras anterior inválida.');
   const ids=new Set();
@@ -68,6 +93,9 @@ export function validarEstado(datos,motor) {
   const transiciones=new Set();
   for(const t of s.transiciones){if(!texto(t?.recetaId)||!texto(t.id)||!texto(t.fecha)||transiciones.has(t.recetaId))throw new Error('Registro de transición inválido.');transiciones.add(t.recetaId);}
   for(const item of s.porRevisar)if(!item||!texto(item.id)||!texto(item.nombre)||!texto(item.tipo))throw new Error('Referencia anterior inválida.');
+  if(s.referenciasResueltas!==undefined){
+    if(!Array.isArray(s.referenciasResueltas)||s.referenciasResueltas.some(i=>!i||!texto(i.id)||!texto(i.nombre)||!texto(i.tipo)||!texto(i.ingredienteId)))throw new Error('Referencias resueltas inválidas.');
+  }
   if(s.comprasRealizadas.some(i=>!i.deshecha)&&s.planes.some(p=>p.ingredientes.some(i=>i.completado===undefined)))
     avisos.push('Tus compras anteriores se conservaron. Revisá sus subtareas: no se marcaron como completadas automáticamente.');
   return {estado:s,avisos:[...new Set(avisos)]};
@@ -76,7 +104,12 @@ export function recuperarEstado(storage,motor) {
   try {
     const textoDespensa=storage.getItem(CLAVE_DESPENSA);
     const d=textoDespensa===null?null:JSON.parse(textoDespensa);
-    if(d && !Array.isArray(d)) return {...validarEstado(d,motor),bloqueado:false,migrado:false};
+    if(d && !Array.isArray(d)) {
+      const resultado=validarEstado(d,motor);
+      resolverReferencias(resultado.estado,motor);
+      if(resultado.estado.porRevisar.length)resultado.avisos.push(`${resultado.estado.porRevisar.length} referencias antiguas sin coincidencia segura se conservan en tus datos.`);
+      return {...resultado,bloqueado:false,migrado:false};
+    }
     const despensa=d??[];
     if(!Array.isArray(despensa)||!despensa.every(texto))throw new Error('La selección anterior es inválida.');
     const textoCompras=storage.getItem(CLAVE_COMPRAS);
@@ -104,7 +137,10 @@ export function recuperarEstado(storage,motor) {
     }
     if(textoDespensa!==null||textoCompras!==null)s.legado={despensa:textoDespensa,compras:textoCompras};
     const tiene=despensa.length||items.length;
-    return {estado:s,avisos:tiene?['Se conservaron tus datos anteriores. Confirmá las cantidades: antes solo se guardaba presencia. Los IDs que cambiaron están en Referencias anteriores.']:[],bloqueado:false,migrado:!!tiene};
+    resolverReferencias(s,motor);
+    const avisos=tiene?['Se conservaron tus datos anteriores. Confirmá las cantidades: antes solo se guardaba presencia.']:[];
+    if(s.porRevisar.length)avisos.push(`${s.porRevisar.length} referencias antiguas sin coincidencia segura se conservan en tus datos.`);
+    return {estado:s,avisos,bloqueado:false,migrado:!!tiene};
   } catch(error) {
     return {estado:estadoVacio(),avisos:[`No pudimos recuperar los datos: ${error.message} No se sobrescribirán. Podés explorar las recetas; conservá una copia de tus datos antes de reparar el guardado.`],bloqueado:true,migrado:false};
   }
