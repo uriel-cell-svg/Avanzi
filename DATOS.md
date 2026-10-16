@@ -92,11 +92,13 @@ Mismo mecanismo local y misma clave `que-cocino.despensa.v1`, ahora con un objet
 | `inventario` | Registros con ingredienteId, estado, unidad, cantidad (o null heredado), clave de combinación, actualizadoEn y revisionManual. |
 | `fijados` | Arreglo opcional de IDs de ingredientes protegidos al vaciar Lo que tengo. Ausente equivale a vacío. |
 | `presenciaManualOculta` | Arreglo opcional de IDs cuya presencia manual se ocultó al vaciar. Conserva los registros de inventario y sus cantidades; no afecta compras completadas. Ausente equivale a vacío. |
-| `planes` | recetaId, porciones, veces y asociaciones de ingredientes con `clave`, `completado` opcional y ajuste legado `cantidadBase`. |
+| `planes` | recetaId, porciones, veces y asociaciones de ingredientes con `clave`, `completado` opcional, `necesidadId` único en vínculos nuevos y ajuste legado `cantidadBase`. |
 | `manuales` | Necesidades sin receta activa; también admiten `completado` opcional. |
 | `comprasRealizadas` | ID único de confirmación, ingrediente/estado/unidad, cantidad incorporada, fecha, revisión manual y marca de deshecha. |
-| `transiciones` | Un evento por ID de receta que pasó de insuficiente a suficiente, con fecha. Sin monedas, niveles ni UI de recompensa. |
+| `transiciones` | Registro anterior de cambios de insuficiente a suficiente por ID de receta. Se conserva y no se convierte en monedas. |
 | `porRevisar` | Referencias anteriores sin correspondencia inequívoca; se conservan sin formulario de asignación. |
+| `historialSubtareas` | Campo opcional: copia inmutable de subtareas completadas archivadas al declarar agotado un ingrediente; mantiene ID, receta de origen, cantidad, unidad y fecha de agotamiento, sin aportar disponibilidad. |
+| `recompensas` | Campo opcional versionado: sesión activa, IDs de subtareas ya completadas, movimientos de monedas y recetas obtenidas en la sesión. El saldo se deriva de los movimientos; ausencia equivale a estado vacío. |
 | `referenciasResueltas` | Campo opcional: referencias antiguas vinculadas automáticamente, con su origen y el ID actual; evita perder el registro original al resolverlas. |
 | `legado` | Cuando procede, contenido anterior original de las dos claves, conservado para recuperación/auditoría. |
 
@@ -104,7 +106,11 @@ Mismo mecanismo local y misma clave `que-cocino.despensa.v1`, ahora con un objet
 
 Una sola llamada `localStorage.setItem` guarda el snapshot completo; un fallo conserva la versión anterior. La pestaña desactualizada se bloquea al detectar un cambio en las claves activas. El estado de cada casilla queda en el mismo snapshot que sus asociaciones; no se guardan totales derivados.
 
-Los recibos antiguos, cantidades y revisiones manuales permanecen para recuperar datos previos, aunque la nueva vista no ofrece el formulario «Registrar compra». `transiciones` conserva IDs registrados, sin implementar recompensas. Una escritura exactamente simultánea en dos pestañas sigue sin poder garantizarse como transacción con localStorage.
+Los recibos antiguos, cantidades y revisiones manuales permanecen para recuperar datos previos. Desmarcar una tarjeta en «Lo que tengo» —o usar su ×— llama a `agotarIngrediente`: archiva las subtareas completadas del ingrediente, conserva sus cantidades y recetas, oculta su selección manual y crea necesidades nuevas solo para recetas todavía planificadas. Si hay compras completadas, primero se pide confirmación; cancelarla no cambia el snapshot. El historial es consultable, pero no vuelve a aportar disponibilidad ni premios. Los alimentos fijados deben desfijarse por separado antes de agotarse. Repetir el agotamiento cuando el ingrediente ya no está disponible no crea necesidades adicionales.
+
+Una jornada guarda las recetas incompletas y sus faltantes iniciales. Solo cuentan las que pasan a completas por subtareas nuevas marcadas durante esa jornada; marcar la despensa manualmente no alcanza. Los vínculos pendientes anteriores reciben `necesidadId` al iniciar una jornada; los ya completados no se reutilizan. Los IDs completados quedan en `recompensas.vistos`, incluso si luego se desmarcan. Una receta modificada o retirada del plan durante la jornada deja de ser candidata. Cancelar o cerrar sin premio conserva las compras. Si la jornada cruza a otro día, se cierra sin premio. Hay como máximo un movimiento de premio por día local; una jornada sin premio deja libre ese día. El total es 5, 15, 30, 50 o 75 monedas para una a cinco recetas y 15 más por cada receta adicional. El saldo se calcula de los movimientos, preparados para futuros canjes, sin implementar la tienda.
+
+El snapshot de despensa, historial, sesión y movimientos se escribe con una sola llamada a `localStorage.setItem`; un fallo no deja una recompensa parcial. Una pestaña desactualizada se bloquea antes de escribir. Una escritura exactamente simultánea en dos pestañas sigue sin poder garantizarse como transacción con localStorage.
 
 ### Compatibilidad y fallos
 
@@ -114,8 +120,14 @@ Se leen la despensa antigua (arreglo de IDs), las compras antiguas (arreglo o ve
 
 La clave `que-cocino.compras.v1` queda intacta como legado; si ya hay snapshot v3 se usa solo este. No se reescribe nada solo por abrir la app; la conversión se guarda con la primera acción y conserva los textos anteriores. No hay sincronización entre pestañas/dispositivos. Una futura cuenta puede trasladar este estado por IDs; no se incorporan servicios ahora.
 
+## Perfil local y recomendaciones
+
+`avanzi.perfil.v1` es una clave independiente del snapshot v3 de inventario/compras y de `avanzi.recetas.usuario.v1`. Ausencia significa que no hay perfil. El documento `version: 1` admite `nombre`, `edad`, `pesoKg`, `alturaCm`, `actividad`, `objetivo`, `coeficiente` y `alimentacion` opcionales (`null` cuando se omiten); los perfiles anteriores sin `alimentacion` se leen como `null`, sin inferirla. `usarEstimacion` y `entrenaFuerza` son booleanos opcionales, false por defecto. Las opciones de actividad son `sedentario`, `ligero`, `moderado`, `activo`, `muy-activo`; los objetivos son `mantener`, `perder`, `ganar`; `coeficiente` es `mas-5` o `menos-161` aunque la interfaz lo presenta como «Sexo»; `alimentacion` es `omnivora`, `vegetariana` o `vegana`. Recuperar no escribe. Un perfil inválido bloquea solo la escritura de esa clave; borrarlo elimina únicamente esa clave. La protección de pestañas observa también esta clave. Las recomendaciones y estimaciones son derivadas y no se persisten. Fórmulas, fuentes y límites: [NUTRICION_PERFIL.md](./NUTRICION_PERFIL.md).
+
+`avanzi.favoritos.v1` guarda `{version:1, ids:[...]}` con identificadores estables de recetas del paquete o propias. Es independiente del perfil, la despensa y las compras. Una clave ausente equivale a lista vacía; datos inválidos bloquean sobrescrituras. Al borrar una receta propia se elimina su ID de favoritos después de guardar la eliminación de la receta. La protección entre pestañas observa también esta clave.
+
 ## Ampliaciones que siguen pendientes
 
 La propuesta anterior de `cantidadTexto` para «a gusto»/«un puñado» no se implementó como nuevo tipo de línea: las 39 recetas ya traen cantidades numéricas estimadas y se preservan. El editor de inventario no admite números inventados para cantidades desconocidas. Un próximo registro sin cantidad necesita una ampliación y una política explícita de suficiencia, no sustituir ausencia por cero.
 
-Los campos bibliográficos de libro/páginas de PDF propuestos anteriormente no están implementados. La colección actual usa `fuente` y auditoría de Public Domain Recipes. No se crea importador de PDF, cuentas, sincronización, calendario, recompensas visibles ni consumo automático al cocinar.
+Los campos bibliográficos de libro/páginas de PDF propuestos anteriormente no están implementados. La colección actual usa `fuente` y auditoría de Public Domain Recipes. No se crea importador de PDF, cuentas, sincronización, calendario, tienda de mascotas ni consumo automático al cocinar.

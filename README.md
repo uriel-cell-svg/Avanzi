@@ -38,6 +38,12 @@ En Recetas tocá **Crear receta**. Escribí nombre, porciones, minutos de prepar
 
 Podés añadir una foto desde archivos, galería o cámara si tu navegador ofrece esa opción. Se aceptan JPG, PNG y WebP de hasta 10 MB de origen; se reduce a un máximo aproximado de 1000 px y se guarda como WebP en **IndexedDB**. La foto y la receta solo están en ese navegador y dispositivo: GitHub Pages no las recibe ni las sincroniza. Si cambiás de navegador, dispositivo, origen de Live Server o borrás los datos del sitio, podrías perderlas. El respaldo portátil con fotos es una prioridad siguiente, todavía no implementada. Una foto ausente usa la ilustración local de respaldo.
 
+## Mi perfil, Para vos y favoritos
+
+El perfil es voluntario. En **Mi perfil** podés guardar nombre y objetivo, y completar el tipo de alimentación y los demás datos cuando quieras. **Para vos** es una categoría de **Recetas**: requiere un objetivo; muestra hasta seis recetas con motivos breves basados en ingredientes disponibles, faltantes y nutrientes estimados. Si no hay coincidencias nutricionales claras con el objetivo, presenta opciones generales compatibles con la alimentación elegida, si la indicás. Las recetas propias con nutrición incompleta no reciben una etiqueta nutricional basada en valores faltantes. **Favoritos** reúne las recetas marcadas con la estrella, incluidas las propias; se guardan por ID en este navegador.
+
+La estimación energética requiere edad entre 19 y 78 años, peso, altura, actividad, selección voluntaria de «Sexo» para elegir el coeficiente de la fórmula y aceptación de sus límites. El perfil no se envía a ningún servicio: se guarda en `avanzi.perfil.v1`, una clave local separada. **Eliminar perfil** borra solo esa clave; no afecta favoritos, recetas, fotos, despensa ni compras. Las cifras son orientativas, no metas médicas. [Fórmulas, fuentes y límites](./NUTRICION_PERFIL.md).
+
 ## Compras por subtareas
 
 La lista ofrece **Por ingrediente** y **Por receta**. Ambas vistas usan las mismas subtareas y se actualizan al marcar o desmarcar. Por ingrediente, cada alimento aparece una sola vez, con las recetas vinculadas debajo. El total pendiente suma **solo las subtareas abiertas**; no descuenta cantidades de Lo que tengo. Por ejemplo, 3 huevos para una receta y 2 para otra dan 5 pendientes. Si marcás la subtarea de 3, quedan 2.
@@ -86,7 +92,9 @@ Para probar sin alterar tus datos habituales, usá otro perfil o puerto de Live 
 | `imagenes/`, `fuentes/` | Recursos locales y sus créditos/licencias. |
 | `pruebas/` | Pruebas automáticas; no necesarias para abrir la app. |
 
-Las interfaces entre módulos son deliberadamente pequeñas: `catalogo_avanzi.mjs` exporta `validarRecetas`, `validarIngredientes` y `prepararIngredientes` y recibe datos JSON, sin leer almacenamiento; `planificacion.mjs` recibe estado y motor y devuelve cálculos o una copia al separar necesidades; `almacenamiento.mjs` recibe un objeto con `getItem`/`setItem` para recuperar y guardar; `persistencia_navegador.mjs` entrega ese objeto protegido y una comprobación previa; `fotos_usuario.mjs` gestiona Blobs por `imagenId` y filtra qué IDs ya no tienen referencias. `app.js` conecta esos resultados con los controles y los avisos. Ningún módulo de datos importa `app.js`.
+Las interfaces entre módulos son deliberadamente pequeñas: `catalogo_avanzi.mjs` exporta `validarRecetas`, `validarIngredientes` y `prepararIngredientes` y recibe datos JSON, sin leer almacenamiento; `planificacion.mjs` recibe estado y motor y devuelve cálculos o una copia al separar necesidades; `recompensas.mjs` calcula jornadas y movimientos sin acceder al navegador; `almacenamiento.mjs` recibe un objeto con `getItem`/`setItem` para recuperar y guardar; `persistencia_navegador.mjs` entrega ese objeto protegido y una comprobación previa; `fotos_usuario.mjs` gestiona Blobs por `imagenId` y filtra qué IDs ya no tienen referencias. `app.js` conecta esos resultados con los controles y los avisos. Ningún módulo de datos importa `app.js`.
+
+En «Lo que tengo», tocá de nuevo una tarjeta seleccionada, o su × en el recuadro superior, para indicar que el ingrediente se agotó. Si tiene compras completadas, Avanzi pide confirmación antes de pasarlas a «Compras anteriores». Los fijados deben desfijarse primero. Al agotarlo se crean necesidades nuevas para las recetas que permanecen en la lista. En compras podés iniciar, finalizar o cancelar una jornada; las casillas funcionan también sin jornada. Las monedas se conceden solo al finalizar una jornada con recetas completadas por compras nuevas. Cancelar no revierte compras. El contador muestra el saldo local; la tienda de mascotas aún no está implementada.
 
 [DATOS.md](./DATOS.md) explica contratos y persistencia; [DISEÑO.md](./DISEÑO.md), presentación; [AGENTS.md](./AGENTS.md), reglas; [CAMBIOS.md](./CAMBIOS.md), resultados por entrega.
 
@@ -99,11 +107,12 @@ node pruebas/paquete.mjs
 node --test pruebas/logica.mjs
 node pruebas/tiempos_estimados.mjs
 node --test pruebas/recetas_usuario.mjs
+node --test pruebas/recompensas_y_agotados.mjs
 ```
 
 Las pruebas de navegador `pruebas/navegador.cjs` y `pruebas/editor_navegador.cjs` requieren una instalación **externa** de Playwright y Chromium y la app servida por HTTP. Se pueden indicar `AVANZI_PLAYWRIGHT`, `AVANZI_CHROMIUM`, `AVANZI_URL` y `AVANZI_CAPTURAS`. No instalar nada de esto para usar Avanzi con Live Server.
 
-Los resultados de esta entrega están en CAMBIOS. Pendientes: Live Server del usuario, teléfonos reales, otros navegadores, lector de pantalla y revisión editorial/nutricional de los datos del paquete. Las siete estimaciones de tiempo no son mediciones. El respaldo portátil de recetas propias y fotos también queda pendiente. [ETAPAS_FUTURAS.md](./ETAPAS_FUTURAS.md) separa el diseño de perfil y recompensas de esta entrega.
+Pendientes: Live Server del usuario, teléfonos reales, otros navegadores, lector de pantalla y revisión editorial/nutricional de los datos del paquete. Las siete estimaciones de tiempo no son mediciones. El respaldo portátil de recetas propias y fotos también queda pendiente. [ETAPAS_FUTURAS.md](./ETAPAS_FUTURAS.md) distingue las recompensas implementadas de la tienda y mascota futuras.
 
 ## GitHub Desktop
 

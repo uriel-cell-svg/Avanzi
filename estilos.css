@@ -30,6 +30,9 @@ input[type=checkbox] { width:21px; height:21px; flex-shrink:0; accent-color:var(
 .buscar-con-lupa input,.buscar-despensa input { margin:0; padding-left:44px; }
 .solo-lectores { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
 .identidad { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 0 12px; }
+.identidad-acciones { display:flex; align-items:center; gap:8px; flex:none; }
+#contador-monedas { white-space:nowrap; color:#735515; background:#fff6df; border:1px solid #d8bd72; border-radius:20px; padding:4px 9px; font-size:.8rem; font-weight:700; }
+.logo-avanzi { display:block; width:clamp(178px,27vw,255px); max-width:calc(100% - 68px); height:auto; object-fit:contain; flex:none; }
 .marca { display:inline-flex; align-items:center; gap:10px; color:#111; font:400 2.65rem 'Alfa Slab One',Georgia,serif; letter-spacing:-.035em; white-space:nowrap; }
 .marca img { display:block; width:30px; height:38px; }
 .marca .ilustracion-marca { width:84px; height:auto; object-fit:contain; flex-shrink:0; }
@@ -38,8 +41,8 @@ input[type=checkbox] { width:21px; height:21px; flex-shrink:0; accent-color:var(
 #abrir-compras:hover { background:var(--seleccion); }
 .bolsa-inicio { display:block; width:30px; height:30px; filter:grayscale(1) brightness(0); }
 #contador-compras { position:absolute; top:4px; right:0; display:flex; align-items:center; justify-content:center; min-width:23px; height:23px; padding:0 4px; border-radius:50%; color:white; background:#bd2420; font-size:.75rem; }
-.pestanas { display:flex; gap:24px; border-bottom:1px solid #e1e5df; margin:6px 0 18px; }
-.pestanas button { border:0; border-bottom:3px solid transparent; border-radius:0; padding:8px 4px 10px; color:#4c574e; background:transparent; font-family:Fraunces,Georgia,serif; font-size:1rem; }
+.pestanas { display:flex; gap:24px; overflow-x:auto; scrollbar-width:thin; padding-right:16px; border-bottom:1px solid #e1e5df; margin:6px 0 18px; }
+.pestanas button { flex:none; white-space:nowrap; border:0; border-bottom:3px solid transparent; border-radius:0; padding:8px 4px 10px; color:#4c574e; background:transparent; font-family:Fraunces,Georgia,serif; font-size:1rem; }
 .pestanas button[aria-pressed=true] { color:var(--verde); border-bottom-color:var(--verde); }
 .pestanas button:hover { background:var(--seleccion); }
 .prueba-inicio { display:inline-flex; align-items:center; gap:6px; font-size:.7rem; color:var(--secundario); margin-bottom:8px; }
@@ -59,18 +62,24 @@ footer.contenedor { padding:24px 0; border-top:1px solid #e1e5df; margin-top:36p
 #categorias-recetas { display:flex; gap:8px; overflow-x:auto; padding:4px; margin:0 0 12px; scrollbar-width:thin; }
 #categorias-recetas .categoria-receta { flex:none; min-height:44px; padding:7px 16px; border:1px solid #b8c4b6; border-radius:24px; background:white; color:#3e4c40; font-size:.86rem; }
 #categorias-recetas .categoria-receta[aria-pressed=true] { border-color:var(--verde); background:var(--verde); color:white; }
+#categorias-recetas .categoria-receta[data-categoria=para-vos] { color:#49545c; border-color:#9ca8af; background:#f5f7f8; }
+#categorias-recetas .categoria-receta[data-categoria=para-vos][aria-pressed=true] { background:#56636b; border-color:#56636b; color:white; }
+#categorias-recetas .categoria-receta[data-categoria=favoritos] { color:#806018; border-color:#c5aa58; }
+#categorias-recetas .categoria-receta[data-categoria=favoritos][aria-pressed=true] { background:#806018; color:white; }
+.estado-categoria { margin:0 0 16px; padding:14px; border:1px solid #cbb797; border-radius:10px; background:#fbf6ec; }
+.estado-categoria p { margin:0 0 8px; }
 .filtro-recetas span { display:block; margin-bottom:5px; }
 #resultados { color:var(--secundario); font-size:.8rem; margin-bottom:18px; }
 .grupo-recetas { margin-bottom:26px; }
 .grupo-recetas > h3 { display:flex; align-items:center; gap:8px; font-size:1.2rem; margin-bottom:14px; }
 .contador-grupo { display:inline-flex; align-items:center; justify-content:center; min-width:24px; height:24px; padding:0 6px; background:var(--seleccion); color:var(--disponible); border-radius:50%; font:650 .75rem system-ui,sans-serif; }
 .tarjetas { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
-.tarjeta { display:flex; flex-direction:column; gap:10px; min-width:0; padding:14px; border:1px solid; border-radius:10px; background:white; }
+.tarjeta { display:flex; flex-direction:column; gap:10px; min-width:0; padding:14px; border:1px solid; border-radius:10px; background:white; position:relative; }
 .tarjeta.completa { border-color:#94b289; }
 .tarjeta.incompleta { border-color:#b15b65; }
-.visual-receta { position:relative; border-radius:8px; background:#fff4e1; padding:28px 10px 6px; }
+.visual-receta { position:relative; border-radius:8px; background:#fff4e1; padding:38px 10px 6px; }
 .visual-receta img { display:block; width:100%; height:132px; object-fit:contain; }
-.franja-faltantes { position:absolute; top:0; left:0; right:0; border-radius:8px 8px 0 0; background:var(--rojo); color:white; font-size:.75rem; font-weight:650; padding:4px 9px; }
+.franja-faltantes { position:absolute; top:0; left:48px; right:0; min-height:28px; display:flex; align-items:center; border:1px solid #78232e; border-radius:0 8px 0 6px; background:var(--rojo); color:white; font-size:.75rem; font-weight:650; padding:2px 8px; }
 .tarjeta h4 { margin:0; color:var(--tinta); }
 .meta { margin:0; color:var(--secundario); font-size:.8rem; }
 .meta-receta { display:flex; flex-wrap:wrap; align-items:center; gap:3px 14px; }
@@ -79,8 +88,40 @@ footer.contenedor { padding:24px 0; border-top:1px solid #e1e5df; margin-top:36p
 .faltantes { margin:0; font-size:.85rem; line-height:1.6; }
 .tarjeta button { margin-top:auto; align-self:flex-start; background:white; color:var(--verde); border-color:#9daf9a; font-size:.85rem; padding:8px 12px; }
 .tarjeta button:hover { background:var(--seleccion); }
+.tarjeta .favorito-receta { position:absolute; z-index:1; top:10px; left:10px; width:44px; height:44px; margin:0; padding:0; border:0; border-radius:4px; background:transparent; color:#7c622c; font-size:1.25rem; line-height:1; }
+.tarjeta .favorito-receta:hover { background:transparent; color:#4c390f; }
+.tarjeta .favorito-receta[aria-pressed=true] { color:#b48215; }
+.razones-receta { margin:0; color:var(--verde); font-size:.83rem; }
 .vacio { grid-column:1/-1; margin:0; color:var(--secundario); font-size:.85rem; padding:4px 0 10px; }
 #ayuda-recetas { margin-top:10px; }
+
+/* Perfil voluntario y sugerencias: los controles conservan la escala de Avanzi. */
+.nota-perfil { max-width:760px; color:var(--secundario); font-size:.84rem; }
+.form-perfil { max-width:760px; padding:18px; border:1px solid var(--borde); border-radius:10px; background:white; }
+.perfil-principal { padding-bottom:16px; border-bottom:1px solid var(--borde); }
+.perfil-principal,.perfil-campos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.form-perfil label { display:block; font-size:.85rem; }
+.form-perfil input:not([type=checkbox]),.form-perfil select { display:block; width:100%; min-width:0; min-height:48px; margin-top:5px; padding:10px; border:1px solid #9daf9a; border-radius:9px; background:white; color:var(--tinta); font-size:.9rem; }
+#perfil-mas { margin-top:12px; }
+#perfil-mas summary { color:var(--verde); font-weight:650; }
+.perfil-campos { margin-top:12px; }
+.form-perfil .perfil-consentimiento { display:flex; align-items:flex-start; gap:9px; margin:12px 0; font-weight:500; }
+.perfil-consentimiento input { margin-top:4px; }
+.perfil-acciones,#confirmar-eliminar-perfil { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:16px; }
+#confirmar-eliminar-perfil { max-width:760px; padding:14px 18px; border:1px solid #b15b65; border-radius:9px; }
+#confirmar-eliminar-perfil p { flex-basis:100%; margin:0; }
+#error-perfil { padding:10px 12px; border-left:3px solid var(--verde); background:var(--seleccion); font-size:.85rem; }
+#error-perfil[data-error=true] { border-left-color:var(--rojo); background:#fff0eb; color:#752219; }
+#estimaciones-perfil:not(:empty) { max-width:760px; margin:18px 0; padding:18px; border:2px solid #9aaa7e; border-radius:12px; background:#fbfcf6; }
+#estimaciones-perfil h3 { margin-bottom:8px; }
+.energia-perfil { margin:8px 0; color:#435f30; font:650 clamp(1.1rem,4vw,1.5rem) Fraunces,Georgia,serif; }
+.macros-perfil { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:12px; }
+.macros-perfil p { margin:0; min-width:0; padding:12px; border-radius:8px; font-size:.85rem; }
+.macros-perfil strong { display:block; margin-bottom:2px; font-size:1rem; font-weight:750; line-height:1.25; }
+.macro-proteinas { background:#e7efe2; border-left:4px solid #668648; }
+.macro-carbohidratos { background:#f8ecda; border-left:4px solid #b18345; }
+.macro-grasas { background:#f5e7e1; border-left:4px solid #ad735c; }
+@media(max-width:650px) { .macros-perfil { grid-template-columns:1fr; } }
 
 /* Diálogos con cierre visible y desplazamiento interno. */
 dialog { background:white; color:var(--tinta); border:1px solid #9daf9a; border-radius:10px; overflow:auto; overscroll-behavior:contain; }
@@ -160,6 +201,14 @@ li[data-disponible=false] .detalle-ingrediente-texto { color:var(--rojo); }
 .grupo-compras { margin:12px 0; }
 .grupo-compras h3 { font-size:1rem; margin:0; padding:6px 0; color:var(--verde); }
 .vistas-compras { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin:10px 0 16px; }
+.sesion-compras { padding:12px; margin:12px 0; border:1px solid #dce4d8; border-radius:10px; background:#f8faf6; }
+.sesion-compras p { margin:0 0 8px; font-size:.84rem; }
+.sesion-acciones { display:flex; flex-wrap:wrap; gap:8px; }
+.sesion-acciones button { min-height:44px; padding:8px 12px; font-size:.84rem; }
+#premio-sesion { padding:12px; margin:10px 0; border:1px solid #d8bd72; border-radius:10px; background:#fff6df; color:#4b3c1a; font-size:.88rem; }
+#premio-sesion strong { display:block; font-size:1rem; }
+#historial-compras { margin-top:20px; padding:12px; border:1px solid #dce4d8; border-radius:10px; }
+#historial-compras ul { margin:10px 0 0; padding-left:20px; font-size:.83rem; }
 .vistas-compras button { min-width:0; min-height:44px; padding:8px 6px; font-size:.85rem; }
 .vistas-compras button[aria-pressed=true] { background:var(--verde); color:white; border-color:var(--verde); }
 #items-compras[hidden],#items-recetas[hidden] { display:none; }
@@ -212,10 +261,12 @@ li[data-disponible=false] .detalle-ingrediente-texto { color:var(--rojo); }
  .compra-etiqueta { gap:10px; }
 }
 @media(max-width:600px) { .contenedor { width:calc(100% - 32px); } }
+@media(max-width:650px) { .perfil-principal,.perfil-campos { grid-template-columns:1fr; } .form-perfil { padding:14px; } .pestanas { gap:16px; } }
 
 /* Lo que tengo conserva la composición aprobada del boceto B. */
-#despensa .cabecera-seccion { display:flex; flex-direction:row; align-items:center; gap:16px; margin-bottom:6px; }
+#despensa .cabecera-seccion { display:flex; flex-wrap:wrap; flex-direction:row; align-items:center; justify-content:space-between; gap:8px 16px; margin-bottom:6px; }
 #despensa h2 { color:#171d18; font-size:clamp(1.55rem,7.2vw,2rem); margin:0; }
+#despensa #nada { min-height:44px; padding:8px 12px; font-size:.8rem; }
 #despensa .menu-inicio { position:relative; margin:0; flex-shrink:0; }
 #despensa .menu-inicio > summary { cursor:pointer; list-style:none; width:44px; height:44px; display:flex; justify-content:center; align-items:center; color:#226437; font-size:1.6rem; border-radius:8px; }
 #despensa .menu-inicio > summary::-webkit-details-marker { display:none; }
@@ -254,6 +305,9 @@ li[data-disponible=false] .detalle-ingrediente-texto { color:var(--rojo); }
 #despensa .ingrediente-de-receta .ingrediente { border:2px solid #a45c3d; }
 #confirmar-vaciar-despensa { padding:14px; margin:10px 0; border:1px solid #c4aa8d; border-radius:10px; background:#fff8eb; }
 #confirmar-vaciar-despensa button { margin:8px 8px 0 0; }
+#confirmar-agotado { padding:14px; margin:10px 0; border:1px solid #c4aa8d; border-radius:10px; background:#fff8eb; }
+#confirmar-agotado button { margin:8px 8px 0 0; }
+#aviso-agotado { font-size:.83rem; color:var(--verde); }
 #estado-vaciado-despensa { font-size:.83rem; color:var(--verde); }
 #despensa #ayuda-lo-tengo { margin-top:18px; font-size:.8rem; color:#425644; }
 #despensa #ayuda-lo-tengo summary { display:flex; align-items:center; min-height:44px; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }

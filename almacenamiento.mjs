@@ -1,4 +1,5 @@
 /** Un único snapshot evita escrituras parciales entre inventario, planes y compras. */
+import {validarRecompensas} from './recompensas.mjs';
 import {estadoVacio,copiar,VERSION_ESTADO} from './planificacion.mjs';
 export const CLAVE_DESPENSA='que-cocino.despensa.v1';
 export const CLAVE_COMPRAS='que-cocino.compras.v1';
@@ -45,6 +46,17 @@ export function validarEstado(datos,motor) {
   if(!datos||datos.version!==VERSION_ESTADO)throw new Error('Versión de datos guardados no compatible.');
   for(const key of ['inventario','planes','manuales','comprasRealizadas','transiciones','porRevisar'])if(!Array.isArray(datos[key]))throw new Error(`Datos guardados inválidos: ${key}.`);
   const s=copiar(datos),avisos=[];
+  s.recompensas=validarRecompensas(s.recompensas);
+  if(s.historialSubtareas===undefined)s.historialSubtareas=[];
+  if(!Array.isArray(s.historialSubtareas))throw new Error('Historial de compras inválido.');
+  const historicas=new Set();
+  for(const h of s.historialSubtareas){
+    if(!h||!texto(h.id)||historicas.has(h.id)||!texto(h.ingredienteId)||!texto(h.clave)||
+      !texto(h.nombreReceta)||!texto(h.unidad)||!texto(h.fechaAgotamiento)||h.completado!==true||
+      (h.recetaId!==null&&!texto(h.recetaId))||(h.cantidad!==null&&(!Number.isFinite(h.cantidad)||h.cantidad<0))||
+      !h.registro||typeof h.registro!=='object')throw new Error('Compra histórica inválida.');
+    historicas.add(h.id);
+  }
   for(const key of ['fijados','presenciaManualOculta']){
     if(s[key]===undefined){s[key]=[];continue;}
     if(!Array.isArray(s[key])||s[key].some(id=>!texto(id)||!motor.catalogo.has(id))||new Set(s[key]).size!==s[key].length)throw new Error(`Datos guardados inválidos: ${key}.`);
@@ -65,7 +77,7 @@ export function validarEstado(datos,motor) {
     if(keys.has(i.clave)||!Number.isInteger(i.revisionManual)||i.revisionManual<0||!texto(i.actualizadoEn))throw new Error('Inventario guardado inválido.');
     keys.add(i.clave);return true;
   });
-  const planes=new Set();
+  const planes=new Set(),necesidades=new Set();
   s.planes=s.planes.filter(p=>{
     if(!p||!texto(p.recetaId)||planes.has(p.recetaId)||!Array.isArray(p.ingredientes)||!Number.isFinite(p.porciones)||p.porciones<=0||!Number.isInteger(p.veces)||p.veces<1||p.veces>100)throw new Error('Planificación guardada inválida.');
     planes.add(p.recetaId);
@@ -76,7 +88,9 @@ export function validarEstado(datos,motor) {
     }
     const permitidos=new Set(motor.requerimientos(motor.recetario.get(p.recetaId),p.porciones,p.veces).map(i=>i.clave)),enlaces=new Set();
     p.ingredientes=p.ingredientes.filter(i=>{
-      if(!i||!texto(i.clave)||enlaces.has(i.clave)||(i.completado!==undefined&&typeof i.completado!=='boolean')||(i.cantidadBase!==undefined&&(!Number.isFinite(i.cantidadBase)||i.cantidadBase<=0)))throw new Error('Asociación guardada inválida.');
+      if(!i||!texto(i.clave)||enlaces.has(i.clave)||(i.completado!==undefined&&typeof i.completado!=='boolean')||(i.cantidadBase!==undefined&&(!Number.isFinite(i.cantidadBase)||i.cantidadBase<=0))||
+        (i.necesidadId!==undefined&&(!/^nec-[a-f0-9-]{36}$/.test(i.necesidadId)||necesidades.has(i.necesidadId)||historicas.has(i.necesidadId))))throw new Error('Asociación guardada inválida.');
+      if(i.necesidadId)necesidades.add(i.necesidadId);
       enlaces.add(i.clave);
       if(!permitidos.has(i.clave)){avisos.push('Se descartó una asociación antigua; las restantes se conservaron.');return false;}
       return true;

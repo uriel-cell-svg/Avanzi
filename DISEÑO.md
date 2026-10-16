@@ -5,7 +5,7 @@ Referencia vigente: «Lo que tengo · Recuadro de seleccionados», opción B, y 
 ## Identidad compartida
 
 - Fondo blanco, texto negro suave, composición limpia y compacta. Ilustraciones coloreadas de alimentos sobre transparencia, con superficies suaves limitadas a las zonas ilustradas y al recuadro de seleccionados.
-- Avanzi es texto real negro. Hoy la cabecera no incluye ramita ni otra ilustración de marca. El trío tomate/mozzarella/albahaca sigue pendiente de archivo e incorporación; no es un requisito de esta entrega.
+- La cabecera usa el logotipo oficial aportado por el usuario, con espátula y temporizador de tomate. El PNG original se conserva intacto y una copia recortada elimina solo márgenes vacíos para la cabecera, manteniendo proporciones. El trío tomate/mozzarella/albahaca permanece como referencia histórica sin uso.
 - Alfa Slab One local para la marca y títulos h1/h2, incluido el título del detalle. Fraunces local para h3/h4, nombres de tarjetas, pestañas y algunos contadores. Sistema para lectura, ingredientes, pasos y controles. Georgia es alternativa de respaldo, no la fuente principal de marca. No añadir fuentes ni servicios remotos. Licencias: [fuentes/FUENTES.md](./fuentes/FUENTES.md).
 - Bolsa negra arriba con contador rojo de compras pendientes y nombre accesible «Lista de compras». Pestañas «Lo que tengo» y «Recetas», activa subrayada en verde. Cabecera y fondo estables al navegar.
 - Botones y campos comparten estilos. Botones de al menos 44 px de altura, buscadores/selectores de 48 px; las áreas de las tarjetas y etiquetas amplían el alcance de las casillas. Foco verde visible y estados con texto o símbolos, no solo color.
@@ -35,7 +35,7 @@ Estos valores describen el CSS aprobado; no autorizan extender fondos de acento 
 - Buscador con lupa y etiqueta accesible, categorías como botones en una fila desplazable. «Todos» y solo categorías presentes del catálogo de 200: Legumbres, Cereales, Verduras, Frutas, Carnes y Otros. La búsqueda y las categorías no alteran selección ni contador total.
 - Desde «Editar lo que tengo» en un detalle, se limpian filtros y los ingredientes de esa receta aparecen primero con borde terracota. El orden se quita al volver normalmente a la pestaña.
 - Catálogo estable: los ingredientes seleccionados no se mueven ni desaparecen. Cuatro columnas en computadora, dos hasta 650 px y una hasta 300 px. Dibujo protagonista, nombre visible, tarjeta verde suave y ✓ al seleccionar. Casilla real operable por teclado: tocarla alterna presencia sin abrir un formulario de cantidad.
-- Pie en el flujo del documento: contador, menú accesible ⋮ con «Tengo todo»/«Vaciar despensa» y botón principal «Ver qué puedo cocinar». Vaciar pide confirmación y conserva los alimentos fijados y las compras completadas; una chincheta discreta en cada tarjeta permite fijar o desfijar. No tapar contenido ni teclado con una barra fija.
+- «Vaciar despensa» aparece junto al título de «Lo que tengo» y pide confirmación. Conserva los alimentos fijados y las compras completadas. El pie en el flujo del documento mantiene el contador, el menú accesible ⋮ con «Tengo todo» y el botón principal «Ver qué puedo cocinar». Una chincheta discreta en cada tarjeta permite fijar o desfijar. No tapar contenido ni teclado con una barra fija.
 - Ayuda desplegable para las explicaciones; errores de guardado siempre visibles.
 
 ## Recetas
@@ -56,6 +56,12 @@ Estos valores describen el CSS aprobado; no autorizan extender fondos de acento 
 - Acción principal «Añadir receta a compras» incorpora sus necesidades sin duplicarlas. Si ya está completa, se mantiene el estado de suficiencia; si ya está incluida, se informa. Acceso secundario «Editar lo que tengo». Las acciones individuales conservan menor peso visual.
 - «Sobre estos datos» reúne aclaraciones; etiqueta de prueba y avisos de guardado permanecen visibles fuera de ese desplegable.
 - En el medio, WebP ilustrativa del paquete (320 px de alto en escritorio, 230 en celular), con leyenda IA; el respaldo conserva su zona baja. Después, preparación completa numerada y tabla compacta de estimaciones nutricionales para total y porción, con ayuda desplegable. No presentar estas imágenes generadas como fotos verificadas del plato.
+
+## Perfil y sugerencias
+
+- «Mi perfil» permanece en la navegación; «Para vos» y «Favoritos» aparecen como categorías horizontales de «Recetas», con acentos plateado y dorado. El perfil muestra primero nombre, objetivo y tipo de alimentación; los datos para estimaciones quedan en un desplegable opcional.
+- «Para vos» reutiliza las tarjetas de recetas, ilustraciones y el diálogo de preparación. Cada sugerencia añade hasta dos motivos breves. Sin objetivo muestra un acceso a «Mi perfil», sin bloquear las demás categorías; el tipo de alimentación es opcional. Las tarjetas incluyen una estrella accesible y la estimación del perfil usa una tarjeta de borde verde con tres tonos suaves para macronutrientes.
+- Errores del perfil visibles junto al formulario, confirmación antes de eliminar y retorno del foco. No se agregan colores ni ilustraciones nuevos.
 
 ## Lista de compras
 

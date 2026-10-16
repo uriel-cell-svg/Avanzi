@@ -5,6 +5,11 @@ import {crearEditorRecetas} from './editor_recetas.mjs';
 import {vacioRecetasUsuario,nuevoIdReceta,esPropia,prepararRecetaUsuario,recuperarRecetasUsuario,guardarRecetasUsuario} from './recetas_usuario.mjs';
 import {optimizarFoto,guardarFoto,obtenerFoto,borrarFoto,fotosSinReferencias} from './fotos_usuario.mjs';
 import {crearAlmacenamientoProtegido} from './persistencia_navegador.mjs';
+import {recuperarPerfil,guardarPerfil,eliminarPerfil} from './perfil_usuario.mjs';
+import {estimarPerfil} from './estimaciones_perfil.mjs';
+import {recomendarRecetas} from './recomendaciones.mjs';
+import {recuperarFavoritos,guardarFavoritos,cambiarFavorito,quitarFavorito} from './favoritos.mjs';
+import {iniciarSesion,cancelarSesion,finalizarSesion,registrarCambiosCompras,invalidarRecetas,saldoMonedas,diaLocal} from './recompensas.mjs';
 import {validarRecetas,validarIngredientes,prepararIngredientes,CATEGORIAS} from './catalogo_avanzi.mjs';
 
 const $=id=>document.getElementById(id);
@@ -17,6 +22,10 @@ const IMAGEN_RECETA_POR_DEFECTO='./imagenes/por-defecto/receta.svg';
 const IMAGEN_INGREDIENTE_POR_DEFECTO='./imagenes/por-defecto/ingrediente.svg';
 let recetas=[],recetasBase=[],ingredientes=[],equivalencias,motor,estado=estadoVacio(),bloqueado=false,recuperacion=[],sinGuardar=false;
 let recetasUsuario=vacioRecetasUsuario(),recetasUsuarioBloqueadas=false,editor;
+let perfil=null,perfilBloqueado=false,origenDetalle='recetas';
+let favoritos={version:1,ids:[]},favoritosBloqueados=false;
+let ingredientePorAgotar=null;
+let focoAntesDeAgotar=null;
 const urlsFotos=new Map();
 const fotosPendientes=new Map();
 window.addEventListener('pagehide',()=>{for(const url of urlsFotos.values())URL.revokeObjectURL(url);urlsFotos.clear();});
@@ -139,10 +148,11 @@ function metadatosReceta(r,porciones,veces=1) {
 
 
 function cambiarSeccion(seccion) {
-  for (const nombre of ['despensa', 'recetas']) {
+  for (const nombre of ['despensa', 'recetas', 'perfil']) {
     $(nombre).hidden = nombre !== seccion;
     $(`tab-${nombre}`).setAttribute('aria-pressed', String(nombre === seccion));
   }
+  $(`tab-${seccion}`).scrollIntoView({block:'nearest',inline:'center'});
 }
 
 
@@ -167,15 +177,54 @@ function guardar() {
 function cambiar(accion) {
   try{almacenamientoSeguro.comprobar();}catch(error){mensajeGuardado(error.message);return false;}
   const antes=copiar(estado);
-  try{accion(estado);motor.detectarTransiciones(antes,estado);}catch(error){estado=antes;mensajeGuardado(error.message);return false;}
+  try{accion(estado);registrarCambiosCompras(antes,estado,motor);motor.detectarTransiciones(antes,estado);}catch(error){estado=antes;mensajeGuardado(error.message);return false;}
   const ok=guardar();if(!ok&&almacenamientoSeguro.desactualizado())estado=antes;
   actualizar();return ok;
+}
+function cambiarSeguro(accion) {
+  const anterior=copiar(estado);
+  if(cambiar(accion))return true;
+  estado=anterior;actualizar();return false;
 }
 function conservarFoco(contenedor,dibujar) {
   const activo=document.activeElement;
   const clave=contenedor.contains(activo)?activo.dataset.foco:null;
   dibujar();
   if(clave){const destino=[...contenedor.querySelectorAll('[data-foco]')].find(i=>i.dataset.foco===clave);(destino||contenedor.querySelector('h2')||$('titulo-compras')).focus({preventScroll:true});}
+}
+function comprasCompletadasDe(id) {
+  return estado.planes.some(p=>p.ingredientes.some(i=>i.clave.startsWith(`${id}|`)&&i.completado===true))||
+    estado.manuales.some(i=>i.ingredienteId===id&&i.completado===true);
+}
+function agotarDesdeDespensa(id) {
+  if((estado.fijados||[]).includes(id))return false;
+  return cambiarSeguro(s=>{
+    const afectadas=s.planes.filter(p=>motor.recetario.get(p.recetaId)?.ingredientes.some(i=>(i.ingredienteId||i.id)===id)).map(p=>p.recetaId);
+    if(motor.agotarIngrediente(s,id))invalidarRecetas(s,afectadas);
+  });
+}
+function solicitarAgotamiento(ingrediente,origen) {
+  const id=ingrediente.id;
+  if(!motor.tieneIngrediente(estado,id)){actualizar();return;}
+  if((estado.fijados||[]).includes(id)){
+    ingredientePorAgotar=null;focoAntesDeAgotar=null;$('confirmar-agotado').hidden=true;
+    $('aviso-agotado').textContent=`Desfijá ${ingrediente.nombre} con la chincheta antes de marcarlo como agotado.`;
+    $('aviso-agotado').hidden=false;
+    [...$('ingredientes').querySelectorAll('.fijar-ingrediente')].find(b=>b.dataset.foco===`fijar-${id}`)?.focus();
+    return;
+  }
+  $('aviso-agotado').hidden=true;
+  if(comprasCompletadasDe(id)){
+    ingredientePorAgotar=id;focoAntesDeAgotar=origen;
+    $('texto-confirmar-agotado').textContent=`¿Se agotó ${ingrediente.nombre}? Sus compras completadas pasarán al historial. Las recetas planificadas recibirán nuevas necesidades.`;
+    $('confirmar-agotado').hidden=false;
+    $('cancelar-agotado').focus();
+    return;
+  }
+  $('confirmar-agotado').hidden=true;ingredientePorAgotar=null;focoAntesDeAgotar=null;
+  if(agotarDesdeDespensa(id)){
+    [...$('ingredientes').querySelectorAll('[data-foco]')].find(n=>n.dataset.foco===`stock-${id}`)?.focus({preventScroll:true});
+  }
 }
 function mostrarDespensa() {
   conservarFoco($('ingredientes'),()=>{
@@ -191,7 +240,16 @@ function mostrarDespensa() {
       if(recetaDestacadaIds?.has(i.id)){tarjeta.classList.add('ingrediente-de-receta');tarjeta.append(elemento('span','Ingrediente de esta receta','solo-lectores'));}
       const etiqueta=elemento('label',undefined,'ingrediente');
       const casilla=document.createElement('input');casilla.type='checkbox';casilla.value=i.id;casilla.checked=seleccion.has(i.id);casilla.dataset.foco=`stock-${i.id}`;
-      casilla.addEventListener('change',()=>cambiar(s=>motor.establecerPresencia(s,i.id,casilla.checked)));
+      casilla.addEventListener('change',()=>{
+        if(casilla.checked){
+          $('aviso-agotado').hidden=true;$('confirmar-agotado').hidden=true;
+          ingredientePorAgotar=null;focoAntesDeAgotar=null;
+          cambiar(s=>motor.establecerPresencia(s,i.id,true));
+        }else{
+          casilla.checked=true;
+          solicitarAgotamiento(i,casilla);
+        }
+      });
       const marca=elemento('span','✓','marca-seleccion');marca.setAttribute('aria-hidden','true');
       etiqueta.append(casilla,marca,dibujoIngredienteInicio(i),elemento('span',i.nombre,'nombre-ingrediente'));
       const fijado=(estado.fijados||[]).includes(i.id);
@@ -199,7 +257,8 @@ function mostrarDespensa() {
       fijar.dataset.foco=`fijar-${i.id}`;fijar.setAttribute('aria-pressed',String(fijado));
       fijar.setAttribute('aria-label',`${fijado?'Desfijar':'Fijar'} ${i.nombre}`);
       const icono=document.createElement('img');icono.src='./imagenes/chincheta.svg';icono.alt='';fijar.append(icono);
-      tarjeta.append(etiqueta,fijar);$('ingredientes').append(tarjeta);
+      tarjeta.append(etiqueta,fijar);
+      $('ingredientes').append(tarjeta);
     }
     if(!visibles.length)$('ingredientes').append(elemento('p','Sin coincidencias','vacio'));
   });
@@ -217,7 +276,7 @@ function mostrarSeleccion() {
   list.replaceChildren();list.hidden=!seleccion.size;
   $('cantidad-seleccion').textContent=seleccion.size;$('cantidad-seleccion-pie').textContent=`${seleccion.size} seleccionados`;
   for(const i of ingredientes.filter(i=>seleccion.has(i.id))){
-    const li=elemento('li',undefined,'seleccion-item');const quitar=boton('×',()=>cambiar(s=>motor.establecerPresencia(s,i.id,false)),'quitar-seleccion');
+    const li=elemento('li',undefined,'seleccion-item');const quitar=boton('×',()=>solicitarAgotamiento(i,quitar),'quitar-seleccion');
     quitar.dataset.ingrediente=i.id;quitar.setAttribute('aria-label',`Desmarcar ${i.nombre}`);
     li.append(quitar,dibujoIngredienteInicio(i),elemento('span',i.nombre));list.append(li);
   }
@@ -227,10 +286,31 @@ function compararRecetas(a,b) {return numeroFaltantes(a)-numeroFaltantes(b)||(ti
 function mostrarRecetas() {
   const consulta=normalizar($('busqueda').value.trim()),filtro=$('filtro').value,categoria=$('categoria-recetas').value;
   $('categorias-recetas').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.categoria===categoria)));
-  const visibles=recetas.filter(r=>(normalizar(r.nombre).includes(consulta)||r.ingredientes.some(i=>normalizar(motor.catalogo.get(i.ingredienteId||i.id).nombre).includes(consulta)))&&
-    (categoria==='todas'||r.categoriasAutomaticas.includes(categoria))&&(filtro==='todas'||(filtro==='completas')===disponibilidad(r).completa)).sort(compararRecetas);
-  $('resultados').textContent=`${visibles.length} de ${recetas.length} recetas`;
+  const panel=$('estado-categoria-recetas');panel.replaceChildren();panel.hidden=true;
   $('lista-recetas').replaceChildren();
+  if(categoria==='para-vos'&&!perfil?.objetivo){
+    panel.append(elemento('p','Completá tu objetivo en Mi perfil para descubrir recetas para vos.'));
+    panel.append(boton('Ir a Mi perfil',()=>{cambiarSeccion('perfil');$('perfil-nombre').focus();}));panel.hidden=false;
+    $('resultados').textContent='';return;
+  }
+  const recomendadas=categoria==='para-vos'?recomendarRecetas(recetas,ingredientes,perfil,disponibilidad):null;
+  const motivos=new Map(recomendadas?.items.map(item=>[item.receta.id,item.razones])??[]);
+  const base=recomendadas?recomendadas.items.map(item=>item.receta):recetas;
+  const visibles=base.filter(r=>(normalizar(r.nombre).includes(consulta)||r.ingredientes.some(i=>normalizar(motor.catalogo.get(i.ingredienteId||i.id).nombre).includes(consulta)))&&
+    (categoria==='todas'||categoria==='para-vos'||categoria==='favoritos'&&favoritos.ids.includes(r.id)||r.categoriasAutomaticas.includes(categoria))&&(filtro==='todas'||(filtro==='completas')===disponibilidad(r).completa));
+  if(!recomendadas)visibles.sort(compararRecetas);
+  $('resultados').textContent=`${visibles.length} de ${recetas.length} recetas`;
+  if(categoria==='favoritos'&&!visibles.length&&!consulta&&filtro==='todas'){
+    panel.append(elemento('p','Todavía no guardaste recetas favoritas. Tocá la estrella de una tarjeta para empezar.'));panel.hidden=false;return;
+  }
+  if(recomendadas){
+    const saludo=perfil.nombre?`¡Hola, ${perfil.nombre}! `:'';
+    panel.append(elemento('p',`${saludo}${recomendadas.tipo==='objetivo'?'Estas recetas pueden ayudarte con tu objetivo.':'Opciones generales según tus ingredientes y el tiempo.'}`));panel.hidden=false;
+    const lista=elemento('div',undefined,'tarjetas');
+    for(const r of visibles)lista.append(tarjetaReceta(r,motivos.get(r.id)||[]));
+    if(!visibles.length)lista.append(elemento('p','No encontramos recetas que cumplan estos criterios.','vacio'));
+    $('lista-recetas').append(lista);return;
+  }
   const grupos=[['Ya tenés todo, ¡a cocinar!',n=>n===0],['Ya casi',n=>n>=1&&n<=3],['Con algunas compras más',n=>n>3]];
   grupos.forEach(([nombre,incluye],indice)=>{
     const grupo=elemento('section',undefined,'grupo-recetas');grupo.dataset.grupo=indice;
@@ -255,9 +335,19 @@ function imagenReceta(receta,pie) {
   }
   return img;
 }
-function tarjetaReceta(r) {
+function tarjetaReceta(r,razones=[]) {
   const info=disponibilidad(r),n=numeroFaltantes(r),p=planDe(r.id);
   const tarjeta=elemento('article',undefined,`tarjeta ${info.completa?'completa':'incompleta'}`);tarjeta.dataset.receta=r.id;
+  const estrella=boton(favoritos.ids.includes(r.id)?'★':'☆',()=>{
+    const guardado=guardarFavoritos(almacenamientoLocal,cambiarFavorito(favoritos,r.id),favoritosBloqueados);
+    if(!guardado.ok){mensajeGuardado(guardado.mensaje);return;}
+    favoritos=guardado.datos;mostrarRecetas();
+    const actual=[...document.querySelectorAll('.tarjeta')].find(t=>t.dataset.receta===r.id);
+    (actual?.querySelector('.favorito-receta')||$('categorias-recetas').querySelector('[data-categoria=favoritos]'))?.focus({preventScroll:true});
+  },'favorito-receta');
+  estrella.setAttribute('aria-label',`${favoritos.ids.includes(r.id)?'Quitar de favoritos':'Añadir a favoritos'}: ${r.nombre}`);
+  estrella.setAttribute('aria-pressed',String(favoritos.ids.includes(r.id)));
+  tarjeta.append(estrella);
   const etiquetaFoto=r.imagenId?elemento('p','Cargando foto local…','meta'):null;
   const figura=elemento('figure',undefined,`visual-receta ${r.imagen||r.imagenId?'con-imagen-local':''}`),img=imagenReceta(r,etiquetaFoto);img.loading='lazy';
   if(n)figura.append(elemento('span',`Falta${n===1?'':'n'} ${n} ingrediente${n===1?'':'s'}`,'franja-faltantes'));
@@ -267,9 +357,11 @@ function tarjetaReceta(r) {
   if(n)tarjeta.append(elemento('p',`Te falta: ${info.faltantes.map(i=>i.nombre).join(', ')}.`,'faltantes'));
   if(r.imagen)tarjeta.append(elemento('p','Imagen ilustrativa IA','meta'));
   if(etiquetaFoto)tarjeta.append(etiquetaFoto);
-  const ver=boton('Ver preparación',()=>mostrarDetalle(r));ver.setAttribute('aria-label',`Ver preparación: ${r.nombre}`);tarjeta.append(ver);return tarjeta;
+  if(razones.length)tarjeta.append(elemento('p',razones.slice(0,2).join(' · '),'razones-receta'));
+  const ver=boton('Ver preparación',()=>mostrarDetalle(r),'ver-receta');ver.setAttribute('aria-label',`Ver preparación: ${r.nombre}`);tarjeta.append(ver);return tarjeta;
 }
 function mostrarDetalle(receta) {
+  origenDetalle='recetas';
   recetaDetalle=receta;recetaOrigenDetalle=receta.id;const p=planDe(receta.id);
   opcionesDetalle={porciones:p?.porciones??receta.porciones,veces:p?.veces??1};
   dibujarDetalle();$('detalle').showModal();$('detalle').scrollTop=0;
@@ -347,6 +439,7 @@ function actualizarRecetario() {
 }
 function desconectarPlanPropio(receta) {
   const copia=separarNecesidadesReceta(estado,receta,motor);
+  invalidarRecetas(copia,[receta.id]);
   const guardado=guardarEstado(almacenamientoLocal,copia,motor,bloqueado);
   return {ok:guardado.ok,copia,mensaje:guardado.mensaje};
 }
@@ -416,7 +509,13 @@ async function borrarRecetaPropia(receta) {
   const doc=copiar(recetasUsuario);doc.recetas=doc.recetas.filter(r=>r.id!==receta.id);
   const r=guardarRecetasUsuario(almacenamientoLocal,doc,false,motor,ingredientes,recetasBase);
   if(!r.ok)return restaurarTrasFalloReceta(anteriorEstado,r);
-  recetasUsuario=doc;actualizarRecetario();
+  recetasUsuario=doc;
+  if(favoritos.ids.includes(receta.id)){
+    const limpio=guardarFavoritos(almacenamientoLocal,quitarFavorito(favoritos,receta.id),favoritosBloqueados);
+    if(limpio.ok)favoritos=limpio.datos;
+    else mensajeGuardado(`La receta se eliminó, pero no se pudo limpiar su favorito. ${limpio.mensaje}`);
+  }
+  actualizarRecetario();
   for(const idFoto of fotosSinReferencias([receta.imagenId],doc)){
     liberarFotoLocal(idFoto);
     await borrarFoto(idFoto).catch(()=>{mensajeGuardado('La receta se borró; no se pudo limpiar su foto anterior.');});
@@ -494,7 +593,7 @@ function dibujarComprasPorReceta(grupos) {
     const todas=plan.ingredientes.every(i=>i.completado===true);
     const marcar=boton(todas?'Reabrir todos':'Marcar todos',()=>cambiar(s=>motor.marcarReceta(s,plan.recetaId,!todas)),'secundario');
     marcar.dataset.foco=`marcar-receta-${plan.recetaId}`;
-    const quitar=boton('Eliminar receta',()=>cambiar(s=>motor.quitarReceta(s,plan.recetaId)),'secundario');
+    const quitar=boton('Eliminar receta',()=>cambiar(s=>{invalidarRecetas(s,[plan.recetaId]);motor.quitarReceta(s,plan.recetaId);}),'secundario');
     quitar.dataset.foco=`quitar-receta-${plan.recetaId}`;
     acciones.append(marcar,quitar);interior.append(acciones);detalle.append(interior);frag.append(detalle);
   }
@@ -534,10 +633,53 @@ function dibujarCompras() {
   if(focoAnterior){const destino=[...$('compras').querySelectorAll('[data-foco]')].find(n=>n.dataset.foco===focoAnterior&&!n.closest('[hidden]'));if(destino?.closest('#comprados'))$('comprados').open=true;if(destino?.closest('details[data-receta]'))destino.closest('details[data-receta]').open=true;(destino||$('titulo-compras')).focus({preventScroll:true});}
   $('estado-compras').textContent=`Pendientes · ${motor.resumenCompras(estado).filter(g=>!g.completo).length}`;
   $('vaciar-compras').disabled=!estado.planes.length&&!estado.manuales.length;if($('vaciar-compras').disabled)$('confirmar-vaciado').hidden=true;
+  const recompensas=estado.recompensas,sesion=recompensas?.sesion,dia=diaLocal(new Date().toISOString());
+  const premiadaHoy=recompensas?.movimientos.some(m=>m.tipo==='premio'&&m.dia===dia);
+  $('iniciar-sesion').hidden=!!sesion;$('iniciar-sesion').disabled=!!premiadaHoy;
+  $('finalizar-sesion').hidden=!sesion;$('cancelar-sesion').hidden=!sesion;
+  $('resumen-sesion').textContent=sesion
+    ?`Jornada en curso · ${sesion.candidatos.length} recetas con faltantes al comenzar.`
+    :premiadaHoy?'Ya recibiste monedas por una jornada hoy. Podés seguir usando la lista normalmente.'
+    :'Iniciá una jornada para recibir monedas por recetas que completes con compras nuevas.';
+  const historicas=estado.historialSubtareas||[],historial=$('historial-compras'),listaHistorial=$('lista-historial-compras');
+  historial.hidden=!historicas.length;listaHistorial.replaceChildren();
+  historial.querySelector('summary').textContent=`Compras anteriores (${historicas.length})`;
+  for(const h of [...historicas].reverse()){
+    const nombre=ingredientes.find(i=>i.id===h.ingredienteId)?.nombre||h.ingredienteId;
+    listaHistorial.append(elemento('li',`${nombre} · ${cantidadLegible(h.cantidad,h.unidad)} · ${h.nombreReceta} · agotado ${new Date(h.fechaAgotamiento).toLocaleDateString('es-AR')}`));
+  }
+}
+function avisoPerfil(texto,error=false) {
+  const aviso=$('error-perfil');aviso.textContent=texto;aviso.hidden=!texto;aviso.dataset.error=String(error);
+}
+function rellenarPerfil() {
+  const campos={nombre:perfil?.nombre??'',edad:perfil?.edad??'',peso:perfil?.pesoKg??'',altura:perfil?.alturaCm??'',
+    actividad:perfil?.actividad??'',objetivo:perfil?.objetivo??'',coeficiente:perfil?.coeficiente??'',alimentacion:perfil?.alimentacion??''};
+  for(const [id,valor] of Object.entries(campos))$(`perfil-${id}`).value=valor;
+  $('perfil-usar-estimacion').checked=perfil?.usarEstimacion===true;
+  $('perfil-fuerza').checked=perfil?.entrenaFuerza===true;
+}
+function mostrarEstimaciones() {
+  const panel=$('estimaciones-perfil');panel.replaceChildren();
+  if(!perfil)return;
+  const datos=estimarPerfil(perfil);
+  panel.append(elemento('h3','Estimaciones orientativas'));
+  if(datos.energia){
+    panel.append(elemento('p',`Gasto diario estimado · aprox. ${datos.energia.diario} kcal/día`,'energia-perfil'));
+    panel.append(elemento('p',`En reposo: aprox. ${datos.energia.reposo} kcal/día.`,'nota-perfil'));
+  }else panel.append(elemento('p','No hay estimación energética. Podés completar los datos más adelante; las recetas siguen disponibles.'));
+  const macros=elemento('div',undefined,'macros-perfil');
+  const macro=(nombre,valor,clase)=>{const item=elemento('p',undefined,clase);item.append(elemento('strong',nombre),document.createTextNode(`Aprox. ${valor} g/día`));macros.append(item);};
+  if(datos.proteinas)macro('Proteínas',`${datos.proteinas.min}${datos.proteinas.max!==datos.proteinas.min?`–${datos.proteinas.max}`:''}`,'macro-proteinas');
+  if(datos.carbohidratos)macro('Carbohidratos',`${datos.carbohidratos.min}–${datos.carbohidratos.max}`,'macro-carbohidratos');
+  if(datos.grasas)macro('Grasas',`${datos.grasas.min}–${datos.grasas.max}`,'macro-grasas');
+  panel.append(macros);
 }
 function actualizar() {
   mostrarDespensa();mostrarSeleccion();mostrarRecetas();
+  mostrarEstimaciones();$('eliminar-perfil').hidden=!perfil||perfilBloqueado;
   $('contador-compras').textContent=motor.resumenCompras(estado).filter(g=>!g.completo).length;
+  const monedas=saldoMonedas(estado);$('contador-monedas').textContent=`✦ ${monedas}`;$('contador-monedas').setAttribute('aria-label',`Monedas: ${monedas}`);
   $('resumen').textContent=`${recetas.filter(r=>disponibilidad(r).completa).length} recetas con todos sus ingredientes. Las compras pendientes no cuentan como disponibles.`;
   if($('detalle').open)dibujarDetalle();if($('compras').open)dibujarCompras();
 }
@@ -547,14 +689,33 @@ function conectarControles() {
     editor.abrir();
   });
   $('continuar-borrador').addEventListener('click',()=>editor.abrir(recetasUsuario.borrador,{borrador:true}));
-  for(const seccion of ['despensa','recetas'])$(`tab-${seccion}`).addEventListener('click',()=>{recetaDestacadaIds=null;cambiarSeccion(seccion);if(seccion==='despensa')mostrarDespensa();});
+  for(const seccion of ['despensa','recetas','perfil'])$(`tab-${seccion}`).addEventListener('click',()=>{recetaDestacadaIds=null;cambiarSeccion(seccion);if(seccion==='despensa')mostrarDespensa();});
+  $('form-perfil').addEventListener('submit',evento=>{
+    evento.preventDefault();if(!$('form-perfil').reportValidity())return;
+    const numero=id=>$(id).value.trim()===''?null:$(id).valueAsNumber;
+    const entrada={version:1,nombre:$('perfil-nombre').value,objetivo:$('perfil-objetivo').value||null,
+      edad:numero('perfil-edad'),pesoKg:numero('perfil-peso'),alturaCm:numero('perfil-altura'),
+      actividad:$('perfil-actividad').value||null,coeficiente:$('perfil-coeficiente').value||null,alimentacion:$('perfil-alimentacion').value||null,
+      usarEstimacion:$('perfil-usar-estimacion').checked,entrenaFuerza:$('perfil-fuerza').checked};
+    const resultado=guardarPerfil(almacenamientoLocal,entrada,perfilBloqueado);
+    if(!resultado.ok){avisoPerfil(resultado.mensaje,true);return;}
+    perfil=resultado.perfil;avisoPerfil('Perfil guardado. Solo se conserva en este navegador.');actualizar();
+  });
+  $('eliminar-perfil').addEventListener('click',()=>{$('confirmar-eliminar-perfil').hidden=false;$('cancelar-eliminar-perfil').focus();});
+  $('cancelar-eliminar-perfil').addEventListener('click',()=>{$('confirmar-eliminar-perfil').hidden=true;$('eliminar-perfil').focus();});
+  $('aceptar-eliminar-perfil').addEventListener('click',()=>{
+    const resultado=eliminarPerfil(almacenamientoLocal,perfilBloqueado);
+    if(!resultado.ok){avisoPerfil(resultado.mensaje,true);return;}
+    perfil=null;$('confirmar-eliminar-perfil').hidden=true;rellenarPerfil();
+    avisoPerfil('Perfil eliminado. Tus recetas, despensa y compras se conservaron.');actualizar();$('perfil-nombre').focus();
+  });
   $('ver-cocinar').addEventListener('click',()=>{cambiarSeccion('recetas');$('titulo-recetas').tabIndex=-1;$('titulo-recetas').focus();$('titulo-recetas').scrollIntoView({block:'start'});});
   $('buscar-ingredientes').addEventListener('input',mostrarDespensa);$('categoria').addEventListener('change',mostrarDespensa);
   for(const id of ['busqueda','filtro','categoria-recetas'])$(id).addEventListener(id==='busqueda'?'input':'change',mostrarRecetas);
   const cerrarAcciones=()=>{$('acciones-despensa').open=false;$('acciones-despensa').querySelector('summary').focus();};
   $('todo').addEventListener('click',()=>{cambiar(s=>{for(const i of ingredientes)motor.establecerPresencia(s,i.id,true);});cerrarAcciones();});
-  $('nada').addEventListener('click',()=>{cerrarAcciones();$('confirmar-vaciar-despensa').hidden=false;$('aceptar-vaciar-despensa').focus();});
-  $('cancelar-vaciar-despensa').addEventListener('click',()=>{$('confirmar-vaciar-despensa').hidden=true;$('acciones-despensa').querySelector('summary').focus();});
+  $('nada').addEventListener('click',()=>{$('confirmar-vaciar-despensa').hidden=false;$('aceptar-vaciar-despensa').focus();});
+  $('cancelar-vaciar-despensa').addEventListener('click',()=>{$('confirmar-vaciar-despensa').hidden=true;$('nada').focus();});
   $('aceptar-vaciar-despensa').addEventListener('click',()=>{
     if(!cambiar(s=>motor.vaciarDespensa(s)))return;
     $('confirmar-vaciar-despensa').hidden=true;
@@ -562,6 +723,24 @@ function conectarControles() {
     const porCompra=ingredientes.filter(i=>!(estado.fijados||[]).includes(i.id)&&motor.tieneIngrediente(estado,i.id)).length;
     $('estado-vaciado-despensa').textContent=`Lo que tengo se vació. Permanecen ${fijados} fijados y ${porCompra} disponibles por compras completadas.`;
     $('estado-vaciado-despensa').hidden=false;$('estado-vaciado-despensa').focus();
+  });
+  $('cancelar-agotado').addEventListener('click',()=>{
+    ingredientePorAgotar=null;$('confirmar-agotado').hidden=true;
+    focoAntesDeAgotar?.focus({preventScroll:true});focoAntesDeAgotar=null;
+  });
+  $('confirmar-agotado').addEventListener('keydown',e=>{
+    if(e.key==='Escape'){e.preventDefault();$('cancelar-agotado').click();}
+  });
+  $('aceptar-agotado').addEventListener('click',()=>{
+    const id=ingredientePorAgotar;if(!id)return;
+    if((estado.fijados||[]).includes(id)){
+      $('confirmar-agotado').hidden=true;ingredientePorAgotar=null;focoAntesDeAgotar=null;
+      $('aviso-agotado').textContent='Primero desfijá el ingrediente con la chincheta.';$('aviso-agotado').hidden=false;
+      return;
+    }
+    if(!agotarDesdeDespensa(id))return;
+    ingredientePorAgotar=null;focoAntesDeAgotar=null;$('confirmar-agotado').hidden=true;
+    [...$('ingredientes').querySelectorAll('[data-foco]')].find(n=>n.dataset.foco===`stock-${id}`)?.focus({preventScroll:true});
   });
   $('acciones-despensa').addEventListener('keydown',e=>{if(e.key==='Escape'&&$('acciones-despensa').open){e.preventDefault();cerrarAcciones();}});
   document.addEventListener('click',e=>{if(!$('acciones-despensa').contains(e.target))$('acciones-despensa').open=false;});
@@ -573,15 +752,33 @@ function conectarControles() {
       $('categoria').value='Todos';$('buscar-ingredientes').value='';
       cambiarSeccion('despensa');mostrarDespensa();$('buscar-ingredientes').focus();$('titulo-despensa').scrollIntoView({block:'start'});
     }
-    else ([...document.querySelectorAll('.tarjeta')].find(n=>n.dataset.receta===recetaOrigenDetalle)?.querySelector('button')||$('tab-recetas')).focus();recetaDetalle=null;
+    else ($(origenDetalle).querySelector(`.tarjeta[data-receta="${recetaOrigenDetalle}"] .ver-receta`)||$(`tab-${origenDetalle}`)).focus();recetaDetalle=null;
   });
   $('abrir-compras').addEventListener('click',()=>{$('confirmar-vaciado').hidden=true;dibujarCompras();$('compras').showModal();$('compras').scrollTop=0;});
+  $('iniciar-sesion').addEventListener('click',()=>{
+    if(!cambiarSeguro(s=>iniciarSesion(s,motor)))return;
+    $('premio-sesion').hidden=true;$('finalizar-sesion').focus();
+  });
+  $('cancelar-sesion').addEventListener('click',()=>{
+    if(!cambiarSeguro(s=>cancelarSesion(s)))return;
+    $('premio-sesion').hidden=true;$('iniciar-sesion').focus();
+  });
+  $('finalizar-sesion').addEventListener('click',()=>{
+    let resultado;
+    if(!cambiarSeguro(s=>{resultado=finalizarSesion(s,motor);}))return;
+    const panel=$('premio-sesion');panel.replaceChildren();
+    if(resultado.monedas){
+      panel.append(elemento('strong',`¡Bien hecho! Ganaste ${resultado.monedas} monedas.`));
+      panel.append(elemento('p',`Ahora podés preparar: ${resultado.recetas.join(', ')}.`));
+    }else panel.append(elemento('p','Jornada finalizada sin nuevas recetas disponibles. Tus compras se conservaron.'));
+    panel.hidden=false;panel.focus();
+  });
   for(const [vista,id] of [['ingrediente','vista-ingrediente'],['receta','vista-receta']])$(id).addEventListener('click',()=>{vistaCompras=vista;dibujarCompras();$(id).focus();});
   $('agrupar-compras').addEventListener('click',()=>{comprasAgrupadas=!comprasAgrupadas;dibujarCompras();$('agrupar-compras').focus();});
   $('cerrar-compras').addEventListener('click',()=>$('compras').close());$('compras').addEventListener('close',()=>$('abrir-compras').focus());
   $('vaciar-compras').addEventListener('click',()=>{$('confirmar-vaciado').hidden=false;$('cancelar-vaciar').focus();});
   $('cancelar-vaciar').addEventListener('click',()=>{$('confirmar-vaciado').hidden=true;$('vaciar-compras').focus();});
-  $('confirmar-vaciar').addEventListener('click',()=>{cambiar(s=>{s.planes=[];s.manuales=[];});$('titulo-compras').focus();});
+  $('confirmar-vaciar').addEventListener('click',()=>{cambiar(s=>{invalidarRecetas(s,s.planes.map(p=>p.recetaId));s.planes=[];s.manuales=[];});$('titulo-compras').focus();});
   $('reintentar-guardado').addEventListener('click',guardar);
 }
 async function iniciar() {
@@ -601,15 +798,20 @@ async function iniciar() {
     motor=crearMotorCantidades(recetas,ingredientes,eq);
     recetas.forEach(r=>motor.requerimientos(r));
     const rec=recuperarEstado(almacenamientoLocal,motor);estado=rec.estado;bloqueado=rec.bloqueado||propias.bloqueado;
+    const perfilRecuperado=recuperarPerfil(almacenamientoLocal);perfil=perfilRecuperado.perfil;perfilBloqueado=perfilRecuperado.bloqueado;
+    const favoritosRecuperados=recuperarFavoritos(almacenamientoLocal);favoritos=favoritosRecuperados.datos;favoritosBloqueados=favoritosRecuperados.bloqueado;
     recuperacion=rec.avisos.filter(aviso=>!aviso.includes('referencias antiguas sin coincidencia segura'));
     if(propias.mensaje)recuperacion.push(propias.mensaje);
+    if(favoritosRecuperados.mensaje)recuperacion.push(favoritosRecuperados.mensaje);
     $('aviso-recuperacion').textContent=recuperacion.join(' ');$('aviso-recuperacion').hidden=!recuperacion.length;
     const prueba=recetas.filter(r=>r.datosDePrueba===true).length;
     for(const id of ['etiqueta-prueba-inicio','etiqueta-prueba-recetas','etiqueta-prueba-compras']){$(id).hidden=prueba===0;$(id).textContent=prueba===recetas.length?'Datos de prueba':'Incluye datos de prueba';}
     $('aviso-catalogo').textContent=`${prueba?`${prueba} recetas de prueba. `:''}Las cantidades y la nutrición son estimaciones del paquete aportado; algunas requieren revisión editorial. Las imágenes son ilustrativas generadas con IA.`;
     $('ayuda-catalogo').textContent='Registrá cantidades para comprobar suficiencia. Tengo todo conserva presencia sin inventar cantidades: confirmalas para cocinar.';
     editor=crearEditorRecetas({dialog:$('receta-propia-dialogo'),catalogo:ingredientes,motor,dibujoIngrediente:dibujoIngredienteInicio,guardar:guardarRecetaPropia,borrar:borrarRecetaPropia,descartar:descartarBorrador});
-    prepararCategorias();prepararCategoriasRecetas();mostrarReferenciasAntiguas();conectarControles();$('continuar-borrador').hidden=!recetasUsuario.borrador;actualizar();$('estado').hidden=true;$('aplicacion').hidden=false;$('abrir-compras').disabled=false;
+    prepararCategorias();prepararCategoriasRecetas();mostrarReferenciasAntiguas();conectarControles();rellenarPerfil();
+    if(perfilRecuperado.mensaje)avisoPerfil(perfilRecuperado.mensaje,true);
+    $('continuar-borrador').hidden=!recetasUsuario.borrador;actualizar();$('estado').hidden=true;$('aplicacion').hidden=false;$('abrir-compras').disabled=false;
   }catch(error){$('estado').textContent=`No pudimos cargar Avanzi: ${error.message} Revisá los archivos con Live Server. No se modificaron tus datos guardados.`;}
 }
 iniciar();

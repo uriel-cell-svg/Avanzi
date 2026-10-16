@@ -1,5 +1,9 @@
 # Procedencia y permiso de reutilización
 
+## Logotipo oficial actual
+
+`marca/avanzi-logo-original.png` es una copia sin modificaciones del PNG «Logotipo Avanzi con espátula y temporizador de tomate.png» aportado por el usuario para esta aplicación (1946 × 808 píxeles). `marca/avanzi-logo-cabecera.png` recorta únicamente los márgenes vacíos a 1390 × 430 píxeles; conserva los píxeles y proporciones del diseño dentro del recorte. La cabecera muestra esta copia local. No se redibujaron letras, espátula ni temporizador.
+
 Los SVG son recursos originales del proyecto. Las composiciones representan ingredientes y los respaldos son genéricos; ninguno es una fotografía del plato. Se conservan aquí procedencias y permisos, incluidos recursos históricos. El uso visual vigente está en [DISEÑO.md](../DISEÑO.md). Los apartados históricos no ordenan restaurar fondos, fuentes ni adornos anteriores.
 
 | Archivo | Contenido |

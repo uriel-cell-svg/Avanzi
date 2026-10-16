@@ -9,7 +9,7 @@
 </head>
 <body>
   <header class="contenedor">
-    <div class="identidad"><span class="marca">Avanzi</span><button type="button" id="abrir-compras" class="secundario" disabled><img class="bolsa-inicio" src="./imagenes/bolsa.svg" alt="" width="24" height="24"><span class="nombre-acceso-compras">Lista de compras</span> <span id="contador-compras">0</span></button></div>
+    <div class="identidad"><img class="logo-avanzi" src="./imagenes/marca/avanzi-logo-cabecera.png" alt="Avanzi" width="1390" height="430"><div class="identidad-acciones"><span id="contador-monedas" aria-label="Monedas: 0">✦ 0</span><button type="button" id="abrir-compras" class="secundario" disabled><img class="bolsa-inicio" src="./imagenes/bolsa.svg" alt="" width="24" height="24"><span class="nombre-acceso-compras">Lista de compras</span> <span id="contador-compras">0</span></button></div></div>
   </header>
   <main class="contenedor">
     <p id="estado" role="status" aria-live="polite">Cargando recetas…</p>
@@ -20,12 +20,17 @@
       <nav class="pestanas" aria-label="Secciones">
         <button type="button" id="tab-despensa" aria-pressed="true" aria-controls="despensa">Lo que tengo</button>
         <button type="button" id="tab-recetas" aria-pressed="false" aria-controls="recetas">Recetas</button>
+        <button type="button" id="tab-perfil" aria-pressed="false" aria-controls="perfil">Mi perfil</button>
       </nav>
       <section id="despensa" aria-labelledby="titulo-despensa">
         <div class="cabecera-seccion">
           <h2 id="titulo-despensa">¿Qué tenés en casa?</h2>
-
+          <button type="button" id="nada" class="secundario" aria-describedby="alcance-botones">Vaciar despensa</button>
         </div>
+        <p id="estado-vaciado-despensa" role="status" tabindex="-1" hidden></p>
+        <p id="aviso-agotado" role="status" hidden></p>
+        <div id="confirmar-vaciar-despensa" hidden><p>¿Vaciar Lo que tengo? Se conservarán los alimentos fijados y los disponibles por compras completadas. Las recetas y compras no cambiarán.</p><button type="button" id="aceptar-vaciar-despensa">Vaciar despensa</button><button type="button" id="cancelar-vaciar-despensa" class="secundario">Cancelar</button></div>
+        <div id="confirmar-agotado" hidden><p id="texto-confirmar-agotado"></p><button type="button" id="aceptar-agotado">Sí, se agotó</button><button type="button" id="cancelar-agotado" class="secundario">Cancelar</button></div>
         <span id="etiqueta-prueba-inicio" class="prueba-inicio" hidden>Datos de prueba</span>
         <section class="seleccion-inicio" aria-labelledby="titulo-seleccion">
           <h3 id="titulo-seleccion" aria-live="polite">Lo que tengo · <span id="cantidad-seleccion">0</span></h3>
@@ -45,12 +50,10 @@
           <p id="resumen"></p>
           <details id="referencias-antiguas" hidden><summary>Referencias anteriores</summary><ul id="lista-referencias-antiguas"></ul></details>
         </details>
-        <p id="estado-vaciado-despensa" role="status" tabindex="-1" hidden></p>
-        <div id="confirmar-vaciar-despensa" hidden><p>¿Vaciar Lo que tengo? Se conservarán los alimentos fijados y los disponibles por compras completadas. Las recetas y compras no cambiarán.</p><button type="button" id="aceptar-vaciar-despensa">Vaciar despensa</button><button type="button" id="cancelar-vaciar-despensa" class="secundario">Cancelar</button></div>
         <div class="ir-recetas"><span id="cantidad-seleccion-pie">0 seleccionados</span>
           <details id="acciones-despensa" class="menu-inicio">
             <summary aria-label="Acciones de Lo que tengo" title="Acciones de Lo que tengo">⋮</summary>
-            <div class="opciones-inicio"><button type="button" id="todo" aria-describedby="alcance-botones">Tengo todo</button><button type="button" id="nada" aria-describedby="alcance-botones" class="secundario">Vaciar despensa</button></div>
+            <div class="opciones-inicio"><button type="button" id="todo" aria-describedby="alcance-botones">Tengo todo</button></div>
           </details>
           <button type="button" id="ver-cocinar"><span>Ver qué puedo cocinar</span><span aria-hidden="true">→</span></button></div>
       </section>
@@ -58,12 +61,35 @@
         <div class="cabecera-seccion"><h2 id="titulo-recetas">Recetas</h2><div class="acciones-recetas"><button type="button" id="crear-receta">Crear receta</button><button type="button" id="continuar-borrador" class="secundario" hidden>Continuar borrador</button></div></div>
         <span id="etiqueta-prueba-recetas" class="prueba-inicio" hidden>Datos de prueba</span>
         <div class="herramientas"><label class="buscar-con-lupa"><span class="solo-lectores">Buscar receta o ingrediente</span><img src="./imagenes/lupa.svg" alt="" width="20" height="20"><input id="busqueda" type="search" placeholder="Buscar receta o ingrediente"></label><label class="filtro-recetas"><span>Mostrar</span><select id="filtro"><option value="todas">Todas</option><option value="completas">Ingredientes completos</option><option value="faltantes">Ingredientes faltantes</option></select></label></div>
-        <select id="categoria-recetas" aria-label="Categoría de recetas" hidden><option value="todas">Todas</option><option value="rapidas">Rápidas</option><option value="veggie">Veggie</option><option value="pastas">Pastas</option><option value="carnes">Carnes</option><option value="desayunos">Desayunos</option></select><div id="categorias-recetas" role="group" aria-label="Categoría de recetas"></div>
-        <p id="resultados" role="status"></p><div id="lista-recetas"></div>
+        <select id="categoria-recetas" aria-label="Categoría de recetas" hidden><option value="todas">Todas</option><option value="rapidas">Rápidas</option><option value="veggie">Veggie</option><option value="pastas">Pastas</option><option value="carnes">Carnes</option><option value="desayunos">Desayunos</option><option value="para-vos">Para vos</option><option value="favoritos">Favoritos</option></select><div id="categorias-recetas" role="group" aria-label="Categoría de recetas"></div>
+        <p id="resultados" role="status"></p><div id="estado-categoria-recetas" class="estado-categoria" hidden></div><div id="lista-recetas"></div>
         <details id="ayuda-recetas" class="ayuda"><summary>Ayuda</summary>
           <p>Elegí una receta y abrí Ver preparación para consultar las cantidades y los pasos. Las tres secciones se actualizan con Lo que tengo.</p>
     <p class="aviso" id="aviso-catalogo">Disponibilidad por presencia de ingredientes; las cantidades se muestran para cocinar y comprar.</p>
         </details>
+      </section>
+      <section id="perfil" aria-labelledby="titulo-perfil" hidden>
+        <div class="cabecera-seccion"><h2 id="titulo-perfil">Mi perfil</h2></div>
+        <form id="form-perfil" class="form-perfil">
+          <div class="perfil-principal"><label>Nombre o apodo<input id="perfil-nombre" type="text" maxlength="60" autocomplete="nickname" placeholder="¿Cómo te llamamos?"></label>
+          <label>Objetivo<select id="perfil-objetivo"><option value="">Elegir después</option><option value="mantener">Mantener el peso</option><option value="perder">Perder peso</option><option value="ganar">Ganar masa muscular</option></select></label>
+          <label>Tipo de alimentación<select id="perfil-alimentacion"><option value="">Elegir después</option><option value="omnivora">Omnívora</option><option value="vegetariana">Vegetariana</option><option value="vegana">Vegana</option></select></label></div>
+          <details id="perfil-mas"><summary>Completar datos para estimaciones</summary>
+            <div class="perfil-campos"><label>Edad (años)<input id="perfil-edad" type="number" min="1" max="120" step="1" inputmode="numeric"></label>
+            <label>Peso (kg)<input id="perfil-peso" type="number" min="1" max="500" step="any" inputmode="decimal"></label>
+            <label>Altura (cm)<input id="perfil-altura" type="number" min="1" max="300" step="any" inputmode="decimal"></label>
+            <label>Actividad física<select id="perfil-actividad"><option value="">Elegir después</option><option value="sedentario">Sedentaria · poco movimiento</option><option value="ligero">Ligera · 1–2 días de ejercicio</option><option value="moderado">Moderada · 3–4 días de ejercicio</option><option value="activo">Activa · 5 o más días</option><option value="muy-activo">Muy activa · ejercicio intenso y vida activa</option></select></label>
+            <label>Sexo<select id="perfil-coeficiente"><option value="">Prefiero no indicarlo</option><option value="mas-5">Masculino</option><option value="menos-161">Femenino</option></select></label></div>
+            <p class="nota-perfil">El sexo se usa solo para elegir el coeficiente de la estimación energética. La actividad cotidiana y la intensidad también influyen; los días son ejemplos orientativos.</p>
+            <label class="perfil-consentimiento"><input id="perfil-fuerza" type="checkbox">Hago entrenamiento de fuerza</label>
+            <label class="perfil-consentimiento"><input id="perfil-usar-estimacion" type="checkbox">Quiero ver la estimación energética. Soy adulto/a y sé que no corresponde durante embarazo o lactancia.</label>
+          </details>
+          <p id="error-perfil" role="status" hidden></p>
+          <div class="perfil-acciones"><button type="submit">Guardar perfil</button><button type="button" id="eliminar-perfil" class="secundario" hidden>Eliminar perfil</button></div>
+        </form>
+        <div id="confirmar-eliminar-perfil" hidden><p>¿Eliminar tu perfil? Tus recetas, despensa y compras se conservarán.</p><button type="button" id="aceptar-eliminar-perfil">Eliminar perfil</button><button type="button" id="cancelar-eliminar-perfil" class="secundario">Cancelar</button></div>
+        <div id="estimaciones-perfil" aria-live="polite"></div>
+        <p class="nota-perfil">Estos valores son orientativos y pueden no ser adecuados para todas las personas. No son un diagnóstico ni reemplazan la orientación profesional.</p>
       </section>
     </div>
   </main>
@@ -74,6 +100,8 @@
     <span id="etiqueta-prueba-compras" class="prueba-inicio" hidden>Datos de prueba</span>
     <p class="nota-lista-compras">Revisá las cantidades antes de comprar.</p>
     <p id="estado-compras" role="status"></p>
+    <div class="sesion-compras"><p id="resumen-sesion">Iniciá una jornada para recibir monedas por recetas que completes con compras nuevas.</p><div class="sesion-acciones"><button type="button" id="iniciar-sesion">Iniciar compra</button><button type="button" id="finalizar-sesion" hidden>Finalizar compra</button><button type="button" id="cancelar-sesion" class="secundario" hidden>Cancelar sesión</button></div></div>
+    <div id="premio-sesion" role="status" tabindex="-1" hidden></div>
     <div class="vistas-compras" role="group" aria-label="Vista de compras"><button type="button" id="vista-ingrediente" class="secundario" aria-pressed="true">Por ingrediente</button><button type="button" id="vista-receta" class="secundario" aria-pressed="false">Por receta</button></div>
     <button type="button" id="agrupar-compras" class="secundario" aria-pressed="false">Agrupar por categoría</button>
     <div id="items-compras"></div>
@@ -81,6 +109,7 @@
     <button type="button" id="vaciar-compras" class="secundario">Vaciar lista</button>
     <div id="confirmar-vaciado" hidden><p>¿Querés vaciar la lista? Lo que tengo no cambiará.</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
     <div id="posibilidades-compras"></div>
+    <details id="historial-compras" hidden><summary>Compras anteriores</summary><ul id="lista-historial-compras"></ul></details>
     <details id="ayuda-compras"><summary>Sobre esta lista</summary><p>Cada subtarea corresponde a una receta. Marcarla indica que esa compra quedó cubierta; podés desmarcarla incluso después de recargar. La casilla principal cambia todas las subtareas del ingrediente. Las cantidades pendientes se suman solo entre subtareas abiertas y no se descuentan cantidades de Lo que tengo.</p><p>Una compra completada se distingue internamente de un ingrediente marcado a mano. Las medidas sin equivalencia fiable permanecen separadas. Las compras anteriores y sus confirmaciones se conservan en los datos locales; esta vista usa las nuevas casillas. Eliminar una fila no borra el inventario manual.</p></details>
   </dialog>
   <dialog id="receta-propia-dialogo" aria-labelledby="titulo-receta-propia"></dialog>
