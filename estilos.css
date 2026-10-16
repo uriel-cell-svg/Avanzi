@@ -29,10 +29,43 @@ input[type=checkbox] { width:21px; height:21px; flex-shrink:0; accent-color:var(
 .buscar-con-lupa > img,.buscar-despensa > img { position:absolute; top:16px; left:14px; pointer-events:none; }
 .buscar-con-lupa input,.buscar-despensa input { margin:0; padding-left:44px; }
 .solo-lectores { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
-.identidad { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 0 12px; }
-.identidad-acciones { display:flex; align-items:center; gap:8px; flex:none; }
+.identidad { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px; padding:18px 0 12px; }
+.identidad-acciones { display:flex; align-items:center; gap:8px; flex:none; margin-left:auto; }
+#modo-prueba,#modo-prueba-tienda { color:#70492e; background:#fff2d6; border:1px solid #c9a581; border-radius:6px; padding:3px 7px; font-size:.68rem; font-weight:750; white-space:nowrap; }
 #contador-monedas { white-space:nowrap; color:#735515; background:#fff6df; border:1px solid #d8bd72; border-radius:20px; padding:4px 9px; font-size:.8rem; font-weight:700; }
 .logo-avanzi { display:block; width:clamp(178px,27vw,255px); max-width:calc(100% - 68px); height:auto; object-fit:contain; flex:none; }
+.mascota-presencia { display:flex; flex:1 0 100%; align-items:center; justify-content:flex-end; gap:7px; min-height:64px; color:var(--secundario); font-size:.75rem; }
+.mascota-activa-boton { display:grid; place-items:center; width:60px; min-height:60px; padding:2px; border:0; background:transparent; }
+.mascota-activa-boton:hover { background:var(--seleccion); }
+.mascota-activa-boton svg { width:54px; height:54px; }
+.catalogo-mascotas { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin:16px 0; }
+.tarjeta-mascota { min-width:0; padding:12px; border:1px solid var(--borde); border-radius:12px; background:#fffdf8; text-align:center; }
+.tarjeta-mascota h3 { margin:6px 0 2px; }
+.mascota-dibujo { display:grid; place-items:center; width:100%; min-height:140px; padding:4px; border:0; background:#fff6e7; }
+.mascota-dibujo:hover { background:#f5ebd8; }
+.mascota-dibujo svg { width:min(100%,136px); height:136px; }
+.precio-mascota,.saldo-tienda { color:#735515; font-weight:700; }
+.acciones-mascota button { width:100%; }
+#estado-tienda { min-height:24px; font-size:.85rem; color:var(--verde); }
+#sin-mascota { margin-bottom:12px; }
+.mascota-svg .cola,.mascota-svg .oreja-izquierda,.mascota-svg .oreja-derecha,.mascota-svg .ojos,.mascota-svg .cuerpo { transform-box:fill-box; transform-origin:center; }
+.mascota-svg.jugando[data-mascota="gato"] .cola { animation:cola-mascota .65s ease-in-out 1; }
+.mascota-svg.jugando[data-mascota="gato"] .ojos { animation:parpadeo-mascota .65s ease-in-out 1; }
+.mascota-svg.jugando[data-mascota="perro"] .cuerpo { animation:salto-mascota .65s ease-in-out 1; }
+.mascota-svg.jugando[data-mascota="conejo"] .oreja-izquierda { animation:oreja-izquierda .65s ease-in-out 1; }
+.mascota-svg.jugando[data-mascota="conejo"] .oreja-derecha { animation:oreja-derecha .65s ease-in-out 1; }
+.mascota-svg[data-mascota="zorro"] .cola { transform-origin:left center; }
+.mascota-svg.jugando[data-mascota="zorro"] .cola { animation:cola-zorro 1s ease-in-out 1; }
+.mascota-svg.jugando[data-mascota="zorro"] .cuerpo { animation:saludo-zorro 1s ease-in-out 1; }
+@keyframes cola-mascota { 50% { transform:rotate(17deg); } }
+@keyframes cola-zorro { 25% { transform:rotate(28deg); } 50% { transform:rotate(-12deg); } 75% { transform:rotate(23deg); } }
+@keyframes saludo-zorro { 35% { transform:translateY(-7px); } 70% { transform:translateY(2px); } }
+@keyframes parpadeo-mascota { 50% { transform:scaleY(.16); } }
+@keyframes salto-mascota { 50% { transform:translateY(-11px); } }
+@keyframes oreja-izquierda { 50% { transform:rotate(-14deg); } }
+@keyframes oreja-derecha { 50% { transform:rotate(14deg); } }
+@media(prefers-reduced-motion:reduce) { .mascota-svg.jugando * { animation:none!important; } .mascota-svg.jugando { filter:brightness(1.06); } }
+@media(max-width:700px) { .catalogo-mascotas { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } }
 .marca { display:inline-flex; align-items:center; gap:10px; color:#111; font:400 2.65rem 'Alfa Slab One',Georgia,serif; letter-spacing:-.035em; white-space:nowrap; }
 .marca img { display:block; width:30px; height:38px; }
 .marca .ilustracion-marca { width:84px; height:auto; object-fit:contain; flex-shrink:0; }
@@ -41,6 +74,19 @@ input[type=checkbox] { width:21px; height:21px; flex-shrink:0; accent-color:var(
 #abrir-compras:hover { background:var(--seleccion); }
 .bolsa-inicio { display:block; width:30px; height:30px; filter:grayscale(1) brightness(0); }
 #contador-compras { position:absolute; top:4px; right:0; display:flex; align-items:center; justify-content:center; min-width:23px; height:23px; padding:0 4px; border-radius:50%; color:white; background:#bd2420; font-size:.75rem; }
+@media(min-width:801px) {
+ .identidad { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:0 12px; padding:12px 0 8px; }
+ .logo-avanzi { grid-column:1; grid-row:1 / 3; align-self:center; }
+ .identidad-acciones { grid-column:2; grid-row:1; gap:10px; margin:0; }
+ #contador-monedas { display:inline-flex; align-items:center; min-height:38px; padding:5px 11px; font-size:1.02rem; }
+ #abrir-compras { width:64px; min-width:64px; min-height:62px; }
+ .bolsa-inicio { width:42px; height:42px; }
+ #contador-compras { min-width:27px; height:27px; font-size:.82rem; }
+ .mascota-presencia { grid-column:2; grid-row:2; flex:none; flex-direction:column; justify-self:center; width:auto; min-height:0; gap:0; }
+ .mascota-activa-boton { width:148px; min-height:148px; }
+ .mascota-activa-boton svg { width:140px; height:140px; }
+ .mascota-presencia span { margin-top:-6px; font-size:.78rem; }
+}
 .pestanas { display:flex; gap:24px; overflow-x:auto; scrollbar-width:thin; padding-right:16px; border-bottom:1px solid #e1e5df; margin:6px 0 18px; }
 .pestanas button { flex:none; white-space:nowrap; border:0; border-bottom:3px solid transparent; border-radius:0; padding:8px 4px 10px; color:#4c574e; background:transparent; font-family:Fraunces,Georgia,serif; font-size:1rem; }
 .pestanas button[aria-pressed=true] { color:var(--verde); border-bottom-color:var(--verde); }
@@ -233,8 +279,19 @@ li[data-disponible=false] .detalle-ingrediente-texto { color:var(--rojo); }
 #ayuda-compras { margin-top:20px; font-size:.8rem; }
 
 @media(max-width:1000px) { .tarjetas { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:800px) {
+ .identidad { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:0 8px; padding:12px 0 8px; }
+ .logo-avanzi { grid-column:1; grid-row:1 / 3; align-self:center; width:min(100%,clamp(170px,28vw,210px)); max-width:none; }
+ .identidad-acciones { grid-column:2; grid-row:1; display:grid; grid-template-columns:auto 52px; align-items:center; gap:3px 4px; margin:0; }
+ #contador-monedas { grid-column:1; grid-row:1; justify-self:end; padding:3px 6px; font-size:.72rem; }
+ #abrir-compras { grid-column:2; grid-row:1; }
+ #modo-prueba { grid-column:1 / -1; grid-row:2; justify-self:end; }
+ .mascota-presencia { grid-column:2; grid-row:2; justify-self:end; width:auto; min-height:120px; margin-top:2px; }
+ .mascota-presencia span { display:none; }
+ .mascota-activa-boton { width:120px; min-height:120px; }
+ .mascota-activa-boton svg { width:112px; height:112px; }
+}
 @media(max-width:650px) {
- .identidad { padding:12px 0 8px; }
  .marca { font-size:2.35rem; }
  .marca .ilustracion-marca { width:62px; }
  .herramientas { grid-template-columns:1fr; gap:10px; }

@@ -15,7 +15,7 @@ const motor=crearMotorCantidades(recetas,ingredientes,eq);
 const fecha=(dia,hora=10)=>new Date(2026,9,dia,hora).toISOString();
 const memoria=()=>{const datos=new Map();return {datos,getItem:k=>datos.get(k)??null,setItem:(k,v)=>datos.set(k,v),removeItem:k=>datos.delete(k)};};
 function planificar(s,r){motor.agregarNecesidades(s,r.id,motor.requerimientos(r).map(i=>i.clave));}
-function marcar(s,accion,dia=16){const antes=copiar(s);accion();registrarCambiosCompras(antes,s,motor,fecha(dia));}
+function marcar(s,accion,dia=16,modo='real'){const antes=copiar(s);accion();registrarCambiosCompras(antes,s,motor,fecha(dia),modo);}
 
 test('huevos compartidos: un agotamiento crea dos IDs y una compra completa dos recetas',()=>{
   const s=estadoVacio();planificar(s,recetas[0]);planificar(s,recetas[1]);
@@ -77,18 +77,22 @@ test('cancelar conserva compras pero no permite reutilizar la misma subtarea',()
   assert.equal(finalizarSesion(s,motor,fecha(16)).monedas,0);
 });
 
-test('misma receta puede cobrar otro día solo tras agotamiento y nueva subtarea',()=>{
+test('misma receta puede cobrar en jornadas del mismo día solo tras nuevas necesidades',()=>{
   const s=estadoVacio();planificar(s,recetas[0]);motor.establecerPresencia(s,'tomate',true);
   iniciarSesion(s,motor,fecha(16),'ses-dia-1');
   marcar(s,()=>motor.marcarIngrediente(s,'huevo',true),16);
   assert.equal(finalizarSesion(s,motor,fecha(16)).monedas,5);
   motor.agotarIngrediente(s,'huevo',false,fecha(16));
-  assert.throws(()=>iniciarSesion(s,motor,fecha(16),'ses-mismo-dia'),/Ya recibiste/);
+  iniciarSesion(s,motor,fecha(16),'ses-mismo-dia');
+  marcar(s,()=>motor.marcarIngrediente(s,'huevo',true),16);
+  assert.equal(finalizarSesion(s,motor,fecha(16)).monedas,5);
+  assert.equal(saldoMonedas(s),10);
+  motor.agotarIngrediente(s,'huevo',false,fecha(17));
   iniciarSesion(s,motor,fecha(17),'ses-dia-2');
   marcar(s,()=>motor.marcarIngrediente(s,'huevo',true),17);
   assert.equal(finalizarSesion(s,motor,fecha(17)).monedas,5);
-  assert.equal(saldoMonedas(s),10);
-  assert.equal(s.recompensas.movimientos.length,2);
+  assert.equal(saldoMonedas(s),15);
+  assert.equal(s.recompensas.movimientos.length,3);
   assert.deepEqual([1,2,3,4,5,6,7].map(monedasPorRecetas),[5,15,30,50,75,90,105]);
 });
 
@@ -151,7 +155,7 @@ test('una necesidad pendiente anterior recibe ID estable al iniciar, pero una co
   assert.equal(finalizarSesion(s,motor,fecha(16)).monedas,5);
 });
 
-test('una jornada que cruza de día termina sin premio y deja libre la oportunidad del día siguiente',()=>{
+test('una jornada que cruza de día termina sin premio y permite comenzar otra',()=>{
   const s=estadoVacio();planificar(s,recetas[0]);motor.establecerPresencia(s,'tomate',true);
   iniciarSesion(s,motor,fecha(16),'ses-cruce');
   marcar(s,()=>motor.marcarIngrediente(s,'huevo',true),16);
@@ -196,6 +200,20 @@ test('alternar disponibilidad manual no duplica necesidades ni concede monedas',
   assert.equal(s.historialSubtareas.length,0);
   iniciarSesion(s,motor,fecha(16),'ses-alternar');
   marcar(s,()=>motor.establecerPresencia(s,'huevo',true));
+  assert.equal(finalizarSesion(s,motor,fecha(16)).monedas,0);
+  assert.equal(saldoMonedas(s),0);
+});
+
+test('la jornada de prueba acredita solo monedas ficticias y no reutiliza su compra en modo real',()=>{
+  const s=estadoVacio();planificar(s,recetas[0]);motor.establecerPresencia(s,'tomate',true);
+  iniciarSesion(s,motor,fecha(16),'ses-demo', 'demo');
+  marcar(s,()=>motor.marcarIngrediente(s,'huevo',true),16,'demo');
+  assert.equal(finalizarSesion(s,motor,fecha(16),'demo').monedas,5);
+  assert.equal(saldoMonedas(s),0);
+  assert.equal(saldoMonedas(s,'demo'),1000004);
+  marcar(s,()=>motor.marcarIngrediente(s,'huevo',false));
+  iniciarSesion(s,motor,fecha(16),'ses-real');
+  marcar(s,()=>motor.marcarIngrediente(s,'huevo',true));
   assert.equal(finalizarSesion(s,motor,fecha(16)).monedas,0);
   assert.equal(saldoMonedas(s),0);
 });

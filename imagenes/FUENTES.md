@@ -2,7 +2,9 @@
 
 ## Logotipo oficial actual
 
-`marca/avanzi-logo-original.png` es una copia sin modificaciones del PNG «Logotipo Avanzi con espátula y temporizador de tomate.png» aportado por el usuario para esta aplicación (1946 × 808 píxeles). `marca/avanzi-logo-cabecera.png` recorta únicamente los márgenes vacíos a 1390 × 430 píxeles; conserva los píxeles y proporciones del diseño dentro del recorte. La cabecera muestra esta copia local. No se redibujaron letras, espátula ni temporizador.
+`marca/avanzi-logo-original.png` es una copia sin modificaciones del PNG «Logotipo Avanzi con espátula y temporizador de tomate.png» aportado por el usuario para esta aplicación (1946 × 808 píxeles). `marca/avanzi-logo-cabecera.png` recorta únicamente los márgenes vacíos a 1390 × 430 píxeles. `marca/avanzi-logo-transparente.png` conserva ese encuadre y los píxeles interiores del dibujo; se extrajo el fondo crema incorporado y se descontaminó el borde suavizado para evitar halos. La cabecera muestra esta última copia. Los dos archivos anteriores permanecen intactos.
+
+`mascotas/gato.svg`, `perro.svg`, `conejo.svg` y `zorro.svg` son dibujos vectoriales originales creados para Avanzi. Sus reacciones se producen con CSS local al tocar una mascota; no emplean imágenes ni animaciones externas.
 
 Los SVG son recursos originales del proyecto. Las composiciones representan ingredientes y los respaldos son genéricos; ninguno es una fotografía del plato. Se conservan aquí procedencias y permisos, incluidos recursos históricos. El uso visual vigente está en [DISEÑO.md](../DISEÑO.md). Los apartados históricos no ordenan restaurar fondos, fuentes ni adornos anteriores.
 

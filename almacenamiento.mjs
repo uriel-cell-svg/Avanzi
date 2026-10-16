@@ -1,5 +1,6 @@
 /** Un único snapshot evita escrituras parciales entre inventario, planes y compras. */
 import {validarRecompensas} from './recompensas.mjs';
+import {validarTienda} from './tienda.mjs';
 import {estadoVacio,copiar,VERSION_ESTADO} from './planificacion.mjs';
 export const CLAVE_DESPENSA='que-cocino.despensa.v1';
 export const CLAVE_COMPRAS='que-cocino.compras.v1';
@@ -47,6 +48,7 @@ export function validarEstado(datos,motor) {
   for(const key of ['inventario','planes','manuales','comprasRealizadas','transiciones','porRevisar'])if(!Array.isArray(datos[key]))throw new Error(`Datos guardados inválidos: ${key}.`);
   const s=copiar(datos),avisos=[];
   s.recompensas=validarRecompensas(s.recompensas);
+  s.tienda=validarTienda(s.tienda,s.recompensas);
   if(s.historialSubtareas===undefined)s.historialSubtareas=[];
   if(!Array.isArray(s.historialSubtareas))throw new Error('Historial de compras inválido.');
   const historicas=new Set();

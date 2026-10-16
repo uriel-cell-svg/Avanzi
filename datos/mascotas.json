@@ -1,0 +1,8 @@
+{
+  "mascotas": [
+    {"id":"gato","nombre":"Gato","precio":30,"imagen":"./imagenes/mascotas/gato.svg"},
+    {"id":"perro","nombre":"Perro","precio":40,"imagen":"./imagenes/mascotas/perro.svg"},
+    {"id":"conejo","nombre":"Conejo","precio":50,"imagen":"./imagenes/mascotas/conejo.svg"},
+    {"id":"zorro","nombre":"Zorro","precio":60,"imagen":"./imagenes/mascotas/zorro.svg"}
+  ]
+}

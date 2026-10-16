@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Perro">
+  <ellipse cx="80" cy="145" rx="53" ry="8" fill="#e8dfc9"/>
+  <g class="cuerpo">
+    <path d="M43 137c-2-34 11-55 37-55s39 21 37 55z" fill="#aa7550" stroke="#574633" stroke-width="3"/>
+    <path d="M62 93h36l-7 44H69z" fill="#f7e9ce"/>
+    <path d="M42 49q-25-7-25 18 0 20 20 22l16-28m65-12q25-7 25 18 0 20-20 22l-16-28" fill="#78563d" stroke="#574633" stroke-width="3"/>
+    <ellipse cx="80" cy="70" rx="43" ry="48" fill="#aa7550" stroke="#574633" stroke-width="3"/>
+    <ellipse cx="80" cy="91" rx="25" ry="19" fill="#f7e9ce"/>
+    <circle cx="65" cy="72" r="4" fill="#343c31"/><circle cx="95" cy="72" r="4" fill="#343c31"/>
+    <ellipse cx="80" cy="86" rx="7" ry="5" fill="#343c31"/>
+    <path d="M80 91q-4 9-11 7m11-7q4 9 11 7" fill="none" stroke="#574633" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M69 115h22" stroke="#876142" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

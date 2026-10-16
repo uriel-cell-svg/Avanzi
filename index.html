@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Avanzi</title>
+  <link rel="icon" type="image/png" href="./imagenes/marca/avanzi-logo-transparente.png">
   <link rel="stylesheet" href="./estilos.css">
   <script type="module" src="./app.js"></script>
 </head>
 <body>
   <header class="contenedor">
-    <div class="identidad"><img class="logo-avanzi" src="./imagenes/marca/avanzi-logo-cabecera.png" alt="Avanzi" width="1390" height="430"><div class="identidad-acciones"><span id="contador-monedas" aria-label="Monedas: 0">✦ 0</span><button type="button" id="abrir-compras" class="secundario" disabled><img class="bolsa-inicio" src="./imagenes/bolsa.svg" alt="" width="24" height="24"><span class="nombre-acceso-compras">Lista de compras</span> <span id="contador-compras">0</span></button></div></div>
+    <div class="identidad"><img class="logo-avanzi" src="./imagenes/marca/avanzi-logo-transparente.png" alt="Avanzi" width="1390" height="430"><div class="identidad-acciones"><span id="modo-prueba" hidden>Modo de prueba</span><span id="contador-monedas" aria-label="Monedas: 0">✦ 0</span><button type="button" id="abrir-compras" class="secundario" disabled><img class="bolsa-inicio" src="./imagenes/bolsa.svg" alt="" width="24" height="24"><span class="nombre-acceso-compras">Lista de compras</span> <span id="contador-compras">0</span></button></div><div id="mascota-presencia" class="mascota-presencia" hidden></div></div>
   </header>
   <main class="contenedor">
     <p id="estado" role="status" aria-live="polite">Cargando recetas…</p>
@@ -21,6 +22,7 @@
         <button type="button" id="tab-despensa" aria-pressed="true" aria-controls="despensa">Lo que tengo</button>
         <button type="button" id="tab-recetas" aria-pressed="false" aria-controls="recetas">Recetas</button>
         <button type="button" id="tab-perfil" aria-pressed="false" aria-controls="perfil">Mi perfil</button>
+        <button type="button" id="tab-mascotas" aria-pressed="false" aria-controls="mascotas">Mascotas</button>
       </nav>
       <section id="despensa" aria-labelledby="titulo-despensa">
         <div class="cabecera-seccion">
@@ -90,6 +92,13 @@
         <div id="confirmar-eliminar-perfil" hidden><p>¿Eliminar tu perfil? Tus recetas, despensa y compras se conservarán.</p><button type="button" id="aceptar-eliminar-perfil">Eliminar perfil</button><button type="button" id="cancelar-eliminar-perfil" class="secundario">Cancelar</button></div>
         <div id="estimaciones-perfil" aria-live="polite"></div>
         <p class="nota-perfil">Estos valores son orientativos y pueden no ser adecuados para todas las personas. No son un diagnóstico ni reemplazan la orientación profesional.</p>
+      </section>
+      <section id="mascotas" aria-labelledby="titulo-mascotas" hidden>
+        <div class="cabecera-seccion"><h2 id="titulo-mascotas">Mascotas</h2><span id="modo-prueba-tienda" hidden>Modo de prueba</span></div>
+        <p id="saldo-tienda" class="saldo-tienda"></p>
+        <p id="estado-tienda" role="status" aria-live="polite"></p>
+        <div id="catalogo-mascotas" class="catalogo-mascotas"></div>
+        <button type="button" id="sin-mascota" class="secundario">Sin mascota</button>
       </section>
     </div>
   </main>

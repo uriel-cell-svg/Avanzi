@@ -9,7 +9,8 @@ import {recuperarPerfil,guardarPerfil,eliminarPerfil} from './perfil_usuario.mjs
 import {estimarPerfil} from './estimaciones_perfil.mjs';
 import {recomendarRecetas} from './recomendaciones.mjs';
 import {recuperarFavoritos,guardarFavoritos,cambiarFavorito,quitarFavorito} from './favoritos.mjs';
-import {iniciarSesion,cancelarSesion,finalizarSesion,registrarCambiosCompras,invalidarRecetas,saldoMonedas,diaLocal} from './recompensas.mjs';
+import {iniciarSesion,cancelarSesion,finalizarSesion,registrarCambiosCompras,invalidarRecetas,saldoMonedas} from './recompensas.mjs';
+import {validarCatalogoMascotas,comprarMascota,elegirMascota,modoDesdePerfil} from './tienda.mjs';
 import {validarRecetas,validarIngredientes,prepararIngredientes,CATEGORIAS} from './catalogo_avanzi.mjs';
 
 const $=id=>document.getElementById(id);
@@ -26,6 +27,10 @@ let perfil=null,perfilBloqueado=false,origenDetalle='recetas';
 let favoritos={version:1,ids:[]},favoritosBloqueados=false;
 let ingredientePorAgotar=null;
 let focoAntesDeAgotar=null;
+let mascotas=[],modoPruebaDisponible=false;
+const svgMascotas=new Map();
+const temporizadoresMascotas=new WeakMap();
+const modoActual=()=>modoDesdePerfil(perfil,{modoPruebaDisponible});
 const urlsFotos=new Map();
 const fotosPendientes=new Map();
 window.addEventListener('pagehide',()=>{for(const url of urlsFotos.values())URL.revokeObjectURL(url);urlsFotos.clear();});
@@ -148,7 +153,7 @@ function metadatosReceta(r,porciones,veces=1) {
 
 
 function cambiarSeccion(seccion) {
-  for (const nombre of ['despensa', 'recetas', 'perfil']) {
+  for (const nombre of ['despensa', 'recetas', 'perfil','mascotas']) {
     $(nombre).hidden = nombre !== seccion;
     $(`tab-${nombre}`).setAttribute('aria-pressed', String(nombre === seccion));
   }
@@ -177,7 +182,7 @@ function guardar() {
 function cambiar(accion) {
   try{almacenamientoSeguro.comprobar();}catch(error){mensajeGuardado(error.message);return false;}
   const antes=copiar(estado);
-  try{accion(estado);registrarCambiosCompras(antes,estado,motor);motor.detectarTransiciones(antes,estado);}catch(error){estado=antes;mensajeGuardado(error.message);return false;}
+  try{accion(estado);registrarCambiosCompras(antes,estado,motor,new Date().toISOString(),modoActual());motor.detectarTransiciones(antes,estado);}catch(error){estado=antes;mensajeGuardado(error.message);return false;}
   const ok=guardar();if(!ok&&almacenamientoSeguro.desactualizado())estado=antes;
   actualizar();return ok;
 }
@@ -633,13 +638,11 @@ function dibujarCompras() {
   if(focoAnterior){const destino=[...$('compras').querySelectorAll('[data-foco]')].find(n=>n.dataset.foco===focoAnterior&&!n.closest('[hidden]'));if(destino?.closest('#comprados'))$('comprados').open=true;if(destino?.closest('details[data-receta]'))destino.closest('details[data-receta]').open=true;(destino||$('titulo-compras')).focus({preventScroll:true});}
   $('estado-compras').textContent=`Pendientes · ${motor.resumenCompras(estado).filter(g=>!g.completo).length}`;
   $('vaciar-compras').disabled=!estado.planes.length&&!estado.manuales.length;if($('vaciar-compras').disabled)$('confirmar-vaciado').hidden=true;
-  const recompensas=estado.recompensas,sesion=recompensas?.sesion,dia=diaLocal(new Date().toISOString());
-  const premiadaHoy=recompensas?.movimientos.some(m=>m.tipo==='premio'&&m.dia===dia);
-  $('iniciar-sesion').hidden=!!sesion;$('iniciar-sesion').disabled=!!premiadaHoy;
+  const sesion=estado.recompensas?.sesion;
+  $('iniciar-sesion').hidden=!!sesion;
   $('finalizar-sesion').hidden=!sesion;$('cancelar-sesion').hidden=!sesion;
   $('resumen-sesion').textContent=sesion
-    ?`Jornada en curso · ${sesion.candidatos.length} recetas con faltantes al comenzar.`
-    :premiadaHoy?'Ya recibiste monedas por una jornada hoy. Podés seguir usando la lista normalmente.'
+    ?`Jornada en curso · ${sesion.candidatos.length} recetas con faltantes al comenzar.${(sesion.modo??'real')!==modoActual()?' Cambió el modo del perfil: finalizala sin premio o cancelala.':''}`
     :'Iniciá una jornada para recibir monedas por recetas que completes con compras nuevas.';
   const historicas=estado.historialSubtareas||[],historial=$('historial-compras'),listaHistorial=$('lista-historial-compras');
   historial.hidden=!historicas.length;listaHistorial.replaceChildren();
@@ -675,11 +678,70 @@ function mostrarEstimaciones() {
   if(datos.grasas)macro('Grasas',`${datos.grasas.min}–${datos.grasas.max}`,'macro-grasas');
   panel.append(macros);
 }
+function imagenMascota(mascota){
+  const svg=document.importNode(svgMascotas.get(mascota.id).documentElement,true);
+  svg.classList.add('mascota-svg');svg.dataset.mascota=mascota.id;svg.setAttribute('aria-hidden','true');return svg;
+}
+function animarMascota(botonMascota){
+  const svg=botonMascota.querySelector('svg');if(!svg)return;
+  clearTimeout(temporizadoresMascotas.get(svg));
+  svg.classList.remove('jugando');void svg.getBoundingClientRect();svg.classList.add('jugando');
+  temporizadoresMascotas.set(svg,setTimeout(()=>svg.classList.remove('jugando'),1100));
+}
+function mostrarTienda(){
+  const modo=modoActual(),prueba=modo==='demo',propias=estado.tienda?.[modo]??{ids:[],activa:null};
+    const foco=document.activeElement;
+    const focoMascota=foco?.closest?.('.tarjeta-mascota');
+    const focoId=focoMascota?.dataset.mascotaId;
+    const focoAccion=focoMascota&&foco.classList.contains('mascota-dibujo')?'dibujo':focoMascota?'accion':null;
+  $('modo-prueba').hidden=!prueba;$('modo-prueba-tienda').hidden=!prueba;
+  $('saldo-tienda').textContent=`✦ ${saldoMonedas(estado,modo).toLocaleString('es-AR')} monedas${prueba?' de prueba':''}`;
+  const catalogo=$('catalogo-mascotas');catalogo.replaceChildren();
+  for(const mascota of mascotas){
+    const tarjeta=elemento('article',undefined,'tarjeta-mascota');
+      tarjeta.dataset.mascotaId=mascota.id;
+    const dibujo=boton('',()=>animarMascota(dibujo),'mascota-dibujo');
+    dibujo.setAttribute('aria-label',`Saludar a ${mascota.nombre}`);dibujo.append(imagenMascota(mascota));
+    const nombre=elemento('h3',mascota.nombre),estadoMascota=elemento('p',propias.ids.includes(mascota.id)?'Desbloqueada':`✦ ${mascota.precio} monedas`,'precio-mascota');
+    const acciones=elemento('div',undefined,'acciones-mascota');
+    if(!propias.ids.includes(mascota.id)){
+      const comprar=boton('Comprar',()=>{
+        if(saldoMonedas(estado,modo)<mascota.precio){$('estado-tienda').textContent='No tenés monedas suficientes.';return;}
+        if(!cambiarSeguro(s=>comprarMascota(s,mascota,modo))){$('estado-tienda').textContent=$('aviso-guardado').textContent;return;}
+        $('estado-tienda').textContent=`Compraste ${mascota.nombre}.`;
+      });
+      comprar.setAttribute('aria-label',`Comprar ${mascota.nombre} por ${mascota.precio} monedas`);acciones.append(comprar);
+    }else{
+      const activar=boton(propias.activa===mascota.id?'Activa':'Elegir',()=>{
+        if(!cambiarSeguro(s=>elegirMascota(s,mascota.id,modo))){$('estado-tienda').textContent=$('aviso-guardado').textContent;return;}
+        $('estado-tienda').textContent=`${mascota.nombre} es tu mascota activa.`;
+      },'secundario');activar.disabled=propias.activa===mascota.id;acciones.append(activar);
+    }
+    tarjeta.append(dibujo,nombre,estadoMascota,acciones);catalogo.append(tarjeta);
+  }
+    if(focoId){
+      const nueva=[...catalogo.children].find(t=>t.dataset.mascotaId===focoId);
+      (nueva?.querySelector(focoAccion==='dibujo'?'.mascota-dibujo':'.acciones-mascota button:not(:disabled)')??
+        nueva?.querySelector('.mascota-dibujo'))?.focus();
+    }
+  $('sin-mascota').disabled=propias.activa===null;
+  const presencia=$('mascota-presencia');presencia.replaceChildren();
+  const activa=mascotas.find(m=>m.id===propias.activa);
+  presencia.hidden=!activa;
+  if(activa){
+    const tocar=boton('',()=>animarMascota(tocar),'mascota-activa-boton');
+    tocar.setAttribute('aria-label',`Saludar a ${activa.nombre}`);tocar.append(imagenMascota(activa));
+    presencia.append(tocar,elemento('span',`Tu ${activa.nombre}`));
+  }
+}
 function actualizar() {
   mostrarDespensa();mostrarSeleccion();mostrarRecetas();
   mostrarEstimaciones();$('eliminar-perfil').hidden=!perfil||perfilBloqueado;
   $('contador-compras').textContent=motor.resumenCompras(estado).filter(g=>!g.completo).length;
-  const monedas=saldoMonedas(estado);$('contador-monedas').textContent=`✦ ${monedas}`;$('contador-monedas').setAttribute('aria-label',`Monedas: ${monedas}`);
+  const modo=modoActual(),monedas=saldoMonedas(estado,modo);
+  $('contador-monedas').textContent=`✦ ${monedas.toLocaleString('es-AR')}`;
+  $('contador-monedas').setAttribute('aria-label',`${modo==='demo'?'Monedas de prueba':'Monedas'}: ${monedas}`);
+  mostrarTienda();
   $('resumen').textContent=`${recetas.filter(r=>disponibilidad(r).completa).length} recetas con todos sus ingredientes. Las compras pendientes no cuentan como disponibles.`;
   if($('detalle').open)dibujarDetalle();if($('compras').open)dibujarCompras();
 }
@@ -689,7 +751,11 @@ function conectarControles() {
     editor.abrir();
   });
   $('continuar-borrador').addEventListener('click',()=>editor.abrir(recetasUsuario.borrador,{borrador:true}));
-  for(const seccion of ['despensa','recetas','perfil'])$(`tab-${seccion}`).addEventListener('click',()=>{recetaDestacadaIds=null;cambiarSeccion(seccion);if(seccion==='despensa')mostrarDespensa();});
+  for(const seccion of ['despensa','recetas','perfil','mascotas'])$(`tab-${seccion}`).addEventListener('click',()=>{recetaDestacadaIds=null;cambiarSeccion(seccion);if(seccion==='despensa')mostrarDespensa();});
+  $('sin-mascota').addEventListener('click',()=>{
+    if(!cambiarSeguro(s=>elegirMascota(s,null,modoActual()))){$('estado-tienda').textContent=$('aviso-guardado').textContent;return;}
+    $('estado-tienda').textContent='Mascota oculta. Conservás tus desbloqueos.';
+  });
   $('form-perfil').addEventListener('submit',evento=>{
     evento.preventDefault();if(!$('form-perfil').reportValidity())return;
     const numero=id=>$(id).value.trim()===''?null:$(id).valueAsNumber;
@@ -756,7 +822,7 @@ function conectarControles() {
   });
   $('abrir-compras').addEventListener('click',()=>{$('confirmar-vaciado').hidden=true;dibujarCompras();$('compras').showModal();$('compras').scrollTop=0;});
   $('iniciar-sesion').addEventListener('click',()=>{
-    if(!cambiarSeguro(s=>iniciarSesion(s,motor)))return;
+    if(!cambiarSeguro(s=>iniciarSesion(s,motor,undefined,undefined,modoActual())))return;
     $('premio-sesion').hidden=true;$('finalizar-sesion').focus();
   });
   $('cancelar-sesion').addEventListener('click',()=>{
@@ -765,10 +831,10 @@ function conectarControles() {
   });
   $('finalizar-sesion').addEventListener('click',()=>{
     let resultado;
-    if(!cambiarSeguro(s=>{resultado=finalizarSesion(s,motor);}))return;
+    if(!cambiarSeguro(s=>{resultado=finalizarSesion(s,motor,undefined,modoActual());}))return;
     const panel=$('premio-sesion');panel.replaceChildren();
     if(resultado.monedas){
-      panel.append(elemento('strong',`¡Bien hecho! Ganaste ${resultado.monedas} monedas.`));
+      panel.append(elemento('strong',`¡Bien hecho! Ganaste ${resultado.monedas} monedas${modoActual()==='demo'?' de prueba':''}.`));
       panel.append(elemento('p',`Ahora podés preparar: ${resultado.recetas.join(', ')}.`));
     }else panel.append(elemento('p','Jornada finalizada sin nuevas recetas disponibles. Tus compras se conservaron.'));
     panel.hidden=false;panel.focus();
@@ -785,9 +851,16 @@ async function iniciar() {
   try{
     const cargar=async ruta=>{const r=await fetch(ruta);if(!r.ok)throw new Error(`No se pudo cargar ${ruta} (HTTP ${r.status}).`);return r.json();};
     // Todos los catálogos y equivalencias se validan antes de acceder al estado persistente.
-    const [r,i,eq,compat]=await Promise.all([cargar('./datos/recetas.json'),cargar('./datos/ingredientes.json'),cargar('./datos/equivalencias_g.json'),cargar('./datos/compatibilidad.json')]);
+    const [r,i,eq,compat,mascotasDatos,config]=await Promise.all([cargar('./datos/recetas.json'),cargar('./datos/ingredientes.json'),cargar('./datos/equivalencias_g.json'),cargar('./datos/compatibilidad.json'),cargar('./datos/mascotas.json'),cargar('./datos/configuracion.json')]);
     recetas=validarRecetas(r);ingredientes=validarIngredientes(i,recetas);
-    if(!eq||!eq.pesoUnidadG||!eq.tspG||!eq.cupG||!compat?.dibujos||!compat.clasificacion)throw new Error('Equivalencias o referencias locales inválidas.');
+    if(!eq||!eq.pesoUnidadG||!eq.tspG||!eq.cupG||!compat?.dibujos||!compat.clasificacion||typeof config?.modoPruebaDisponible!=='boolean')throw new Error('Equivalencias o configuración local inválidas.');
+    mascotas=validarCatalogoMascotas(mascotasDatos);modoPruebaDisponible=config.modoPruebaDisponible;
+    for(const mascota of mascotas){
+      const respuesta=await fetch(mascota.imagen);if(!respuesta.ok)throw new Error(`No se pudo cargar ${mascota.imagen}.`);
+      const svg=new DOMParser().parseFromString(await respuesta.text(),'image/svg+xml');
+      if(svg.querySelector('parsererror')||svg.documentElement.localName!=='svg')throw new Error('Ilustración de mascota inválida.');
+      svgMascotas.set(mascota.id,svg);
+    }
     ingredientes=prepararIngredientes(ingredientes,compat);
     recetasBase=recetas.map(r=>({...r,categoriasAutomaticas:clasificarReceta(r,ingredientes)}));equivalencias=eq;
     motor=crearMotorCantidades(recetasBase,ingredientes,eq);

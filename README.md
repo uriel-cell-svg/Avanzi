@@ -14,7 +14,7 @@ La app no requiere Node.js, paquetes ni compilación. Usa módulos JavaScript lo
 
 Buscá por nombre o alias y filtrá por **Legumbres, Cereales, Verduras, Frutas, Carnes u Otros**. Tocá una tarjeta para indicar que tenés el ingrediente; tocala de nuevo para desmarcarlo. El recuadro superior comparte la misma selección y permite quitar ingredientes con ×. La disponibilidad de recetas se basa en **presencia**, no en cantidad suficiente.
 
-Si desmarcás un ingrediente cuya presencia provenía de subtareas compradas, esas subtareas vuelven a pendientes. La marca manual de Lo que tengo y las compras completadas se guardan por separado.
+Si desmarcás un ingrediente disponible por compras completadas, Avanzi pide confirmación y conserva esas compras en el historial. Solo crea necesidades nuevas para recetas que sigan planificadas. La marca manual de Lo que tengo y las compras completadas se guardan por separado.
 
 **Tengo todo** actúa sobre todo el catálogo, incluso con filtros. La chincheta fija cualquier alimento y lo mantiene seleccionado al usar **Vaciar despensa**. Esta acción pide confirmación y oculta la selección manual no fijada; conserva inventario histórico, recetas, planes y compras. Un alimento comprado y completado puede seguir disponible después de vaciar, porque esa compra es otra fuente de presencia. Las cantidades antiguas se conservan sin pedir nuevos formularios.
 
@@ -92,9 +92,11 @@ Para probar sin alterar tus datos habituales, usá otro perfil o puerto de Live 
 | `imagenes/`, `fuentes/` | Recursos locales y sus créditos/licencias. |
 | `pruebas/` | Pruebas automáticas; no necesarias para abrir la app. |
 
-Las interfaces entre módulos son deliberadamente pequeñas: `catalogo_avanzi.mjs` exporta `validarRecetas`, `validarIngredientes` y `prepararIngredientes` y recibe datos JSON, sin leer almacenamiento; `planificacion.mjs` recibe estado y motor y devuelve cálculos o una copia al separar necesidades; `recompensas.mjs` calcula jornadas y movimientos sin acceder al navegador; `almacenamiento.mjs` recibe un objeto con `getItem`/`setItem` para recuperar y guardar; `persistencia_navegador.mjs` entrega ese objeto protegido y una comprobación previa; `fotos_usuario.mjs` gestiona Blobs por `imagenId` y filtra qué IDs ya no tienen referencias. `app.js` conecta esos resultados con los controles y los avisos. Ningún módulo de datos importa `app.js`.
+Las interfaces entre módulos son deliberadamente pequeñas: `catalogo_avanzi.mjs` exporta `validarRecetas`, `validarIngredientes` y `prepararIngredientes` y recibe datos JSON, sin leer almacenamiento; `planificacion.mjs` recibe estado y motor y devuelve cálculos o una copia al separar necesidades; `recompensas.mjs` calcula jornadas y movimientos; `tienda.mjs` valida canjes y mascotas activas; `almacenamiento.mjs` recibe un objeto con `getItem`/`setItem` para recuperar y guardar; `persistencia_navegador.mjs` entrega ese objeto protegido y una comprobación previa; `fotos_usuario.mjs` gestiona Blobs por `imagenId` y filtra qué IDs ya no tienen referencias. `app.js` conecta esos resultados con los controles y los avisos. Ningún módulo de datos importa `app.js`.
 
-En «Lo que tengo», tocá de nuevo una tarjeta seleccionada, o su × en el recuadro superior, para indicar que el ingrediente se agotó. Si tiene compras completadas, Avanzi pide confirmación antes de pasarlas a «Compras anteriores». Los fijados deben desfijarse primero. Al agotarlo se crean necesidades nuevas para las recetas que permanecen en la lista. En compras podés iniciar, finalizar o cancelar una jornada; las casillas funcionan también sin jornada. Las monedas se conceden solo al finalizar una jornada con recetas completadas por compras nuevas. Cancelar no revierte compras. El contador muestra el saldo local; la tienda de mascotas aún no está implementada.
+En «Lo que tengo», tocá de nuevo una tarjeta seleccionada, o su × en el recuadro superior, para indicar que el ingrediente se agotó. Si tiene compras completadas, Avanzi pide confirmación antes de pasarlas a «Compras anteriores». Los fijados deben desfijarse primero. Al agotarlo se crean necesidades nuevas para las recetas que permanecen en la lista. En compras podés iniciar, finalizar o cancelar una jornada; las casillas funcionan también sin jornada. Podés recibir premios en varias jornadas del mismo día si completás nuevas necesidades. Cancelar no revierte compras.
+
+En «Mascotas» podés gastar monedas en gato (30), perro (40), conejo (50) y zorro (60), elegir una mascota activa o usar «Sin mascota». Tocarla activa una reacción breve. Si guardás exactamente `admin` como nombre, y `datos/configuracion.json` tiene `modoPruebaDisponible: true`, aparece «Modo de prueba» con 999.999 monedas ficticias iniciales; sus premios, compras y mascotas quedan separados del progreso real. Cambiar el nombre recupera inmediatamente el progreso real. Esta versión conserva la demostración habilitada también para GitHub Pages. No es autenticación.
 
 [DATOS.md](./DATOS.md) explica contratos y persistencia; [DISEÑO.md](./DISEÑO.md), presentación; [AGENTS.md](./AGENTS.md), reglas; [CAMBIOS.md](./CAMBIOS.md), resultados por entrega.
 
@@ -108,12 +110,17 @@ node --test pruebas/logica.mjs
 node pruebas/tiempos_estimados.mjs
 node --test pruebas/recetas_usuario.mjs
 node --test pruebas/recompensas_y_agotados.mjs
+node --test pruebas/tienda.mjs
 ```
 
 Las pruebas de navegador `pruebas/navegador.cjs` y `pruebas/editor_navegador.cjs` requieren una instalación **externa** de Playwright y Chromium y la app servida por HTTP. Se pueden indicar `AVANZI_PLAYWRIGHT`, `AVANZI_CHROMIUM`, `AVANZI_URL` y `AVANZI_CAPTURAS`. No instalar nada de esto para usar Avanzi con Live Server.
 
-Pendientes: Live Server del usuario, teléfonos reales, otros navegadores, lector de pantalla y revisión editorial/nutricional de los datos del paquete. Las siete estimaciones de tiempo no son mediciones. El respaldo portátil de recetas propias y fotos también queda pendiente. [ETAPAS_FUTURAS.md](./ETAPAS_FUTURAS.md) distingue las recompensas implementadas de la tienda y mascota futuras.
+Pendientes: Live Server del usuario, teléfonos reales, otros navegadores, lector de pantalla y revisión editorial/nutricional de los datos del paquete. Las siete estimaciones de tiempo no son mediciones. El respaldo portátil de recetas propias y fotos también queda pendiente.
 
-## GitHub Desktop
+## Publicar con GitHub Pages
 
-Copiá el ZIP extraído al repositorio local, seleccioná una rama distinta de `main`, revisá Changes y hacé Commit. Cuando decidas subir tu rama, usá Publish branch o Push origin; no publica una web. En otra computadora: Fetch origin, elegir esa rama y Pull origin. Esta entrega no se publicó ni se incorporó a main.
+Avanzi usa `index.html` en la raíz del repositorio y archivos relativos: no requiere compilación, Live Server ni instalar dependencias en Pages. Cuando apruebes la versión, revisá los cambios en GitHub Desktop, hacé el commit en `desarrollo`, incorporá esa versión a `main` y subí `main` al repositorio remoto. El commit, la incorporación y la subida son pasos separados de la activación de Pages.
+
+En GitHub, abrí **Settings → Pages** del repositorio `Version-1`. En **Build and deployment**, elegí **Deploy from a branch**, rama **main** y carpeta **/(root)**; guardá y esperá a que GitHub indique la URL. Abrí `https://USUARIO.github.io/Version-1/`, reemplazando `USUARIO` por el dueño real del repositorio, y comprobá recetas, imágenes, compras y tienda. Para futuras versiones, actualizá `main` y subila; Pages volverá a desplegarla. Esta preparación no realiza ninguno de esos pasos.
+
+El perfil, las recetas propias, las fotos, la despensa, las compras, las monedas y las mascotas se guardan únicamente en el navegador de cada visitante mediante `localStorage` e IndexedDB; no se comparten entre usuarios ni se envían a GitHub. Una dirección de Live Server y la de GitHub Pages son **orígenes distintos**: los datos guardados en Live Server no aparecerán automáticamente en Pages. Abrir Pages en otro navegador o dispositivo también empieza con sus propios datos locales. El modo `admin` sigue disponible en Pages como demostración y muestra el aviso «Modo de prueba»; sus monedas y mascotas ficticias están separadas de las reales.

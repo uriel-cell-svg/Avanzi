@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Gato">
+  <ellipse cx="80" cy="145" rx="53" ry="8" fill="#e8dfc9"/>
+  <path class="cola" d="M119 112c29 9 35-18 19-27" fill="none" stroke="#916c45" stroke-width="16" stroke-linecap="round"/>
+  <path d="M44 137c-4-37 8-58 36-58s40 21 36 58z" fill="#b28a60" stroke="#574633" stroke-width="3"/>
+  <path d="M48 52 54 19l24 20h4l24-20 7 33c11 12 15 26 10 41-5 17-21 28-43 28S42 110 37 93c-5-15 0-29 11-41z" fill="#b28a60" stroke="#574633" stroke-width="3" stroke-linejoin="round"/>
+  <path d="m54 43 4-14 12 11m36 3-4-14-12 11" fill="#dcaa91"/>
+  <ellipse cx="80" cy="92" rx="20" ry="17" fill="#f7e9ce"/>
+  <path class="ojos" d="M57 74q8-6 15 0m16 0q8-6 15 0" fill="none" stroke="#3c4030" stroke-width="4" stroke-linecap="round"/>
+  <path d="m75 88 5 4 5-4m-5 4q-4 7-9 4m9-4q4 7 9 4" fill="none" stroke="#724a3b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M57 94 38 90m19 10-19 2m65-8 19-4m-19 10 19 2" stroke="#6b5948" stroke-width="2" stroke-linecap="round"/>
+</svg>
