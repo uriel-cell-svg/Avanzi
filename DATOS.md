@@ -31,7 +31,7 @@ ID único y nombre no vacío (`nombreEs`; se admite `nombre` al adaptar). Se con
 - Grupos exactos: `legumbres`, `cereales`, `verduras`, `frutas`, `carnes`, `otros`. La interfaz los muestra en español con inicial mayúscula y añade Todos.
 - `por100g`: `kcal`, `proteinasG`, `carbohidratosG`, `grasasG`, números finitos no negativos. Un perfil incompleto no se considera cero: impide una estimación completa.
 - Densidad positiva si existe. Sirve para relacionar ml con g, no para confundir volumen con masa.
-- `dibujo` es opcional. Si está presente debe cumplir `^\./imagenes/despensa/[a-z0-9-]+\.svg$`. Las referencias a los dibujos anteriores están en compatibilidad; los restantes ingredientes usan el SVG de respaldo. Nombre y controles siempre visibles.
+- `dibujo` es opcional. Si está presente debe cumplir `^\./imagenes/despensa/[a-z0-9-]+\.svg$`. Las referencias a los dibujos anteriores están en compatibilidad. `compatibilidad.json` puede agrupar IDs en `familiasVisuales`: cada familia apunta a un SVG local de `imagenes/lo-que-tengo/`, sin alterar ID, grupo ni datos nutricionales. Los dibujos individuales tienen prioridad; los ingredientes sin familia explícita usan la familia de su grupo o el respaldo. Nombre y controles siempre visibles.
 
 Correcciones de clasificación aisladas del archivo original: repollo se trata como Verduras y vegetal; chorizo como animal; dashi queda con origen animal sin confirmar, por lo que no se declara vegano. No se alteraron los valores por 100 g. «Pasta de curry» y «miso» no se detectan como fideos por contener la palabra pasta.
 
@@ -56,11 +56,13 @@ Se mantienen decimales internamente; `≈` marca una presentación redondeada a 
 
 La disponibilidad visible es binaria por `ingredienteId`: un ingrediente está presente si se marcó manualmente en Lo que tengo o si alguna subtarea de compra quedó completada. No se comparan cantidades de inventario con recetas. Las cantidades históricas del inventario se conservan sin reescribirlas al abrir y no se usan para descontar compras. Desmarcar una compra no retira una marca manual previa. Desmarcar el ingrediente en Lo que tengo reabre sus subtareas completadas para que su ausencia sea coherente en ambas vistas.
 
+«Vaciar despensa» es una operación distinta del desmarcado individual: oculta la presencia manual de los IDs no fijados, sin reescribir `inventario`, `planes`, `manuales` ni `comprasRealizadas`. Una subtarea completada aún aporta disponibilidad y sigue marcada. Fijar un ingrediente lo selecciona; desfijarlo solo quita la protección, sin cambiar sus otras fuentes de disponibilidad. Los campos opcionales `fijados` y `presenciaManualOculta` faltan en snapshots anteriores y se leen como arreglos vacíos.
+
 Cada asociación de `planes[].ingredientes[]` guarda una `clave` canónica y `completado?: boolean`. La identidad estable de subtarea combina `recetaId` + `clave`; las necesidades `manuales[]` usan su propio ID. La ausencia de `completado` en snapshots anteriores equivale a `false`: no se supone que una compra antigua quedó cubierta. `comprasRealizadas[]` permanece como historial, sin migración destructiva.
 
 Una receta escala sus necesidades por `porciones / porcionesOriginales × preparaciones`. Repetir Añadir es idempotente. Por variante compatible, `pendiente = suma(cantidades de subtareas no completadas)`. Variantes sin equivalencia fiable no se suman; la UI agrupa las variantes bajo el mismo ingrediente. Marcar la casilla principal cambia todas sus subtareas; marcar una sola conserva las otras. Al quedar todas completadas, la fila pasa a Compras completadas, desde donde puede reabrirse incluso después de recargar.
 
-Quitar una receta, vínculo o fila retira solo las necesidades correspondientes. Las compras completadas no crean automáticamente una cantidad nueva en inventario: su estado de compra es una fuente separada de presencia. «Después de comprar» simula la presencia que aportan las subtareas todavía pendientes, sin añadirlas al almacenamiento.
+Quitar una receta de la planificación retira sus vínculos y necesidades pendientes. Sus subtareas completadas se conservan como necesidades manuales completadas, con su cantidad y origen, sin modificar el inventario manual ni los recibos históricos. Las vistas «Por ingrediente» y «Por receta» leen el mismo snapshot y permiten reabrir esas subtareas. «Marcar todos» dentro de una receta cambia solo sus vínculos. Quitar un vínculo o una fila sigue retirando solo esas necesidades. Las compras completadas no crean automáticamente una cantidad nueva en inventario: su estado de compra es una fuente separada de presencia. «Después de comprar» simula la presencia que aportan las subtareas todavía pendientes, sin añadirlas al almacenamiento.
 
 ## Nutrición y categorías
 
@@ -88,29 +90,47 @@ Mismo mecanismo local y misma clave `que-cocino.despensa.v1`, ahora con un objet
 | --- | --- |
 | `version` | 3. |
 | `inventario` | Registros con ingredienteId, estado, unidad, cantidad (o null heredado), clave de combinación, actualizadoEn y revisionManual. |
-| `planes` | recetaId, porciones, veces y asociaciones de ingredientes con `clave`, `completado` opcional y ajuste legado `cantidadBase`. |
+| `fijados` | Arreglo opcional de IDs de ingredientes protegidos al vaciar Lo que tengo. Ausente equivale a vacío. |
+| `presenciaManualOculta` | Arreglo opcional de IDs cuya presencia manual se ocultó al vaciar. Conserva los registros de inventario y sus cantidades; no afecta compras completadas. Ausente equivale a vacío. |
+| `planes` | recetaId, porciones, veces y asociaciones de ingredientes con `clave`, `completado` opcional, `necesidadId` único en vínculos nuevos y ajuste legado `cantidadBase`. |
 | `manuales` | Necesidades sin receta activa; también admiten `completado` opcional. |
 | `comprasRealizadas` | ID único de confirmación, ingrediente/estado/unidad, cantidad incorporada, fecha, revisión manual y marca de deshecha. |
-| `transiciones` | Un evento por ID de receta que pasó de insuficiente a suficiente, con fecha. Sin monedas, niveles ni UI de recompensa. |
-| `porRevisar` | Referencias anteriores que requieren elegir una correspondencia explícita. |
+| `transiciones` | Registro anterior de cambios de insuficiente a suficiente por ID de receta. Se conserva y no se convierte en monedas. |
+| `porRevisar` | Referencias anteriores sin correspondencia inequívoca; se conservan sin formulario de asignación. |
+| `historialSubtareas` | Campo opcional: copia inmutable de subtareas completadas archivadas al declarar agotado un ingrediente; mantiene ID, receta de origen, cantidad, unidad y fecha de agotamiento, sin aportar disponibilidad. |
+| `recompensas` | Campo opcional versionado: sesión activa, IDs de subtareas ya completadas, movimientos reales y `movimientosDemo` separados. El saldo se deriva de los movimientos; la demo parte de 999.999 monedas ficticias. |
+| `tienda` | Campo opcional versionado: IDs desbloqueados y mascota activa separados en `real` y `demo`; ausencia equivale a tienda vacía. Cada desbloqueo corresponde a un canje único en el mismo snapshot. |
+| `referenciasResueltas` | Campo opcional: referencias antiguas vinculadas automáticamente, con su origen y el ID actual; evita perder el registro original al resolverlas. |
 | `legado` | Cuando procede, contenido anterior original de las dos claves, conservado para recuperación/auditoría. |
 
 `clave` es la identidad de la combinación (ingrediente, estado, unidad), no otra cantidad. Las asociaciones guardan un respaldo de **necesidad**, no de pendiente, para conservar una compra si desaparece su receta. No hay otra copia activa del inventario ni una tabla de pendientes persistida.
 
 Una sola llamada `localStorage.setItem` guarda el snapshot completo; un fallo conserva la versión anterior. La pestaña desactualizada se bloquea al detectar un cambio en las claves activas. El estado de cada casilla queda en el mismo snapshot que sus asociaciones; no se guardan totales derivados.
 
-Los recibos antiguos, cantidades y revisiones manuales permanecen para recuperar datos previos, aunque la nueva vista no ofrece el formulario «Registrar compra». `transiciones` conserva IDs registrados, sin implementar recompensas. Una escritura exactamente simultánea en dos pestañas sigue sin poder garantizarse como transacción con localStorage.
+Los recibos antiguos, cantidades y revisiones manuales permanecen para recuperar datos previos. Desmarcar una tarjeta en «Lo que tengo» —o usar su ×— llama a `agotarIngrediente`: archiva las subtareas completadas del ingrediente, conserva sus cantidades y recetas, oculta su selección manual y crea necesidades nuevas solo para recetas todavía planificadas. Si hay compras completadas, primero se pide confirmación; cancelarla no cambia el snapshot. El historial es consultable, pero no vuelve a aportar disponibilidad ni premios. Los alimentos fijados deben desfijarse por separado antes de agotarse. Repetir el agotamiento cuando el ingrediente ya no está disponible no crea necesidades adicionales.
+
+Una jornada guarda las recetas incompletas y sus faltantes iniciales. Solo cuentan las que pasan a completas por subtareas nuevas marcadas durante esa jornada; marcar la despensa manualmente no alcanza. Los vínculos pendientes anteriores reciben `necesidadId` al iniciar una jornada; los ya completados no se reutilizan. Los IDs completados quedan en `recompensas.vistos`, incluso si luego se desmarcan. Una receta modificada o retirada del plan durante la jornada deja de ser candidata. Cancelar o cerrar sin premio conserva las compras. Si la jornada cruza a otro día o cambia el modo del perfil, se cierra sin premio. Se admiten varias jornadas premiadas por día, siempre con nuevas necesidades; no hay límite diario. El total es 5, 15, 30, 50 o 75 monedas para una a cinco recetas y 15 más por cada receta adicional.
+
+El nombre guardado exactamente `admin` activa el modo de prueba solo si `datos/configuracion.json` tiene `modoPruebaDisponible: true`. Ponerlo en `false` lo desactiva antes de publicar, sin compilación. No es autenticación: cualquier visitante podría usarlo si está habilitado. La sesión se etiqueta al iniciarse; sus premios van exclusivamente al libro real o de prueba correspondiente. Los IDs de necesidades vistas se comparten para impedir reutilizar compras entre modos. La tienda usa `datos/mascotas.json` y guarda en una sola escritura el canje negativo y el desbloqueo por ID estable. La mascota activa puede ser `null` sin perder el desbloqueo. Un canje nunca deja saldo negativo; los canjes de prueba no alteran saldo ni mascotas reales.
+
+El snapshot de despensa, historial, sesión y movimientos se escribe con una sola llamada a `localStorage.setItem`; un fallo no deja una recompensa parcial. Una pestaña desactualizada se bloquea antes de escribir. Una escritura exactamente simultánea en dos pestañas sigue sin poder garantizarse como transacción con localStorage.
 
 ### Compatibilidad y fallos
 
 Antes de leer listas se cargan y validan catálogos/equivalencias. Si fallan, ninguna escritura. Un formato guardado inválido bloquea sobrescrituras. Referencias obsoletas se omiten individualmente con aviso, conservando las vigentes.
 
-Se leen la despensa antigua (arreglo de IDs), las compras antiguas (arreglo o version: 2) y su operación provisional. Esta última se resuelve según qué selección efectivamente quedó guardada. Los IDs conocidos se recuperan con cantidad desconocida; no se les asigna 1 ni se supone suficiencia. Los desconocidos pasan a revisión explícita. Las compras compradas antiguas también se conservan como necesidades por confirmar.
+Se leen la despensa antigua (arreglo de IDs), las compras antiguas (arreglo o version: 2) y su operación provisional. Esta última se resuelve según qué selección efectivamente quedó guardada. Los IDs conocidos se recuperan con cantidad desconocida; no se les asigna 1 ni se supone suficiencia. Los IDs antiguos se vinculan solo si coinciden con un ID actual o con un único nombre/alias normalizado del catálogo. Nombres genéricos ambiguos como «aceite», «arroz» y «pasta» permanecen sin asignar. Las referencias no resueltas siguen en `porRevisar`; las resueltas se archivan en `referenciasResueltas`. La recuperación no escribe hasta una acción posterior del usuario. Las compras compradas antiguas también se conservan como necesidades por confirmar.
 
 La clave `que-cocino.compras.v1` queda intacta como legado; si ya hay snapshot v3 se usa solo este. No se reescribe nada solo por abrir la app; la conversión se guarda con la primera acción y conserva los textos anteriores. No hay sincronización entre pestañas/dispositivos. Una futura cuenta puede trasladar este estado por IDs; no se incorporan servicios ahora.
+
+## Perfil local y recomendaciones
+
+`avanzi.perfil.v1` es una clave independiente del snapshot v3 de inventario/compras y de `avanzi.recetas.usuario.v1`. Ausencia significa que no hay perfil. El documento `version: 1` admite `nombre`, `edad`, `pesoKg`, `alturaCm`, `actividad`, `objetivo`, `coeficiente` y `alimentacion` opcionales (`null` cuando se omiten); los perfiles anteriores sin `alimentacion` se leen como `null`, sin inferirla. `usarEstimacion` y `entrenaFuerza` son booleanos opcionales, false por defecto. Las opciones de actividad son `sedentario`, `ligero`, `moderado`, `activo`, `muy-activo`; los objetivos son `mantener`, `perder`, `ganar`; `coeficiente` es `mas-5` o `menos-161` aunque la interfaz lo presenta como «Sexo»; `alimentacion` es `omnivora`, `vegetariana` o `vegana`. Recuperar no escribe. Un perfil inválido bloquea solo la escritura de esa clave; borrarlo elimina únicamente esa clave. La protección de pestañas observa también esta clave. Las recomendaciones y estimaciones son derivadas y no se persisten. Fórmulas, fuentes y límites: [NUTRICION_PERFIL.md](./NUTRICION_PERFIL.md).
+
+`avanzi.favoritos.v1` guarda `{version:1, ids:[...]}` con identificadores estables de recetas del paquete o propias. Es independiente del perfil, la despensa y las compras. Una clave ausente equivale a lista vacía; datos inválidos bloquean sobrescrituras. Al borrar una receta propia se elimina su ID de favoritos después de guardar la eliminación de la receta. La protección entre pestañas observa también esta clave.
 
 ## Ampliaciones que siguen pendientes
 
 La propuesta anterior de `cantidadTexto` para «a gusto»/«un puñado» no se implementó como nuevo tipo de línea: las 39 recetas ya traen cantidades numéricas estimadas y se preservan. El editor de inventario no admite números inventados para cantidades desconocidas. Un próximo registro sin cantidad necesita una ampliación y una política explícita de suficiencia, no sustituir ausencia por cero.
 
-Los campos bibliográficos de libro/páginas de PDF propuestos anteriormente no están implementados. La colección actual usa `fuente` y auditoría de Public Domain Recipes. No se crea importador de PDF, cuentas, sincronización, calendario, recompensas visibles ni consumo automático al cocinar.
+Los campos bibliográficos de libro/páginas de PDF propuestos anteriormente no están implementados. La colección actual usa `fuente` y auditoría de Public Domain Recipes. No se crea importador de PDF, cuentas, sincronización, calendario ni consumo automático al cocinar.

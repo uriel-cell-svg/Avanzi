@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Conejo">
+  <ellipse cx="80" cy="145" rx="53" ry="8" fill="#e8dfc9"/>
+  <path d="M43 137c-3-33 10-53 37-53s40 20 37 53z" fill="#d8cab4" stroke="#655c4c" stroke-width="3"/>
+  <g class="oreja-izquierda"><path d="M57 58Q39 18 54 9q15-6 22 43" fill="#d8cab4" stroke="#655c4c" stroke-width="3"/><path d="M58 48Q47 20 55 17q8-2 14 31" fill="#dfb2a0"/></g>
+  <g class="oreja-derecha"><path d="M84 52q8-49 23-43 15 9-4 49" fill="#d8cab4" stroke="#655c4c" stroke-width="3"/><path d="M91 48q7-33 15-31 8 3-4 31" fill="#dfb2a0"/></g>
+  <ellipse cx="80" cy="81" rx="42" ry="41" fill="#d8cab4" stroke="#655c4c" stroke-width="3"/>
+  <ellipse cx="80" cy="99" rx="23" ry="15" fill="#f7e9ce"/>
+  <circle cx="64" cy="79" r="4" fill="#343c31"/><circle cx="96" cy="79" r="4" fill="#343c31"/>
+  <path d="m75 96 5 4 5-4m-5 4q-4 6-9 3m9-3q4 6 9 3" fill="none" stroke="#806553" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M57 101 42 97m15 8-15 2m61-6 15-4m-15 8 15 2" stroke="#806553" stroke-width="2" stroke-linecap="round"/>
+</svg>

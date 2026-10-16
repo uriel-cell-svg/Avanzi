@@ -4,9 +4,10 @@ export const VERSION_ESTADO = 3;
 export const EPSILON = 1e-8;
 export const copiar = (valor) => structuredClone(valor);
 export function estadoVacio() {
-  return { version: VERSION_ESTADO, inventario: [], planes: [], manuales: [], comprasRealizadas: [],
-    transiciones: [], porRevisar: [] };
+  return { version: VERSION_ESTADO, inventario: [], fijados: [], presenciaManualOculta: [], planes: [], manuales: [], comprasRealizadas: [],
+    historialSubtareas: [], transiciones: [], porRevisar: [] };
 }
+const nuevoIdNecesidad=()=>`nec-${crypto.randomUUID()}`;
 const limpiar = (n) => Math.round(n * 1e8) / 1e8;
 const positivo = (n) => Number.isFinite(n) && n > 0;
 const unidades = { unidades:'unidad', un:'unidad', gramos:'g', gr:'g', kilogramos:'kg', litros:'l', litro:'l', cucharada:'cucharadas', cucharaditas:'cucharadita', tazas:'taza' };
@@ -100,16 +101,60 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
   }
   const existencias = (estado, clave) => estado.inventario.find(i => i.clave === clave);
   const cantidadDisponible = (estado, clave) => existencias(estado,clave)?.cantidad ?? 0;
-  const presenteManual = (estado,id) => estado.inventario.some(i=>i.ingredienteId===id&&(i.cantidad===null||i.cantidad>EPSILON));
+  const presenteManual = (estado,id) => !(estado.presenciaManualOculta||[]).includes(id)&&estado.inventario.some(i=>i.ingredienteId===id&&(i.cantidad===null||i.cantidad>EPSILON));
   const presentePorCompra = (estado,id) => estado.planes.some(p=>p.ingredientes.some(i=>i.clave.startsWith(id+'|')&&i.completado===true)) || estado.manuales.some(i=>i.ingredienteId===id&&i.completado===true);
   const tieneIngrediente = (estado,id) => presenteManual(estado,id)||presentePorCompra(estado,id);
   function establecerPresencia(estado,id,presente) {
-    if(presente){if(!presenteManual(estado,id))ajustarInventario(estado,id,null,unidadBase(id));}
+    if(presente){
+      estado.presenciaManualOculta=(estado.presenciaManualOculta||[]).filter(x=>x!==id);
+      if(!presenteManual(estado,id))ajustarInventario(estado,id,null,unidadBase(id));
+    }
     else {
+      estado.fijados=(estado.fijados||[]).filter(x=>x!==id);
       quitarInventario(estado,id);
       for(const p of estado.planes)for(const i of p.ingredientes)if(i.clave.startsWith(id+'|'))i.completado=false;
       for(const i of estado.manuales)if(i.ingredienteId===id)i.completado=false;
     }
+  }
+  function fijarIngrediente(estado,id,fijado) {
+    if(!catalogo.has(id))throw new Error('El ingrediente ya no existe.');
+    estado.fijados=(estado.fijados||[]).filter(x=>x!==id);
+    if(fijado){estado.fijados.push(id);establecerPresencia(estado,id,true);}
+  }
+  function vaciarDespensa(estado) {
+    const fijados=new Set(estado.fijados||[]),ocultos=new Set(estado.presenciaManualOculta||[]);
+    for(const item of estado.inventario)if(!fijados.has(item.ingredienteId))ocultos.add(item.ingredienteId);
+    estado.presenciaManualOculta=[...ocultos];
+  }
+  function agotarIngrediente(estado,id,desfijar=false,fecha=new Date().toISOString()) {
+    if(!catalogo.has(id))throw new Error('El ingrediente ya no existe.');
+    if(!tieneIngrediente(estado,id))return false;
+    if((estado.fijados||[]).includes(id)&&!desfijar)throw new Error('Desfijá este ingrediente para marcarlo como agotado.');
+    estado.historialSubtareas??=[];
+    for(const plan of estado.planes){
+      const receta=recetario.get(plan.recetaId);if(!receta)continue;
+      for(const necesidad of requerimientos(receta,plan.porciones,plan.veces).filter(r=>r.ingredienteId===id)){
+        const indice=plan.ingredientes.findIndex(i=>i.clave===necesidad.clave);
+        if(indice<0){plan.ingredientes.push({clave:necesidad.clave,completado:false,necesidadId:nuevoIdNecesidad()});continue;}
+        const enlace=plan.ingredientes[indice];if(enlace.completado!==true)continue;
+        const cantidadActual=requerimientosPlan(plan).find(r=>r.clave===necesidad.clave)?.cantidad??necesidad.cantidad;
+        estado.historialSubtareas.push({id:enlace.necesidadId??`legado:${JSON.stringify([plan.recetaId,enlace.clave])}`,
+          ingredienteId:id,recetaId:plan.recetaId,nombreReceta:receta.nombre,clave:enlace.clave,cantidad:cantidadActual,
+          unidad:necesidad.unidad,completado:true,fechaAgotamiento:fecha,registro:copiar(enlace)});
+        plan.ingredientes[indice]={clave:enlace.clave,completado:false,necesidadId:nuevoIdNecesidad(),
+          ...(enlace.cantidadBase===undefined?{}:{cantidadBase:enlace.cantidadBase})};
+      }
+    }
+    estado.manuales=estado.manuales.filter(item=>{
+      if(item.ingredienteId!==id||item.completado!==true)return true;
+      estado.historialSubtareas.push({id:`manual:${item.id}`,ingredienteId:id,recetaId:item.origenRecetaId??null,
+        nombreReceta:item.nombreOrigen,clave:item.clave,cantidad:item.cantidad,unidad:item.unidad,
+        completado:true,fechaAgotamiento:fecha,registro:copiar(item)});
+      return false;
+    });
+    estado.presenciaManualOculta=[...new Set([...(estado.presenciaManualOculta||[]),id])];
+    if(desfijar)estado.fijados=(estado.fijados||[]).filter(actual=>actual!==id);
+    return true;
   }
   function ajustarInventario(estado, id, cantidad, unidad, alimento = 'base', fecha = new Date().toISOString(), manual = true) {
     const item = canonizar(id, cantidad, unidad, alimento);
@@ -118,6 +163,7 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     estado.inventario = estado.inventario.filter(i => i.clave !== item.clave);
     // Se conserva cero y su revisión para que deshacer una compra no borre una edición manual.
     estado.inventario.push({...item, actualizadoEn:fecha, revisionManual});
+    if(manual)estado.presenciaManualOculta=(estado.presenciaManualOculta||[]).filter(x=>x!==id);
     return item;
   }
   function quitarInventario(estado,id) {
@@ -132,7 +178,7 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     const permitidos=new Set(requerimientos(receta,plan.porciones,plan.veces).map(i=>i.clave));
     for(const clave of claves) {
       if(!permitidos.has(clave)) throw new Error('Ingrediente ajeno a la receta.');
-      if(!plan.ingredientes.some(i=>i.clave===clave)) plan.ingredientes.push({clave,completado:false});
+      if(!plan.ingredientes.some(i=>i.clave===clave)) plan.ingredientes.push({clave,completado:false,necesidadId:nuevoIdNecesidad()});
     }
   }
   function cambiarPorciones(estado, recetaId, porciones, veces = 1) {
@@ -145,7 +191,26 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     if(plan) plan.ingredientes=plan.ingredientes.filter(i=>i.clave!==clave);
     estado.planes=estado.planes.filter(p=>p.ingredientes.length);
   }
-  function quitarReceta(estado,recetaId) { estado.planes=estado.planes.filter(p=>p.recetaId!==recetaId); }
+  function quitarReceta(estado,recetaId) {
+    const plan=estado.planes.find(p=>p.recetaId===recetaId);
+    if(!plan)return;
+    const usados=new Set(estado.manuales.map(i=>i.id));
+    for(const necesidad of requerimientosPlan(plan)){
+      if(plan.ingredientes.find(i=>i.clave===necesidad.clave)?.completado!==true)continue;
+      const base=`plan-retirado:${recetaId}:${necesidad.clave}`;
+      let id=base,numero=2;
+      while(usados.has(id))id=`${base}:${numero++}`;
+      usados.add(id);
+      estado.manuales.push({...canonizar(necesidad.ingredienteId,necesidad.cantidad,necesidad.unidad,necesidad.estado),
+        id,completado:true,nombreOrigen:`Receta retirada: ${recetario.get(recetaId)?.nombre||recetaId}`});
+    }
+    estado.planes=estado.planes.filter(p=>p.recetaId!==recetaId);
+  }
+  function marcarReceta(estado,recetaId,completado) {
+    const plan=estado.planes.find(p=>p.recetaId===recetaId);
+    if(!plan)throw new Error('La receta ya no está en la lista.');
+    for(const enlace of plan.ingredientes)enlace.completado=Boolean(completado);
+  }
   function editarNecesidad(estado,recetaId,clave,cantidad) {
     if(!positivo(cantidad)) throw new Error('La necesidad debe ser mayor que cero.');
     const plan=estado.planes.find(p=>p.recetaId===recetaId);
@@ -155,14 +220,16 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
   }
   function marcarSubtarea(estado,ingredienteId,identidad,completado) {
     let linea;
-    if(identidad.startsWith('plan:')){
+    if(identidad.startsWith('planid:')){
+      linea=estado.planes.flatMap(p=>p.ingredientes).find(i=>i.necesidadId===identidad.slice(7)&&i.clave.startsWith(ingredienteId+'|'));
+    }else if(identidad.startsWith('plan:')){
       const [recetaId,clave]=JSON.parse(identidad.slice(5));
       linea=estado.planes.find(p=>p.recetaId===recetaId)?.ingredientes.find(i=>i.clave===clave&&clave.startsWith(ingredienteId+'|'));
     }else if(identidad.startsWith('manual:'))linea=estado.manuales.find(i=>i.id===identidad.slice(7)&&i.ingredienteId===ingredienteId);
     if(!linea)throw new Error('La compra ya no está en la lista.');
     linea.completado=Boolean(completado);
   }
-  const identidadPlan=(recetaId,clave)=>`plan:${JSON.stringify([recetaId,clave])}`;
+  const identidadPlan=(recetaId,clave,enlace)=>enlace?.necesidadId?`planid:${enlace.necesidadId}`:`plan:${JSON.stringify([recetaId,clave])}`;
   const identidadManual=id=>`manual:${id}`;
   function marcarIngrediente(estado,id,completado){
     for(const p of estado.planes)for(const i of p.ingredientes)if(i.clave.startsWith(id+'|'))i.completado=Boolean(completado);
@@ -176,7 +243,7 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
       if(!origen.completado){if(r.cantidad===null) grupo.desconocida=true; else grupo.total=limpiar(grupo.total+r.cantidad);}
       grupo.origenes.push(origen);
     };
-    for(const p of estado.planes) for(const r of requerimientosPlan(p)) {const enlace=p.ingredientes.find(i=>i.clave===r.clave);sumar(r,{id:identidadPlan(p.recetaId,r.clave),recetaId:p.recetaId,nombre:recetario.get(p.recetaId).nombre,cantidad:r.cantidad,completado:enlace?.completado===true});}
+    for(const p of estado.planes) for(const r of requerimientosPlan(p)) {const enlace=p.ingredientes.find(i=>i.clave===r.clave);sumar(r,{id:identidadPlan(p.recetaId,r.clave,enlace),recetaId:p.recetaId,nombre:recetario.get(p.recetaId).nombre,cantidad:r.cantidad,completado:enlace?.completado===true});}
     for(const r of estado.manuales) sumar(r,{id:identidadManual(r.id),recetaId:null,nombre:r.nombreOrigen||'Lista anterior',cantidad:r.cantidad,manualId:r.id,completado:r.completado===true});
     const grupos=new Map();
     for(const v of variantes.values()) {
@@ -243,7 +310,7 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     return nuevas;
   }
   return {catalogo,recetario,canonizar,unidadBase,opcionesUnidades,nombreCantidad,requerimientos,requerimientosPlan,existencias,cantidadDisponible,
-    ajustarInventario,quitarInventario,establecerPresencia,tieneIngrediente,marcarSubtarea,marcarIngrediente,agregarNecesidades,cambiarPorciones,quitarVinculo,quitarReceta,editarNecesidad,resumenCompras,quitarCompra,
+    ajustarInventario,quitarInventario,establecerPresencia,fijarIngrediente,vaciarDespensa,agotarIngrediente,tieneIngrediente,marcarSubtarea,marcarIngrediente,marcarReceta,agregarNecesidades,cambiarPorciones,quitarVinculo,quitarReceta,editarNecesidad,resumenCompras,quitarCompra,
     confirmarCompra,deshacerCompra,disponibilidad,posibilidades,detectarTransiciones};
 }
 /** Retira un plan sin perder sus necesidades ni las compras ya confirmadas. No guarda. */

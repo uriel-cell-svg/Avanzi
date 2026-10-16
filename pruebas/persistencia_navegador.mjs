@@ -3,11 +3,12 @@ import assert from 'node:assert/strict';
 import {crearAlmacenamientoProtegido} from '../persistencia_navegador.mjs';
 import {CLAVE_DESPENSA} from '../almacenamiento.mjs';
 import {CLAVE_RECETAS_USUARIO} from '../recetas_usuario.mjs';
+import {CLAVE_PERFIL} from '../perfil_usuario.mjs';
 
 function ventanas(){
   const datos=new Map(),listeners=[];
   const nueva=()=>({
-    localStorage:{getItem:k=>datos.get(k)??null,setItem:(k,v)=>datos.set(k,v)},
+    localStorage:{getItem:k=>datos.get(k)??null,setItem:(k,v)=>datos.set(k,v),removeItem:k=>datos.delete(k)},
     addEventListener:(tipo,fn)=>{if(tipo==='storage')listeners.push(fn);}
   });
   return {datos,nueva,listeners};
@@ -18,6 +19,17 @@ test('dos pestañas no pueden pisar un snapshot obsoleto aunque falte el evento 
   a.storage.setItem(CLAVE_DESPENSA,'nuevo inventario');
   assert.throws(()=>b.storage.setItem(CLAVE_DESPENSA,'versión antigua'),{code:'AVANZI_CONFLICTO_PESTANAS'});
   assert.equal(origen.datos.get(CLAVE_DESPENSA),'nuevo inventario');
+});
+test('el perfil se elimina solo en su clave y una pestaña obsoleta no puede restaurarlo',()=>{
+  const origen=ventanas(),a=crearAlmacenamientoProtegido(origen.nueva()),b=crearAlmacenamientoProtegido(origen.nueva());
+  origen.datos.set(CLAVE_DESPENSA,'inventario');origen.datos.set(CLAVE_RECETAS_USUARIO,'recetas');
+  a.storage.getItem(CLAVE_PERFIL);b.storage.getItem(CLAVE_PERFIL);
+  a.storage.setItem(CLAVE_PERFIL,'perfil');
+  assert.throws(()=>b.storage.setItem(CLAVE_PERFIL,'obsoleto'),{code:'AVANZI_CONFLICTO_PESTANAS'});
+  a.storage.removeItem(CLAVE_PERFIL);
+  assert.equal(origen.datos.has(CLAVE_PERFIL),false);
+  assert.equal(origen.datos.get(CLAVE_DESPENSA),'inventario');
+  assert.equal(origen.datos.get(CLAVE_RECETAS_USUARIO),'recetas');
 });
 test('un cambio de recetas propias bloquea también el guardado del inventario obsoleto',()=>{
   const origen=ventanas(),a=crearAlmacenamientoProtegido(origen.nueva()),b=crearAlmacenamientoProtegido(origen.nueva());

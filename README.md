@@ -14,15 +14,17 @@ La app no requiere Node.js, paquetes ni compilación. Usa módulos JavaScript lo
 
 Buscá por nombre o alias y filtrá por **Legumbres, Cereales, Verduras, Frutas, Carnes u Otros**. Tocá una tarjeta para indicar que tenés el ingrediente; tocala de nuevo para desmarcarlo. El recuadro superior comparte la misma selección y permite quitar ingredientes con ×. La disponibilidad de recetas se basa en **presencia**, no en cantidad suficiente.
 
-Si desmarcás un ingrediente cuya presencia provenía de subtareas compradas, esas subtareas vuelven a pendientes. La marca manual de Lo que tengo y las compras completadas se guardan por separado.
+Si desmarcás un ingrediente disponible por compras completadas, Avanzi pide confirmación y conserva esas compras en el historial. Solo crea necesidades nuevas para recetas que sigan planificadas. La marca manual de Lo que tengo y las compras completadas se guardan por separado.
 
-**Tengo todo** y **Desmarcar todo** actúan sobre todo el catálogo, incluso si hay filtros activos. Las cantidades antiguas se conservan en los datos locales para no perder información, pero ya no se piden ni determinan la disponibilidad.
+**Tengo todo** actúa sobre todo el catálogo, incluso con filtros. La chincheta fija cualquier alimento y lo mantiene seleccionado al usar **Vaciar despensa**. Esta acción pide confirmación y oculta la selección manual no fijada; conserva inventario histórico, recetas, planes y compras. Un alimento comprado y completado puede seguir disponible después de vaciar, porque esa compra es otra fuente de presencia. Las cantidades antiguas se conservan sin pedir nuevos formularios.
+
+El catálogo usa dibujos individuales cuando existen y dibujos por familia para los demás ingredientes. Las referencias antiguas con un único nombre o alias coincidente se relacionan automáticamente. Las ambiguas se conservan en los datos locales sin alterar la selección ni la lista; se consultan en **Ayuda → Referencias anteriores**.
 
 ## Recetas
 
 Se mantienen las tres secciones por ingredientes ausentes: **Ya tenés todo, ¡a cocinar!**, **Ya casi** (1–3) y **Con algunas compras más**. El orden es faltantes, tiempo y nombre. Las 39 recetas incorporadas tienen tiempo total; siete tiempos se estimaron y están señalados en `datos/auditoria/tiempos_estimados_7_2026-10-15.md`. «Rápidas» exige estrictamente menos de 20 minutos.
 
-Buscá por receta o ingrediente, filtrá completas/faltantes y elegí **Todas, Rápidas, Veggie, Pastas, Carnes o Desayunos**. Rápidas requiere menos de 20 minutos; Veggie exige ingredientes declarados sin origen animal; Desayunos conserva la decisión editorial. Cada receta puede tener varias categorías.
+Buscá por receta o ingrediente, filtrá completas/faltantes y elegí con los botones **Todas, Rápidas, Veggie, Pastas, Carnes o Desayunos**. Rápidas requiere menos de 20 minutos; Veggie exige ingredientes declarados sin origen animal; Desayunos conserva la decisión editorial. Cada receta puede tener varias categorías.
 
 **Ver preparación** conserva instrucciones completas y estados de ingredientes. Permite ajustar **porciones** y **preparaciones** (por ejemplo, dos veces la misma receta). Si la receta ya está incluida en compras, el cambio recalcula sus necesidades. Los pasos originales no se reescriben ni se alteran tiempos al escalar.
 
@@ -36,13 +38,23 @@ En Recetas tocá **Crear receta**. Escribí nombre, porciones, minutos de prepar
 
 Podés añadir una foto desde archivos, galería o cámara si tu navegador ofrece esa opción. Se aceptan JPG, PNG y WebP de hasta 10 MB de origen; se reduce a un máximo aproximado de 1000 px y se guarda como WebP en **IndexedDB**. La foto y la receta solo están en ese navegador y dispositivo: GitHub Pages no las recibe ni las sincroniza. Si cambiás de navegador, dispositivo, origen de Live Server o borrás los datos del sitio, podrías perderlas. El respaldo portátil con fotos es una prioridad siguiente, todavía no implementada. Una foto ausente usa la ilustración local de respaldo.
 
+## Mi perfil, Para vos y favoritos
+
+El perfil es voluntario. En **Mi perfil** podés guardar nombre y objetivo, y completar el tipo de alimentación y los demás datos cuando quieras. **Para vos** es una categoría de **Recetas**: requiere un objetivo; muestra hasta seis recetas con motivos breves basados en ingredientes disponibles, faltantes y nutrientes estimados. Si no hay coincidencias nutricionales claras con el objetivo, presenta opciones generales compatibles con la alimentación elegida, si la indicás. Las recetas propias con nutrición incompleta no reciben una etiqueta nutricional basada en valores faltantes. **Favoritos** reúne las recetas marcadas con la estrella, incluidas las propias; se guardan por ID en este navegador.
+
+La estimación energética requiere edad entre 19 y 78 años, peso, altura, actividad, selección voluntaria de «Sexo» para elegir el coeficiente de la fórmula y aceptación de sus límites. El perfil no se envía a ningún servicio: se guarda en `avanzi.perfil.v1`, una clave local separada. **Eliminar perfil** borra solo esa clave; no afecta favoritos, recetas, fotos, despensa ni compras. Las cifras son orientativas, no metas médicas. [Fórmulas, fuentes y límites](./NUTRICION_PERFIL.md).
+
 ## Compras por subtareas
 
-Cada ingrediente aparece una sola vez. Debajo, cada receta vinculada tiene una subtarea con su cantidad y una casilla. El total pendiente suma **solo las subtareas abiertas**; no descuenta cantidades de Lo que tengo. Por ejemplo, 3 huevos para una receta y 2 para otra dan 5 pendientes. Si marcás la subtarea de 3, quedan 2.
+La lista ofrece **Por ingrediente** y **Por receta**. Ambas vistas usan las mismas subtareas y se actualizan al marcar o desmarcar. Por ingrediente, cada alimento aparece una sola vez, con las recetas vinculadas debajo. El total pendiente suma **solo las subtareas abiertas**; no descuenta cantidades de Lo que tengo. Por ejemplo, 3 huevos para una receta y 2 para otra dan 5 pendientes. Si marcás la subtarea de 3, quedan 2.
 
 La casilla principal completa o reabre todas las subtareas de ese ingrediente. Cuando todas están marcadas, la fila pasa al desplegable **Compras completadas**. Podés desmarcar cualquiera, también después de recargar, y su cantidad vuelve al pendiente. Una subtarea completada indica una compra cubierta; es un estado distinto de marcar manualmente un ingrediente en Lo que tengo. Las cantidades sin equivalencia fiable se muestran separadas dentro de la misma fila.
 
-× elimina las necesidades de ese ingrediente sin modificar la selección manual. **Recetas incluidas** permite cambiar porciones/preparaciones o retirar una receta: se recalculan cantidades y se conservan las casillas que siguen vinculadas. **Vaciar lista** requiere confirmación. La lista no añade ingredientes por su cuenta.
+**Agrupar por categoría** organiza temporalmente la vista Por ingrediente en Legumbres, Cereales, Verduras, Frutas, Carnes y Otros. La lista simple es la presentación inicial; agrupar no cambia casillas ni totales.
+
+Por receta, cada plan se despliega con sus ingredientes, cantidades y casillas. **Marcar todos** afecta solo esa receta. **Eliminar receta** retira sus necesidades pendientes; las compras ya completadas quedan en **Sin receta** y se pueden reabrir. Lo que tengo y los recibos históricos no cambian al retirar el plan.
+
+× elimina las necesidades de ese ingrediente sin modificar la selección manual. **Vaciar lista** requiere confirmación. La lista no añade ingredientes por su cuenta.
 
 ## Datos anteriores y guardado
 
@@ -80,7 +92,11 @@ Para probar sin alterar tus datos habituales, usá otro perfil o puerto de Live 
 | `imagenes/`, `fuentes/` | Recursos locales y sus créditos/licencias. |
 | `pruebas/` | Pruebas automáticas; no necesarias para abrir la app. |
 
-Las interfaces entre módulos son deliberadamente pequeñas: `catalogo_avanzi.mjs` exporta `validarRecetas`, `validarIngredientes` y `prepararIngredientes` y recibe datos JSON, sin leer almacenamiento; `planificacion.mjs` recibe estado y motor y devuelve cálculos o una copia al separar necesidades; `almacenamiento.mjs` recibe un objeto con `getItem`/`setItem` para recuperar y guardar; `persistencia_navegador.mjs` entrega ese objeto protegido y una comprobación previa; `fotos_usuario.mjs` gestiona Blobs por `imagenId` y filtra qué IDs ya no tienen referencias. `app.js` conecta esos resultados con los controles y los avisos. Ningún módulo de datos importa `app.js`.
+Las interfaces entre módulos son deliberadamente pequeñas: `catalogo_avanzi.mjs` exporta `validarRecetas`, `validarIngredientes` y `prepararIngredientes` y recibe datos JSON, sin leer almacenamiento; `planificacion.mjs` recibe estado y motor y devuelve cálculos o una copia al separar necesidades; `recompensas.mjs` calcula jornadas y movimientos; `tienda.mjs` valida canjes y mascotas activas; `almacenamiento.mjs` recibe un objeto con `getItem`/`setItem` para recuperar y guardar; `persistencia_navegador.mjs` entrega ese objeto protegido y una comprobación previa; `fotos_usuario.mjs` gestiona Blobs por `imagenId` y filtra qué IDs ya no tienen referencias. `app.js` conecta esos resultados con los controles y los avisos. Ningún módulo de datos importa `app.js`.
+
+En «Lo que tengo», tocá de nuevo una tarjeta seleccionada, o su × en el recuadro superior, para indicar que el ingrediente se agotó. Si tiene compras completadas, Avanzi pide confirmación antes de pasarlas a «Compras anteriores». Los fijados deben desfijarse primero. Al agotarlo se crean necesidades nuevas para las recetas que permanecen en la lista. En compras podés iniciar, finalizar o cancelar una jornada; las casillas funcionan también sin jornada. Podés recibir premios en varias jornadas del mismo día si completás nuevas necesidades. Cancelar no revierte compras.
+
+En «Mascotas» podés gastar monedas en gato (30), perro (40), conejo (50) y zorro (60), elegir una mascota activa o usar «Sin mascota». Tocarla activa una reacción breve. Si guardás exactamente `admin` como nombre, y `datos/configuracion.json` tiene `modoPruebaDisponible: true`, aparece «Modo de prueba» con 999.999 monedas ficticias iniciales; sus premios, compras y mascotas quedan separados del progreso real. Cambiar el nombre recupera inmediatamente el progreso real. Esta versión conserva la demostración habilitada también para GitHub Pages. No es autenticación.
 
 [DATOS.md](./DATOS.md) explica contratos y persistencia; [DISEÑO.md](./DISEÑO.md), presentación; [AGENTS.md](./AGENTS.md), reglas; [CAMBIOS.md](./CAMBIOS.md), resultados por entrega.
 
@@ -93,12 +109,18 @@ node pruebas/paquete.mjs
 node --test pruebas/logica.mjs
 node pruebas/tiempos_estimados.mjs
 node --test pruebas/recetas_usuario.mjs
+node --test pruebas/recompensas_y_agotados.mjs
+node --test pruebas/tienda.mjs
 ```
 
 Las pruebas de navegador `pruebas/navegador.cjs` y `pruebas/editor_navegador.cjs` requieren una instalación **externa** de Playwright y Chromium y la app servida por HTTP. Se pueden indicar `AVANZI_PLAYWRIGHT`, `AVANZI_CHROMIUM`, `AVANZI_URL` y `AVANZI_CAPTURAS`. No instalar nada de esto para usar Avanzi con Live Server.
 
-Los resultados de esta entrega están en CAMBIOS. Pendientes: Live Server del usuario, teléfonos reales, otros navegadores, lector de pantalla y revisión editorial/nutricional de los datos del paquete. Las siete estimaciones de tiempo no son mediciones. El respaldo portátil de recetas propias y fotos también queda pendiente. [ETAPAS_FUTURAS.md](./ETAPAS_FUTURAS.md) separa el diseño de perfil y recompensas de esta entrega.
+Pendientes: Live Server del usuario, teléfonos reales, otros navegadores, lector de pantalla y revisión editorial/nutricional de los datos del paquete. Las siete estimaciones de tiempo no son mediciones. El respaldo portátil de recetas propias y fotos también queda pendiente.
 
-## GitHub Desktop
+## Publicar con GitHub Pages
 
-Copiá el ZIP extraído al repositorio local, seleccioná una rama distinta de `main`, revisá Changes y hacé Commit. Cuando decidas subir tu rama, usá Publish branch o Push origin; no publica una web. En otra computadora: Fetch origin, elegir esa rama y Pull origin. Esta entrega no se publicó ni se incorporó a main.
+Avanzi usa `index.html` en la raíz del repositorio y archivos relativos: no requiere compilación, Live Server ni instalar dependencias en Pages. Cuando apruebes la versión, revisá los cambios en GitHub Desktop, hacé el commit en `desarrollo`, incorporá esa versión a `main` y subí `main` al repositorio remoto. El commit, la incorporación y la subida son pasos separados de la activación de Pages.
+
+En GitHub, abrí **Settings → Pages** del repositorio `Avanzi`. En **Build and deployment**, elegí **Deploy from a branch**, rama **main** y carpeta **/(root)**; guardá y esperá a que GitHub indique la URL. Abrí `https://uriel-cell-svg.github.io/Avanzi/` y comprobá recetas, imágenes, compras y tienda. Para futuras versiones, actualizá `main` y subila; Pages volverá a desplegarla. Esta preparación no realiza ninguno de esos pasos.
+
+El perfil, las recetas propias, las fotos, la despensa, las compras, las monedas y las mascotas se guardan únicamente en el navegador de cada visitante mediante `localStorage` e IndexedDB; no se comparten entre usuarios ni se envían a GitHub. Una dirección de Live Server y la de GitHub Pages son **orígenes distintos**: los datos guardados en Live Server no aparecerán automáticamente en Pages. Abrir Pages en otro navegador o dispositivo también empieza con sus propios datos locales. El modo `admin` sigue disponible en Pages como demostración y muestra el aviso «Modo de prueba»; sus monedas y mascotas ficticias están separadas de las reales.

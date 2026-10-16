@@ -1,5 +1,11 @@
 # Procedencia y permiso de reutilización
 
+## Logotipo oficial actual
+
+`marca/avanzi-logo-original.png` es una copia sin modificaciones del PNG «Logotipo Avanzi con espátula y temporizador de tomate.png» aportado por el usuario para esta aplicación (1946 × 808 píxeles). `marca/avanzi-logo-cabecera.png` recorta únicamente los márgenes vacíos a 1390 × 430 píxeles. `marca/avanzi-logo-transparente.png` conserva ese encuadre y los píxeles interiores del dibujo; se extrajo el fondo crema incorporado y se descontaminó el borde suavizado para evitar halos. La cabecera muestra esta última copia. Los dos archivos anteriores permanecen intactos.
+
+`mascotas/gato.svg`, `perro.svg`, `conejo.svg` y `zorro.svg` son dibujos vectoriales originales creados para Avanzi. Sus reacciones se producen con CSS local al tocar una mascota; no emplean imágenes ni animaciones externas.
+
 Los SVG son recursos originales del proyecto. Las composiciones representan ingredientes y los respaldos son genéricos; ninguno es una fotografía del plato. Se conservan aquí procedencias y permisos, incluidos recursos históricos. El uso visual vigente está en [DISEÑO.md](../DISEÑO.md). Los apartados históricos no ordenan restaurar fondos, fuentes ni adornos anteriores.
 
 | Archivo | Contenido |
@@ -54,6 +60,12 @@ Se conserva el JPG recibido sin modificar sus píxeles ni comprimirlo nuevamente
 Los trece SVG de `lo-que-tengo/` son variantes de los dibujos propios de `despensa/`: aceite, ajo, arroz, cebolla, espinaca, garbanzo, huevo, limon, papa, pasta, sal, tomate y zanahoria. Autoría: dibujos originales preparados para Avanzi en este proyecto. Se conservaron los trazos y se modificaron rellenos y colores para reconocer los alimentos: tomate rojo, limón amarillo, hojas verdes y tonos naturales. Fondo transparente; no incluyen textos, controles ni fondos recortados de referencias.
 
 Fuente: los archivos locales `despensa/*.svg` descritos arriba. Se aplica el mismo permiso de uso, modificación y redistribución dentro de la app, sin atribución obligatoria. No se descargaron recursos ni se usaron herramientas de generación de imágenes; no hay costos ni servicios remotos. Las variantes se usan actualmente en catálogo, recuadro de Lo que tengo y compras. Recetas y detalle usan las composiciones de `detalle/`.
+
+## Familias visuales e indicadores
+
+`lo-que-tengo/hojas.svg`, `fruta.svg`, `carne.svg`, `lacteos.svg`, `pan.svg`, `liquidos.svg`, `dulces.svg`, `verdura.svg` y `condimentos.svg` son dibujos vectoriales originales creados para ampliar el catálogo. Reutilizan trazo verde oscuro, rellenos suaves y formas simples de los trece dibujos individuales. Las familias de raíces, cereales, pastas, legumbres, aceites y huevos reutilizan SVG anteriores. `reloj.svg` y `porciones.svg` son indicadores decorativos originales para los metadatos de recetas. Todos son locales, ligeros y con fondo transparente. Se aplica el permiso del proyecto indicado arriba; no se incorporaron recursos de terceros.
+
+`chincheta.svg`: icono vectorial original local para fijar ingredientes en Lo que tengo; comparte el trazo verde de la interfaz y el permiso de uso del proyecto.
 
 El papel no se muestra en ninguna pantalla. El archivo histórico y su crédito se conservan; no existe una instrucción vigente de volver a aplicarlo.
 
