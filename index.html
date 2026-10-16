@@ -70,10 +70,11 @@
     <span id="etiqueta-prueba-compras" class="prueba-inicio" hidden>Datos de prueba</span>
     <p class="nota-lista-compras">Revisá las cantidades antes de comprar.</p>
     <p id="estado-compras" role="status"></p>
+    <div class="vistas-compras" role="group" aria-label="Vista de compras"><button type="button" id="vista-ingrediente" class="secundario" aria-pressed="true">Por ingrediente</button><button type="button" id="vista-receta" class="secundario" aria-pressed="false">Por receta</button></div>
     <div id="items-compras"></div>
+    <div id="items-recetas" hidden></div>
     <button type="button" id="vaciar-compras" class="secundario">Vaciar lista</button>
     <div id="confirmar-vaciado" hidden><p>¿Querés vaciar la lista? Lo que tengo no cambiará.</p><button type="button" id="confirmar-vaciar">Sí, vaciar lista</button><button type="button" id="cancelar-vaciar" class="secundario">Cancelar</button></div>
-    <details id="plan-compras"><summary>Recetas incluidas (0)</summary></details>
     <div id="posibilidades-compras"></div>
     <details id="ayuda-compras"><summary>Sobre esta lista</summary><p>Cada subtarea corresponde a una receta. Marcarla indica que esa compra quedó cubierta; podés desmarcarla incluso después de recargar. La casilla principal cambia todas las subtareas del ingrediente. Las cantidades pendientes se suman solo entre subtareas abiertas y no se descuentan cantidades de Lo que tengo.</p><p>Una compra completada se distingue internamente de un ingrediente marcado a mano. Las medidas sin equivalencia fiable permanecen separadas. Las compras anteriores y sus confirmaciones se conservan en los datos locales; esta vista usa las nuevas casillas. Eliminar una fila no borra el inventario manual.</p></details>
   </dialog>

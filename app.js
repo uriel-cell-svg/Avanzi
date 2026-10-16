@@ -34,6 +34,7 @@ function liberarFotoLocal(id){
   fotosPendientes.get(id)?.then(()=>{const tardia=urlsFotos.get(id);if(tardia)URL.revokeObjectURL(tardia);urlsFotos.delete(id);}).catch(()=>{});
 }
 let recetaDetalle=null,recetaOrigenDetalle=null,opcionesDetalle=null;
+let vistaCompras='ingrediente';
 const seleccionados=()=>new Set(ingredientes.filter(i=>motor.tieneIngrediente(estado,i.id)).map(i=>i.id));
 const planDe=id=>estado.planes.find(p=>p.recetaId===id);
 const disponibilidad=r=>motor.disponibilidad(r,estado);
@@ -269,7 +270,7 @@ function dibujarDetalle() {
       const fila=elemento('li');fila.dataset.disponible=String(i.completo);const desc=elemento('div',undefined,'detalle-ingrediente-texto');
       const simbolo=elemento('span',i.completo?'✓':'+','simbolo-estado');simbolo.setAttribute('aria-hidden','true');
       const nombre=elemento('span',`${cantidadLegible(i.cantidad,i.unidad)} · ${i.nombre}`);
-      desc.append(simbolo,nombre);fila.append(desc);
+      desc.append(simbolo,dibujoIngredienteInicio(motor.catalogo.get(i.ingredienteId)),nombre);fila.append(desc);
       const esta=p?.ingredientes.some(x=>x.clave===i.clave);
       const acciones=elemento('div',undefined,'acciones-ingrediente');
       if(esta)acciones.append(elemento('span','En tu lista','estado-compras-ingrediente'));
@@ -427,11 +428,57 @@ function filaCompra(grupo) {
   }
   contenedor.append(fila,detalles);return contenedor;
 }
+function subtareaReceta(grupo,variante,origen) {
+  const fila=elemento('label',undefined,`subtarea-compra receta-ingrediente${origen.completado?' subtarea-completada':''}`);
+  const casilla=document.createElement('input');casilla.type='checkbox';casilla.checked=origen.completado;
+  casilla.dataset.foco=`sub-${origen.id}`;
+  casilla.setAttribute('aria-label',`${origen.completado?'Reabrir':'Completar'} ${grupo.nombre} para ${origen.nombre}`);
+  casilla.addEventListener('change',()=>cambiar(s=>motor.marcarSubtarea(s,grupo.id,origen.id,casilla.checked)));
+  fila.append(casilla,dibujoIngredienteInicio(motor.catalogo.get(grupo.id)));
+  const texto=elemento('span',grupo.nombre);texto.append(elemento('small',cantidadLegible(origen.cantidad,variante.unidad),'cantidad-compra'));
+  fila.append(texto);return fila;
+}
+function dibujarComprasPorReceta(grupos) {
+  const cont=$('items-recetas'),abiertos=new Map([...cont.querySelectorAll('details[data-receta]')].map(d=>[d.dataset.receta,d.open]));
+  const origenes=new Map();
+  for(const grupo of grupos)for(const variante of grupo.variantes)for(const origen of variante.origenes){
+    const clave=origen.recetaId||'sin-receta';
+    if(!origenes.has(clave))origenes.set(clave,[]);
+    origenes.get(clave).push({grupo,variante,origen});
+  }
+  const frag=document.createDocumentFragment();
+  for(const plan of estado.planes){
+    const receta=motor.recetario.get(plan.recetaId);if(!receta)continue;
+    const detalle=elemento('details',undefined,'compra-receta');detalle.dataset.receta=plan.recetaId;detalle.open=abiertos.get(plan.recetaId)??true;
+    const lineas=origenes.get(plan.recetaId)||[];
+    detalle.append(elemento('summary',`${receta.nombre} · ${lineas.filter(x=>!x.origen.completado).length} pendientes`));
+    const interior=elemento('div',undefined,'compra-receta-interior');
+    for(const {grupo,variante,origen} of lineas)interior.append(subtareaReceta(grupo,variante,origen));
+    const acciones=elemento('div',undefined,'compra-receta-acciones');
+    const todas=plan.ingredientes.every(i=>i.completado===true);
+    const marcar=boton(todas?'Reabrir todos':'Marcar todos',()=>cambiar(s=>motor.marcarReceta(s,plan.recetaId,!todas)),'secundario');
+    marcar.dataset.foco=`marcar-receta-${plan.recetaId}`;
+    const quitar=boton('Eliminar receta',()=>cambiar(s=>motor.quitarReceta(s,plan.recetaId)),'secundario');
+    quitar.dataset.foco=`quitar-receta-${plan.recetaId}`;
+    acciones.append(marcar,quitar);interior.append(acciones);detalle.append(interior);frag.append(detalle);
+  }
+  const sueltas=origenes.get('sin-receta');
+  if(sueltas?.length){
+    const detalle=elemento('details',undefined,'compra-receta');detalle.dataset.receta='sin-receta';detalle.open=abiertos.get('sin-receta')??true;
+    detalle.append(elemento('summary',`Sin receta · ${sueltas.filter(x=>!x.origen.completado).length} pendientes`));
+    const interior=elemento('div',undefined,'compra-receta-interior');
+    for(const {grupo,variante,origen} of sueltas)interior.append(subtareaReceta(grupo,variante,origen));
+    detalle.append(interior);frag.append(detalle);
+  }
+  if(!frag.childNodes.length)frag.append(elemento('p','No tenés recetas en compras.','compras-vacias'));
+  cont.replaceChildren(frag);
+}
 function dibujarCompras() {
   const focoAnterior=$('compras').contains(document.activeElement)?document.activeElement.dataset.foco:null;
   const compradoAbierto=$('comprados')?.open;
+  const grupos=motor.resumenCompras(estado);
   conservarFoco($('items-compras'),()=>{
-    const grupos=motor.resumenCompras(estado),pendientes=grupos.filter(g=>!g.completo),completas=grupos.filter(g=>g.completo);
+    const pendientes=grupos.filter(g=>!g.completo),completas=grupos.filter(g=>g.completo);
     const frag=document.createDocumentFragment();
     pendientes.forEach(g=>frag.append(filaCompra(g)));
     if(!pendientes.length)frag.append(elemento('p','No tenés compras pendientes.','compras-vacias'));
@@ -441,11 +488,13 @@ function dibujarCompras() {
   });
   // Si el control enfocado pasó a Comprados, abrirlo antes de devolverle foco.
   if(document.activeElement?.closest('#comprados'))$('comprados').open=true;
-  const planCont=$('plan-compras'),open=planCont.open;planCont.replaceChildren(elemento('summary',`Recetas incluidas (${estado.planes.length})`));planCont.open=open;
-  for(const p of estado.planes){const r=motor.recetario.get(p.recetaId),bloque=elemento('div',undefined,'plan-receta');bloque.append(elemento('h3',r.nombre),formPorciones(r,p.porciones,p.veces,(por,veces)=>cambiar(s=>motor.cambiarPorciones(s,r.id,por,veces))),boton('Quitar receta',()=>cambiar(s=>motor.quitarReceta(s,r.id))));planCont.append(bloque);}
+  dibujarComprasPorReceta(grupos);
+  $('items-compras').hidden=vistaCompras!=='ingrediente';$('items-recetas').hidden=vistaCompras!=='receta';
+  $('vista-ingrediente').setAttribute('aria-pressed',String(vistaCompras==='ingrediente'));
+  $('vista-receta').setAttribute('aria-pressed',String(vistaCompras==='receta'));
   const posibles=motor.posibilidades(estado),lista=elemento('ul');posibles.forEach(r=>lista.append(elemento('li',r.nombre)));
   $('posibilidades-compras').replaceChildren(elemento('h3','Después de comprar'),posibles.length?lista:elemento('p','Todavía no hay recetas que se completen con las compras pendientes.'));
-  if(focoAnterior){const destino=[...$('compras').querySelectorAll('[data-foco]')].find(n=>n.dataset.foco===focoAnterior);if(destino?.closest('#comprados'))$('comprados').open=true;(destino||$('titulo-compras')).focus({preventScroll:true});}
+  if(focoAnterior){const destino=[...$('compras').querySelectorAll('[data-foco]')].find(n=>n.dataset.foco===focoAnterior&&!n.closest('[hidden]'));if(destino?.closest('#comprados'))$('comprados').open=true;if(destino?.closest('details[data-receta]'))destino.closest('details[data-receta]').open=true;(destino||$('titulo-compras')).focus({preventScroll:true});}
   $('estado-compras').textContent=`Pendientes · ${motor.resumenCompras(estado).filter(g=>!g.completo).length}`;
   $('vaciar-compras').disabled=!estado.planes.length&&!estado.manuales.length;if($('vaciar-compras').disabled)$('confirmar-vaciado').hidden=true;
 }
@@ -476,6 +525,7 @@ function conectarControles() {
     else ([...document.querySelectorAll('.tarjeta')].find(n=>n.dataset.receta===recetaOrigenDetalle)?.querySelector('button')||$('tab-recetas')).focus();recetaDetalle=null;
   });
   $('abrir-compras').addEventListener('click',()=>{$('confirmar-vaciado').hidden=true;dibujarCompras();$('compras').showModal();$('compras').scrollTop=0;});
+  for(const [vista,id] of [['ingrediente','vista-ingrediente'],['receta','vista-receta']])$(id).addEventListener('click',()=>{vistaCompras=vista;dibujarCompras();$(id).focus();});
   $('cerrar-compras').addEventListener('click',()=>$('compras').close());$('compras').addEventListener('close',()=>$('abrir-compras').focus());
   $('vaciar-compras').addEventListener('click',()=>{$('confirmar-vaciado').hidden=false;$('cancelar-vaciar').focus();});
   $('cancelar-vaciar').addEventListener('click',()=>{$('confirmar-vaciado').hidden=true;$('vaciar-compras').focus();});

@@ -40,9 +40,11 @@ Podés añadir una foto desde archivos, galería o cámara si tu navegador ofrec
 
 ## Compras por subtareas
 
-Cada ingrediente aparece una sola vez. Debajo, cada receta vinculada tiene una subtarea con su cantidad y una casilla. El total pendiente suma **solo las subtareas abiertas**; no descuenta cantidades de Lo que tengo. Por ejemplo, 3 huevos para una receta y 2 para otra dan 5 pendientes. Si marcás la subtarea de 3, quedan 2.
+La lista ofrece **Por ingrediente** y **Por receta**. Ambas vistas usan las mismas subtareas y se actualizan al marcar o desmarcar. Por ingrediente, cada alimento aparece una sola vez, con las recetas vinculadas debajo. El total pendiente suma **solo las subtareas abiertas**; no descuenta cantidades de Lo que tengo. Por ejemplo, 3 huevos para una receta y 2 para otra dan 5 pendientes. Si marcás la subtarea de 3, quedan 2.
 
 La casilla principal completa o reabre todas las subtareas de ese ingrediente. Cuando todas están marcadas, la fila pasa al desplegable **Compras completadas**. Podés desmarcar cualquiera, también después de recargar, y su cantidad vuelve al pendiente. Una subtarea completada indica una compra cubierta; es un estado distinto de marcar manualmente un ingrediente en Lo que tengo. Las cantidades sin equivalencia fiable se muestran separadas dentro de la misma fila.
+
+Por receta, cada plan se despliega con sus ingredientes, cantidades y casillas. **Marcar todos** afecta solo esa receta. **Eliminar receta** retira sus necesidades pendientes; las compras ya completadas quedan en **Sin receta** y se pueden reabrir. Lo que tengo y los recibos históricos no cambian al retirar el plan.
 
 × elimina las necesidades de ese ingrediente sin modificar la selección manual. **Recetas incluidas** permite cambiar porciones/preparaciones o retirar una receta: se recalculan cantidades y se conservan las casillas que siguen vinculadas. **Vaciar lista** requiere confirmación. La lista no añade ingredientes por su cuenta.
 

@@ -43,6 +43,40 @@ test('casilla principal completa y reabre todas las subtareas',()=>{
  assert.equal(grupo(s).variantes[0].pendiente,5);
  assert.ok(grupo(s).variantes[0].origenes.every(o=>!o.completado));
 });
+test('marcar todos por receta respeta el ingrediente compartido y persiste al recargar',()=>{
+ const s=estadoVacio(),store=memoria();agregar(s,a);agregar(s,b);
+ motor.marcarReceta(s,a.id,true);
+ let origenes=grupo(s).variantes[0].origenes;
+ assert.equal(origenes.find(o=>o.recetaId===a.id).completado,true);
+ assert.equal(origenes.find(o=>o.recetaId===b.id).completado,false);
+ assert.equal(grupo(s).variantes[0].pendiente,2);
+ assert.equal(guardarEstado(store,s,motor).ok,true);
+ const vuelta=recuperarEstado(store,motor).estado;
+ motor.marcarReceta(vuelta,a.id,false);
+ assert.equal(grupo(vuelta).variantes[0].pendiente,5);
+});
+test('quitar receta conserva sus compras completadas y la selección manual',()=>{
+ const s=estadoVacio(),store=memoria();agregar(s,a);agregar(s,b);
+ motor.ajustarInventario(s,'huevo',1,'unidad');
+ const inventario=structuredClone(s.inventario);
+ s.comprasRealizadas.push({id:'recibo-previo',clave:'huevo|base|unidad',ingredienteId:'huevo',estado:'base',cantidad:1,unidad:'unidad',fecha:'2026-10-15',revisionManual:1,deshecha:false});
+ const recibos=structuredClone(s.comprasRealizadas);
+ const origen=grupo(s).variantes[0].origenes.find(o=>o.recetaId===a.id);
+ motor.marcarSubtarea(s,'huevo',origen.id,true);
+ motor.quitarReceta(s,a.id);
+ assert.equal(s.planes.length,1);
+ assert.deepEqual(s.inventario,inventario);
+ assert.deepEqual(s.comprasRealizadas,recibos);
+ assert.equal(grupo(s).variantes[0].pendiente,2);
+ const retenida=grupo(s).variantes[0].origenes.find(o=>o.recetaId===null);
+ assert.equal(retenida.completado,true);assert.equal(retenida.cantidad,3);
+ assert.equal(guardarEstado(store,s,motor).ok,true);
+ const vuelta=recuperarEstado(store,motor).estado;
+ assert.deepEqual(vuelta.inventario,inventario);
+ assert.deepEqual(vuelta.comprasRealizadas,recibos);
+ motor.marcarSubtarea(vuelta,'huevo',retenida.id,false);
+ assert.equal(grupo(vuelta).variantes[0].pendiente,5);
+});
 test('subtarea completada se recupera después de guardar y recargar',()=>{
  const s=estadoVacio(),store=memoria();agregar(s,a);agregar(s,b);
  motor.marcarSubtarea(s,'huevo',grupo(s).variantes[0].origenes[0].id,true);

@@ -60,7 +60,7 @@ Cada asociación de `planes[].ingredientes[]` guarda una `clave` canónica y `co
 
 Una receta escala sus necesidades por `porciones / porcionesOriginales × preparaciones`. Repetir Añadir es idempotente. Por variante compatible, `pendiente = suma(cantidades de subtareas no completadas)`. Variantes sin equivalencia fiable no se suman; la UI agrupa las variantes bajo el mismo ingrediente. Marcar la casilla principal cambia todas sus subtareas; marcar una sola conserva las otras. Al quedar todas completadas, la fila pasa a Compras completadas, desde donde puede reabrirse incluso después de recargar.
 
-Quitar una receta, vínculo o fila retira solo las necesidades correspondientes. Las compras completadas no crean automáticamente una cantidad nueva en inventario: su estado de compra es una fuente separada de presencia. «Después de comprar» simula la presencia que aportan las subtareas todavía pendientes, sin añadirlas al almacenamiento.
+Quitar una receta de la planificación retira sus vínculos y necesidades pendientes. Sus subtareas completadas se conservan como necesidades manuales completadas, con su cantidad y origen, sin modificar el inventario manual ni los recibos históricos. Las vistas «Por ingrediente» y «Por receta» leen el mismo snapshot y permiten reabrir esas subtareas. «Marcar todos» dentro de una receta cambia solo sus vínculos. Quitar un vínculo o una fila sigue retirando solo esas necesidades. Las compras completadas no crean automáticamente una cantidad nueva en inventario: su estado de compra es una fuente separada de presencia. «Después de comprar» simula la presencia que aportan las subtareas todavía pendientes, sin añadirlas al almacenamiento.
 
 ## Nutrición y categorías
 

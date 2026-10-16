@@ -26,8 +26,8 @@ export function crearEditorRecetas({dialog,catalogo,motor,dibujoIngrediente,guar
     const identificador=(!receta||duplicar)?null:receta.id;
     const nombre=campo('Nombre de la receta','text',receta?.nombre||'',{required:true,maxLength:100});
     const porciones=campo('Porciones','number',receta?.porciones??2,{required:true,min:'1',max:'1000',step:'1'});
-    const prep=campo('Prep. (min)','number',receta?.tiempoPreparacionMinutos??0,{required:true,min:'0',max:'1440',step:'1'});prep.input.setAttribute('aria-label','Preparación (minutos)');
-    const coccion=campo('Cocción (min)','number',receta?.tiempoCoccionMinutos??0,{required:true,min:'0',max:'1440',step:'1'});coccion.input.setAttribute('aria-label','Cocción (minutos)');
+    const prep=campo('Prep.','number',receta?.tiempoPreparacionMinutos??0,{required:true,min:'0',max:'1440',step:'1'});prep.input.setAttribute('aria-label','Preparación (minutos)');
+    const coccion=campo('Cocción','number',receta?.tiempoCoccionMinutos??0,{required:true,min:'0',max:'1440',step:'1'});coccion.input.setAttribute('aria-label','Cocción (minutos)');
     const tiempos=el('div',undefined,'editor-grid');tiempos.append(porciones.label,prep.label,coccion.label);
     const total=el('p',undefined,'meta editor-total');const actualizarTotal=()=>{
       const a=prep.input.valueAsNumber,b=coccion.input.valueAsNumber;
@@ -42,15 +42,22 @@ export function crearEditorRecetas({dialog,catalogo,motor,dibujoIngrediente,guar
     function filaIngrediente(item) {
       const cont=el('div',undefined,'editor-fila');
       const ficha=catalogo.find(i=>i.id===item.ingredienteId);
-      const identidad=el('div',undefined,'editor-ingrediente-identidad'),nombre=el('strong',ficha?.nombre||item.ingredienteId);
-      if(ficha)identidad.append(dibujoIngrediente(ficha));identidad.append(nombre);
+      const detalles=el('details',undefined,'editor-ingrediente-detalles'),resumen=el('summary',undefined,'editor-ingrediente-identidad');
+      const nombre=el('strong',ficha?.nombre||item.ingredienteId),medida=el('span',undefined,'editor-medida');
+      if(ficha)resumen.append(dibujoIngrediente(ficha));resumen.append(nombre,medida);detalles.append(resumen);
       const cantidad=campo('Cantidad','number',item.cantidad??'',{required:true,min:'0.000001',step:'any'});
       const estado=item.estadoAlimento||'base';
       const unidadLabel=el('label','Unidad'),unidad=el('select');unidadLabel.append(unidad);
       for(const v of motor.opcionesUnidades(item.ingredienteId,estado)){const o=el('option',v==='unidad'?'unidades':v);o.value=v;unidad.append(o);}
       unidad.value=[...unidad.options].some(o=>o.value===item.unidad)?item.unidad:motor.unidadBase(item.ingredienteId,estado);
-      const quitar=el('button','Quitar ingrediente','secundario');quitar.type='button';quitar.onclick=()=>{cont.remove();buscador.input.focus();mostrarResultados();};
-      cont.append(identidad,cantidad.label,unidadLabel,quitar);filas.append(cont);
+      const campos=el('div',undefined,'editor-ingrediente-campos');campos.append(cantidad.label,unidadLabel);
+      const listo=el('button','Listo','secundario editor-ingrediente-listo');listo.type='button';listo.onclick=()=>{if(cantidad.input.valueAsNumber>0){detalles.open=false;resumen.focus();}else cantidad.input.focus();};
+      campos.append(listo);detalles.append(campos);
+      const actualizarMedida=()=>{const valor=cantidad.input.valueAsNumber;medida.textContent=valor>0?`${cantidad.input.value} ${unidad.selectedOptions[0]?.textContent||unidad.value}`:'Cantidad pendiente';};
+      cantidad.input.addEventListener('input',actualizarMedida);unidad.addEventListener('change',actualizarMedida);actualizarMedida();
+      detalles.open=!(cantidad.input.valueAsNumber>0);
+      const quitar=el('button','×','secundario editor-ingrediente-quitar');quitar.type='button';quitar.setAttribute('aria-label',`Quitar ${nombre.textContent}`);quitar.onclick=()=>{cont.remove();buscador.input.focus();mostrarResultados();};
+      cont.append(detalles,quitar);filas.append(cont);
       cont._leer=()=>({ingredienteId:item.ingredienteId,cantidad:cantidad.input.valueAsNumber,unidad:unidad.value,estadoAlimento:estado});
       return cont;
     }

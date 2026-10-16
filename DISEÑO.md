@@ -61,7 +61,7 @@ Estos valores describen el CSS aprobado; no autorizan extender fondos de acento 
 - Panel blanco a la derecha en computadora, ancho completo en celular. Cierre accesible durante el desplazamiento y retorno de foco al acceso de bolsa.
 - Pendientes arriba: una fila por ingrediente con casilla principal circular, dibujo, nombre, total pendiente y × accesible. Debajo, subtareas por receta con casilla cuadrada y cantidad; las completadas se tachan. La casilla principal cambia todas las subtareas.
 - «Compras completadas (N)» plegable reúne ingredientes sin subtareas pendientes. Cada casilla permanece recuperable tras recargar; desmarcar devuelve su cantidad al pendiente. El contador superior solo cuenta ingredientes pendientes.
-- Recetas incluidas permite porciones/preparaciones y quitar recetas. «Vaciar lista» conserva confirmación/cancelación. Debajo, «Después de comprar» muestra recetas posibles si se cubren las subtareas abiertas.
+- El selector «Por ingrediente» / «Por receta» muestra las mismas subtareas. Por receta, cada bloque plegable presenta dibujo, nombre, cantidad y casilla de cada ingrediente, además de «Marcar todos» y «Eliminar receta». Las compras completadas de recetas retiradas quedan recuperables en «Sin receta». «Vaciar lista» conserva confirmación/cancelación. Debajo, «Después de comprar» muestra recetas posibles si se cubren las subtareas abiertas.
 - Nota breve sobre cantidades, ayuda «Sobre esta lista» y avisos de guardado visibles. Las reglas reversibles de la checklist se conservan según AGENTS y README.
 
 ## Recursos y fallos de carga

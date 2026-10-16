@@ -145,7 +145,26 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     if(plan) plan.ingredientes=plan.ingredientes.filter(i=>i.clave!==clave);
     estado.planes=estado.planes.filter(p=>p.ingredientes.length);
   }
-  function quitarReceta(estado,recetaId) { estado.planes=estado.planes.filter(p=>p.recetaId!==recetaId); }
+  function quitarReceta(estado,recetaId) {
+    const plan=estado.planes.find(p=>p.recetaId===recetaId);
+    if(!plan)return;
+    const usados=new Set(estado.manuales.map(i=>i.id));
+    for(const necesidad of requerimientosPlan(plan)){
+      if(plan.ingredientes.find(i=>i.clave===necesidad.clave)?.completado!==true)continue;
+      const base=`plan-retirado:${recetaId}:${necesidad.clave}`;
+      let id=base,numero=2;
+      while(usados.has(id))id=`${base}:${numero++}`;
+      usados.add(id);
+      estado.manuales.push({...canonizar(necesidad.ingredienteId,necesidad.cantidad,necesidad.unidad,necesidad.estado),
+        id,completado:true,nombreOrigen:`Receta retirada: ${recetario.get(recetaId)?.nombre||recetaId}`});
+    }
+    estado.planes=estado.planes.filter(p=>p.recetaId!==recetaId);
+  }
+  function marcarReceta(estado,recetaId,completado) {
+    const plan=estado.planes.find(p=>p.recetaId===recetaId);
+    if(!plan)throw new Error('La receta ya no está en la lista.');
+    for(const enlace of plan.ingredientes)enlace.completado=Boolean(completado);
+  }
   function editarNecesidad(estado,recetaId,clave,cantidad) {
     if(!positivo(cantidad)) throw new Error('La necesidad debe ser mayor que cero.');
     const plan=estado.planes.find(p=>p.recetaId===recetaId);
@@ -243,7 +262,7 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     return nuevas;
   }
   return {catalogo,recetario,canonizar,unidadBase,opcionesUnidades,nombreCantidad,requerimientos,requerimientosPlan,existencias,cantidadDisponible,
-    ajustarInventario,quitarInventario,establecerPresencia,tieneIngrediente,marcarSubtarea,marcarIngrediente,agregarNecesidades,cambiarPorciones,quitarVinculo,quitarReceta,editarNecesidad,resumenCompras,quitarCompra,
+    ajustarInventario,quitarInventario,establecerPresencia,tieneIngrediente,marcarSubtarea,marcarIngrediente,marcarReceta,agregarNecesidades,cambiarPorciones,quitarVinculo,quitarReceta,editarNecesidad,resumenCompras,quitarCompra,
     confirmarCompra,deshacerCompra,disponibilidad,posibilidades,detectarTransiciones};
 }
 /** Retira un plan sin perder sus necesidades ni las compras ya confirmadas. No guarda. */
