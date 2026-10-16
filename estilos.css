@@ -56,6 +56,9 @@ footer.contenedor { padding:24px 0; border-top:1px solid #e1e5df; margin-top:36p
 
 /* Recetas: los estados se expresan con color y texto. */
 .herramientas { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(180px,1fr); gap:16px; align-items:end; margin:6px 0 12px; }
+#categorias-recetas { display:flex; gap:8px; overflow-x:auto; padding:4px; margin:0 0 12px; scrollbar-width:thin; }
+#categorias-recetas .categoria-receta { flex:none; min-height:44px; padding:7px 16px; border:1px solid #b8c4b6; border-radius:24px; background:white; color:#3e4c40; font-size:.86rem; }
+#categorias-recetas .categoria-receta[aria-pressed=true] { border-color:var(--verde); background:var(--verde); color:white; }
 .filtro-recetas span { display:block; margin-bottom:5px; }
 #resultados { color:var(--secundario); font-size:.8rem; margin-bottom:18px; }
 .grupo-recetas { margin-bottom:26px; }
@@ -152,6 +155,10 @@ li[data-disponible=false] .detalle-ingrediente-texto { color:var(--rojo); }
 #compras input[type=checkbox]:focus-visible { outline:3px solid var(--disponible); outline-offset:3px; }
 .subtarea-compra span { overflow-wrap:anywhere; }
 .subtarea-completada span { text-decoration:line-through; color:var(--secundario); }
+#agrupar-compras { min-height:44px; margin:0 0 12px; padding:8px 12px; font-size:.82rem; }
+#agrupar-compras[aria-pressed=true] { background:var(--seleccion); border-color:var(--verde); }
+.grupo-compras { margin:12px 0; }
+.grupo-compras h3 { font-size:1rem; margin:0; padding:6px 0; color:var(--verde); }
 .vistas-compras { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin:10px 0 16px; }
 .vistas-compras button { min-width:0; min-height:44px; padding:8px 6px; font-size:.85rem; }
 .vistas-compras button[aria-pressed=true] { background:var(--verde); color:white; border-color:var(--verde); }
@@ -239,6 +246,15 @@ li[data-disponible=false] .detalle-ingrediente-texto { color:var(--rojo); }
 #despensa .ingrediente:has(input:checked) { background:#e8f3e6; border-color:#94b289; }
 #despensa .ingrediente:has(input:checked) .marca-seleccion { display:flex; }
 #despensa .ingrediente:has(input:focus-visible) { outline:3px solid #226437; outline-offset:3px; }
+#despensa .fijar-ingrediente { position:absolute; z-index:1; top:3px; left:3px; display:grid; place-items:center; width:44px; min-height:44px; padding:9px; border:0; border-radius:8px; background:transparent; }
+#despensa .fijar-ingrediente img { width:23px; height:23px; object-fit:contain; opacity:.5; }
+#despensa .fijar-ingrediente[aria-pressed=true] { background:var(--crema); }
+#despensa .fijar-ingrediente:hover { background:var(--seleccion); }
+#despensa .fijar-ingrediente[aria-pressed=true] img { opacity:1; }
+#despensa .ingrediente-de-receta .ingrediente { border:2px solid #a45c3d; }
+#confirmar-vaciar-despensa { padding:14px; margin:10px 0; border:1px solid #c4aa8d; border-radius:10px; background:#fff8eb; }
+#confirmar-vaciar-despensa button { margin:8px 8px 0 0; }
+#estado-vaciado-despensa { font-size:.83rem; color:var(--verde); }
 #despensa #ayuda-lo-tengo { margin-top:18px; font-size:.8rem; color:#425644; }
 #despensa #ayuda-lo-tengo summary { display:flex; align-items:center; min-height:44px; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
 #despensa #ayuda-lo-tengo summary::before { content:'▸'; margin-right:6px; }
@@ -263,11 +279,11 @@ li[data-disponible=false] .detalle-ingrediente-texto { color:var(--rojo); }
 @media(max-width:300px) { #despensa .ingredientes { grid-template-columns:1fr; } }
 
 /* Controles de cantidades: misma identidad, estados y áreas táctiles de la beta. */
-.tarjeta-ingrediente { min-width:0; }
+.tarjeta-ingrediente { position:relative; min-width:0; }
 .cantidad-tarjeta { font-size:.72rem; color:var(--secundario); text-align:center; line-height:1.4; }
 .editar-cantidad { width:100%; margin-top:3px; padding:6px; background:transparent; color:var(--verde); border:0; font-size:.8rem; }
 .editar-cantidad:hover { background:var(--seleccion); }
-.herramientas { grid-template-columns:minmax(0,1.4fr) minmax(150px,1fr) minmax(120px,.7fr); }
+.herramientas { grid-template-columns:minmax(0,1.4fr) minmax(150px,1fr); }
 input[type=number] { width:100%; min-width:0; min-height:44px; padding:8px; border:1px solid #9daf9a; border-radius:8px; color:var(--tinta); background:white; }
 .form-porciones,.editar-necesidad { display:flex; flex-wrap:wrap; align-items:end; gap:8px; margin:12px 0; }
 .form-porciones label { flex:1 1 95px; max-width:150px; }
@@ -295,6 +311,7 @@ input[type=number] { width:100%; min-width:0; min-height:44px; padding:8px; bord
 @media(max-width:650px) {
  .herramientas { grid-template-columns:1fr 1fr; }
  .buscar-con-lupa { grid-column:1/-1; }
+ #recetas .filtro-recetas { grid-column:1/-1; }
  .detalle-imagen.con-imagen-local img { height:230px; }
  .origenes-compra { margin-left:0; }
  .nutricion th,.nutricion td { padding:5px; }
@@ -342,6 +359,8 @@ input[type=number] { width:100%; min-width:0; min-height:44px; padding:8px; bord
 #receta-propia-dialogo .editor-check { display:flex; align-items:center; gap:8px; }
 #receta-propia-dialogo .editor-check input { min-height:22px; width:22px; }
 #error-receta-propia:not([hidden]) { padding:12px; border-left:3px solid var(--rojo); background:#fff0eb; color:#752219; }
+#receta-propia-dialogo .editor-confirmar-borrado { padding:14px; border:1px solid #c4aa8d; border-radius:10px; background:#fff8eb; }
+#receta-propia-dialogo .editor-confirmar-borrado button { margin:8px 8px 0 0; }
 #receta-propia-dialogo :focus-visible { outline:3px solid #226437; outline-offset:2px; }
 @media(max-width:650px) {
  #receta-propia-dialogo .editor-grid { grid-template-columns:1fr 1fr; }

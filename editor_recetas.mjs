@@ -15,7 +15,11 @@ export function crearEditorRecetas({dialog,catalogo,motor,dibujoIngrediente,guar
   const cabecera=el('div',undefined,'dialogo-cabecera');
   const cerrarBoton=el('button','×','secundario editor-cerrar');cerrarBoton.type='button';cerrarBoton.setAttribute('aria-label','Cerrar');cerrarBoton.onclick=()=>dialog.close();cabecera.append(titulo,cerrarBoton);
   dialog.append(cabecera,aviso,formulario);
-  dialog.addEventListener('close',()=>{origen?.focus?.();cerrar?.();});
+  dialog.addEventListener('close',()=>{origen?.focus?.();if(document.activeElement===document.body)document.getElementById('crear-receta')?.focus();cerrar?.();});
+  dialog.addEventListener('cancel',e=>{
+    const panel=formulario.querySelector('.editor-confirmar-borrado');
+    if(panel&&!panel.hidden){e.preventDefault();panel.hidden=true;formulario.querySelector('.editor-borrar-receta')?.focus();}
+  });
   const mostrarError=mensaje=>{aviso.textContent=mensaje;aviso.hidden=!mensaje;if(mensaje)aviso.focus();};
   aviso.tabIndex=-1;
   function abrir(receta=null,{duplicar=false,borrador=false}={}) {
@@ -105,11 +109,22 @@ export function crearEditorRecetas({dialog,catalogo,motor,dibujoIngrediente,guar
       if(!confirm('¿Descartar este borrador? La receta terminada, si existe, se conserva.'))return;
       const r=await descartar();if(r.ok)dialog.close();else mostrarError(r.mensaje);
     };acciones.append(descartarBoton);}
-    if(receta&&!duplicar&&!borrador){const eliminar=el('button','Borrar receta','secundario');eliminar.type='button';eliminar.onclick=async()=>{
-      if(!confirm(`¿Borrar «${receta.nombre}»? Si está en compras, sus necesidades quedarán sin asociación; lo comprado seguirá en Lo que tengo.`))return;
-      const r=await borrar(receta);if(r.ok)dialog.close();else mostrarError(r.mensaje);
-    };acciones.append(eliminar);}
-    formulario.append(acciones);dialog.showModal();dialog.scrollTop=0;nombre.input.focus();
+    if(receta&&!duplicar&&!borrador){
+      const eliminar=el('button','Borrar receta','secundario editor-borrar-receta');eliminar.type='button';acciones.append(eliminar);
+      const confirmar=el('div',undefined,'editor-confirmar-borrado');confirmar.hidden=true;
+      confirmar.setAttribute('role','group');confirmar.setAttribute('aria-label',`Confirmar eliminación de ${receta.nombre}`);
+      confirmar.append(el('p',`¿Eliminar «${receta.nombre}»? Sus compras quedarán sin receta; las completadas se conservarán.`));
+      const cancelar=el('button','Cancelar','secundario'),aceptar=el('button','Eliminar receta');
+      cancelar.type=aceptar.type='button';cancelar.onclick=()=>{confirmar.hidden=true;eliminar.focus();};
+      aceptar.onclick=async()=>{
+        aceptar.disabled=cancelar.disabled=true;
+        const resultado=await borrar(receta);
+        if(resultado.ok){dialog.addEventListener('close',()=>document.getElementById('crear-receta')?.focus(),{once:true});dialog.close();}else {mostrarError(resultado.mensaje);aceptar.disabled=cancelar.disabled=false;}
+      };
+      confirmar.append(cancelar,aceptar);eliminar.onclick=()=>{confirmar.hidden=false;cancelar.focus();};
+      formulario.append(acciones,confirmar);
+    }else formulario.append(acciones);
+    dialog.showModal();dialog.scrollTop=0;nombre.input.focus();
   }
   return {abrir};
 }

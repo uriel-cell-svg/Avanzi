@@ -39,22 +39,26 @@
         <p id="cantidad-visible" role="status" class="solo-lectores"></p>
         <div id="ingredientes" class="ingredientes"></div>
         <details id="ayuda-lo-tengo"><summary>Ayuda</summary>
-          <p id="alcance-botones">Tengo todo y Desmarcar todo actúan sobre toda la selección, también los ingredientes ocultos por búsqueda o categoría.</p>
+          <p id="alcance-botones">Tengo todo y Vaciar despensa actúan sobre todo el catálogo, también los ingredientes ocultos por filtros. Vaciar conserva los fijados y las compras completadas.</p>
           <p>Las tarjetas y el recuadro comparten tu selección. Buscar o filtrar no cambia lo que tenés. La disponibilidad comprueba presencia, no cantidad suficiente.</p>
           <p id="ayuda-catalogo">Las cantidades de las recetas se usan para compras y estimaciones nutricionales, sin garantizar seguridad alimentaria.</p>
           <p id="resumen"></p>
+          <details id="referencias-antiguas" hidden><summary>Referencias anteriores</summary><ul id="lista-referencias-antiguas"></ul></details>
         </details>
+        <p id="estado-vaciado-despensa" role="status" tabindex="-1" hidden></p>
+        <div id="confirmar-vaciar-despensa" hidden><p>¿Vaciar Lo que tengo? Se conservarán los alimentos fijados y los disponibles por compras completadas. Las recetas y compras no cambiarán.</p><button type="button" id="aceptar-vaciar-despensa">Vaciar despensa</button><button type="button" id="cancelar-vaciar-despensa" class="secundario">Cancelar</button></div>
         <div class="ir-recetas"><span id="cantidad-seleccion-pie">0 seleccionados</span>
           <details id="acciones-despensa" class="menu-inicio">
             <summary aria-label="Acciones de Lo que tengo" title="Acciones de Lo que tengo">⋮</summary>
-            <div class="opciones-inicio"><button type="button" id="todo" aria-describedby="alcance-botones">Tengo todo</button><button type="button" id="nada" aria-describedby="alcance-botones" class="secundario">Desmarcar todo</button></div>
+            <div class="opciones-inicio"><button type="button" id="todo" aria-describedby="alcance-botones">Tengo todo</button><button type="button" id="nada" aria-describedby="alcance-botones" class="secundario">Vaciar despensa</button></div>
           </details>
           <button type="button" id="ver-cocinar"><span>Ver qué puedo cocinar</span><span aria-hidden="true">→</span></button></div>
       </section>
       <section id="recetas" aria-labelledby="titulo-recetas" hidden>
         <div class="cabecera-seccion"><h2 id="titulo-recetas">Recetas</h2><div class="acciones-recetas"><button type="button" id="crear-receta">Crear receta</button><button type="button" id="continuar-borrador" class="secundario" hidden>Continuar borrador</button></div></div>
         <span id="etiqueta-prueba-recetas" class="prueba-inicio" hidden>Datos de prueba</span>
-        <div class="herramientas"><label class="buscar-con-lupa"><span class="solo-lectores">Buscar receta o ingrediente</span><img src="./imagenes/lupa.svg" alt="" width="20" height="20"><input id="busqueda" type="search" placeholder="Buscar receta o ingrediente"></label><label class="filtro-recetas"><span>Mostrar</span><select id="filtro"><option value="todas">Todas</option><option value="completas">Ingredientes completos</option><option value="faltantes">Ingredientes faltantes</option></select></label><label class="filtro-recetas"><span>Categoría</span><select id="categoria-recetas"><option value="todas">Todas</option><option value="rapidas">Rápidas</option><option value="veggie">Veggie</option><option value="pastas">Pastas</option><option value="carnes">Carnes</option><option value="desayunos">Desayunos</option></select></label></div>
+        <div class="herramientas"><label class="buscar-con-lupa"><span class="solo-lectores">Buscar receta o ingrediente</span><img src="./imagenes/lupa.svg" alt="" width="20" height="20"><input id="busqueda" type="search" placeholder="Buscar receta o ingrediente"></label><label class="filtro-recetas"><span>Mostrar</span><select id="filtro"><option value="todas">Todas</option><option value="completas">Ingredientes completos</option><option value="faltantes">Ingredientes faltantes</option></select></label></div>
+        <select id="categoria-recetas" aria-label="Categoría de recetas" hidden><option value="todas">Todas</option><option value="rapidas">Rápidas</option><option value="veggie">Veggie</option><option value="pastas">Pastas</option><option value="carnes">Carnes</option><option value="desayunos">Desayunos</option></select><div id="categorias-recetas" role="group" aria-label="Categoría de recetas"></div>
         <p id="resultados" role="status"></p><div id="lista-recetas"></div>
         <details id="ayuda-recetas" class="ayuda"><summary>Ayuda</summary>
           <p>Elegí una receta y abrí Ver preparación para consultar las cantidades y los pasos. Las tres secciones se actualizan con Lo que tengo.</p>
@@ -71,6 +75,7 @@
     <p class="nota-lista-compras">Revisá las cantidades antes de comprar.</p>
     <p id="estado-compras" role="status"></p>
     <div class="vistas-compras" role="group" aria-label="Vista de compras"><button type="button" id="vista-ingrediente" class="secundario" aria-pressed="true">Por ingrediente</button><button type="button" id="vista-receta" class="secundario" aria-pressed="false">Por receta</button></div>
+    <button type="button" id="agrupar-compras" class="secundario" aria-pressed="false">Agrupar por categoría</button>
     <div id="items-compras"></div>
     <div id="items-recetas" hidden></div>
     <button type="button" id="vaciar-compras" class="secundario">Vaciar lista</button>

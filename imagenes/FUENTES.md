@@ -59,6 +59,8 @@ Fuente: los archivos locales `despensa/*.svg` descritos arriba. Se aplica el mis
 
 `lo-que-tengo/hojas.svg`, `fruta.svg`, `carne.svg`, `lacteos.svg`, `pan.svg`, `liquidos.svg`, `dulces.svg`, `verdura.svg` y `condimentos.svg` son dibujos vectoriales originales creados para ampliar el catálogo. Reutilizan trazo verde oscuro, rellenos suaves y formas simples de los trece dibujos individuales. Las familias de raíces, cereales, pastas, legumbres, aceites y huevos reutilizan SVG anteriores. `reloj.svg` y `porciones.svg` son indicadores decorativos originales para los metadatos de recetas. Todos son locales, ligeros y con fondo transparente. Se aplica el permiso del proyecto indicado arriba; no se incorporaron recursos de terceros.
 
+`chincheta.svg`: icono vectorial original local para fijar ingredientes en Lo que tengo; comparte el trazo verde de la interfaz y el permiso de uso del proyecto.
+
 El papel no se muestra en ninguna pantalla. El archivo histórico y su crédito se conservan; no existe una instrucción vigente de volver a aplicarlo.
 
 `lupa.svg`: icono decorativo de búsqueda, vector original local escrito para esta app. Se aplica el mismo permiso de uso, modificación y redistribución del proyecto. El boceto B se usó solo como referencia de composición; no se incorporó su imagen completa ni se recortaron sus alimentos, textos, controles o fondos.

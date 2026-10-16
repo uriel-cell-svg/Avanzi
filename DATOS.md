@@ -56,6 +56,8 @@ Se mantienen decimales internamente; `≈` marca una presentación redondeada a 
 
 La disponibilidad visible es binaria por `ingredienteId`: un ingrediente está presente si se marcó manualmente en Lo que tengo o si alguna subtarea de compra quedó completada. No se comparan cantidades de inventario con recetas. Las cantidades históricas del inventario se conservan sin reescribirlas al abrir y no se usan para descontar compras. Desmarcar una compra no retira una marca manual previa. Desmarcar el ingrediente en Lo que tengo reabre sus subtareas completadas para que su ausencia sea coherente en ambas vistas.
 
+«Vaciar despensa» es una operación distinta del desmarcado individual: oculta la presencia manual de los IDs no fijados, sin reescribir `inventario`, `planes`, `manuales` ni `comprasRealizadas`. Una subtarea completada aún aporta disponibilidad y sigue marcada. Fijar un ingrediente lo selecciona; desfijarlo solo quita la protección, sin cambiar sus otras fuentes de disponibilidad. Los campos opcionales `fijados` y `presenciaManualOculta` faltan en snapshots anteriores y se leen como arreglos vacíos.
+
 Cada asociación de `planes[].ingredientes[]` guarda una `clave` canónica y `completado?: boolean`. La identidad estable de subtarea combina `recetaId` + `clave`; las necesidades `manuales[]` usan su propio ID. La ausencia de `completado` en snapshots anteriores equivale a `false`: no se supone que una compra antigua quedó cubierta. `comprasRealizadas[]` permanece como historial, sin migración destructiva.
 
 Una receta escala sus necesidades por `porciones / porcionesOriginales × preparaciones`. Repetir Añadir es idempotente. Por variante compatible, `pendiente = suma(cantidades de subtareas no completadas)`. Variantes sin equivalencia fiable no se suman; la UI agrupa las variantes bajo el mismo ingrediente. Marcar la casilla principal cambia todas sus subtareas; marcar una sola conserva las otras. Al quedar todas completadas, la fila pasa a Compras completadas, desde donde puede reabrirse incluso después de recargar.
@@ -88,6 +90,8 @@ Mismo mecanismo local y misma clave `que-cocino.despensa.v1`, ahora con un objet
 | --- | --- |
 | `version` | 3. |
 | `inventario` | Registros con ingredienteId, estado, unidad, cantidad (o null heredado), clave de combinación, actualizadoEn y revisionManual. |
+| `fijados` | Arreglo opcional de IDs de ingredientes protegidos al vaciar Lo que tengo. Ausente equivale a vacío. |
+| `presenciaManualOculta` | Arreglo opcional de IDs cuya presencia manual se ocultó al vaciar. Conserva los registros de inventario y sus cantidades; no afecta compras completadas. Ausente equivale a vacío. |
 | `planes` | recetaId, porciones, veces y asociaciones de ingredientes con `clave`, `completado` opcional y ajuste legado `cantidadBase`. |
 | `manuales` | Necesidades sin receta activa; también admiten `completado` opcional. |
 | `comprasRealizadas` | ID único de confirmación, ingrediente/estado/unidad, cantidad incorporada, fecha, revisión manual y marca de deshecha. |

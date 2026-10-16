@@ -16,15 +16,15 @@ Buscá por nombre o alias y filtrá por **Legumbres, Cereales, Verduras, Frutas,
 
 Si desmarcás un ingrediente cuya presencia provenía de subtareas compradas, esas subtareas vuelven a pendientes. La marca manual de Lo que tengo y las compras completadas se guardan por separado.
 
-**Tengo todo** y **Desmarcar todo** actúan sobre todo el catálogo, incluso si hay filtros activos. Las cantidades antiguas se conservan en los datos locales para no perder información, pero ya no se piden ni determinan la disponibilidad.
+**Tengo todo** actúa sobre todo el catálogo, incluso con filtros. La chincheta fija cualquier alimento y lo mantiene seleccionado al usar **Vaciar despensa**. Esta acción pide confirmación y oculta la selección manual no fijada; conserva inventario histórico, recetas, planes y compras. Un alimento comprado y completado puede seguir disponible después de vaciar, porque esa compra es otra fuente de presencia. Las cantidades antiguas se conservan sin pedir nuevos formularios.
 
-El catálogo usa dibujos individuales cuando existen y dibujos por familia para los demás ingredientes. Las referencias antiguas con un único nombre o alias coincidente se relacionan automáticamente. Las ambiguas se conservan en los datos locales sin alterar la selección ni la lista; un aviso indica cuántas quedaron sin correspondencia.
+El catálogo usa dibujos individuales cuando existen y dibujos por familia para los demás ingredientes. Las referencias antiguas con un único nombre o alias coincidente se relacionan automáticamente. Las ambiguas se conservan en los datos locales sin alterar la selección ni la lista; se consultan en **Ayuda → Referencias anteriores**.
 
 ## Recetas
 
 Se mantienen las tres secciones por ingredientes ausentes: **Ya tenés todo, ¡a cocinar!**, **Ya casi** (1–3) y **Con algunas compras más**. El orden es faltantes, tiempo y nombre. Las 39 recetas incorporadas tienen tiempo total; siete tiempos se estimaron y están señalados en `datos/auditoria/tiempos_estimados_7_2026-10-15.md`. «Rápidas» exige estrictamente menos de 20 minutos.
 
-Buscá por receta o ingrediente, filtrá completas/faltantes y elegí **Todas, Rápidas, Veggie, Pastas, Carnes o Desayunos**. Rápidas requiere menos de 20 minutos; Veggie exige ingredientes declarados sin origen animal; Desayunos conserva la decisión editorial. Cada receta puede tener varias categorías.
+Buscá por receta o ingrediente, filtrá completas/faltantes y elegí con los botones **Todas, Rápidas, Veggie, Pastas, Carnes o Desayunos**. Rápidas requiere menos de 20 minutos; Veggie exige ingredientes declarados sin origen animal; Desayunos conserva la decisión editorial. Cada receta puede tener varias categorías.
 
 **Ver preparación** conserva instrucciones completas y estados de ingredientes. Permite ajustar **porciones** y **preparaciones** (por ejemplo, dos veces la misma receta). Si la receta ya está incluida en compras, el cambio recalcula sus necesidades. Los pasos originales no se reescriben ni se alteran tiempos al escalar.
 
@@ -44,9 +44,11 @@ La lista ofrece **Por ingrediente** y **Por receta**. Ambas vistas usan las mism
 
 La casilla principal completa o reabre todas las subtareas de ese ingrediente. Cuando todas están marcadas, la fila pasa al desplegable **Compras completadas**. Podés desmarcar cualquiera, también después de recargar, y su cantidad vuelve al pendiente. Una subtarea completada indica una compra cubierta; es un estado distinto de marcar manualmente un ingrediente en Lo que tengo. Las cantidades sin equivalencia fiable se muestran separadas dentro de la misma fila.
 
+**Agrupar por categoría** organiza temporalmente la vista Por ingrediente en Legumbres, Cereales, Verduras, Frutas, Carnes y Otros. La lista simple es la presentación inicial; agrupar no cambia casillas ni totales.
+
 Por receta, cada plan se despliega con sus ingredientes, cantidades y casillas. **Marcar todos** afecta solo esa receta. **Eliminar receta** retira sus necesidades pendientes; las compras ya completadas quedan en **Sin receta** y se pueden reabrir. Lo que tengo y los recibos históricos no cambian al retirar el plan.
 
-× elimina las necesidades de ese ingrediente sin modificar la selección manual. **Recetas incluidas** permite cambiar porciones/preparaciones o retirar una receta: se recalculan cantidades y se conservan las casillas que siguen vinculadas. **Vaciar lista** requiere confirmación. La lista no añade ingredientes por su cuenta.
+× elimina las necesidades de ese ingrediente sin modificar la selección manual. **Vaciar lista** requiere confirmación. La lista no añade ingredientes por su cuenta.
 
 ## Datos anteriores y guardado
 

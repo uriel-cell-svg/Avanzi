@@ -45,6 +45,11 @@ export function validarEstado(datos,motor) {
   if(!datos||datos.version!==VERSION_ESTADO)throw new Error('Versión de datos guardados no compatible.');
   for(const key of ['inventario','planes','manuales','comprasRealizadas','transiciones','porRevisar'])if(!Array.isArray(datos[key]))throw new Error(`Datos guardados inválidos: ${key}.`);
   const s=copiar(datos),avisos=[];
+  for(const key of ['fijados','presenciaManualOculta']){
+    if(s[key]===undefined){s[key]=[];continue;}
+    if(!Array.isArray(s[key])||s[key].some(id=>!texto(id)||!motor.catalogo.has(id))||new Set(s[key]).size!==s[key].length)throw new Error(`Datos guardados inválidos: ${key}.`);
+  }
+  if(s.fijados.some(id=>s.presenciaManualOculta.includes(id)))throw new Error('Un ingrediente fijado no puede estar oculto.');
   const comprobarItem=i=>{
     if(!i||!texto(i.ingredienteId)||!texto(i.unidad)||!['base','cocido','hebras'].includes(i.estado)||
       (i.cantidad!==null&&(!Number.isFinite(i.cantidad)||i.cantidad<0)))throw new Error('Cantidad guardada inválida.');

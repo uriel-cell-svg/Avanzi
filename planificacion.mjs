@@ -4,7 +4,7 @@ export const VERSION_ESTADO = 3;
 export const EPSILON = 1e-8;
 export const copiar = (valor) => structuredClone(valor);
 export function estadoVacio() {
-  return { version: VERSION_ESTADO, inventario: [], planes: [], manuales: [], comprasRealizadas: [],
+  return { version: VERSION_ESTADO, inventario: [], fijados: [], presenciaManualOculta: [], planes: [], manuales: [], comprasRealizadas: [],
     transiciones: [], porRevisar: [] };
 }
 const limpiar = (n) => Math.round(n * 1e8) / 1e8;
@@ -100,16 +100,30 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
   }
   const existencias = (estado, clave) => estado.inventario.find(i => i.clave === clave);
   const cantidadDisponible = (estado, clave) => existencias(estado,clave)?.cantidad ?? 0;
-  const presenteManual = (estado,id) => estado.inventario.some(i=>i.ingredienteId===id&&(i.cantidad===null||i.cantidad>EPSILON));
+  const presenteManual = (estado,id) => !(estado.presenciaManualOculta||[]).includes(id)&&estado.inventario.some(i=>i.ingredienteId===id&&(i.cantidad===null||i.cantidad>EPSILON));
   const presentePorCompra = (estado,id) => estado.planes.some(p=>p.ingredientes.some(i=>i.clave.startsWith(id+'|')&&i.completado===true)) || estado.manuales.some(i=>i.ingredienteId===id&&i.completado===true);
   const tieneIngrediente = (estado,id) => presenteManual(estado,id)||presentePorCompra(estado,id);
   function establecerPresencia(estado,id,presente) {
-    if(presente){if(!presenteManual(estado,id))ajustarInventario(estado,id,null,unidadBase(id));}
+    if(presente){
+      estado.presenciaManualOculta=(estado.presenciaManualOculta||[]).filter(x=>x!==id);
+      if(!presenteManual(estado,id))ajustarInventario(estado,id,null,unidadBase(id));
+    }
     else {
+      estado.fijados=(estado.fijados||[]).filter(x=>x!==id);
       quitarInventario(estado,id);
       for(const p of estado.planes)for(const i of p.ingredientes)if(i.clave.startsWith(id+'|'))i.completado=false;
       for(const i of estado.manuales)if(i.ingredienteId===id)i.completado=false;
     }
+  }
+  function fijarIngrediente(estado,id,fijado) {
+    if(!catalogo.has(id))throw new Error('El ingrediente ya no existe.');
+    estado.fijados=(estado.fijados||[]).filter(x=>x!==id);
+    if(fijado){estado.fijados.push(id);establecerPresencia(estado,id,true);}
+  }
+  function vaciarDespensa(estado) {
+    const fijados=new Set(estado.fijados||[]),ocultos=new Set(estado.presenciaManualOculta||[]);
+    for(const item of estado.inventario)if(!fijados.has(item.ingredienteId))ocultos.add(item.ingredienteId);
+    estado.presenciaManualOculta=[...ocultos];
   }
   function ajustarInventario(estado, id, cantidad, unidad, alimento = 'base', fecha = new Date().toISOString(), manual = true) {
     const item = canonizar(id, cantidad, unidad, alimento);
@@ -118,6 +132,7 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     estado.inventario = estado.inventario.filter(i => i.clave !== item.clave);
     // Se conserva cero y su revisión para que deshacer una compra no borre una edición manual.
     estado.inventario.push({...item, actualizadoEn:fecha, revisionManual});
+    if(manual)estado.presenciaManualOculta=(estado.presenciaManualOculta||[]).filter(x=>x!==id);
     return item;
   }
   function quitarInventario(estado,id) {
@@ -262,7 +277,7 @@ export function crearMotorCantidades(recetas, ingredientes, equivalencias = {}) 
     return nuevas;
   }
   return {catalogo,recetario,canonizar,unidadBase,opcionesUnidades,nombreCantidad,requerimientos,requerimientosPlan,existencias,cantidadDisponible,
-    ajustarInventario,quitarInventario,establecerPresencia,tieneIngrediente,marcarSubtarea,marcarIngrediente,marcarReceta,agregarNecesidades,cambiarPorciones,quitarVinculo,quitarReceta,editarNecesidad,resumenCompras,quitarCompra,
+    ajustarInventario,quitarInventario,establecerPresencia,fijarIngrediente,vaciarDespensa,tieneIngrediente,marcarSubtarea,marcarIngrediente,marcarReceta,agregarNecesidades,cambiarPorciones,quitarVinculo,quitarReceta,editarNecesidad,resumenCompras,quitarCompra,
     confirmarCompra,deshacerCompra,disponibilidad,posibilidades,detectarTransiciones};
 }
 /** Retira un plan sin perder sus necesidades ni las compras ya confirmadas. No guarda. */
